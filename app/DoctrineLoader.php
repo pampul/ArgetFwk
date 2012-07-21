@@ -4,17 +4,17 @@
  */
 require PATH_TO_IMPORTANT_FILES.'lib/Doctrine/ORM/Tools/Setup.php';
 
-$lib = "/lib/";
+$lib = PATH_TO_IMPORTANT_FILES.'lib';
 Doctrine\ORM\Tools\Setup::registerAutoloadDirectory($lib);
-
 
 /*
  * Génération de l'entity manager
  */
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup,
+    Doctrine\ORM\EntityManager;
 
-$paths = array("/lib/");
+
+$paths = array(PATH_TO_IMPORTANT_FILES.'lib/Entities/');
 
 // Récupération de la configuration de PDO (config.php)
 $dbParams = array(
@@ -27,6 +27,5 @@ $dbParams = array(
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, ENV_DEV);
 $em = EntityManager::create($dbParams, $config);
-
 
 ?>

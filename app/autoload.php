@@ -1,23 +1,29 @@
 <?php
 define('PATH_TO_IMPORTANT_FILES', '');
 
+/* 
+ * Appel au fichier de configuration et des constantes
+ */
+require_once 'app/config.php';
+
+/*
+ * Appel des différends loaders
+ */
 require_once 'app/TwigLoader.php';
 require_once 'app/DoctrineLoader.php';
 
-// Appel au fichier de configuration
-require_once 'app/config.php';
-
-// Appel aux classes de base
-require_once 'app/ModelsController.php';
-
-// Définition de la variable $content
+/*
+ * Définition de la page actuelle
+ */
 $content = null;
 if (isset($_GET['content']))
     $content = $_GET['content'];
 if ($content == null)
     $content = "home";
 
-// Appel au controller par défaut
+/*
+ * Appel des controllers
+ */
 require_once 'controllers/DefaultController.php';
 
 ?>
