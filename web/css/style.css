@@ -1,0 +1,458 @@
+/* 
+    Document   : style
+    Created on : 12 f�vr. 2012, 14:27:01
+    Author     : Flo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/** {
+    margin: 0;
+    padding: 0;
+}
+*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family:Calibri;
+    background:#fff;
+}
+
+a {
+    color:#369;
+    text-decoration: none;
+}
+
+img{
+    border: 0;
+}
+
+.clear{
+    clear:both;
+}
+
+/* Disposition par défaut */
+#main {
+    z-index: 1;
+    margin: 0 auto;
+    width:70%;
+}
+
+#main #content-wrapper{
+
+    min-height: 100px;
+
+}
+
+
+/* --------- Gestion du MENU --------- */
+/* ----------------------------------- */
+#menu{
+    width : 70%;
+    margin: 0 auto;
+    background: gray;
+    z-index: 1000;
+}
+
+#menu #menu-wrapper {
+    
+    text-align: center;
+    display: block;
+
+}
+#menu #menu-wrapper li, #menu #menu-wrapper ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    z-index: 1000;
+}
+
+
+#menu #menu-wrapper ul li{
+    float:left;
+    display: block;
+    width: 25%;
+    z-index: 1000;
+}
+
+#menu #menu-wrapper a {
+    display:block;
+    color:#fff!important;
+    border-bottom:1px;
+    text-decoration:none;
+    line-height:180%;
+    padding-left:1em;
+    padding-right:1em;
+    font-weight: bold;
+    z-index: 1000;
+}
+#menu #menu-wrapper a:hover {
+    color:#293f68!important;
+    /*background:#a81550;*/
+    z-index: 1000;
+}
+
+/* --------- Gestion du HEADER --------- */
+/* ----------------------------------- */
+
+#header{
+    width: 70%;
+    background: #666;
+    margin: 0 auto;
+}
+
+#header-wrapper{
+
+    min-height: 120px;
+
+}
+
+#header-wrapper h1{
+
+    color: #222;
+    margin: 0;
+    padding: 0;
+    font-size: 110%;
+    font-weight: bold;
+
+}
+
+/* --------- Gestion du FOOTER --------- */
+/* ----------------------------------- */
+
+
+#footer{
+
+    margin: 0 auto;
+    width: 70%;
+    background: darkgray;
+    min-height: 75px;
+
+}
+
+#footer #footer-wrapper{
+
+    font-size: 80%;
+    padding: 20px;
+    text-align: center;
+
+}
+
+#footer #footer-wrapper a{
+
+    color: black;
+    text-decoration: none;
+
+}
+
+
+/* --------- Style des formulaires --------- */
+/* ----------------------------------- */
+
+textarea {
+    background: white;
+    padding: 3px 5px 3px 5px;
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    border: 1px solid #CCC;
+    height: 200px;
+    overflow: auto;
+    font-family: Arial,"helvetica neue",Helvetica,Verdana,sans-serif;
+    max-width: 90%;
+    max-height: 250px;
+}
+
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], [type="search"], select {
+    background: transparent;
+    padding: 7px 5px 7px 5px;
+    font-size: 12px;
+    margin: 0;
+    border: 1px solid #CCC;
+    background: white url('../images/bg_ip.png') repeat-x;
+    font-family: Arial,"helvetica neue",Helvetica,Verdana,sans-serif;
+    color: #666;
+}
+
+label {
+    color: #444444;
+    letter-spacing: 0px;
+    font-weight: bold;
+    display: block;
+}
+
+select:active select:hover{
+    cursor:pointer;
+}
+
+input[type="submit"], input[type="button"], a.button {
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 13px/100% Arial, Helvetica, sans-serif;
+    padding: .5em 3em .55em;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.7);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.7);
+    box-shadow: 0 1px 2px rgba(0,0,0,.7);
+    color: #465363;
+    border: solid 1px #C9D8DD;
+    background: #C9D8DD;
+    font-weight: bold;
+    background: -webkit-gradient(linear, left top, left bottom, from(#F0F3F5), to(#C9D8DD));
+    background: -moz-linear-gradient(top, #F0F3F5, #C9D8DD);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f3f5', endColorstr='#c9d8dd');
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+input[type=submit]:hover, input[type=button]:hover, a.button:hover{
+
+    color: #ff8328;
+
+}
+
+input[type=submit]:active, input[type=button]:active, a.button:active{
+    position: relative;
+    top: 1px;
+    left: 1px;
+    background: #f0f3f5;
+    background: -webkit-gradient(linear, left top, left bottom, from(#c9d8dd), to(#f0f3f5));
+    background: -moz-linear-gradient(top,  #c9d8dd,  #f0f3f5);
+}
+
+
+/* --------- Definition de la pagination --------- */
+/* ----------------------------------- */
+
+#pagination{
+
+    color: #666;
+
+}
+
+#pagination a{
+
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+
+}
+
+#pagination a:hover{
+
+    color: #2c77e7;
+
+}
+
+#pagination .suivant{
+
+    position: relative;
+    top: 7px;
+    right: 5px;
+    background: url("../img/bibliotheque/next.png") no-repeat scroll 0 -22px transparent;
+    display: inline-block;
+    height: 23px;
+    width: 25px;
+
+}
+
+#pagination .suivant:hover{
+
+    background-position: 0 1px;
+
+}
+
+#pagination .precedant{
+
+    position: relative;
+    top: 7px;
+    left: 5px;
+    background: url("../img/bibliotheque/previous.png") no-repeat scroll 0 -22px transparent;
+    display: inline-block;
+    height: 23px;
+    width: 25px;
+
+}
+
+#pagination .precedant:hover{
+
+    background-position: 0 1px;
+
+}
+
+/* Adaptation aux m�dias mobiles */
+
+/* max-width pour faibles r�solutions */
+@media screen and (max-width: 1000px) {
+    #header{
+        font-size: 130%;
+    }
+    #header h1{
+        font-size: 300%!important;
+    }
+
+    #header img{
+        width: 100%;
+    }
+
+    #main {
+        clear:both;
+        width:95%;
+        font-size: 130%;
+    }
+
+    #main #sidebar-wrapper{
+
+        display: none;
+
+    }
+
+    #main #content-wrapper{
+
+        width: 100%;
+
+    }
+
+    #footer {
+        clear:both;
+        width:90%;
+        font-size: 100%;
+    }
+
+    #menu{
+        height: auto!important;
+        font-size: 200%;
+        clear:both;
+        width: 90%;
+    }
+
+    #header{
+        width:90%!important;
+    }
+
+    #menu #menu-wrapper ul li{
+        float: none!important;
+        margin: 0 auto!important;
+        width: 95%;
+    }
+
+    #menu a{
+        height: auto!important;
+        display: block;
+        margin: 0 3px 2px 0!important;
+        /*padding: 6px 8px!important;*/
+        font-weight: bold;
+        border-radius: 0;
+    }
+
+    /* passer tous les �l�ments de largeur fixe en largeur automatique */
+    body, element1, element2 {
+        width: auto;
+        margin: auto;
+        padding: auto;
+    }
+
+    /* fixer une largeur maximale  de 100 % aux �l�ments potentiellement probl�matiques */
+    img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, video {
+        max-width: 100%;
+    }
+    /* conserver le ratio des images et emp�cher les d�bordements de bo�tes d�s aux border ou padding */
+    img {
+        height: auto; width: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+
+    h1, h2, h3, h4{
+        font-size: 140%!important;
+    }
+    /*
+    .date-article, .texte-article{
+        font-size: 100%!important;
+    }
+    */
+    /* gestion des mots longs */
+    textarea, table, td, th, code, pre, samp {
+        word-wrap: break-word; /* passage � la ligne forc� */
+        -webkit-hyphens: auto; /* c�sure propre */
+        -moz-hyphens: auto;
+        hyphens: auto;
+    }
+    code, pre, samp {
+        white-space: pre-wrap; /* passage � la ligne sp�cifique pour les �l�ments � ch�sse fixe */
+    }
+
+    /* Passer � une seule colonne (� appliquer aux �l�ments multi-colonnes) */
+    element1, element2 {
+        float: none !important;
+        width: auto !important
+    }
+
+    /* masquer les �l�ments superflus */
+    .hide_mobile {
+        display: none !important;
+    }
+}
+
+
+/* min-width 1000px pour �crans plus larges */
+@media screen and (min-width: 1000px) {
+    #main, #aside {
+        font-size:100%;
+    }
+
+    #menu{
+        font-size: 110%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #main, #aside, #footer{
+        width:90%;
+        font-size:100%;
+    }
+    
+    #menu{
+        width: 90%;
+    }
+
+    #header{
+        width: 90%!important;
+    }
+}
+
+@media (max-width:1000px) and (orientation: landscape) {
+    body {
+        -webkit-text-size-adjust: 70%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    #header, #main, #aside, #footer{
+        clear:both;
+        width:100%!important;
+        font-size: 150%;
+    }
+    
+    #menu{
+        width:100%!important;
+        font-size: 220%;
+    }
+
+    #header{
+        width: 100%!important;
+    }
+
+    #header img{
+        width: 100%;
+    }
+}
+
+

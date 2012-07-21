@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <!–[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]–>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <base href="{% block baseurl %}{% endblock %}" />
+        <title>{% block title %}En construction ...{% endblock %}</title>
+        <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
+
+        <meta name="keywords" content="" />
+        <meta name="google-site-verification" content="" />
+        <meta name="author" content="AUTEUR" />
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="stylesheet" href="Web/css/style.css" type="text/css" />
+        {%block stylesheets %}
+        <!-- Ajout des css supplementaires here -->
+        {% endblock %}
+
+        <script type="text/javascript" src="http://apis.google.com/js/plusone.js">
+            {lang: 'fr'}
+            </script>
+
+            <script type="text/javascript">
+
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-30554453-1']);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+
+                </script>
+
+            </head>
+
+
+            <body>
+
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=207851792615884";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+
+            <header id="header">
+                <div id="header-wrapper">
+                    {% include 'views/header.html.twig' %}
+                </div>
+            </header>
+
+            <section id="main">
+                <div id="content-wrapper">
+                    {% block content %}{% endblock %}
+                </div>
+            </section>
+
+            <footer id="footer">
+                <div id="footer-wrapper">
+                    {% include 'views/footer.html.twig' %}
+                </div>
+            </footer>
+                    
+            <script type="text/javascript" src="Web/js/jquery.js"></script>
+            <script type="text/javascript" src="Web/js/jquery-ui.js"></script>
+            {% block jsinclude %}
+            
+            {% endblock %}
+
+        </body>
+
+</html>

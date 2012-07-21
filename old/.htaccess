@@ -1,0 +1,82 @@
+### -----------------------------------------------------------------------------------------------------------------------------
+### ------ On travaille en php5 et les variables de sessions sont cachees
+### -----------------------------------------------------------------------------------------------------------------------------
+
+SetEnv PHP_VER 5
+SetEnv SESSION_USE_TRANS_SID 0
+
+### -----------------------------------------------------------------------------------------------------------------------------
+### ----- Redirection en cas d'erreur
+### -----------------------------------------------------------------------------------------------------------------------------
+
+Options -Indexes
+ErrorDocument 404 /index.php?content=404
+
+### -----------------------------------------------------------------------------------------------------------------------------
+### ----- Activation du module de reecriture d'URL
+### -----------------------------------------------------------------------------------------------------------------------------
+
+Options +FollowSymLinks
+RewriteEngine On
+
+### -----------------------------------------------------------------------------------------------------------------------------
+### ----- Optimisation du site en vitesse
+### -----------------------------------------------------------------------------------------------------------------------------
+
+### Mise en cache des fichiers 480 semaines
+###<filesmatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$"="">
+###Header set Cache-Control "max-age=290304000, public"
+###</filesmatch>
+
+### Mise en cache des fichiers XML 2 jours
+###<filesmatch "\.(xml|txt)$"="">
+###Header set Cache-Control "max-age=172800, public, must-revalidate"
+###</filesmatch> 
+
+### Mise en cache des pages html 2 heures
+###<filesmatch "\.(html|htm)$"="">
+###Header set Cache-Control "max-age=7200, must-revalidate"
+###</filesmatch>
+
+# Performance boost
+SetEnv REGISTER_GLOBALS 0
+SetEnv ZEND_OPTIMIZER 1
+SetEnv MAGIC_QUOTES 0
+
+### Commenter la ligne ci-dessous si plantage
+###php_flag zlib.output_compression on
+
+# Activer le filtre
+SetOutputFilter DEFLATE 
+
+# Certains navigateurs ne peuvent pas avoir GZIP (les vieux)
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+# Certains navigateurs ne peuvent pas avoir GZIP (les vieux)
+BrowserMatch ^Mozilla/4\.0678 no-gzip
+
+# On ne veut pas d'IE
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+# On ne compresse pas les images, elles le sont déj�|
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+
+### -----------------------------------------------------------------------------------------------------------------------------
+### ----- Reecriture avec www.
+### -----------------------------------------------------------------------------------------------------------------------------
+
+###RewriteCond %{HTTP_HOST} !^www\.letssleep.argetweb\.fr [NC]
+###RewriteCond %{HTTP_HOST} !^$
+###RewriteRule ^/?(.*) http://www.letssleep.argetweb.fr/$1 [L,R,NE]
+
+### -----------------------------------------------------------------------------------------------------------------------------
+### ----- Application des regles de reecriture
+### -----------------------------------------------------------------------------------------------------------------------------
+
+RewriteRule ^montre-revolutionnaire/dormir/flux-rss flux.xml [L]
+RewriteRule ^montre-revolutionnaire/dormir/blog/([0-9]+)/(.*) index.php?content=blog&themeid=$1&theme=$2 [L]
+RewriteRule ^montre-revolutionnaire/dormir/blog/page-([0-9]+) index.php?content=blog&page=$1 [L]
+RewriteRule ^montre-revolutionnaire/dormir/glossaire/page-([0-9]+) index.php?content=glossaire&page=$1 [L]
+RewriteRule ^montre-revolutionnaire/dormir/([-a-z]+)/([0-9]+)/(.*) index.php?content=$1&id=$2&titre=$3 [L]
+RewriteRule ^montre-revolutionnaire/dormir/([-a-z]+) index.php?content=$1 [L]

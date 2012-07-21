@@ -1,0 +1,37 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ baseUrl }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Titre du document{% endblock %}
+{% block description %}Description du document{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+
+{# Contenu de la page #}
+{% block content %}
+
+
+<h2>Accueil</h2>
+
+Bonjour !<br/><br/>
+
+{{ content|capitalize }} en construction ...
+
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+
+{% endblock %}
