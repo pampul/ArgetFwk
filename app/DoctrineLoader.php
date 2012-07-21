@@ -1,22 +1,34 @@
 <?php
+
 /*
  * Définition de l'emplacement de la librairie Doctrine
+ * Génération de l'Entity Manager
  */
-require PATH_TO_IMPORTANT_FILES.'lib/Doctrine/ORM/Tools/Setup.php';
 
-$lib = PATH_TO_IMPORTANT_FILES.'lib';
-Doctrine\ORM\Tools\Setup::registerAutoloadDirectory($lib);
+use Doctrine\Common\ClassLoader,
+    Doctrine\ORM\Configuration,
+    Doctrine\ORM\EntityManager,
+    Doctrine\Common\Cache\ApcCache,
+    Entities\User;
 
-/*
- * Génération de l'entity manager
- */
-use Doctrine\ORM\Tools\Setup,
-    Doctrine\ORM\EntityManager;
+require '/lib/Doctrine/Common/ClassLoader.php';
 
+$doctrineClassLoader = new ClassLoader('Doctrine', '/lib');
+$doctrineClassLoader->register();
 
-$paths = array(PATH_TO_IMPORTANT_FILES.'lib/Entities/');
+$entitiesClassLoader = new ClassLoader('Entities', '/lib');
+$entitiesClassLoader->register();
 
-// Récupération de la configuration de PDO (config.php)
+$config = new Configuration;
+$cache = new ApcCache;
+$config->setMetadataCacheImpl($cache);
+$driverImpl = $config->newDefaultAnnotationDriver(array('/lib/Entities'));
+$config->setMetadataDriverImpl($driverImpl);
+$config->setProxyDir('/lib/Proxies');
+$config->setProxyNamespace('Proxies');
+
+$config->setQueryCacheImpl($cache);
+
 $dbParams = array(
     'driver'   => PDO_DRIVER,
     'port'     => PDO_PORT,
@@ -25,7 +37,8 @@ $dbParams = array(
     'password' => PDO_PASSWORD,
 );
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, ENV_DEV);
 $em = EntityManager::create($dbParams, $config);
+
+$user = new User();
 
 ?>
