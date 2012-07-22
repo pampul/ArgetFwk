@@ -8,26 +8,24 @@
 use Doctrine\Common\ClassLoader,
     Doctrine\ORM\Configuration,
     Doctrine\ORM\EntityManager,
-    Doctrine\Common\Cache\ApcCache,
     Entities\User;
 
-require '/lib/Doctrine/Common/ClassLoader.php';
+require '/lib/Doctrine/Doctrine/Common/ClassLoader.php';
 
-$doctrineClassLoader = new ClassLoader('Doctrine', '/lib');
+$doctrineClassLoader = new ClassLoader('Doctrine', '/lib/Doctrine');
 $doctrineClassLoader->register();
 
 $entitiesClassLoader = new ClassLoader('Entities', '/lib');
 $entitiesClassLoader->register();
 
 $config = new Configuration;
-$cache = new ApcCache;
-$config->setMetadataCacheImpl($cache);
+//$cache = new ApcCache;
+//$config->setMetadataCacheImpl($cache);
 $driverImpl = $config->newDefaultAnnotationDriver(array('/lib/Entities'));
 $config->setMetadataDriverImpl($driverImpl);
-$config->setProxyDir('/lib/Proxies');
+$config->setProxyDir('/lib/Doctrine/Doctrine/Proxies');
 $config->setProxyNamespace('Proxies');
-
-$config->setQueryCacheImpl($cache);
+//$config->setQueryCacheImpl($cache);
 
 $dbParams = array(
     'driver'   => PDO_DRIVER,
@@ -38,7 +36,10 @@ $dbParams = array(
 );
 
 $em = EntityManager::create($dbParams, $config);
-
+/*
 $user = new User();
-
+$user->setName("Bobby");
+$em->persist($user);
+$em->flush();
+*/
 ?>
