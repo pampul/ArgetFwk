@@ -10,7 +10,7 @@ use Doctrine\Common\ClassLoader,
     Doctrine\ORM\EntityManager,
     Entities\User;
 
-require '/lib/Doctrine/Doctrine/Common/ClassLoader.php';
+require '../lib/Doctrine/Doctrine/Common/ClassLoader.php';
 
 $doctrineClassLoader = new ClassLoader('Doctrine', '/lib/Doctrine');
 $doctrineClassLoader->register();
@@ -36,6 +36,17 @@ $dbParams = array(
 );
 
 $em = EntityManager::create($dbParams, $config);
+
+/*
+$tool = new \Doctrine\ORM\Tools\SchemaTool($em);
+
+$classes = array(
+  $em->getClassMetadata('Entities\User')
+);
+//$tool->createSchema($classes);
+//$tool->dropSchema($classes);
+$tool->updateSchema($classes);
+*/
 /*
 $user = new User();
 $user->setName("Bobby");
