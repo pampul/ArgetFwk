@@ -7,23 +7,22 @@
 
 use Doctrine\Common\ClassLoader,
     Doctrine\ORM\Configuration,
-    Doctrine\ORM\EntityManager,
-    Entities\User;
+    Doctrine\ORM\EntityManager;
 
-require '../lib/Doctrine/Doctrine/Common/ClassLoader.php';
+require PATH_TO_IMPORTANT_FILES.'lib/Doctrine/Doctrine/Common/ClassLoader.php';
 
-$doctrineClassLoader = new ClassLoader('Doctrine', '/lib/Doctrine');
+$doctrineClassLoader = new ClassLoader('Doctrine', PATH_TO_IMPORTANT_FILES.'lib/Doctrine');
 $doctrineClassLoader->register();
 
-$entitiesClassLoader = new ClassLoader('Entities', '/lib');
+$entitiesClassLoader = new ClassLoader('Entities', PATH_TO_IMPORTANT_FILES.'lib');
 $entitiesClassLoader->register();
 
 $config = new Configuration;
 //$cache = new ApcCache;
 //$config->setMetadataCacheImpl($cache);
-$driverImpl = $config->newDefaultAnnotationDriver(array('/lib/Entities'));
+$driverImpl = $config->newDefaultAnnotationDriver(array(PATH_TO_IMPORTANT_FILES.'lib/Entities'));
 $config->setMetadataDriverImpl($driverImpl);
-$config->setProxyDir('/lib/Doctrine/Doctrine/Proxies');
+$config->setProxyDir(PATH_TO_IMPORTANT_FILES.'lib/Doctrine/Doctrine/Proxies');
 $config->setProxyNamespace('Proxies');
 //$config->setQueryCacheImpl($cache);
 

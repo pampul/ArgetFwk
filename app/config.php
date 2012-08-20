@@ -17,6 +17,8 @@ define('SOCIETE_NOM', 'ArgetWeb');
 define('ADMIN_EMAIL', 'florian.mithieux@supinfo.com');
 define('ADMIN_NOM', 'Mithieux');
 define('ADMIN_PRENOM', 'Florian');
+define('ADMIN_LOGIN', 'admin');
+define('ADMIN_PASSWORD', 'admin');
 
 /*
  * Constantes relatives au navigateur
@@ -36,12 +38,14 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      * Nom de l'environnement
      */
     define('ENV_DEV', true);
+    define('ENV_LOCAL', true);
     
     /*
      * Génération de l'URL de base pour le local
      */
     define('SITE_URL', 'http://localhost:8080/ArgetFwk/');
-    define('SITE_URL_REFERENCEMENT', 'index.php?content=');
+    define('SITE_CURRENT_URI', $_SERVER['REQUEST_URI']).
+    define('SITE_URL_REFERENCEMENT', '');
     /*
      * Connexion à la BDD locale
      */
@@ -59,6 +63,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      * Nom de l'environnement
      */
     define('ENV_DEV', true);
+    define('ENV_LOCAL', false);
     
     /*
      * Génération de l'url de pre-prod
@@ -82,6 +87,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      * Nom de l'environnement
      */
     define('ENV_DEV', false);
+    define('ENV_LOCAL', false);
     
     /*
      * Génération de l'url de base Web

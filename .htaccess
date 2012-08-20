@@ -10,6 +10,7 @@ SetEnv SESSION_USE_TRANS_SID 0
 ### -----------------------------------------------------------------------------------------------------------------------------
 
 Options -Indexes
+DirectoryIndex app.php
 ErrorDocument 404 /index.php?content=404
 
 ### -----------------------------------------------------------------------------------------------------------------------------
@@ -66,17 +67,13 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
 ### ----- Reecriture avec www.
 ### -----------------------------------------------------------------------------------------------------------------------------
 
-###RewriteCond %{HTTP_HOST} !^www\.letssleep.argetweb\.fr [NC]
+###RewriteCond %{HTTP_HOST} !^www\.yoursite\.fr [NC]
 ###RewriteCond %{HTTP_HOST} !^$
-###RewriteRule ^/?(.*) http://www.letssleep.argetweb.fr/$1 [L,R,NE]
+###RewriteRule ^/?(.*) http://www.yoursite.fr/$1 [L,R,NE]
 
 ### -----------------------------------------------------------------------------------------------------------------------------
 ### ----- Application des regles de reecriture
 ### -----------------------------------------------------------------------------------------------------------------------------
-
-RewriteRule ^montre-revolutionnaire/dormir/flux-rss flux.xml [L]
-RewriteRule ^montre-revolutionnaire/dormir/blog/([0-9]+)/(.*) index.php?content=blog&themeid=$1&theme=$2 [L]
-RewriteRule ^montre-revolutionnaire/dormir/blog/page-([0-9]+) index.php?content=blog&page=$1 [L]
-RewriteRule ^montre-revolutionnaire/dormir/glossaire/page-([0-9]+) index.php?content=glossaire&page=$1 [L]
-RewriteRule ^montre-revolutionnaire/dormir/([-a-z]+)/([0-9]+)/(.*) index.php?content=$1&id=$2&titre=$3 [L]
-RewriteRule ^montre-revolutionnaire/dormir/([-a-z]+) index.php?content=$1 [L]
+RewriteRule ^app/console app/console.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ app.php [QSA,L]
