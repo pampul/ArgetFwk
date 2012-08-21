@@ -6,8 +6,6 @@
  * -----
  * Si pas de pattern : on est en homepage
  */
-
-
 switch(GET_PATTERN){
     
     case 'pattern-de-l-url' :

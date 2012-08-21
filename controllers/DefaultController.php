@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManager;
 
 class DefaultController {
     
-    protected $twig;
-    protected $em;
+    protected $twig,
+              $em;
     
     public function __construct(Twig_Environment $twig = null, EntityManager $em = null) {
         $this->twig = $twig;
