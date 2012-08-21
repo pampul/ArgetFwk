@@ -12,12 +12,14 @@ switch(GET_PATTERN){
     
     case 'pattern-de-l-url' :
         require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
-        DefaultController::execute();
+        $controller = new DefaultController($twig, $em);
+        $controller->execute();
         break;
     
     default :
         require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
-        DefaultController::execute();
+        $controller = new DefaultController($twig, $em);
+        $controller->execute();
         break;
     
 }
