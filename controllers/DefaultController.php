@@ -12,7 +12,7 @@ class DefaultController {
     protected $twig,
               $em;
     
-    public function __construct(Twig_Environment $twig = null, EntityManager $em = null) {
+    public function __construct(Twig_Environment $twig, EntityManager $em) {
         $this->twig = $twig;
         $this->em = $em;
     }
