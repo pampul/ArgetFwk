@@ -14,27 +14,9 @@ require_once PATH_TO_IMPORTANT_FILES.'app/TwigLoader.php';
 require_once PATH_TO_IMPORTANT_FILES.'app/DoctrineLoader.php';
 
 /*
- * Définition de la page actuelle (si local : un slash en trop à suppr)
- * La page actuelle se définit entre le deuxieme et le troisieme slash (si existant) ex : www.argetweb.fr/site-internet/PAGEACTUELLE
+ * Appel du routing.php qui gèrera l'appel aux classes de controllers
  */
-if(ENV_LOCAL){
-    $arrayVars = explode('/', SITE_CURRENT_URI);
-    if(isset($arrayVars[3]))
-        define('CURRENT_PAGE', $arrayVars[3]);
-    else
-        define('CURRENT_PAGE', 'home');
-}else{
-    $arrayVars = explode('/', SITE_CURRENT_URI);
-    if(isset($arrayVars[2]))
-        define('CURRENT_PAGE', $arrayVars[2]);
-    else
-        define('CURRENT_PAGE', 'home');
-}
-
-/*
- * Appel des entités / classes utiles / managers
- */
-require_once PATH_TO_IMPORTANT_FILES.'app/EntityController.php';
+require_once PATH_TO_IMPORTANT_FILES.'app/routing.php';
 
 
 /*

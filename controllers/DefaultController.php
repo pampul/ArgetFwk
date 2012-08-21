@@ -1,22 +1,35 @@
 <?php
+
 /*
  * 
- * Page d'accueil du site ou null
+ * Controller par defaut
  */
-/*if ($content == "home" || $content == null) {
 
-    $template = $twig->loadTemplate('views/home.html.twig');
-    echo $template->render(array(
-        'content' => $_SERVER['REQUEST_URI'],
-        'baseUrl' => SITE_URL
-    ));
-}*/
+class DefaultController {
 
-if(!isset($content)){
-    $template = $twig->loadTemplate('views/home.html.twig');
-    echo $template->render(array(
-        'content' => CURRENT_PAGE,
-        'baseUrl' => SITE_URL
-    ));
+    public function execute() {
+
+        switch (GET_CONTENT) {
+            
+            case 'home' :
+                self::homeController();
+                break;
+
+            default :
+                self::homeController();
+                break;
+        }
+    }
+
+    public function homeController() {
+        
+        $template = $twig->loadTemplate('views/home.html.twig');
+        echo $template->render(array(
+            'content' => CURRENT_PAGE,
+            'baseUrl' => SITE_URL
+        ));
+        
+    }
+
 }
 ?>

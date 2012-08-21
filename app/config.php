@@ -25,7 +25,14 @@ define('ADMIN_PASSWORD', 'admin');
  */
 define('NAVIGATEUR_NOM', $_SERVER['HTTP_USER_AGENT']);
 
+/*
+ * Constantes de recuperation en HTTP
+ */
+if (isset($_GET['pattern'])) define('GET_PATTERN', $_GET['pattern']);
+else define('GET_PATTERN', null);
 
+if (isset($_GET['content'])) define('GET_CONTENT', $_GET['content']);
+else define('GET_PATTERN', 'home');
 
 
 /*
