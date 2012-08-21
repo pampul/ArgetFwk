@@ -19,9 +19,4 @@ require_once PATH_TO_IMPORTANT_FILES.'app/DoctrineLoader.php';
 require_once PATH_TO_IMPORTANT_FILES.'app/routing.php';
 
 
-/*
- * Appel des controllers
- */
-require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
-
 ?>
