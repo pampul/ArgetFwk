@@ -19,6 +19,7 @@
         <link rel="shortcut icon" href="/favicon.ico" />
 
         <link rel="stylesheet" href="web/css/style.css" type="text/css" />
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         {%block stylesheets %}
         <!-- Ajout des css supplementaires here -->
         {% endblock %}
@@ -72,9 +73,8 @@
                     {% include 'views/footer.html.twig' %}
                 </div>
             </footer>
-                    
-            <script type="text/javascript" src="Web/js/jquery.js"></script>
-            <script type="text/javascript" src="Web/js/jquery-ui.js"></script>
+            
+            <script src="js/bootstrap.min.js"></script>
             {% block jsinclude %}
             
             {% endblock %}

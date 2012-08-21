@@ -34,7 +34,7 @@ if (isset($_SESSION['webmaster']) && $_SESSION['webmaster'] == true) {
     $classes = array();
     
     while ($file = readdir($dir)) {
-        if ($file != '.' && $file != '..' && !is_dir($entitiesDir . $file)) {
+        if ($file != '.' && $file != '..' && !is_dir($entitiesDir . $file) && !preg_match('#Repository#', $file)) {
             $file = preg_replace('#\.php#', '', $file);
             $classes[] = $em->getClassMetadata('Entities\\'.$file);
         }

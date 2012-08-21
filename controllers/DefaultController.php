@@ -33,9 +33,11 @@ class DefaultController {
 
     public function homeController() {
         
+        $value = 'Don\'t work ...';
+        //$value = $this->em->getRepository('Entities\User')->myFirstFunction();
         $template = $this->twig->loadTemplate('views/home.html.twig');
         echo $template->render(array(
-            'content' => 'test',
+            'content' => $value,
             'baseUrl' => SITE_URL
         ));
         
