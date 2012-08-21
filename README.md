@@ -12,4 +12,10 @@ Step 2 : Intégration de Twig
 Step 3 : Doctrine 2
 - Mise à jour de l'IDE
 - Création du loader
-- Utilisation de l'ORM en cli
+- Utilisation de l'ORM en cli : abandonné
+- Creation d'un fichier de controle des commandes doctrines via interface web
+
+Step 4 : Routing
+- Configuration du htaccess
+- Création d'un fichier de routing
+- Creation de controller de base
