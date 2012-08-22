@@ -3,7 +3,7 @@
 
 use Doctrine\ORM\EntityManager;
 
-/*
+/**
  * 
  * Classe regroupant les fonctions de bases présentes dans tous les controllers
  */

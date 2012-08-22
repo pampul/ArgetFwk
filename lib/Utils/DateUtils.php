@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Classe permettant des calculs de dates
+ */
 class DateUtils {
 	
 	/**

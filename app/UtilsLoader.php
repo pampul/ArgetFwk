@@ -6,7 +6,7 @@
  */
 
 // Gestion globale des controllers
-require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/Controller.php';
+require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/ControllerManager.php';
 
 // Gestion des dates
 require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/DateUtils.php';

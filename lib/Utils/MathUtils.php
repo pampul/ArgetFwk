@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Classe math : fonctions mathématiques en statiques
  */
 class MathUtils {
