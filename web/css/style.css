@@ -50,7 +50,7 @@ img{
 
 /* --------- Style des formulaires --------- */
 /* ----------------------------------- */
-
+/*
 textarea {
     background: white;
     padding: 3px 5px 3px 5px;
@@ -123,10 +123,10 @@ input[type=submit]:active, input[type=button]:active, a.button:active{
     background: -webkit-gradient(linear, left top, left bottom, from(#c9d8dd), to(#f0f3f5));
     background: -moz-linear-gradient(top,  #c9d8dd,  #f0f3f5);
 }
+*/
 
 
-
-/* Adaptation aux m�dias mobiles */
+/* Adaptation aux medias mobiles */
 
 /* max-width pour faibles r�solutions */
 @media screen and (max-width: 1000px) {
