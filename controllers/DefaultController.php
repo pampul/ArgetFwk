@@ -19,10 +19,6 @@ class DefaultController extends ControllerManager{
                 $this->homeController();
                 break;
             
-            case '404' :
-                $this->error404DisplayController();
-                break;
-
             default :
                 $this->error404Controller();
                 break;

@@ -29,10 +29,13 @@ class ControllerManager {
 
     /**
      * Redirection de la page sur une erreur 404
+     * Si get_content = 404 alors affichage de la page
      */
     protected function error404Controller() {
 
-        header('Location: ' . SITE_URL . 'url-error/404');
+        if(GET_CONTENT === '404') $this->error404DisplayController ();
+        else header('Location: ' . SITE_URL . 'url-error/404');
+        
     }
 
     /**
