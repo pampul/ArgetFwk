@@ -21,6 +21,9 @@ Step 4 : Routing
 - Creation de controller de base
 - Application d'heritage
 - Traitement des URLs via htaccess
+
+Step 5 : Bootstrap
+- Intégration du TwitterBootstrap
 - Création de page d'accueil de base
 
 Step 5 : BackOffice
