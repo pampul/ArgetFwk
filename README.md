@@ -29,7 +29,7 @@ Step 5 : Bootstrap
 Step 5 : BackOffice
 - Création d'un filtre
 - Création d'une page de base
-- Ajout d'URL Rewriting                         : TODO
+- Ajout d'URL Rewriting
 - Création des classes de base                  : TODO
 - Gestion des sessions / recup' MDP             : TODO
 - Création des méthodes réutilisables           : TODO
