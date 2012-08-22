@@ -6,12 +6,12 @@
  */
 
 
-/*
+/**
  * Constantes relatives à la societe
  */
 define('SOCIETE_NOM', 'ArgetWeb');
 
-/*
+/**
  * Constantes relatives au client
  */
 define('CLIENT_EMAIL', 'florian.mithieux@supinfo.com');
@@ -21,7 +21,7 @@ define('CLIENT_TEL', '0666812988');
 define('CLIENT_LOGIN', 'admin');
 define('CLIENT_PASSWORD', 'admin');
 
-/*
+/**
  * Constantes relatives à l'admin
  */
 define('ADMIN_EMAIL', 'florian.mithieux@supinfo.com');
@@ -30,17 +30,17 @@ define('ADMIN_PRENOM', 'Florian');
 define('ADMIN_LOGIN', 'admin');
 define('ADMIN_PASSWORD', 'admin');
 
-/*
+/**
  * Constantes de recuperation en HTTP
  */
 if (isset($_GET['pattern'])) define('GET_PATTERN', $_GET['pattern']);
 else define('GET_PATTERN', null);
 
 if (isset($_GET['content'])) define('GET_CONTENT', $_GET['content']);
-elseif(!isset($_GET['wrongurl'])) define('GET_CONTENT', 'home');
+elseif(!isset($_GET['parameters'])) define('GET_CONTENT', 'home');
 else define('GET_CONTENT', null);
 
-/*
+/**
  * Constantes relatives au navigateur
  */
 define('NAVIGATEUR_NOM', $_SERVER['HTTP_USER_AGENT']);
@@ -52,18 +52,27 @@ define('NAVIGATEUR_NOM', $_SERVER['HTTP_USER_AGENT']);
  */
 if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     
-    /*
-     * Nom de l'environnement
+    /**
+     * Environnement de developpement
+     * 
+     * @return boolean - True : dev / False : prod
      */
     define('ENV_DEV', true);
+    
+    /**
+     * Environnement local ou web
+     * 
+     * @return boolean - True : Local / False : Web
+     */
     define('ENV_LOCAL', true);
     
-    /*
+    /**
      * Génération de l'URL de base pour le local
      */
     define('SITE_URL', 'http://localhost:8080/ArgetFwk/');
     define('SITE_CURRENT_URI', $_SERVER['REQUEST_URI']).
     define('SITE_URL_REFERENCEMENT', '');
+    
     /*
      * Connexion à la BDD locale
      */
@@ -77,10 +86,18 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     
 }elseif(isset($_GET['dev_env'])){
     
-    /*
-     * Nom de l'environnement
+    /**
+     * Environnement de developpement
+     * 
+     * @return boolean - True : dev / False : prod
      */
     define('ENV_DEV', true);
+    
+    /**
+     * Environnement local ou web
+     * 
+     * @return boolean - True : Local / False : Web
+     */
     define('ENV_LOCAL', false);
     
     /*
@@ -101,10 +118,18 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     
 }else{
     
-    /*
-     * Nom de l'environnement
+    /**
+     * Environnement de developpement
+     * 
+     * @return boolean - True : dev / False : prod
      */
     define('ENV_DEV', false);
+
+    /**
+     * Environnement local ou web
+     * 
+     * @return boolean - True : Local / False : Web
+     */
     define('ENV_LOCAL', false);
     
     /*
@@ -112,6 +137,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      */
     define('SITE_URL', 'http://www.YourWebUrl.fr/');
     define('SITE_URL_REFERENCEMENT', '');
+    
     /*
      * Connexion à la BDD Web
      */
