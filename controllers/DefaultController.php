@@ -8,6 +8,9 @@
  */
 class DefaultController extends ControllerManager{
     
+    /**
+     * Affichage de la vue correspondant au GET_CONTENT
+     */
     public function execute() {
 
         switch (GET_CONTENT) {
