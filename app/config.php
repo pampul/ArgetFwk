@@ -31,6 +31,16 @@ define('ADMIN_LOGIN', 'admin');
 define('ADMIN_PASSWORD', 'admin');
 
 /*
+ * Constantes de recuperation en HTTP
+ */
+if (isset($_GET['pattern'])) define('GET_PATTERN', $_GET['pattern']);
+else define('GET_PATTERN', null);
+
+if (isset($_GET['content'])) define('GET_CONTENT', $_GET['content']);
+elseif(!isset($_GET['wrongurl'])) define('GET_CONTENT', 'home');
+else define('GET_CONTENT', null);
+
+/*
  * Constantes relatives au navigateur
  */
 define('NAVIGATEUR_NOM', $_SERVER['HTTP_USER_AGENT']);
