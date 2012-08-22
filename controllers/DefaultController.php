@@ -1,8 +1,6 @@
 <?php
 
 
-use Doctrine\ORM\EntityManager;
-
 /**
  * 
  * Controller par defaut
@@ -10,14 +8,6 @@ use Doctrine\ORM\EntityManager;
  */
 class DefaultController extends ControllerManager{
     
-    protected $twig,
-            $em;
-    
-    public function __construct(Twig_Environment $twig, EntityManager $em) {
-        $this->twig = $twig;
-        $this->em = $em;
-    }
-
     public function execute() {
 
         switch (GET_CONTENT) {
@@ -44,6 +34,7 @@ class DefaultController extends ControllerManager{
     private function homeController() {
         
         $value = 'Don\'t work ...';
+        
         //$value = $this->em->getRepository('Entities\User')->myFirstFunction();
         $template = $this->twig->loadTemplate('views/home.html.twig');
         echo $template->render(array(
