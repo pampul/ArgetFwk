@@ -11,7 +11,7 @@ SetEnv SESSION_USE_TRANS_SID 0
 
 Options -Indexes
 DirectoryIndex app.php
-ErrorDocument 404 /index.php?content=404
+ErrorDocument 404 /url-error/404
 
 ### -----------------------------------------------------------------------------------------------------------------------------
 ### ----- Activation du module de reecriture d'URL
@@ -80,8 +80,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^app/console app/console.php [L]
 #RewriteRule ^(.*)$ app.php [QSA,L]
 
-RewriteRule ^([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
-RewriteRule ^([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
-RewriteRule ^([-a-z0-9]+)/([-a-z0-9]+)/([a-z]+) app.php?pattern=$1&content=$2&value=$3 [L]
-RewriteRule ^([-a-z0-9]+)/([-a-z0-9]+) app.php?pattern=$1&content=$2 [L]
-RewriteRule ^(.*)$ app.php?parameters=1 [L]
+RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
+RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
+RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([a-z]+) app.php?pattern=$1&content=$2&value=$3 [L]
+RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+) app.php?pattern=$1&content=$2 [L]

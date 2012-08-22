@@ -19,6 +19,10 @@ class DefaultController extends ControllerManager{
                 $this->homeController();
                 break;
             
+            case 'about' :
+                $this->aboutController();
+                break;
+            
             default :
                 $this->error404Controller();
                 break;
@@ -34,10 +38,19 @@ class DefaultController extends ControllerManager{
         
         $value = 'Don\'t work ...';
         
-        //$value = $this->em->getRepository('Entities\User')->myFirstFunction();
+        $value = $this->em->getRepository('Entities\User')->myFirstFunction();
         $template = $this->twig->loadTemplate('views/home.html.twig');
         echo $template->render(array(
             'content' => $value,
+            'baseUrl' => SITE_URL
+        ));
+        
+    }
+    
+    private function aboutController(){
+        
+        $template = $this->twig->loadTemplate('views/about.html.twig');
+        echo $template->render(array(
             'baseUrl' => SITE_URL
         ));
         

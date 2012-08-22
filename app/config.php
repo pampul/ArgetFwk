@@ -37,8 +37,8 @@ if (isset($_GET['pattern'])) define('GET_PATTERN', $_GET['pattern']);
 else define('GET_PATTERN', null);
 
 if (isset($_GET['content'])) define('GET_CONTENT', $_GET['content']);
-elseif(!isset($_GET['parameters'])) define('GET_CONTENT', 'home');
-else define('GET_CONTENT', null);
+//elseif(isset($_GET['parameters']) && $_GET['parameters'] == null) define('GET_CONTENT', 'home');
+else define('GET_CONTENT', 'home');
 
 /**
  * Constantes relatives au navigateur

@@ -57,22 +57,17 @@
                 }(document, 'script', 'facebook-jssdk'));</script>
 
             <header id="header">
-                <div id="header-wrapper">
                     {% include 'views/header.html.twig' %}
-                </div>
             </header>
 
-            <section id="main">
-                <div id="content-wrapper">
+            <section id="main" class="container">
                     {% block content %}{% endblock %}
-                </div>
+                    
+                    <footer id="footer">
+                        {% include 'views/footer.html.twig' %}
+                    </footer>
+                    
             </section>
-
-            <footer id="footer">
-                <div id="footer-wrapper">
-                    {% include 'views/footer.html.twig' %}
-                </div>
-            </footer>
             
             <script src="web/bootstrap/js/bootstrap.min.js"></script>
             {% block jsinclude %}

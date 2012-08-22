@@ -36,119 +36,16 @@ img{
     clear:both;
 }
 
-/* Disposition par défaut */
-#main {
-    z-index: 1;
-    margin: 0 auto;
-    width:70%;
-}
+#main{
 
-#main #content-wrapper{
-
-    min-height: 100px;
+    min-height: 200px;
 
 }
 
-
-/* --------- Gestion du MENU --------- */
-/* ----------------------------------- */
-#menu{
-    width : 70%;
-    margin: 0 auto;
-    background: gray;
-    z-index: 1000;
-}
-
-#menu #menu-wrapper {
-    
-    text-align: center;
-    display: block;
-
-}
-#menu #menu-wrapper li, #menu #menu-wrapper ul {
-    list-style-type:none;
-    margin:0;
-    padding:0;
-    z-index: 1000;
-}
-
-
-#menu #menu-wrapper ul li{
-    float:left;
-    display: block;
-    width: 25%;
-    z-index: 1000;
-}
-
-#menu #menu-wrapper a {
-    display:block;
-    color:#fff!important;
-    border-bottom:1px;
-    text-decoration:none;
-    line-height:180%;
-    padding-left:1em;
-    padding-right:1em;
-    font-weight: bold;
-    z-index: 1000;
-}
-#menu #menu-wrapper a:hover {
-    color:#293f68!important;
-    /*background:#a81550;*/
-    z-index: 1000;
-}
-
-/* --------- Gestion du HEADER --------- */
-/* ----------------------------------- */
-
-#header{
-    width: 70%;
-    background: #666;
-    margin: 0 auto;
-}
-
-#header-wrapper{
-
-    min-height: 120px;
-
-}
-
-#header-wrapper h1{
-
-    color: #222;
-    margin: 0;
-    padding: 0;
-    font-size: 110%;
-    font-weight: bold;
-
-}
 
 /* --------- Gestion du FOOTER --------- */
 /* ----------------------------------- */
 
-
-#footer{
-
-    margin: 0 auto;
-    width: 70%;
-    background: darkgray;
-    min-height: 75px;
-
-}
-
-#footer #footer-wrapper{
-
-    font-size: 80%;
-    padding: 20px;
-    text-align: center;
-
-}
-
-#footer #footer-wrapper a{
-
-    color: black;
-    text-decoration: none;
-
-}
 
 
 /* --------- Style des formulaires --------- */
@@ -228,129 +125,11 @@ input[type=submit]:active, input[type=button]:active, a.button:active{
 }
 
 
-/* --------- Definition de la pagination --------- */
-/* ----------------------------------- */
-
-#pagination{
-
-    color: #666;
-
-}
-
-#pagination a{
-
-    text-decoration: none;
-    color: #666;
-    font-weight: bold;
-
-}
-
-#pagination a:hover{
-
-    color: #2c77e7;
-
-}
-
-#pagination .suivant{
-
-    position: relative;
-    top: 7px;
-    right: 5px;
-    background: url("../img/bibliotheque/next.png") no-repeat scroll 0 -22px transparent;
-    display: inline-block;
-    height: 23px;
-    width: 25px;
-
-}
-
-#pagination .suivant:hover{
-
-    background-position: 0 1px;
-
-}
-
-#pagination .precedant{
-
-    position: relative;
-    top: 7px;
-    left: 5px;
-    background: url("../img/bibliotheque/previous.png") no-repeat scroll 0 -22px transparent;
-    display: inline-block;
-    height: 23px;
-    width: 25px;
-
-}
-
-#pagination .precedant:hover{
-
-    background-position: 0 1px;
-
-}
 
 /* Adaptation aux m�dias mobiles */
 
 /* max-width pour faibles r�solutions */
 @media screen and (max-width: 1000px) {
-    #header{
-        font-size: 130%;
-    }
-    #header h1{
-        font-size: 300%!important;
-    }
-
-    #header img{
-        width: 100%;
-    }
-
-    #main {
-        clear:both;
-        width:95%;
-        font-size: 130%;
-    }
-
-    #main #sidebar-wrapper{
-
-        display: none;
-
-    }
-
-    #main #content-wrapper{
-
-        width: 100%;
-
-    }
-
-    #footer {
-        clear:both;
-        width:90%;
-        font-size: 100%;
-    }
-
-    #menu{
-        height: auto!important;
-        font-size: 200%;
-        clear:both;
-        width: 90%;
-    }
-
-    #header{
-        width:90%!important;
-    }
-
-    #menu #menu-wrapper ul li{
-        float: none!important;
-        margin: 0 auto!important;
-        width: 95%;
-    }
-
-    #menu a{
-        height: auto!important;
-        display: block;
-        margin: 0 3px 2px 0!important;
-        /*padding: 6px 8px!important;*/
-        font-weight: bold;
-        border-radius: 0;
-    }
 
     /* passer tous les �l�ments de largeur fixe en largeur automatique */
     body, element1, element2 {
@@ -404,28 +183,11 @@ input[type=submit]:active, input[type=button]:active, a.button:active{
 
 /* min-width 1000px pour �crans plus larges */
 @media screen and (min-width: 1000px) {
-    #main, #aside {
-        font-size:100%;
-    }
-
-    #menu{
-        font-size: 110%;
-    }
+    
 }
 
 @media screen and (max-width: 1280px) {
-    #main, #aside, #footer{
-        width:90%;
-        font-size:100%;
-    }
     
-    #menu{
-        width: 90%;
-    }
-
-    #header{
-        width: 90%!important;
-    }
 }
 
 @media (max-width:1000px) and (orientation: landscape) {
@@ -435,24 +197,7 @@ input[type=submit]:active, input[type=button]:active, a.button:active{
 }
 
 @media screen and (max-width: 640px) {
-    #header, #main, #aside, #footer{
-        clear:both;
-        width:100%!important;
-        font-size: 150%;
-    }
     
-    #menu{
-        width:100%!important;
-        font-size: 220%;
-    }
-
-    #header{
-        width: 100%!important;
-    }
-
-    #header img{
-        width: 100%;
-    }
 }
 
 

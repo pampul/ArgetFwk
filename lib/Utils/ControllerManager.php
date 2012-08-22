@@ -34,7 +34,7 @@ class ControllerManager {
     protected function error404Controller() {
 
         if(GET_CONTENT === '404') $this->error404DisplayController ();
-        else header('Location: ' . SITE_URL . 'url-error/404');
+        else header('Location: ' . SITE_URL . 'fr-url-error/404');
         
     }
 
