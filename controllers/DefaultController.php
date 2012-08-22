@@ -1,11 +1,22 @@
 <?php
 
+
+use Doctrine\ORM\EntityManager;
+
 /**
  * 
  * Controller par defaut
  * Le controller doit absolument heriter de ControllerManager
  */
 class DefaultController extends ControllerManager{
+    
+    protected $twig,
+            $em;
+    
+    public function __construct(Twig_Environment $twig, EntityManager $em) {
+        $this->twig = $twig;
+        $this->em = $em;
+    }
 
     public function execute() {
 

@@ -1,20 +1,10 @@
 <?php
 
-use Doctrine\ORM\EntityManager;
-
 /**
  * 
  * Classe regroupant les fonctions de bases présentes dans tous les controllers
  */
 class ControllerManager {
-
-    protected $twig,
-            $em;
-
-    public function __construct(Twig_Environment $twig, EntityManager $em) {
-        $this->twig = $twig;
-        $this->em = $em;
-    }
 
     protected function error404Controller() {
 
