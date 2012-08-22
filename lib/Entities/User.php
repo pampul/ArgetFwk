@@ -2,7 +2,11 @@
 
 namespace Entities;
 
-/** @Entity @Table(name="users") */
+use Doctrine\ORM\EntityRepository;
+
+/** 
+ * @Entity(repositoryClass="Entities\UserRepository") @Table(name="users") 
+ */
 class User {
 
     /**
@@ -11,7 +15,9 @@ class User {
      */
     private $id;
 
-    /** @Column(type="string", length=150) */
+    /** 
+     * @Column(type="string", length=150) 
+     */
     private $name;
 
     public function getId() {

@@ -24,11 +24,30 @@ class DefaultController {
             case 'home' :
                 $this->homeController();
                 break;
+            
+            case '404' :
+                $this->error404DisplayController();
+                break;
 
             default :
-                $this->homeController();
+                $this->error404Controller();
                 break;
         }
+    }
+    
+    public function error404Controller(){
+        
+        header('Location: '.SITE_URL.'url-error/404');
+        
+    }
+    
+    public function error404DisplayController(){
+        
+        $template = $this->twig->loadTemplate('views/404.html.twig');
+        echo $template->render(array(
+            'baseUrl' => SITE_URL
+        ));
+        
     }
 
     public function homeController() {

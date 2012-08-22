@@ -75,8 +75,9 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
 ### ----- Application des regles de reecriture
 ### -----------------------------------------------------------------------------------------------------------------------------
 
+RewriteCond %{REQUEST_FILENAME} !-f
+
 RewriteRule ^app/console app/console.php [L]
-#RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteRule ^(.*)$ app.php [QSA,L]
 
 RewriteRule ^([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+)/(.*) index.php?pattern=$1&content=$2&id=$3&titre=$4 [L]

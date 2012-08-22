@@ -8,7 +8,11 @@
  */
 switch(GET_PATTERN){
     
+    /*
+     * Laisser le case url-error il permet le traitement de 404
+     */
     case 'pattern-de-l-url' :
+    case 'url-error' :
         require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
         $controller = new DefaultController($twig, $em);
         $controller->execute();

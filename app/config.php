@@ -12,6 +12,16 @@
 define('SOCIETE_NOM', 'ArgetWeb');
 
 /*
+ * Constantes relatives au client
+ */
+define('CLIENT_EMAIL', 'florian.mithieux@supinfo.com');
+define('CLIENT_NOM', 'Mithieux');
+define('CLIENT_PRENOM', 'Florian');
+define('CLIENT_TEL', '0666812988');
+define('CLIENT_LOGIN', 'admin');
+define('CLIENT_PASSWORD', 'admin');
+
+/*
  * Constantes relatives à l'admin
  */
 define('ADMIN_EMAIL', 'florian.mithieux@supinfo.com');
@@ -25,18 +35,9 @@ define('ADMIN_PASSWORD', 'admin');
  */
 define('NAVIGATEUR_NOM', $_SERVER['HTTP_USER_AGENT']);
 
-/*
- * Constantes de recuperation en HTTP
- */
-if (isset($_GET['pattern'])) define('GET_PATTERN', $_GET['pattern']);
-else define('GET_PATTERN', null);
-
-if (isset($_GET['content'])) define('GET_CONTENT', $_GET['content']);
-else define('GET_PATTERN', 'home');
-
 
 /*
- * Définition des différends environnements de développement
+ * Définition des différents environnements de développement
  * --------------------------------------------------------------------------------
  */
 if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
@@ -76,7 +77,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      * Génération de l'url de pre-prod
      */
     define('SITE_URL', 'http://www.YourPreProdUrl.fr/');
-    define('SITE_URL_REFERENCEMENT', 'index.php?content=');
+    define('SITE_URL_REFERENCEMENT', '');
     /*
      * Connexion à la BDD pre-prod
      */
@@ -100,7 +101,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
      * Génération de l'url de base Web
      */
     define('SITE_URL', 'http://www.YourWebUrl.fr/');
-    define('SITE_URL_REFERENCEMENT', 'index.php?content=');
+    define('SITE_URL_REFERENCEMENT', '');
     /*
      * Connexion à la BDD Web
      */
