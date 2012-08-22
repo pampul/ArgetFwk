@@ -3,19 +3,10 @@
 /*
  * 
  * Controller par defaut
- * Le controller doit absolument posseder un constructeur et ses variables twig et em pour la suite du dev
+ * Le controller doit absolument heriter de ControllerManager
  */
-use Doctrine\ORM\EntityManager;
 
-class DefaultController {
-    
-    protected $twig,
-              $em;
-    
-    public function __construct(Twig_Environment $twig, EntityManager $em) {
-        $this->twig = $twig;
-        $this->em = $em;
-    }
+class DefaultController extends ControllerManager{
 
     public function execute() {
 
@@ -34,23 +25,8 @@ class DefaultController {
                 break;
         }
     }
-    
-    public function error404Controller(){
-        
-        header('Location: '.SITE_URL.'url-error/404');
-        
-    }
-    
-    public function error404DisplayController(){
-        
-        $template = $this->twig->loadTemplate('views/404.html.twig');
-        echo $template->render(array(
-            'baseUrl' => SITE_URL
-        ));
-        
-    }
 
-    public function homeController() {
+    private function homeController() {
         
         $value = 'Don\'t work ...';
         //$value = $this->em->getRepository('Entities\User')->myFirstFunction();

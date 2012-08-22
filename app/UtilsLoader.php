@@ -5,6 +5,9 @@
  * Appel aux classes utiles
  */
 
+// Gestion globale des controllers
+require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/Controller.php';
+
 // Gestion des dates
 require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/DateUtils.php';
 
