@@ -27,6 +27,8 @@ Step 5 : Bootstrap
 - Création de page d'accueil de base
 
 Step 5 : BackOffice
+- Création d'une page de base                   : TODO
+- Ajout d'URL Rewriting                         : TODO
 - Création des classes de base                  : TODO
 - Gestion des sessions / recup' MDP             : TODO
 - Création des méthodes réutilisables           : TODO
