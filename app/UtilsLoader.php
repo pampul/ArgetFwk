@@ -5,6 +5,9 @@
  * Appel aux classes utiles
  */
 
+// Gestion globale des filtres
+require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/FilterManager.php';
+
 // Gestion globale des controllers
 require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/ControllerManager.php';
 

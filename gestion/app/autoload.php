@@ -1,40 +1,34 @@
 <?php
 
 define('PATH_TO_IMPORTANT_FILES', '../');
+define('PATH_TO_BACKOFFICE_FILES', '');
 
-// Appel au fichier de configuration
-require_once '../app/config.php';
-
-// On inclus Twig via le loader
-require_once '../app/TwigLoader.php';
-require_once '../app/DoctrineLoader.php';
-
-// Appel aux classes de base
-require_once '../app/ModelsController.php';
-
-// Définition de la variable $content
-$content = null;
-if (isset($_GET['content']))
-    $content = $_GET['content'];
-if ($content == null)
-    $content = "home";
+/* 
+ * Appel au fichier de configuration et des constantes
+ */
+require_once PATH_TO_IMPORTANT_FILES.'app/config.php';
 
 /*
-// Vérification de l'utilisateur
-if (!isset($_SESSION['login']) && $content != "login" && $content != "lostpassword" && $content != "changepassword") {
+ * Appel des différents loaders
+ */
+require_once PATH_TO_IMPORTANT_FILES.'app/TwigLoader.php';
+require_once PATH_TO_IMPORTANT_FILES.'app/DoctrineLoader.php';
 
-    header('Location: index.php?content=login');
-} else {
+/*
+ * Appel aux classes utiles du Fwk
+ */
+require_once PATH_TO_IMPORTANT_FILES.'app/UtilsLoader.php';
 
-    if($content != "login" && $content != "lostpassword" && $content != "changepassword"){
-        // On recupere l'utilisateur
-        $adminManager = new AdminManager();
-        $userAdmin = $adminManager->getTableWithLoginMdp($_SESSION['login'], $_SESSION['password']);
-    }
-}*/
+/*
+ * Appel des Filters pour la gestion de sessions ou autre
+ */
+require_once PATH_TO_BACKOFFICE_FILES.'filters.php';
 
-// Appel au controller par défaut
-require_once 'controllers/DefaultController.php';
+/*
+ * Appel du routing.php qui gèrera l'appel aux classes de controllers
+ */
+require_once PATH_TO_BACKOFFICE_FILES.'routing.php';
+
 
 
 
