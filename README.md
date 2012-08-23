@@ -39,6 +39,7 @@ Step 6 : BackOffice
 - Application d'un design bootsrap              : TODO
 
 Step 7 : Finitions
+- Ajout d'aide pour integrateur (ajout page etc): TODO
 - Gestion approfondie des erreurs (handler)     : TODO
 - Création d'une classe de CronTasks            : TODO
 - Gestion approfondie de logs pour le cron      : TODO
