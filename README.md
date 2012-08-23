@@ -21,6 +21,7 @@ Step 4 : Routing
 - Creation de controller de base
 - Application d'heritage
 - Traitement des URLs via htaccess
+- Remplacer les "require_once" et autres       : TODO
 
 Step 5 : Bootstrap
 - Intégration du TwitterBootstrap
