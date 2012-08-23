@@ -26,17 +26,18 @@ Step 5 : Bootstrap
 - Intégration du TwitterBootstrap
 - Création de page d'accueil de base
 
-Step 5 : BackOffice
+Step 6 : BackOffice
 - Création d'un filtre
 - Création d'une page de base
 - Ajout d'URL Rewriting
+- Ajout d'une possibilité de non-connexion BDD  : TODO
 - Création des classes de base                  : TODO
 - Gestion des sessions / recup' MDP             : TODO
 - Création des méthodes réutilisables           : TODO
 - Affichage et gestion des admins               : TODO
 - Application d'un design bootsrap              : TODO
 
-Step 6 : Finitions
+Step 7 : Finitions
 - Gestion approfondie des erreurs (handler)     : TODO
 - Création d'une classe de CronTasks            : TODO
 - Gestion approfondie de logs pour le cron      : TODO
