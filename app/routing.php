@@ -13,15 +13,10 @@ switch(GET_PATTERN){
      */
     case 'default-pattern' :
     case 'url-error' :
-        require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
-        $controller = new DefaultController($twig, $em);
-        $controller->execute();
-        break;
-    
-    default :
-        require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
-        $controller = new DefaultController($twig, $em);
-        $controller->execute();
+        $template = $this->twig->loadTemplate('views/'.GET_CONTENT.'.html.twig');
+        echo $template->render(array(
+            'baseUrl' => SITE_URL
+        ));
         break;
     
 }

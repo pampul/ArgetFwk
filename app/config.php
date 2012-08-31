@@ -5,6 +5,15 @@
  * --------------------------------------------------------------------------------
  */
 
+/**
+ * Le site comporte une BDD
+ */
+define('CONFIG_REQUIRE_BDD', true);
+
+/**
+ * Le site est en mode intégration seule (sans utiliser de PHP)
+ */
+define('CONFIG_DEV_PHP', true);
 
 /**
  * Constantes relatives à la societe
