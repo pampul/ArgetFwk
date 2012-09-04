@@ -13,7 +13,8 @@ switch(GET_PATTERN){
      */
     case 'default-pattern' :
     case 'url-error' :
-        $template = $this->twig->loadTemplate('views/'.GET_CONTENT.'.html.twig');
+    case null :
+        $template = $twig->loadTemplate('views/'.GET_CONTENT.'.html.twig');
         echo $template->render(array(
             'baseUrl' => SITE_URL
         ));

@@ -11,9 +11,9 @@
 define('CONFIG_REQUIRE_BDD', true);
 
 /**
- * Le site est en mode intégration seule (sans utiliser de PHP)
+ * Le site est en mode intégration seule (sans utiliser de PHP) : false pour integration
  */
-define('CONFIG_DEV_PHP', true);
+define('CONFIG_DEV_PHP', false);
 
 /**
  * Constantes relatives à la societe
@@ -78,7 +78,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     /**
      * Génération de l'URL de base pour le local
      */
-    define('SITE_URL', 'http://localhost:8080/ArgetFwk/');
+    define('SITE_URL', 'http://localhost:8080/ArgetFwk/'.BACKOFFICE_ACTIVE);
     define('SITE_CURRENT_URI', $_SERVER['REQUEST_URI']).
     define('SITE_URL_REFERENCEMENT', '');
     
@@ -112,7 +112,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     /*
      * Génération de l'url de pre-prod
      */
-    define('SITE_URL', 'http://www.YourPreProdUrl.fr/');
+    define('SITE_URL', 'http://www.YourPreProdUrl.fr/'.BACKOFFICE_ACTIVE);
     define('SITE_URL_REFERENCEMENT', '');
     /*
      * Connexion à la BDD pre-prod
@@ -144,7 +144,7 @@ if(preg_match("#localhost#", $_SERVER['HTTP_HOST'])){
     /*
      * Génération de l'url de base Web
      */
-    define('SITE_URL', 'http://www.YourWebUrl.fr/');
+    define('SITE_URL', 'http://www.YourWebUrl.fr/'.BACKOFFICE_ACTIVE);
     define('SITE_URL_REFERENCEMENT', '');
     
     /*

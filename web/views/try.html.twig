@@ -1,0 +1,35 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ baseUrl }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Titre du document{% endblock %}
+{% block description %}Description du document{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+
+{# Contenu de la page #}
+{% block content %}
+<br/>
+<div class="hero-unit">
+    <h2>Try page</h2>
+
+    Bonjour, biendenue sur la page try !<br/><br/>
+</div>
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+
+{% endblock %}

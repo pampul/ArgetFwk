@@ -1,5 +1,5 @@
 <?php
-
+define('BACKOFFICE_ACTIVE', 'gestion/');
 define('PATH_TO_IMPORTANT_FILES', '../');
 define('PATH_TO_BACKOFFICE_FILES', '');
 

@@ -11,7 +11,7 @@ class AuthGestionFilter extends FilterManager{
     public function execute(){
         
         if(!isset($_SESSION['admin']) && GET_CONTENT != 'login'){
-            header('Location: fr-auth/login');
+            header('Location: '.SITE_URL.'fr-auth/login');
         }
         
     }
