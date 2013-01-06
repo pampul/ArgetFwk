@@ -1,0 +1,66 @@
+10:19:06 | 6.75 mb | Florian M. >> 
+    
+
+--------------------------------------------------
+              LANCEMENT DU CRON - ARCHIVAGE
+--------------------------------------------------
+
+
+10:19:06 | 6.75 mb | Florian M. >> Starting read dir ...
+ 
+----------------------------
+
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/batch\2012-10-11.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/cron\2012-10-09.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/cron\2012-10-10.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/cron\2012-11-05.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/ErrorDocument\2012-10-09.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/ErrorDocument\2012-10-11.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/ErrorDocument\2012-10-12.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/ErrorDocument\2012-11-02.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/ErrorDocument\2012-11-05.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-10-09.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-10-11.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-10-12.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-10-13.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-10-14.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-11-02.log added.
+10:19:06 | 6.75 mb | Florian M. >> File : ../../logs/errors\2012-11-05.log added.
+10:19:06 | 6.75 mb | Florian M. >> 
+
+------------------------------            
+
+ - 16 files founded.
+10:19:06 | 6.75 mb | Florian M. >> 
+            
+------------------------------
+
+ -- ARCHIVAGE DES FICHIERS --
+ 
+------------------------------
+
+
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/batch\2012-10-11.log to ../../logs/batch\_ARCHIVES\2012\10\2012-10-11.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/cron\2012-10-09.log to ../../logs/cron\_ARCHIVES\2012\10\2012-10-09.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/cron\2012-10-10.log to ../../logs/cron\_ARCHIVES\2012\10\2012-10-10.log
+10:19:06 | 6.75 mb | Florian M. >> Same month.
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/ErrorDocument\2012-10-09.log to ../../logs/ErrorDocument\_ARCHIVES\2012\10\2012-10-09.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/ErrorDocument\2012-10-11.log to ../../logs/ErrorDocument\_ARCHIVES\2012\10\2012-10-11.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/ErrorDocument\2012-10-12.log to ../../logs/ErrorDocument\_ARCHIVES\2012\10\2012-10-12.log
+10:19:06 | 6.75 mb | Florian M. >> Same month.
+10:19:06 | 6.75 mb | Florian M. >> Same month.
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/errors\2012-10-09.log to ../../logs/errors\_ARCHIVES\2012\10\2012-10-09.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/errors\2012-10-11.log to ../../logs/errors\_ARCHIVES\2012\10\2012-10-11.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/errors\2012-10-12.log to ../../logs/errors\_ARCHIVES\2012\10\2012-10-12.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/errors\2012-10-13.log to ../../logs/errors\_ARCHIVES\2012\10\2012-10-13.log
+10:19:06 | 6.75 mb | Florian M. >> Copying ../../logs/errors\2012-10-14.log to ../../logs/errors\_ARCHIVES\2012\10\2012-10-14.log
+10:19:06 | 6.75 mb | Florian M. >> Same month.
+10:19:06 | 6.75 mb | Florian M. >> Same month.
+10:19:06 | 6.75 mb | Florian M. >> 
+    
+
+--------------------------------------------------
+           CRON TERMINE AVEC SUCCES
+--------------------------------------------------
+
+

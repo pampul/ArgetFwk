@@ -2,24 +2,29 @@
 <html>
 
     <head>
-        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <!–[if lt IE 9]>
-        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <!--<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
         <![endif]–>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <base href="{% block baseurl %}{% endblock %}" />
-        <title>Gestion - {% block title %}En construction ...{% endblock %}</title>
+        <title>{{ constant('SITE_NOM') }} | Gestion - {% block title %}En construction ...{% endblock %}</title>
         <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
 
-        <meta name="keywords" content="" />
         <meta name="google-site-verification" content="" />
-        <meta name="author" content="AUTEUR" />
+        <meta name="author" content="{{ constant('ADMIN_PRENOM') }} {{ constant('ADMIN_PRENOM') }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
         <link rel="shortcut icon" href="/favicon.ico" />
 
+        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css" />
+        <link rel="stylesheet" href="web/css/FwkStyle.css" type="text/css" />
+        <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css" />
+        <link rel="stylesheet" href="web/lib/redactor/css/redactor.css" />
         <link rel="stylesheet" href="web/css/style.css" type="text/css" />
-        <link href="web/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         {%block stylesheets %}
         <!-- Ajout des css supplementaires here -->
         {% endblock %}
@@ -29,20 +34,78 @@
 
     <body>
 
+        {% block header %}
         <header id="header">
-                    {% include 'views/header.html.twig' %}
+                    {% include 'views/layouts/header.html.twig' %}
             </header>
+        {% endblock %}
 
-            <section id="main" class="container">
+            <section id="main" {% block container %}class="container"{% endblock %}>
                     {% block content %}{% endblock %}
 
+                    {% block footer %}
                     <footer id="footer">
-                        {% include 'views/footer.html.twig' %}
+                        {% include 'views/layouts/footer.html.twig' %}
                         </footer>
+                    {% endblock %}
 
                     </section>
 
-                    <script src="web/bootstrap/js/bootstrap.min.js"></script>
+                    <div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
+
+                        <div class="modal-header" id=confirmHeader>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3>Confirmation</h3>
+                        </div>
+
+                        <div class="modal-body" id="confirmBody">
+
+                            Voulez-vous vraiment effectuer cette action ?
+
+                        </div>
+
+                        <div class="modal-footer" id="confirmFooter">
+                            <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+                            <a href="#" class="btn btn-danger" id="confirmTrue" data-uri="">Valider</a>
+                        </div>
+
+                    </div>
+
+                    <div id="messageBox" class="messageBox">
+                        <div class="contentBox">
+                            
+                        </div>
+                    </div>
+        
+                    <div id="editBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade editBody">
+                        <div class="modal-header" id="editHeader">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3>Ajout/Edition</h3>
+                        </div>
+                            
+                        <div class="modal-body" id="editBody">
+
+                        </div>
+                            
+                    </div>
+
+                    <script src="web/lib/js/jquery.js"></script>
+                    <script src="web/lib/js/jquery-ui.js"></script>
+                    <script src="web/lib/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="web/lib/js/uniformjs.js"></script>
+                    <script src="web/lib/js/AjaxLib.js"></script>
+                    <script src="web/lib/js/ArgetFwkLib.js"></script>
+                    <script src="web/lib/js/ArgetFwkUtilsLib.js"></script>
+                    <script src="web/lib/js/GoogleChartAPI.js"></script>
+                    <script src="web/lib/js/bootstrap-datepicker.js"></script>
+                    <script src="web/lib/redactor/redactor.min.js"></script>
+                    <script src="web/lib/js/jquery.form.js"></script>
+                    <script>
+                        $(function(){
+                            $().UItoTop({ easingType: 'easeOutQuart' });
+                        });
+                    </script>
+
             {% block jsinclude %}
 
             {% endblock %}

@@ -1,0 +1,43 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="{{ constant('SITE_URL') }}">{{ constant('SITE_NOM') }}</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="{{ constant('SITE_URL') }}"><i class="icon-home"></i> Accueil</a></li>
+                </ul>
+
+                <ul class="nav pull-right">
+
+                    <li class="dropdown">
+
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-user"></i> Admin  <b class=caret></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li><a href="dashboard/infos">Mes informations</a></li>
+                            <li><a href="dashboard/stats">Statistiques</a></li>
+                            <li><a href="dashboard/tickets">Tickets / Erreurs</a></li>
+                            {% if admin.privilege.level > 8 %}
+                                <li class=divider></li>
+                                <li><a href="private/admins">Gérer les administrateurs</a></li>
+                                <li><a href="dashboard/privileges">Gérer les privilèges</a></li>
+                                <li><a href="dashboard/logs">Consulter les logs</a></li>
+                                {% if admin.privilege.level > 9 %}
+                                    <li><a href="test/test-page">Crash Test Page</a></li>
+                                {% endif %}
+                            {% endif %}
+                                    <li class=divider></li>
+                                    <li><a href="auth/logout">Se déconnecter</a></li>
+                                </ul>
+
+                            </li>
+
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>

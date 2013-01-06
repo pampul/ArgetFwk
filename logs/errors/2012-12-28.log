@@ -1,0 +1,15 @@
+============================================
+Creation du log: 28/12/2012 17:25
+============================================
+
+
+28/12/2012 17:25 | 9 mb | Back Office | - >> Notice : FwkErrorHandler 8 - Undefined index: admin in file C:\wamp\www\AstridV1\gestion\controllers\DefaultController.php on line 37
+28/12/2012 17:25 | 9 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - Undefined index: admin in file C:\wamp\www\AstridV1\gestion\controllers\DefaultController.php on line 37
+28/12/2012 18:12 | 8 mb | Back Office | - >> Warning : FwkErrorHandler 2 - dir(../../logs/c,../../logs/c) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:12 | 8 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - dir(../../logs/c,../../logs/c) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:13 | 8 mb | Back Office | - >> Warning : FwkErrorHandler 2 - dir(../../logs/e,../../logs/e) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:13 | 8 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - dir(../../logs/e,../../logs/e) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:13 | 8 mb | Back Office | - >> Warning : FwkErrorHandler 2 - dir(../../logs/c,../../logs/c) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:13 | 8 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - dir(../../logs/c,../../logs/c) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:14 | 8 mb | Back Office | - >> Warning : FwkErrorHandler 2 - dir(../../logs/...,../../logs/...) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120
+28/12/2012 18:14 | 8 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - dir(../../logs/...,../../logs/...) [<a href='function.dir'>function.dir</a>]: Le fichier spécifié est introuvable. (code: 2) in file C:\wamp\www\AstridV1\lib\Utils\FwkUtils.php on line 120

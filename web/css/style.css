@@ -17,187 +17,22 @@
 }
 */
 body {
-    margin: 0;
-    padding: 0;
-    font-family:Calibri;
+    margin: 0px;
+    padding: 0px;
     background:#fff;
+    width: 100%;
 }
 
 a {
-    color:#369;
+    color: #414141;
     text-decoration: none;
 }
 
 img{
-    border: 0;
+    border: 0px;
+    
 }
 
 .clear{
     clear:both;
 }
-
-#main{
-
-    min-height: 200px;
-
-}
-
-
-/* --------- Gestion du FOOTER --------- */
-/* ----------------------------------- */
-
-
-
-/* --------- Style des formulaires --------- */
-/* ----------------------------------- */
-/*
-textarea {
-    background: white;
-    padding: 3px 5px 3px 5px;
-    font-size: 12px;
-    color: #666;
-    margin: 0;
-    border: 1px solid #CCC;
-    height: 200px;
-    overflow: auto;
-    font-family: Arial,"helvetica neue",Helvetica,Verdana,sans-serif;
-    max-width: 90%;
-    max-height: 250px;
-}
-
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"], [type="search"], select {
-    background: transparent;
-    padding: 7px 5px 7px 5px;
-    font-size: 12px;
-    margin: 0;
-    border: 1px solid #CCC;
-    background: white url('../images/bg_ip.png') repeat-x;
-    font-family: Arial,"helvetica neue",Helvetica,Verdana,sans-serif;
-    color: #666;
-}
-
-label {
-    color: #444444;
-    letter-spacing: 0px;
-    font-weight: bold;
-    display: block;
-}
-
-select:active select:hover{
-    cursor:pointer;
-}
-
-input[type="submit"], input[type="button"], a.button {
-    display: inline-block;
-    outline: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font: 13px/100% Arial, Helvetica, sans-serif;
-    padding: .5em 3em .55em;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.7);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.7);
-    box-shadow: 0 1px 2px rgba(0,0,0,.7);
-    color: #465363;
-    border: solid 1px #C9D8DD;
-    background: #C9D8DD;
-    font-weight: bold;
-    background: -webkit-gradient(linear, left top, left bottom, from(#F0F3F5), to(#C9D8DD));
-    background: -moz-linear-gradient(top, #F0F3F5, #C9D8DD);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0f3f5', endColorstr='#c9d8dd');
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-}
-
-input[type=submit]:hover, input[type=button]:hover, a.button:hover{
-
-    color: #ff8328;
-
-}
-
-input[type=submit]:active, input[type=button]:active, a.button:active{
-    position: relative;
-    top: 1px;
-    left: 1px;
-    background: #f0f3f5;
-    background: -webkit-gradient(linear, left top, left bottom, from(#c9d8dd), to(#f0f3f5));
-    background: -moz-linear-gradient(top,  #c9d8dd,  #f0f3f5);
-}
-*/
-
-
-/* Adaptation aux medias mobiles */
-
-/* max-width pour faibles r�solutions */
-@media screen and (max-width: 1000px) {
-
-    /* passer tous les �l�ments de largeur fixe en largeur automatique */
-    body, element1, element2 {
-        width: auto;
-        margin: auto;
-        padding: auto;
-    }
-
-    /* fixer une largeur maximale  de 100 % aux �l�ments potentiellement probl�matiques */
-    img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, video {
-        max-width: 100%;
-    }
-    /* conserver le ratio des images et emp�cher les d�bordements de bo�tes d�s aux border ou padding */
-    img {
-        height: auto; width: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-    }
-
-    h1, h2, h3, h4{
-        font-size: 140%!important;
-    }
-    /*
-    .date-article, .texte-article{
-        font-size: 100%!important;
-    }
-    */
-    /* gestion des mots longs */
-    textarea, table, td, th, code, pre, samp {
-        word-wrap: break-word; /* passage � la ligne forc� */
-        -webkit-hyphens: auto; /* c�sure propre */
-        -moz-hyphens: auto;
-        hyphens: auto;
-    }
-    code, pre, samp {
-        white-space: pre-wrap; /* passage � la ligne sp�cifique pour les �l�ments � ch�sse fixe */
-    }
-
-    /* Passer � une seule colonne (� appliquer aux �l�ments multi-colonnes) */
-    element1, element2 {
-        float: none !important;
-        width: auto !important
-    }
-
-    /* masquer les �l�ments superflus */
-    .hide_mobile {
-        display: none !important;
-    }
-}
-
-
-/* min-width 1000px pour �crans plus larges */
-@media screen and (min-width: 1000px) {
-    
-}
-
-@media screen and (max-width: 1280px) {
-    
-}
-
-@media (max-width:1000px) and (orientation: landscape) {
-    body {
-        -webkit-text-size-adjust: 70%;
-    }
-}
-
-@media screen and (max-width: 640px) {
-    
-}
-
-

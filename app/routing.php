@@ -11,13 +11,12 @@ switch(GET_PATTERN){
     /*
      * Laisser le case url-error il permet le traitement de 404
      */
-    case 'default-pattern' :
+    case 'mode-pret-a-porter' :
     case 'url-error' :
     case null :
-        $template = $twig->loadTemplate('views/'.GET_CONTENT.'.html.twig');
-        echo $template->render(array(
-            'baseUrl' => SITE_URL
-        ));
+    default :
+        require_once PATH_TO_BACKOFFICE_FILES.'controllers/DefaultController.php';
+        new DefaultController();
         break;
     
 }

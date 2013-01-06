@@ -1,0 +1,154 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Logs{% endblock %}
+{% block description %}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+
+{# Contenu de la page #}
+{% block content %}
+
+<div class="row">
+
+    <br/><br/><br/>
+
+
+    <div class="span12">
+
+        <div class="widget-content">
+
+
+            <h4 class="fwk-title">Gestion des logs</h4>
+            <hr/>
+
+            <br/>
+
+            <p>
+                Affichage de l'ensemble des logs de votre site internet
+            </p>
+
+            <br/><br/>
+
+            <div class="controls">
+                <label>Choix du répertoire : </label>
+                <select id="selectDir">
+                    <option value="errors">...</option>
+                {% for logDir in tabLogs %}
+                    <option value="{{ logDir }}">{{ logDir }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <br/>
+
+            <div id="logsList">
+
+            {{ dirList|raw }}
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+<script>
+    $('#selectDir').live('change', function(){
+
+        var dirVal = $(this).val();
+
+        $('#logsList').fadeOut(250, function(){
+            
+            var objAjax = new AjaxLib();
+            objAjax.setController('dashboard');
+            objAjax.setMethod('logFiles');
+            objAjax.setAsyncValue(false);
+            objAjax.setDataString('&dir=' + dirVal);
+
+            $('#logsList').html(objAjax.execute());
+            $('#logsList').fadeIn(250);
+            
+        });
+        
+        
+    });
+
+    $('#goBack').live('click', function(){
+        
+        var dirVal = $(this).attr('data-prevdir');
+        
+        $('#logsList').fadeOut(250, function(){
+            
+            var objAjax = new AjaxLib();
+            objAjax.setController('dashboard');
+            objAjax.setMethod('logFiles');
+            objAjax.setAsyncValue(false);
+            objAjax.setDataString('&dir=' + dirVal);
+
+            $('#logsList').html(objAjax.execute());
+            $('#logsList').fadeIn(250);
+            
+        });
+        
+    });
+
+    $('.goToLogFile').live('click', function(){
+    
+        var dirVal = $('#selectDir').val();
+        var fileVal = $(this).html();
+        
+        $('#logsList').fadeOut(250, function(){
+    
+            var objAjax = new AjaxLib();
+            objAjax.setController('dashboard');
+            objAjax.setMethod('logReadFile');
+            objAjax.setAsyncValue(false);
+            objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
+
+            $('#logsList').html(objAjax.execute());
+            $('#logsList').fadeIn(250);
+            
+        });
+        
+    });
+
+    $('#refresh').live('click', function(){
+        
+        var dirVal = $(this).attr('data-dir');
+        var fileVal = $(this).attr('data-file');
+        
+        $('#logsList').fadeOut(250, function(){
+    
+            var objAjax = new AjaxLib();
+            objAjax.setController('dashboard');
+            objAjax.setMethod('logReadFile');
+            objAjax.setAsyncValue(false);
+            objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
+
+            $('#logsList').html(objAjax.execute());
+            $('#logsList').fadeIn(250);
+            
+        });
+        
+    });
+
+
+    </script>
+{% endblock %}

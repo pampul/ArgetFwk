@@ -1,0 +1,45 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Erreur 403 : Forbidden{% endblock %}
+{% block description %}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+
+{# Contenu de la page #}
+{% block content %}
+
+
+<br/><br/><br/><br/><br/><br/>
+
+<div class="alert alert-error">
+
+<h2>FORBIDDEN : Erreur 403</h2>
+
+<br/>
+
+Vous n'avez pas le droit d'accéder à cette page.
+
+</div>
+
+<br/><br/><br/><br/><br/>
+
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+
+{% endblock %}

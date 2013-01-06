@@ -1,0 +1,13 @@
+### -----------------------------------------------------------------------------------------------------------------------------
+### ------ On travaille en php5 et les variables de sessions sont cachees
+### -----------------------------------------------------------------------------------------------------------------------------
+
+SetEnv PHP_VER 5
+SetEnv SESSION_USE_TRANS_SID 0
+SetEnv REGISTER_GLOBALS 0
+SetEnv ZEND_OPTIMIZER 1
+SetEnv MAGIC_QUOTES 0
+
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1

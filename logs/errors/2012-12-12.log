@@ -1,0 +1,7 @@
+============================================
+Creation du log: 12/12/2012 14:45
+============================================
+
+
+12/12/2012 14:45 | 9 mb | Back Office | - >> Notice : FwkErrorHandler 8 - Undefined variable: client in file C:\wamp\www\AstridV1\gestion\ajax\AstridAjax.php on line 98
+12/12/2012 14:45 | 9 mb | Back Office | - >> UNKNOWN : FwkErrorHandler 0 - Undefined variable: client in file C:\wamp\www\AstridV1\gestion\ajax\AstridAjax.php on line 98

@@ -1,0 +1,124 @@
+12:25:21 | 7 mb | - >> 
+    
+
+--------------------------------------------------
+              LANCEMENT DU CRON - ARCHIVAGE
+--------------------------------------------------
+
+
+12:25:21 | 7 mb | - >> Starting read dir ...
+ 
+----------------------------
+
+12:25:21 | 7 mb | - >> File : ../../logs/cron\2012-11-05.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/cron\2012-11-20.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/cron\2012-11-27.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/cron\2012-12-03.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-02.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-05.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-15.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-19.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-20.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/ErrorDocument\2012-11-27.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-02.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-05.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-13.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-14.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-15.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-16.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-17.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-18.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-19.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-20.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-21.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-24.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-25.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-26.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/errors\2012-11-27.log added.
+12:25:21 | 7 mb | - >> File : ../../logs/login\2012-11-27_florian.mithieux@gmail.com.log added.
+12:25:21 | 7 mb | - >> 
+
+------------------------------            
+
+ - 26 files founded.
+12:25:21 | 7 mb | - >> 
+            
+------------------------------
+
+ -- ARCHIVAGE DES FICHIERS --
+ 
+------------------------------
+
+
+12:25:21 | 7 mb | - >> Copying ../../logs/cron\2012-11-05.log to ../../logs/cron\_ARCHIVES\2012\11_Novembre\2012-11-05.log
+12:25:21 | 7 mb | - >> Copying ../../logs/cron\2012-11-20.log to ../../logs/cron\_ARCHIVES\2012\11_Novembre\2012-11-20.log
+12:25:21 | 7 mb | - >> Copying ../../logs/cron\2012-11-27.log to ../../logs/cron\_ARCHIVES\2012\11_Novembre\2012-11-27.log
+12:25:21 | 7 mb | - >> Same month.
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-02.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-02.log
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-05.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-05.log
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-15.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-15.log
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-19.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-19.log
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-20.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-20.log
+12:25:21 | 7 mb | - >> Copying ../../logs/ErrorDocument\2012-11-27.log to ../../logs/ErrorDocument\_ARCHIVES\2012\11_Novembre\2012-11-27.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-02.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-02.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-05.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-05.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-13.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-13.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-14.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-14.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-15.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-15.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-16.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-16.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-17.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-17.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-18.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-18.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-19.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-19.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-20.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-20.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-21.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-21.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-24.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-24.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-25.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-25.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-26.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-26.log
+12:25:21 | 7 mb | - >> Copying ../../logs/errors\2012-11-27.log to ../../logs/errors\_ARCHIVES\2012\11_Novembre\2012-11-27.log
+12:25:21 | 7 mb | - >> Copying ../../logs/login\2012-11-27_florian.mithieux@gmail.com.log to ../../logs/login\_ARCHIVES\2012\11_Novembre\2012-11-27_florian.mithieux@gmail.com.log
+12:25:21 | 7 mb | - >> 
+    
+
+--------------------------------------------------
+           CRON TERMINE AVEC SUCCES
+--------------------------------------------------
+
+
+12:29:31 | 7 mb | - >> 
+    
+
+--------------------------------------------------
+              LANCEMENT DU CRON - ARCHIVAGE
+--------------------------------------------------
+
+
+12:29:31 | 7 mb | - >> Starting read dir ...
+ 
+----------------------------
+
+12:29:31 | 7 mb | - >> File : ../../logs/cron\2012-12-03.log added.
+12:29:31 | 7 mb | - >> File : ../../logs/login\2012-11-27_florian.mithieux@gmail.com.log added.
+12:29:31 | 7 mb | - >> 
+
+------------------------------            
+
+ - 2 files founded.
+12:29:31 | 7 mb | - >> 
+            
+------------------------------
+
+ -- ARCHIVAGE DES FICHIERS --
+ 
+------------------------------
+
+
+12:29:31 | 7 mb | - >> Same month.
+12:29:31 | 7 mb | - >> Copying ../../logs/login\2012-11-27_florian.mithieux@gmail.com.log to ../../logs/login\_ARCHIVES\2012\11_Novembre\2012-11-27_florian.mithieux@gmail.com.log
+12:29:31 | 7 mb | - >> 
+    
+
+--------------------------------------------------
+           CRON TERMINE AVEC SUCCES
+--------------------------------------------------
+
+

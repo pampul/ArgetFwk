@@ -2,11 +2,11 @@
 {% extends "index.html.twig" %}
 
 {# Pase URL #}
-{% block baseurl %}{{ baseUrl }}{% endblock %}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
 
 {# Gestion SEO #}
-{% block title %}Titre du document{% endblock %}
-{% block description %}Description du document{% endblock %}
+{% block title %}Accueil de l'interface{% endblock %}
+{% block description %}Bienvenue sur l'interface de gestion.{% endblock %}
 
 
 {# Ajout des nouveaux styles #}
@@ -18,16 +18,86 @@
 
 {# Contenu de la page #}
 {% block content %}
-<br/>
 <div class="hero-unit">
-    <h2>Accueil</h2>
 
-    Bonjour !<br/><br/>
+    <h3 class="fwk-title">
+        Espace d'administration
+    </h3>
+
+    <small>
+        Bonjour {{ admin.prenom }} {{ admin.nom }}, bienvenue dans votre espace privé.<br/>
+        Grâce à cet outil d'administration, vous pouvez gérer votre site internet, consulter les logs, ainsi que suivre des statistiques sur demande.
+    </small>
+
+    <br/><br/>
+
+    <div class="row-fluid">
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-box-content nobackground">
+                    <img src="web/img/new_black.png" style="max-width: 15%;" /><br/>
+                    <a href="#" title="Ajouter un produit">Nouveau produit</a><br/>
+                    <small>
+                        Créez un nouveau produit avec les attributs que vous souhaitez.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-box-content nobackground">
+                    <img src="web/img/new_blue.png" style="max-width: 15%;" /><br/>
+                    <a href="#" title="Ajouter un produit">Nouvelle catégorie</a><br/>
+                    <small>
+                        Ajoutez une catégorie afin de mieux organiser vos articles.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="widget-box">
+                <div class="widget-box-content nobackground">
+                    <img src="web/img/new_yellow.png" style="max-width: 15%;" /><br/>
+                    <a href="#" title="Ajouter un produit">Nouvel article</a><br/>
+                    <small>
+                        Ajoutez un nouvel article et placez-le dans la catégorie souhaité.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<div class="row">
+
+    <div class="span6">
+        <div class="widget-box">
+            <div class="widget-box-content">
+                {{ gChartPie.drawHtml|raw }}
+                </div>
+            </div>
+        </div>
+
+        <div class="span6">
+            <div class="widget-box">
+                <div class="widget-box-content">
+                {{ gChartLine.drawHtml|raw }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br/>
+
+        <div class="alert alert-info">
+            <a href="dashboard/stats" title="Plus de statistiques">>> Accéder à toutes les statistiques ...</a>
+        </div>
+
+        <br/><br/>
 
 
-{{ content|capitalize }} en construction ...
 
 {% endblock %}
 
@@ -35,5 +105,6 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-
+{{ gChartPie.drawJs|raw }}
+{{ gChartLine.drawJs|raw }}
 {% endblock %}

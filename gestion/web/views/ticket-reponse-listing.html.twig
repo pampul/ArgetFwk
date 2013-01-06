@@ -1,0 +1,68 @@
+{% for objReponse in colReponses %}
+
+<br/>
+
+<div class="row">
+
+    <div class="span2 hidden-phone">
+
+        <div class="avatar-user-mini pull-right">
+
+            <div class="avatar-user-container-mini">
+
+                                                {% if objReponse.admin.avatar is null %}
+
+                <img src="web/img/default.png" alt="avatar default" />
+
+                                                {% else %}
+
+                <img src="web/uploads/{{ objReponse.admin.avatar }}" alt="Avatar utilisateur" />
+
+                                                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="span8 tickets-text">
+
+        <div class="text-wrapper">
+
+            <div class="text-container">
+
+                <div class="pull-right text-edit-button">
+                                {% if objAdmin.id == objReponse.admin.id %}
+                        <a data-class="reponse" data-id="{{ objReponse.id }}" class="btn btn-small deleteItem" title="Supprimer cette réponse" style="display: inline;">
+                            <i class="hand icon-trash"></i>
+                        </a>
+                        <span class="separator">·</span>
+                        <button class="btn btn-small editItem" data-id="{{ objReponse.id }}">Editer votre réponse</button>
+                                {% endif %}
+                    </div>
+
+                    <div class="text-title">
+                        <strong>{{ objReponse.admin.prenom }} {{ objReponse.admin.nom }}</strong> a répondu le {{ objReponse.date }}
+                    </div>
+
+                    <div class="text-content">
+                    {{ objReponse.texteHtml|raw }}
+                        </div>
+
+                        <div class="updateDiv">
+                            <button class="btn cancelItem">Annuler</button>
+                            <button class="btn pull-right sendUpdateItem" data-class="reponse" data-id="{{ objReponse.id }}">Mettre à jour</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+{% endfor %}
+

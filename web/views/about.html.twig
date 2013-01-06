@@ -2,7 +2,7 @@
 {% extends "index.html.twig" %}
 
 {# Pase URL #}
-{% block baseurl %}{{ baseUrl }}{% endblock %}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
 
 {# Gestion SEO #}
 {% block title %}Titre du document{% endblock %}

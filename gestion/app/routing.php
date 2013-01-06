@@ -11,23 +11,35 @@ switch(GET_PATTERN){
     /*
      * Laisser le case url-error il permet le traitement de 404
      */
-    case 'default-pattern' :
+    case 'dashboard' :
     case 'url-error' :
         require_once PATH_TO_BACKOFFICE_FILES.'controllers/DefaultController.php';
-        $controller = new DefaultController($twig, $em);
-        $controller->execute();
+        new DefaultController();
+        break;
+    
+    case 'private' :
+        require_once PATH_TO_BACKOFFICE_FILES.'controllers/PrivateController.php';
+        new PrivateController();
         break;
     
     case 'auth' :
         require_once PATH_TO_BACKOFFICE_FILES.'controllers/AuthController.php';
-        $controller = new AuthController($twig, $em);
-        $controller->execute();
+        new AuthController();
+        break;
+    
+    case 'test':
+        require_once PATH_TO_BACKOFFICE_FILES.'controllers/TestController.php';
+        new TestController();
+        break;
+    
+    case 'astrid' :
+        require_once PATH_TO_BACKOFFICE_FILES.'controllers/AstridController.php';
+        new AstridController();
         break;
     
     default :
         require_once PATH_TO_BACKOFFICE_FILES.'controllers/DefaultController.php';
-        $controller = new DefaultController($twig, $em);
-        $controller->execute();
+        new DefaultController();
         break;
     
 }

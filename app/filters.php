@@ -15,8 +15,6 @@ switch(GET_PATTERN){
      * Le passage par default est necessaire d'où le continue présent precedemment
      */
     default :
-        require_once PATH_TO_IMPORTANT_FILES.'lib/Filters/DefaultFilter.php';
-        DefaultFilter::execute();
         break;
     
 }

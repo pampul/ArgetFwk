@@ -1,0 +1,107 @@
+
+-- PDO SQL Dump --
+ 
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+ 
+--
+-- Database: `astrid`
+--
+ 
+-- --------------------------------------------------------
+
+SET foreign_key_checks = 0
+
+
+--
+-- Donnees de la table `db_admin`
+--
+
+INSERT INTO db_admin VALUES ('1','2','','','M.','Florian','Développeur Web','florian.mithieux@gmail.com','$6$rounds=5000$nInJa_s@Lt_Pwd-S$ClYmUo.sWN4BpG/b2qx1.EA6jKpDm4VrNr7A3ivsrHV3BjFUokgifKh0BH1Mfnqa7Kz1mYF3zOwICohJa4MZe/','');
+
+
+--
+-- Donnees de la table `db_annonce`
+--
+
+
+
+--
+-- Donnees de la table `db_article`
+--
+
+
+
+--
+-- Donnees de la table `db_client`
+--
+
+
+
+--
+-- Donnees de la table `db_favoris`
+--
+
+
+
+--
+-- Donnees de la table `db_focus`
+--
+
+
+
+--
+-- Donnees de la table `db_livre_or`
+--
+
+
+
+--
+-- Donnees de la table `db_magasin`
+--
+
+
+
+--
+-- Donnees de la table `db_marque`
+--
+
+
+
+--
+-- Donnees de la table `db_newsletter`
+--
+
+
+
+--
+-- Donnees de la table `db_privilege`
+--
+
+INSERT INTO db_privilege VALUES ('1','Administrateur','9');
+INSERT INTO db_privilege VALUES ('2','WebMaster','10');
+
+
+--
+-- Donnees de la table `db_reponse`
+--
+
+
+
+--
+-- Donnees de la table `db_ticket`
+--
+
+
+
+--
+-- Donnees de la table `db_type_annonce`
+--
+
+
+
+--
+-- Donnees de la table `db_univers`
+--
+
+
+            SET foreign_key_checks = 1

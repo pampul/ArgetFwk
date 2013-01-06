@@ -8,15 +8,15 @@
  */
 switch(GET_PATTERN){
     
-    case 'mon-pattern-pour-filtre' :
-        //require_once PATH_TO_IMPORTANT_FILES.'app/lib/Filters/MonFilter.php';
+    case 'test' :
+        // require + new Filter()
         continue;
     /*
      * Le passage par default est necessaire d'où le continue présent precedemment
      */
     default :
-        require_once PATH_TO_IMPORTANT_FILES.'lib/Filters/AuthGestionFilter.php';
-        AuthGestionFilter::execute();
+        require_once PATH_TO_IMPORTANT_FILES.'lib/Resources/Filters/AuthGestionFilter.php';
+        new AuthGestionFilter();
         break;
     
 }

@@ -1,9 +1,12 @@
 ### -----------------------------------------------------------------------------------------------------------------------------
-### ------ On travaille en php5 et les variables de sessions sont cachees
+### ------ Optimisation du site en vitesse
 ### -----------------------------------------------------------------------------------------------------------------------------
 
 SetEnv PHP_VER 5
 SetEnv SESSION_USE_TRANS_SID 0
+SetEnv REGISTER_GLOBALS 0
+SetEnv ZEND_OPTIMIZER 1
+SetEnv MAGIC_QUOTES 0
 
 ### -----------------------------------------------------------------------------------------------------------------------------
 ### ----- Redirection en cas d'erreur
@@ -11,7 +14,8 @@ SetEnv SESSION_USE_TRANS_SID 0
 
 Options -Indexes
 DirectoryIndex app.php
-ErrorDocument 404 /url-error/404
+ErrorDocument 404 /gestion/app.php?pattern=url-error&content=error404
+ErrorDocument 500 /gestion/app.php?pattern=url-error&content=error500
 
 ### -----------------------------------------------------------------------------------------------------------------------------
 ### ----- Activation du module de reecriture d'URL
@@ -19,48 +23,6 @@ ErrorDocument 404 /url-error/404
 
 Options +FollowSymLinks
 RewriteEngine On
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Optimisation du site en vitesse
-### -----------------------------------------------------------------------------------------------------------------------------
-
-### Mise en cache des fichiers 480 semaines
-###<filesmatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$"="">
-###Header set Cache-Control "max-age=290304000, public"
-###</filesmatch>
-
-### Mise en cache des fichiers XML 2 jours
-###<filesmatch "\.(xml|txt)$"="">
-###Header set Cache-Control "max-age=172800, public, must-revalidate"
-###</filesmatch> 
-
-### Mise en cache des pages html 2 heures
-###<filesmatch "\.(html|htm)$"="">
-###Header set Cache-Control "max-age=7200, must-revalidate"
-###</filesmatch>
-
-# Performance boost
-SetEnv REGISTER_GLOBALS 0
-SetEnv ZEND_OPTIMIZER 1
-SetEnv MAGIC_QUOTES 0
-
-### Commenter la ligne ci-dessous si plantage
-###php_flag zlib.output_compression on
-
-# Activer le filtre
-SetOutputFilter DEFLATE 
-
-# Certains navigateurs ne peuvent pas avoir GZIP (les vieux)
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-
-# Certains navigateurs ne peuvent pas avoir GZIP (les vieux)
-BrowserMatch ^Mozilla/4\.0678 no-gzip
-
-# On ne veut pas d'IE
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-
-# On ne compresse pas les images, elles le sont déj�|
-SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
 
 
 ### -----------------------------------------------------------------------------------------------------------------------------
@@ -75,12 +37,21 @@ SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
 ### ----- Application des regles de reecriture
 ### -----------------------------------------------------------------------------------------------------------------------------
 
-RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^app/console app/console.php [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^auth/change-password/(.*)/(.*) app.php?pattern=auth&content=change-password&l=$1&t=$2 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([a-z]+) app.php?pattern=$1&content=$2&value=$3 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+) app.php?pattern=$1&content=$2 [L]
 #RewriteRule ^(.*)$ app.php [QSA,L]
 
-RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
-RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
-RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+)/([a-z]+) app.php?pattern=$1&content=$2&value=$3 [L]
-RewriteRule ^fr-([-a-z0-9]+)/([-a-z0-9]+) app.php?pattern=$1&content=$2 [L]

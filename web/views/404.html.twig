@@ -2,11 +2,11 @@
 {% extends "index.html.twig" %}
 
 {# Pase URL #}
-{% block baseurl %}{{ baseUrl }}{% endblock %}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
 
 {# Gestion SEO #}
-{% block title %}Titre du document{% endblock %}
-{% block description %}Description du document{% endblock %}
+{% block title %}404 Not Found{% endblock %}
+{% block description %}{% endblock %}
 
 
 {# Ajout des nouveaux styles #}
@@ -19,11 +19,21 @@
 {# Contenu de la page #}
 {% block content %}
 
+<br/><br/><br/><br/><br/><br/>
 
-<h2>404 !</h2>
+<div class="alert alert-error">
 
-ERREUR 404
+<h2>La page demandée est introuvable</h2>
 
+<br/>
+
+Ceci est un code d'erreur 404 : La page demandée n'existe pas, ou plus.<br/><br/>
+
+<small>Merci de contacter votre webmaster pour plus d'informations.</small>
+
+</div>
+
+<br/><br/><br/><br/><br/>
 
 {% endblock %}
 

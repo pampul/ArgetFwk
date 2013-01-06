@@ -1,0 +1,162 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Mes Informations{% endblock %}
+{% block description %}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{% block container %}class="container"{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
+<div class="row">
+
+    <br/><br/><br/>
+
+
+    <div class="span12">
+
+        <div class="widget-content">
+
+            <h4 class="fwk-title">Vos Informations</h4>
+            <hr/>
+
+            <p class="lead">
+
+                Cliquez sur les éléments que vous souhaitez modifier
+
+            </p>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="span6">
+
+                    <div class="modif-container">
+                        <strong>Nom : </strong> 
+                        <span class="value" data-modify-type="nom" data-val="{{ objUser.nom }}">
+                    {{ objUser.nom }}
+                            </span>
+                        </div>
+                        <div class="modif-container">
+                            <strong>Prénom : </strong> 
+                            <span class="value" data-modify-type="prenom" data-val="{{ objUser.prenom }}">
+                    {{ objUser.prenom }}
+                                </span>
+                            </div>
+                            <div class="modif-container">
+                                <strong>Fonction : </strong> 
+                                <span class="value" data-modify-type="fonction" data-val="{{ objUser.fonction }}">
+                    {{ objUser.fonction }}
+                                    </span>
+                                </div>
+                                <div class="normal-container">
+                                    <strong>Privilège : </strong> 
+                                    <span class="value" data-modify-type="privilege" data-val="{{ objUser.privilege }}">
+                    {{ objUser.privilege }}
+                                        </span>
+                                    </div>
+                                    <div class="modif-container">
+                                        <strong>Email : </strong> 
+                                        <span class="value" data-modify-type="email" data-val="{{ objUser.email }}">
+                    {{ objUser.email }}
+                                            </span>
+                                        </div>
+                                        <div class="modif-container">
+                                            <strong>Mot de passe : </strong> 
+                                            <span class="value" data-modify-type="password" data-val="password">
+                                                ********
+                                            </span>
+                                        </div>
+
+                                        <input type="hidden" id="id-user" value="{{ objUser.id }}" />
+                                        <input type="hidden" id="class-user" value="admin" />
+
+                                    </div>
+
+                                    <div class="span2">
+
+                                        <div class="avatar-user">
+
+                                            <div class="avatar-user-container" id="modifierAvatar">
+
+                                                {% if objUser.avatar is null %}
+
+                                                <img src="web/img/default.png" alt="avatar default" />
+
+                                                {% else %}
+
+                                                <img src="web/uploads/{{ objUser.avatar }}" alt="Avatar utilisateur" />
+
+                                                {% endif %}
+
+                                                <div class="hide-message">Changer d'avatar</div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="modifierAvatarModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" class="modal hide">
+                        <div class="modal-header" id="editAvatarHeader">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3>Changer votre avatar</h3>
+                        </div>
+
+                        <div class="modal-body" id="editAvatarBody">
+
+                            <form id="editAddForm" method="POST">
+
+                                <div class="control-group">
+                                    <label class="control-label">Choix de votre avatar :</label>
+                                    <div class="controls" id="inputsVals">
+                                        
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+                    <script>
+                        
+                        $('#modifierAvatar').click(function(){
+                            $('#modifierAvatarModal').modal({
+                                
+                            });
+                        
+                            $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="80000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
+                            $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+                        });
+                        </script>
+{% endblock %}
