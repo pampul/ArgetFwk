@@ -8,6 +8,9 @@ define('PATH_TO_BACKOFFICE_FILES', '');
  */
 require_once PATH_TO_IMPORTANT_FILES.'app/config.php';
 
+if (!CONFIG_REQUIRE_BDD)
+    header('Location: ' . SITE_URL_BASE . 'url-error/404');
+
 /*
  * Appel aux classes utiles du Fwk
  */

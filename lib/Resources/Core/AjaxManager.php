@@ -21,18 +21,18 @@ class AjaxManager extends FwkManager {
      * @var EntityManager $em 
      */
     protected $em;
-    
+
     /**
      * Array regroupant l'ensemble des classes utiles au Fwk
      * 
      * @var array $fwkClasses
      */
     protected $fwkClasses;
-    
 
     public function __construct() {
         $this->twig = FwkLoader::getTwigEnvironement();
-        $this->em = FwkLoader::getEntityManager();
+        if (CONFIG_REQUIRE_BDD)
+            $this->em = FwkLoader::getEntityManager();
         $this->fwkClasses = FwkLoader::getFwkEntities();
 
         $this->execute();
@@ -95,7 +95,7 @@ class AjaxManager extends FwkManager {
 
         unset($serverReferer);
 
-        if (isset($_SESSION['admin'])) {
+        if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD) {
             $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
             $parameters = array_merge($parameters, array('admin' => $objAdmin));
         }

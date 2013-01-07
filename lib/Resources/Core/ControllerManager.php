@@ -21,7 +21,7 @@ class ControllerManager extends FwkManager {
      * @var EntityManager $em 
      */
     protected $em;
-    
+
     /**
      * Array regroupant l'ensemble des classes utiles au Fwk
      * 
@@ -31,7 +31,8 @@ class ControllerManager extends FwkManager {
 
     public function __construct() {
         $this->twig = FwkLoader::getTwigEnvironement();
-        $this->em = FwkLoader::getEntityManager();
+        if (CONFIG_REQUIRE_BDD)
+            $this->em = FwkLoader::getEntityManager();
         $this->fwkClasses = FwkLoader::getFwkEntities();
 
         $this->execute();
@@ -52,15 +53,15 @@ class ControllerManager extends FwkManager {
                 if (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')
                     throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
                 else {
-                    if(file_exists('web/views/' . GET_CONTENT . '.html.twig')){
+                    if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
                         $this->renderView('views/' . GET_CONTENT . '.html.twig');
-                    }else{
-                        (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI) ? FwkLog::add('Le fichier : '.SITE_CURRENT_URI.' n\'existe pas.', 'logs/', 'ErrorDocument/') : FwkLog::add('Erreur 404 sur la page : '.GET_CONTENT.' du controller '.get_class($this), 'logs/', 'ErrorDocument/'));
-                        $this->error404Controller(); 
+                    } else {
+                        (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI) ? FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/') : FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/'));
+                        $this->error404Controller();
                     }
                 }
-            }else{
-                FwkLog::add('Erreur 404 sur la page : '.GET_CONTENT.' du controller '.get_class($this), 'logs/', 'ErrorDocument/');
+            } else {
+                FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
                 $this->error404Controller();
             }
         }
@@ -97,25 +98,27 @@ class ControllerManager extends FwkManager {
      */
     private function getBaseParameters() {
 
-        if(!isset($_SERVER["HTTP_REFERER"])) $serverReferer = SITE_URL;
-        else $serverReferer = $_SERVER["HTTP_REFERER"];
-        
+        if (!isset($_SERVER["HTTP_REFERER"]))
+            $serverReferer = SITE_URL;
+        else
+            $serverReferer = $_SERVER["HTTP_REFERER"];
+
         $parameters = array(
             'tempsChargement' => number_format($this->getLoadingTime(), 3),
-            'siteUri' => 'http://'.$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"],
+            'siteUri' => 'http://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"],
             'sitePrevUri' => $serverReferer
         );
-        
+
         unset($serverReferer);
 
-        if (isset($_SESSION['admin'])) {
+        if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD) {
             $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
             $parameters = array_merge($parameters, array('admin' => $objAdmin));
         }
 
         return $parameters;
     }
-    
+
     /**
      * Redirection de la page sur une erreur 500
      * Si get_content = 500 alors affichage de la page
@@ -135,7 +138,7 @@ class ControllerManager extends FwkManager {
 
         $this->renderView('views/403.html.twig');
     }
-    
+
     /**
      * Redirection de la page sur une erreur 404
      * Si get_content = 404 alors affichage de la page

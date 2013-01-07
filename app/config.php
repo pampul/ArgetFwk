@@ -19,7 +19,7 @@ define('MICRO_TIME', microtime(TRUE));
 /**
  * Le site comporte une BDD (false pour non)
  */
-define('CONFIG_REQUIRE_BDD', TRUE);
+define('CONFIG_REQUIRE_BDD', FALSE);
 
 /**
  * Le site est en mode intégration seule (sans utiliser de PHP) : false pour integration
@@ -40,7 +40,7 @@ define('ERROR_SEND_EMAIL', TRUE);
 /**
  * Activation des logs
  */
-define('ERROR_LOGS_ENABLED', TRUE);
+define('ERROR_LOGS_ENABLED', FALSE);
 
 /**
  * Constantes relatives à la societe

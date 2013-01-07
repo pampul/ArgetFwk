@@ -11,7 +11,7 @@ switch(GET_PATTERN){
     /*
      * Laisser le case url-error il permet le traitement de 404
      */
-    case 'mode-pret-a-porter' :
+    case 'default' :
     case 'url-error' :
     case null :
     default :

@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManager;
  * Classe regroupant les fonctions de bases présentes dans tous les filtres
  * @author f.mithieux
  */
-class FilterManager extends FwkManager{
-    
+class FilterManager extends FwkManager {
+
     /**
      * EntityManager permettant les interactions Entity-BDD
      * 
@@ -16,11 +16,11 @@ class FilterManager extends FwkManager{
     protected $em;
 
     public function __construct() {
-        $this->em = FwkLoader::getEntityManager();
+        if (CONFIG_REQUIRE_BDD)
+            $this->em = FwkLoader::getEntityManager();
         $this->execute();
     }
-    
-    
+
 }
 
 ?>
