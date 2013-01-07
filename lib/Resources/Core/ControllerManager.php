@@ -56,12 +56,18 @@ class ControllerManager extends FwkManager {
                     if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
                         $this->renderView('views/' . GET_CONTENT . '.html.twig');
                     } else {
-                        (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI) ? FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/') : FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/'));
+                        if (ERROR_LOGS_ENABLED) {
+                            if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
+                                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
+                            else
+                                FwkLog::add ('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class ($this), 'logs/', 'ErrorDocument/');
+                        }
                         $this->error404Controller();
                     }
                 }
             } else {
-                FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+                if (ERROR_LOGS_ENABLED)
+                    FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
                 $this->error404Controller();
             }
         }

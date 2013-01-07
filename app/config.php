@@ -40,7 +40,7 @@ define('ERROR_SEND_EMAIL', TRUE);
 /**
  * Activation des logs
  */
-define('ERROR_LOGS_ENABLED', FALSE);
+define('ERROR_LOGS_ENABLED', TRUE);
 
 /**
  * Constantes relatives à la societe
@@ -73,7 +73,7 @@ define('ADMIN_PASSWORD', 'admin');
  * "SHA512", "BLOWFISH+" et "MD5" disponibles
  */
 define('PASSWORD_METHOD', 'SHA512');
-define('LOGIN_PROTECT', true);
+define('LOGIN_PROTECT', TRUE);
 
 /**
  * Constantes de recuperation en HTTP
