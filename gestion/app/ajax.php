@@ -39,11 +39,6 @@ if (isset($_POST['method']) && isset($_POST['controller'])) {
             require_once PATH_TO_BACKOFFICE_FILES . 'controllers/ajax/DefaultAjax.php';
             new DefaultAjax();
             break;
-        
-        case 'astrid' :
-            require_once PATH_TO_BACKOFFICE_FILES . 'controllers/ajax/AstridAjax.php';
-            new AstridAjax();
-            break;
 
         default :
             require_once PATH_TO_BACKOFFICE_FILES . 'controllers/DefaultController.php';

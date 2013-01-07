@@ -32,11 +32,6 @@ switch(GET_PATTERN){
         new TestController();
         break;
     
-    case 'astrid' :
-        require_once PATH_TO_BACKOFFICE_FILES.'controllers/AstridController.php';
-        new AstridController();
-        break;
-    
     default :
         require_once PATH_TO_BACKOFFICE_FILES.'controllers/DefaultController.php';
         new DefaultController();
