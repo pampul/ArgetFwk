@@ -1,6 +1,22 @@
 <?php
-
 /*
+ * 2013 ArgetFwk
+ * 
+ * FrameWork MVC en phase de développement et d'amélioration
+ * 
+ * Utilisation des FrameWorks :
+ *  - TwitterBootstrap 2.1
+ *  - Doctrine 2
+ *  - Twig
+ * 
+ * -------------------
+ * 
+ *
+ * @author Florian MITHIEUX <florian.mithieux@gmail.com>
+ * 
+ * 
+ * 
+ * --------------------------------------------------------------------------------
  * CONFIGURATION DE VOTRE SITE INTERNET
  * --------------------------------------------------------------------------------
  */
@@ -22,7 +38,7 @@ define('MICRO_TIME', microtime(TRUE));
 define('CONFIG_REQUIRE_BDD', FALSE);
 
 /**
- * Le site est en mode intégration seule (sans utiliser de PHP) : false pour integration
+ * Le site est en mode intégration seule en Front Office (sans utiliser de PHP) : false pour integration
  */
 define('CONFIG_DEV_PHP', FALSE);
 
@@ -71,6 +87,7 @@ define('ADMIN_PASSWORD', 'admin');
 /**
  * Méthode de cryptage
  * "SHA512", "BLOWFISH+" et "MD5" disponibles
+ * Login Protect = Empêcher les brute force
  */
 define('PASSWORD_METHOD', 'SHA512');
 define('LOGIN_PROTECT', TRUE);

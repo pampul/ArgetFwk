@@ -13,7 +13,6 @@
  * 
  *
  * @author Florian MITHIEUX <florian.mithieux@gmail.com>
- * @version  0.51a
  */
 session_start();
 require 'app/autoload.php';

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * 2012 ArgetFwk
+ * 2013 ArgetFwk
  * 
  * FrameWork MVC en phase de développement et d'amélioration
  * 
@@ -14,7 +14,6 @@
  * 
  *
  * @author Florian MITHIEUX <florian.mithieux@gmail.com>
- * @version  0.51a
  */
 session_start();
 require_once 'app/autoload.php';
