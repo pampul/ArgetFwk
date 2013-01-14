@@ -20,6 +20,25 @@ function ArgetFwkUtilsLib()
         return str.replace(/^\s+/g, '').replace(/\s+$/g, '');
     }
 
+    this.getBytesWithUnit = function(bytes) {
+        if (isNaN(bytes)) {
+            return;
+        }
+        var units = [' o', ' ko', ' mo', ' go', ' to', ' po', ' eo', ' zo', ' yo'];
+        var amountOf2s = Math.floor(Math.log(+bytes) / Math.log(2));
+        if (amountOf2s < 1) {
+            amountOf2s = 0;
+        }
+        var i = Math.floor(amountOf2s / 10);
+        bytes = +bytes / Math.pow(2, 10 * i);
+
+        // Rounds to 3 decimals places.
+        if (bytes.toString().length > bytes.toFixed(3).toString().length) {
+            bytes = bytes.toFixed(2);
+        }
+        return bytes + units[i];
+    };
+
     this.modifyInfoInactiv = function() {
         $('.value').each(function() {
             if ($(this).attr('data-modify-type') !== 'password') {
@@ -182,7 +201,7 @@ function ArgetFwkUtilsLib()
     }
 
     this.refreshContent = function(elem, arrayParams) {
-
+        
         if (arrayParams["csv"]) {
             var paramCsv = 'true';
             var paramIds = arrayParams["ids"];
@@ -225,13 +244,21 @@ function ArgetFwkUtilsLib()
             dataProperty = '';
             orderBy = $('#last-tr').attr('data-order-by');
             orderDir = $('#last-tr').attr('data-order-dir');
+            $('.sortSelect').each(function() {
+                $(this).val('');
+            });
         }
+
+        var selectsVals = '';
+        $('.sortSelect').each(function() {
+            selectsVals += 'class==' + $(this).attr('data-class') + '__method==' + $(this).attr('data-method') + '__value==' + $(this).val() + '||';
+        });
 
 
         var objAjax = new AjaxLib();
         objAjax.setController('table');
         objAjax.setMethod('refreshBody');
-        objAjax.setDataString('&class=' + className + '&sort=' + orderBy + '&order=' + orderDir + '&columns=' + columns + '&pagination=' + pagination + '&search=' + search + '&maxResult=' + maxResults + '&nbrSaved=' + nbrSaved + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + dataProperty + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds);
+        objAjax.setDataString('&class=' + className + '&sort=' + orderBy + '&order=' + orderDir + '&columns=' + columns + '&pagination=' + pagination + '&search=' + search + '&maxResult=' + maxResults + '&nbrSaved=' + nbrSaved + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + dataProperty + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds + '&selectsVals=' + selectsVals);
         if (!arrayParams["csv"]) {
             objAjax.setDataType("xml");
             objAjax.setAsyncValue(true);
@@ -290,7 +317,7 @@ function ArgetFwkUtilsLib()
     }
 
 
-    this.checkInputs = function(elem, expreg, type, ajax, repository, method) {
+    this.checkInputs = function(elem, expreg, type, ajax, repository, method, datalength) {
 
         if (ajax !== '' && repository !== '' && method !== '') {
             var objAjax = new AjaxLib();
@@ -360,7 +387,9 @@ function ArgetFwkUtilsLib()
                 return false;
 
         } else {
-            var reg = new RegExp('^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'" ]{1,}$', 'i');
+            if (datalength === '')
+                datalength = '1,';
+            var reg = new RegExp('^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!-?:" ]{' + datalength + '}$', 'i');
             if (reg.test(elem.val()))
                 return true;
             else
@@ -369,17 +398,17 @@ function ArgetFwkUtilsLib()
 
     }
 
-    this.refreshReponses = function(idTicket){
-        
+    this.refreshReponses = function(idTicket) {
+
         var objAjax = new AjaxLib();
         objAjax.setController('dashboard');
         objAjax.setMethod('refreshReponses');
         objAjax.setAsyncValue(false);
         objAjax.setDataString('&idTicket=' + idTicket);
         var result = objAjax.execute();
-        
+
         $('#listing-rep').html(result);
-        
+
     }
 
     this.nl2br = function(str) {

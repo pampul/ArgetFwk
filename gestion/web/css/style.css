@@ -499,3 +499,55 @@ textarea{
     background: #ffc;
     padding: 10px;
 }
+
+
+.imageDisplay{
+    display: block;
+    max-width: 100px;
+    max-height: 140px;
+    min-height: 80px;
+    min-width: 50px;
+    border: 1px dashed gray;
+}
+
+.imageDisplay img{
+    max-width: 100px;
+    max-height: 140px;
+    min-height: 80px;
+    min-width: 50px;
+}
+
+.visuelListing{
+    text-align: center;
+    border: 1px dashed gray;
+    height: 140px;
+}
+
+.visuelListing img{
+    max-width: 120px;
+    max-height: 140px;
+}
+
+.visuelListing .removeVisuel{
+    display: none;
+    position: relative;
+    bottom: 22px;
+    width: 145px;
+    height: 22px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+.visuelListing:hover .removeVisuel{
+    display: block;
+    position: relative;
+    bottom: 22px;
+    width: 145px;
+    height: 22px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-weight: bold;
+    z-index: 1000;
+}

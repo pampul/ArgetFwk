@@ -117,6 +117,18 @@ class Marque extends \Entities\Marque implements \Doctrine\ORM\Proxy\Proxy
         return parent::setMagasin($magasin);
     }
 
+    public function getTailleType()
+    {
+        $this->__load();
+        return parent::getTailleType();
+    }
+
+    public function setTailleType($taille)
+    {
+        $this->__load();
+        return parent::setTailleType($taille);
+    }
+
     public function __toString()
     {
         $this->__load();
@@ -126,7 +138,7 @@ class Marque extends \Entities\Marque implements \Doctrine\ORM\Proxy\Proxy
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'nom', 'code', 'logo', 'url', 'magasin');
+        return array('__isInitialized__', 'id', 'nom', 'code', 'logo', 'url', 'magasin', 'tailleType');
     }
 
     public function __clone()

@@ -105,7 +105,7 @@ class FwkUpload extends FwkManager {
 
         if (!strlen($this->file['name']))
             return array('error' => 'Fichier vide.');
-
+        
         $arrayFileName = explode(".", $this->file['name']);
         $this->fileExt = array_pop($arrayFileName);
         $this->fileName = implode('.', $arrayFileName);
@@ -132,7 +132,7 @@ class FwkUpload extends FwkManager {
                     return array('error' => 'Chemin incorrect. (' . $this->pathUploads . ')');
             }
             else
-                return array('error' => 'Fichier trop volumineux. (' . $this->fileSize . 'ko)');
+                return array('error' => 'Fichier trop volumineux. (' . $this->fileSize . 'o)');
         }
         else
             return array('error' => 'Format ".' . $this->fileExt . '" invalide.');

@@ -10,34 +10,82 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="{{ constant('SITE_URL') }}"><i class="icon-home"></i> Accueil</a></li>
-                </ul>
-
-                <ul class="nav pull-right">
-
                     <li class="dropdown">
-
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-user"></i> Admin  <b class=caret></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Gestion produits  <b class=caret></b></a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <li><a href="dashboard/infos">Mes informations</a></li>
-                            <li><a href="dashboard/stats">Statistiques</a></li>
-                            <li><a href="dashboard/tickets">Tickets / Erreurs</a></li>
-                            {% if admin.privilege.level > 8 %}
-                                <li class=divider></li>
-                                <li><a href="private/admins">Gérer les administrateurs</a></li>
-                                <li><a href="dashboard/privileges">Gérer les privilèges</a></li>
-                                <li><a href="dashboard/logs">Consulter les logs</a></li>
-                                {% if admin.privilege.level > 9 %}
-                                    <li><a href="test/test-page">Crash Test Page</a></li>
-                                {% endif %}
+                            <li><a href="astrid/univers">Univers</a></li>
+                            <li><a href="astrid/marque">Marques (fournisseurs)</a></li>
+                            <li><a href="astrid/magasin">Magasins</a></li>
+                            <li><a href="astrid/focus">Focus</a></li>
+                            {% if admin.privilege.level > 9 %}
+                                <li><a href="astrid/taille-type">Types de tailles</a></li>
+                                <li><a href="astrid/taille">Tailles</a></li>
+                                <li><a href="astrid/couleur">Couleurs</a></li>
                             {% endif %}
-                                    <li class=divider></li>
-                                    <li><a href="auth/logout">Se déconnecter</a></li>
+                                    <li><a href="astrid/pack-article">Pack d'Articles</a></li>
+                                    <li><a href="astrid/articles">Articles</a></li>
                                 </ul>
 
                             </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Gestion clients  <b class=caret></b></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="astrid/clients">Clients</a></li>
+                                    <li><a href="astrid/newsletter">Inscrits Newsletter</a></li>
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Gestion annonces  <b class=caret></b></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="astrid/type-annonce">Types d'annonces</a></li>
+                                    <li><a href="astrid/annonce">Annonces</a></li>
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> Divers  <b class=caret></b></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="astrid/livre-or">Livre d'or</a></li>
+                                    <li><a href="astrid/boutique-mois">Boutique du mois</a></li>
+                                    <li><a href="astrid/fiche-conseil">Fiches conseils</a></li>
+                                </ul>
+
+                            </li>
+                            {% if admin.privilege.level > 9 %}
+                                <li><a href="astrid/pre-commande">Pré-Commandes</a></li>
+                            {% else %}
+                                <li><a href="astrid/pre-commande">Pré-Commandes</a></li>
+                            {% endif %}
 
                         </ul>
-                    </div><!--/.nav-collapse -->
-                </div>
-            </div>
-        </div>
+
+                        <ul class="nav pull-right">
+
+                            <li class="dropdown">
+
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-user"></i> Admin  <b class=caret></b></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="dashboard/infos">Mes informations</a></li>
+                                    <li><a href="dashboard/stats">Statistiques</a></li>
+                                    <li><a href="dashboard/tickets">Tickets / Erreurs</a></li>
+                            {% if admin.privilege.level > 8 %}
+                                        <li class=divider></li>
+                                        <li><a href="private/admins">Gérer les administrateurs</a></li>
+                                        <li><a href="dashboard/privileges">Gérer les privilèges</a></li>
+                                        <li><a href="dashboard/logs">Consulter les logs</a></li>
+                                {% if admin.privilege.level > 9 %}
+                                            <li><a href="test/test-page">Crash Test Page</a></li>
+                                {% endif %}
+                            {% endif %}
+                                                <li class=divider></li>
+                                                <li><a href="auth/logout">Se déconnecter</a></li>
+                                            </ul>
+
+                                        </li>
+
+                                    </ul>
+                                </div><!--/.nav-collapse -->
+                            </div>
+                        </div>
+                    </div>

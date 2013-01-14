@@ -134,14 +134,14 @@ class FwkTable extends FwkManager {
      * @var EntityManager $em 
      */
     private $em;
-    
+
     /**
      * Array regroupant l'ensemble des classes utiles au Fwk
      * 
      * @var array $fwkClasses
      */
     private $fwkClasses;
-    
+
     /**
      * Nom de la classe nécessaire
      * 
@@ -186,13 +186,16 @@ class FwkTable extends FwkManager {
      */
     public function build() {
 
-        
+
         $qb = $this->em->createQueryBuilder();
         $qb->select('count(c)')
                 ->from((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($this->className), 'c');
 
         $totalRows = $qb->getQuery()->getSingleScalarResult();
         $this->tcontent = '';
+
+        if (isset($this->actionButtons['SortSup']))
+            $this->tcontent .= $this->getSortSupButtons();
 
         if ($this->tsearch)
             $this->tcontent .= $this->tsearchcontent;
@@ -361,12 +364,12 @@ class FwkTable extends FwkManager {
                         ' . $objUnique->$oneMethod() . '
                     </td>';
                     }else {
-                        
+
                         $getter = 'get' . ucfirst($oneMethod['getter']);
                         if (strtolower($class) == strtolower($oneMethod['class']))
                             $this->tbody .= $this->em->getRepository((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
-                        else{
-                            if(is_object($objUnique->$getter()))
+                        else {
+                            if (is_object($objUnique->$getter()))
                                 $this->tbody .= $this->em->getRepository((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
                             else
                                 $this->tbody .= '<td>-</td>';
@@ -438,7 +441,7 @@ class FwkTable extends FwkManager {
                         </a>
                         ';
                     break;
-                    
+
                 case 'view' :
                     if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
                         $ajaxEdit = 'addEditItem';
@@ -508,17 +511,17 @@ class FwkTable extends FwkManager {
                     <i class="hand icon-trash"></i>
                 </a>
                 ';
-        
+
         if ($this->exportCsv)
             $html .= $this->buildExportCsv();
-        
+
         $html .= '
             </div>
             <div id="effacer" class="sort hand" title="Effacer les critères">
                 <i class="icon-chevron-right" ></i> Effacer les critères</i>
             </div>
             <br/>';
-        
+
         return $html;
     }
 
@@ -533,7 +536,8 @@ class FwkTable extends FwkManager {
                 $ajaxEdit = 'true';
             else
                 $ajaxEdit = 'false';
-            $value .= $oneButton . '##link=>' . $arrayVals['link'] . '___ajax=>' . $ajaxEdit . '_#_';
+            if ($oneButton != "SortSup")
+                $value .= $oneButton . '##link=>' . $arrayVals['link'] . '___ajax=>' . $ajaxEdit . '_#_';
         }
 
 
@@ -573,7 +577,7 @@ class FwkTable extends FwkManager {
     private function buildExportCsv() {
 
         $html = '
-            <a id="exportCsvRefresh" class="btn btn-small" title="Exporter les données en CSV" href="'.SITE_URL.'">
+            <a id="exportCsvRefresh" class="btn btn-small" title="Exporter les données en CSV" href="' . SITE_URL . '">
                 <i class="export-csv hand"></i>
             </a>';
 
@@ -661,6 +665,31 @@ class FwkTable extends FwkManager {
         $text = utf8_decode($text);
         $text = preg_replace('#(\r\n|\r|\n)#', ' ', $text);
         return $text;
+    }
+
+    private function getSortSupButtons() {
+
+        $html = '
+            <div class="pull-right">
+            ';
+
+        foreach ($this->actionButtons['SortSup'] as $oneActionSup => $arrayVals) {
+
+            $html .= '
+                <select style="width: 150px;" class="sortSelect" id="sortSelect" data-method="' . $arrayVals['classMethod'] . '" data-class="' . $arrayVals['class'] . '" >
+                    <option value="">'.$oneActionSup.'</option>';
+
+            $html .= $this->em->getRepository('Entities\\' . $arrayVals['class'])->$arrayVals['repositoryMethod']();
+
+            $html .= '
+                </select>';
+        }
+
+
+        $html .= '
+            </div>';
+
+        return $html;
     }
 
 }

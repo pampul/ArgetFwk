@@ -98,6 +98,10 @@ $(function() {
         argetFwkUtilsLib.refreshContent($(this), new Array());
     });
 
+    $('.sortSelect').change(function() {
+        argetFwkUtilsLib.refreshContent($(this), new Array());
+    });
+
 
     $('.delete-item').live('click', function(e) {
         e.preventDefault();
@@ -218,6 +222,7 @@ $(function() {
                         var ajax = '';
                         var repo = '';
                         var method = '';
+                        var datalength = '';
                         if ($(this).attr('data-expreg'))
                             expreg = $(this).attr('data-expreg');
                         if ($(this).attr('data-message'))
@@ -230,8 +235,10 @@ $(function() {
                             repo = $(this).attr('data-repo');
                         if ($(this).attr('data-method'))
                             method = $(this).attr('data-method');
+                        if ($(this).attr('data-length'))
+                            datalength = $(this).attr('data-length');
 
-                        if (!argetFwkUtilsLib.checkInputs($(this), expreg, type, ajax, repo, method)) {
+                        if (!argetFwkUtilsLib.checkInputs($(this), expreg, type, ajax, repo, method, datalength)) {
                             argetFwkUtilsLib.messageBox('#messageBox', messageSent, 2000);
                             checked = false;
                         }
@@ -403,23 +410,35 @@ $(function() {
         else
             var dataPerso = 0;
 
+        if ($(this).attr('data-type'))
+            var dataType = $(this).attr('data-type');
+        else
+            var dataType = 'imageUpload';
+
         $("#editAddForm").ajaxForm({
             url: 'app/ajax.php',
-            data: {method: 'imageUpload', controller: 'dashboard', upmaxsize: maxsizeVar, upformat: formatsVar, upfilename: fileNameVar, upfilepath: filePathVar, dataPersoId: dataPerso},
+            data: {method: dataType, controller: 'dashboard', upmaxsize: maxsizeVar, upformat: formatsVar, upfilename: fileNameVar, upfilepath: filePathVar, dataPersoId: dataPerso},
             success: function(data) {
+
                 $('#editAddForm').attr('class', '');
                 if (data.length > 2) {
 
                     elem.html('<img src="' + data + '" style="max-width: 75px; max-height: 75px;"');
                     elem.prev('input').val(data);
+                    $('.ajaxImageUpload').val('');
 
-                } else if(data.length === 1){
+                } else if (data.length === 1) {
                     window.location.reload();
-                }else {
+                } else {
+                    if ($('.ajaxImageUpload').val() !== "")
+                        argetFwkUtilsLib.messageBox('#messageBox', 'Erreur lors de l\'upload. Vérifiez que le format est bien en (png,jpg,jpeg ou gif) et que le fichier ne dépasse pas les ' + argetFwkUtilsLib.getBytesWithUnit(maxsizeVar) + '.', 5000);
                     elem.html('');
+                    $('.ajaxImageUpload').val('');
                 }
             }
         }).submit();
+
+
 
     });
 

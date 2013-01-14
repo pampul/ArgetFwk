@@ -103,6 +103,20 @@ class DefaultAjax extends AjaxManager {
             }
         }
 
+        $arraySelectsVals = explode('||', $selectsVals);
+        array_pop($arraySelectsVals);
+        $actionSups = array();
+        foreach ($arraySelectsVals as $oneActionSup) {
+            $actionSupTmp = array();
+            $arrayActions = explode('__', $oneActionSup);
+            foreach ($arrayActions as $oneAction) {
+                $arrayOneAction = explode('==', $oneAction);
+                $actionSupTmp[$arrayOneAction[0]] = $arrayOneAction[1];
+            }
+
+            if ($actionSupTmp['value'] != '')
+                $actionSups[] = $actionSupTmp;
+        }
 
         $qb = $this->em->createQueryBuilder();
 
@@ -151,14 +165,34 @@ class DefaultAjax extends AjaxManager {
                             ->setFirstResult($start)
                             ->setMaxResults($maxResult);
                 } else {
-                    $qb->select('c')
-                            ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                            ->orderBy('c.' . $sort, strtoupper($order))
-                            ->setFirstResult($start)
-                            ->setMaxResults($maxResult);
+
+                    if (sizeof($actionSups) > 0) {
+
+                        $where = '';
+                        $i = 0;
+                        foreach ($actionSups as $oneActionSup) {
+                            $i++;
+                            if ($i === 1)
+                                $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+                            else
+                                $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+                        }
+
+                        $qb->select('c')
+                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
+                                ->add('where', $where)
+                                ->orderBy('c.' . $sort, strtoupper($order))
+                                ->setFirstResult($start)
+                                ->setMaxResults($maxResult);
+                    } else {
+                        $qb->select('c')
+                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
+                                ->orderBy('c.' . $sort, strtoupper($order))
+                                ->setFirstResult($start)
+                                ->setMaxResults($maxResult);
+                    }
                 }
             } else {
-
                 $arrayMethods = explode('-', $methods);
                 $where = '';
                 $sizeArray = sizeof($arrayMethods);
@@ -172,7 +206,12 @@ class DefaultAjax extends AjaxManager {
                             $where .= ' OR c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
                     }
                 }
+
                 if ($where != '') {
+
+                    foreach ($actionSups as $oneActionSup) {
+                        $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+                    }
 
                     if (strlen($data_property) > 0) {
 
@@ -589,13 +628,37 @@ class DefaultAjax extends AjaxManager {
         if (isset($arrayResult['error'])) {
             FwkLog::add('Erreur durant upload : ' . $arrayResult['error'], PATH_TO_IMPORTANT_FILES . 'logs/' . 'errors');
         } else {
-            if($_POST['dataPersoId'] != 0){
+            if ($_POST['dataPersoId'] != 0) {
                 $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_POST['dataPersoId']);
                 $objAdmin->setAvatar($_POST['upfilepath'] . '/' . $arrayResult['success']);
                 $this->em->persist($objAdmin);
                 $this->em->flush();
                 echo '1';
-            }else
+            }
+            else
+                echo $_POST['upfilepath'] . '/' . $arrayResult['success'];
+        }
+    }
+
+    protected function fileUploadController() {
+
+        $objFwkUploader = new FwkUpload(PATH_TO_BACKOFFICE_FILES . 'web/uploads/' . preg_replace('#/#', '', $_POST['upfilepath']) . '/');
+        $objFwkUploader->setFileType('fichier');
+        $objFwkUploader->setMaxSize($_POST['upmaxsize']);
+        $objFwkUploader->setValidFormats($_POST['upformat']);
+        $arrayResult = $objFwkUploader->upload($_FILES[$_POST['upfilename']]);
+
+        if (isset($arrayResult['error'])) {
+            FwkLog::add('Erreur durant upload : ' . $arrayResult['error'], PATH_TO_IMPORTANT_FILES . 'logs/' . 'errors');
+        } else {
+            if ($_POST['dataPersoId'] != 0) {
+                $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_POST['dataPersoId']);
+                $objAdmin->setAvatar($_POST['upfilepath'] . '/' . $arrayResult['success']);
+                $this->em->persist($objAdmin);
+                $this->em->flush();
+                echo '1';
+            }
+            else
                 echo $_POST['upfilepath'] . '/' . $arrayResult['success'];
         }
     }
