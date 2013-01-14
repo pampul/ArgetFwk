@@ -29,7 +29,7 @@ if (isset($_POST['method']) && isset($_POST['controller'])) {
     switch (GET_CONTROLLER) {
 
         default :
-            require_once PATH_TO_BACKOFFICE_FILES . 'controllers/DefaultController.php';
+            require_once PATH_TO_IMPORTANT_FILES . 'controllers/DefaultController.php';
             new DefaultController();
             break;
     }

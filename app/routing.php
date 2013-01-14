@@ -15,7 +15,7 @@ switch(GET_PATTERN){
     case 'url-error' :
     case null :
     default :
-        require_once PATH_TO_BACKOFFICE_FILES.'controllers/DefaultController.php';
+        require_once PATH_TO_IMPORTANT_FILES.'controllers/DefaultController.php';
         new DefaultController();
         break;
     
