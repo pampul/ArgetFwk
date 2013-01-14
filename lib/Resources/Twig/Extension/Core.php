@@ -169,7 +169,7 @@ class Twig_Extension_Core extends Twig_Extension
             $filters['lower'] = new Twig_Filter_Function('twig_lower_filter', array('needs_environment' => true));
         }
 
-        return $filters;
+        return TwigCustomFilters::getCustomFilters($filters);
     }
 
     /**

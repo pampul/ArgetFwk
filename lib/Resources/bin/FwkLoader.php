@@ -200,6 +200,9 @@ class FwkLoader {
 
         // Classe d''upload de fichiers
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/FwkUpload.php';
+        
+        // Classe d'ajout de fichiers Twig
+        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/TwigCustomFilters.php';
     }
 
 }
