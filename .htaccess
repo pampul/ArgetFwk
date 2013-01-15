@@ -104,7 +104,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([a-z-]+) app.php?pattern=$1&content=$2&value=$3 [L]
+RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([a-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+) app.php?pattern=$1&content=$2 [L]
