@@ -690,6 +690,50 @@ class FwkUtils {
         return $fileName;
     }
 
+    /**
+     * Récupère la première image d'un texte
+     * @param string $texte
+     * @return string
+     */
+    public static function getPictureFromText($texte) {
+
+        if (preg_match("#<img(.*?)>#s", stripslashes($texte), $matches)) {
+            preg_match('#src="((.*?)")#', $matches[0], $resultat);
+            if ($resultat[0] == null) {
+                preg_match("#src='((.*?)')#", $matches[0], $resultat);
+                if (!preg_match("#src='/gestion/#", $resultat[0])) {
+                    $newSRC = str_replace("src='", "src='gestion/", $resultat[0]);
+                } else {
+                    $newSRC = $resultat[0];
+                }
+            } else {
+                if (!preg_match('#src="/gestion/#', $resultat[0])) {
+                    $newSRC = str_replace('src="', 'src="gestion/', $resultat[0]);
+                } else {
+                    $newSRC = $resultat[0];
+                }
+            }
+        } else {
+            $newSRC = null;
+        }
+
+        if (isset($newSRC) && FwkUtils::checkhttp($newSRC))
+            return $resultat[0];
+        elseif (isset($newSRC))
+            return $newSRC;
+        else
+            return null;
+    }
+
+    public static function checkhttp($lien) {
+
+        if (!preg_match("#http://#", $lien)) {
+            return "http://" . $lien;
+        } else {
+            return $lien;
+        }
+    }
+
 }
 
 ?>
