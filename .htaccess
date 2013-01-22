@@ -98,14 +98,15 @@ RewriteRule ^apps/([a-z]+)/([a-zA-Z0-9-_]+) app/secured/SecuredLauncher.php?path
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
+RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
+RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+)/([a-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
+RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-a-z0-9]+)/([a-z0-9\-_]+) app.php?pattern=$1&content=$2 [L]
+RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?pattern=$1&content=$2 [L]
+
 
