@@ -171,6 +171,14 @@ class DefaultController extends ControllerManager {
         else
             header('Location: ' . SITE_URL . 'dashboard/tickets');
     }
+    
+    
+    protected function configController(){
+        
+        $this->renderView('views/config.html.twig', array(
+                ));
+        
+    }
 
 }
 
