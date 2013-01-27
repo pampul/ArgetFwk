@@ -18,22 +18,22 @@ class FwkLoader {
      */
     public static function getEntityManager() {
 
-        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Doctrine/Doctrine/Common/ClassLoader.php';
-        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Doctrine/Extensions/TablePrefix.php';
+        require_once __DIR__ . '/../Doctrine/Doctrine/Common/ClassLoader.php';
+        require_once __DIR__ . '/../Doctrine/Extensions/TablePrefix.php';
 
-        $doctrineClassLoader = new ClassLoader('Doctrine', PATH_TO_IMPORTANT_FILES . 'lib/Resources/Doctrine');
+        $doctrineClassLoader = new ClassLoader('Doctrine', __DIR__ . '/../Doctrine');
         $doctrineClassLoader->register();
-        $fwkEntitiesClassLoader = new ClassLoader('Resources\Entities', PATH_TO_IMPORTANT_FILES . 'lib');
+        $fwkEntitiesClassLoader = new ClassLoader('Resources\Entities', __DIR__ . '/../../../lib');
         $fwkEntitiesClassLoader->register();
-        $entitiesClassLoader = new ClassLoader('Entities', PATH_TO_IMPORTANT_FILES . 'lib');
+        $entitiesClassLoader = new ClassLoader('Entities', __DIR__ . '/../../../lib');
         $entitiesClassLoader->register();
 
         $config = new Configuration;
         //$cache = new ApcCache;
         //$config->setMetadataCacheImpl($cache);
-        $driverImpl = $config->newDefaultAnnotationDriver(array(PATH_TO_IMPORTANT_FILES . 'lib/Entities', PATH_TO_IMPORTANT_FILES . 'lib/Resources/Entities'));
+        $driverImpl = $config->newDefaultAnnotationDriver(array(__DIR__ . '/../../../lib/Entities', __DIR__ . '/../../../lib/Resources/Entities'));
         $config->setMetadataDriverImpl($driverImpl);
-        $config->setProxyDir(PATH_TO_IMPORTANT_FILES . 'lib/Resources/Doctrine/Doctrine/Proxies');
+        $config->setProxyDir(__DIR__ . '/../Doctrine/Doctrine/Proxies');
         $config->setProxyNamespace('Proxies');
         //$config->setQueryCacheImpl($cache);
 
@@ -155,6 +155,9 @@ class FwkLoader {
 
         // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/FwkCustom.php';
+        
+        // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
+        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/PaginationBuilder.php';
 
 
         /*
@@ -201,7 +204,7 @@ class FwkLoader {
         // Classe d''upload de fichiers
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/FwkUpload.php';
         
-        // Classe d'ajout de fichiers Twig
+        // Gestion globale du framework
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/TwigCustomFilters.php';
     }
 
