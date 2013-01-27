@@ -94,14 +94,16 @@ class PaginationBuilder {
         $this->prevPage = $this->currentPage - 1;
         $this->nextPage = $this->currentPage + 1;
 
+        if ($this->nbrPages > 1) {
 
-        $str .= $this->getPreviousPage();
+            $str .= $this->getPreviousPage();
 
-        $str .= $this->getBodyPagination();
+            $str .= $this->getBodyPagination();
 
-        $str .= $this->getNextPage();
+            $str .= $this->getNextPage();
 
-        $str .= $this->getTotalRowsHtml();
+            $str .= $this->getTotalRowsHtml();
+        }
 
         return $str;
     }
@@ -154,8 +156,7 @@ class PaginationBuilder {
     }
 
     private function getTotalRowsHtml() {
-        if ($this->nbrPages > 1)
-            return '
+        return '
                 <i>&nbsp;&nbsp;&nbsp; (Total: ' . $this->totalRows . ') </i>';
     }
 
