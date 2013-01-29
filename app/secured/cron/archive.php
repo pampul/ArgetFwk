@@ -124,7 +124,7 @@ class cron extends SecuredClass {
                 if ($month != $matches[2]) {
                     FwkUtils::getDir($arrayFile['path'], '_ARCHIVES/' . $matches[1] . '/' . $matches[2] . '_' . utf8_decode(DateUtils::getNumMonthToFrenchLetter($matches[2])) . '/');
                     copy($arrayFile['complete'], $arrayFile['path'] . '_ARCHIVES' . '/' . $matches[1] . '/' . $matches[2] . '_' . utf8_decode(DateUtils::getNumMonthToFrenchLetter($matches[2])) . '/' . $arrayFile['simple']);
-                    $message = 'Copying ' . $arrayFile['complete'] . ' to ' . $arrayFile['path'] . '_ARCHIVES' . DIRECTORY_SEPARATOR . $matches[1] . DIRECTORY_SEPARATOR . $matches[2] . '_' . utf8_decode(DateUtils::getNumMonthToFrenchLetter($matches[2])) . DIRECTORY_SEPARATOR . $arrayFile['simple'];
+                    $message = 'Copying ' . $arrayFile['complete'] . ' to ' . $arrayFile['path'] . '_ARCHIVES' . DIRECTORY_SEPARATOR . $matches[1] . DIRECTORY_SEPARATOR . $matches[2] . '_' . DateUtils::getNumMonthToFrenchLetter($matches[2]) . DIRECTORY_SEPARATOR . $arrayFile['simple'];
                     unlink($arrayFile['complete']);
                 }else
                     $message = 'Same month.';
