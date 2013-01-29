@@ -158,6 +158,9 @@ class FwkLoader {
         
         // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/PaginationBuilder.php';
+        
+        // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
+        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/ImageResizer.php';
 
 
         /*

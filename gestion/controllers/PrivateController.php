@@ -28,6 +28,15 @@ class PrivateController extends ControllerManager {
             'tableFwk' => $objFwkTable
         ));
     }
+    
+    /**
+     * Affichage du PHP info
+     */
+    protected function phpinfoController(){
+        
+        phpinfo();
+        
+    }
 
     
 }

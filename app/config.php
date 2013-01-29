@@ -48,6 +48,11 @@ define('CONFIG_DEV_PHP', FALSE);
  */
 define('TWIG_CACHE_PATH', FALSE);
 
+/*
+ * Utilisation du cache de ImageResizer
+ */
+define('IMAGE_RESIZER_CACHE', FALSE);
+
 /**
  * Envoi d'email si erreur en dev/pre-prod
  */
