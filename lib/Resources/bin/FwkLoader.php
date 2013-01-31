@@ -43,6 +43,7 @@ class FwkLoader {
         $evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
         $dbParams = array(
+            'host' => PDO_HOST,
             'driver' => PDO_DRIVER,
             'port' => PDO_PORT,
             'dbname' => PDO_DATABASE_NAME,
