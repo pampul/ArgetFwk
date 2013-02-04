@@ -749,7 +749,7 @@ class FwkUtils {
      * @return boolean
      */
     public static function isValidTel($tel) {
-        return preg_match("^0[0-9]{9,9}$", $tel);
+        return preg_match("#^0[0-9]{9,9}$#", $tel);
     }
 
     /**
@@ -758,7 +758,7 @@ class FwkUtils {
      * @return boolean
      */
     public static function isValidName($name) {
-        return preg_match("^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü- ]{2,}$", $name);
+        return preg_match("#^[-a-zA-Z0-9àâäçèéêëìíîïòóôùúûü ]{2,}$#", $name);
     }
 
     /**
@@ -769,7 +769,7 @@ class FwkUtils {
      * @return boolean
      */
     public static function isValidString($str, $min = 1, $max = '') {
-        return preg_match('^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!-?:" ]{' . $min . ',' . $max . '}$', $str);
+        return preg_match('#^[-a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!?:" ]{' . $min . ',' . $max . '}$#', $str);
     }
     
     /**
@@ -778,7 +778,7 @@ class FwkUtils {
      * @return boolean
      */
     public static function isValidPassword($password){
-        return preg_match("^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü&@-]{5,15}$", $password);
+        return preg_match("#^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü&@-]{5,15}$#", $password);
     }
 
 }
