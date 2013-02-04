@@ -148,10 +148,11 @@ class DefaultAjax extends AjaxManager {
             } else {
 
                 $qb->add('where', $where)
-                        ->orderBy('c.' . $sort, strtoupper($order))
-                        ->setFirstResult($start)
-                        ->setMaxResults($maxResult);
+                        ->orderBy('c.' . $sort, strtoupper($order));
             }
+            
+            $qb->setFirstResult($start)
+                    ->setMaxResults($maxResult);
         } else {
             if ($search == '') {
                 if (strlen($data_property) > 0) {
