@@ -749,7 +749,7 @@ class FwkUtils {
      * @return boolean
      */
     public static function isValidTel($tel) {
-        return preg_match("^0[0-9]{9,9}$", $name);
+        return preg_match("^0[0-9]{9,9}$", $tel);
     }
 
     /**
