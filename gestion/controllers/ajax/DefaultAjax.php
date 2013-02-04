@@ -119,6 +119,8 @@ class DefaultAjax extends AjaxManager {
         }
 
         $qb = $this->em->createQueryBuilder();
+        $qb->select('c')
+                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
 
         if (isset($paramIds) && preg_match('#,#', $paramIds)) {
 
@@ -139,17 +141,13 @@ class DefaultAjax extends AjaxManager {
             }
 
             if (strlen($data_property) > 0) {
+                $qb->join('c.' . $sort, 'q');
 
-                $qb->select('c')
-                        ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                        ->join('c.' . $sort, 'q')
-                        ->add('where', $where)
+                $qb->add('where', $where)
                         ->orderBy('q.' . $data_property, strtoupper($order));
             } else {
 
-                $qb->select('c')
-                        ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                        ->add('where', $where)
+                $qb->add('where', $where)
                         ->orderBy('c.' . $sort, strtoupper($order))
                         ->setFirstResult($start)
                         ->setMaxResults($maxResult);
@@ -158,10 +156,24 @@ class DefaultAjax extends AjaxManager {
             if ($search == '') {
                 if (strlen($data_property) > 0) {
 
-                    $qb->select('c')
-                            ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                            ->join('c.' . $sort, 'q')
-                            ->orderBy('q.' . $data_property, strtoupper($order))
+                    $where = '';
+                    if (sizeof($actionSups) > 0) {
+                        $i = 0;
+                        foreach ($actionSups as $oneActionSup) {
+                            $i++;
+                            if ($i === 1)
+                                $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+                            else
+                                $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+                        }
+                    }
+                    
+                    $qb->join('c.' . $sort, 'q');
+                    
+                    if ($where != '')
+                        $qb->add('where', $where);
+                    
+                    $qb->orderBy('q.' . $data_property, strtoupper($order))
                             ->setFirstResult($start)
                             ->setMaxResults($maxResult);
                 } else {
@@ -178,19 +190,11 @@ class DefaultAjax extends AjaxManager {
                                 $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
                         }
 
-                        $qb->select('c')
-                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                                ->add('where', $where)
-                                ->orderBy('c.' . $sort, strtoupper($order))
-                                ->setFirstResult($start)
-                                ->setMaxResults($maxResult);
-                    } else {
-                        $qb->select('c')
-                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                                ->orderBy('c.' . $sort, strtoupper($order))
-                                ->setFirstResult($start)
-                                ->setMaxResults($maxResult);
+                        $qb->add('where', $where);
                     }
+                    $qb->orderBy('c.' . $sort, strtoupper($order))
+                            ->setFirstResult($start)
+                            ->setMaxResults($maxResult);
                 }
             } else {
                 $arrayMethods = explode('-', $methods);
@@ -215,22 +219,17 @@ class DefaultAjax extends AjaxManager {
 
                     if (strlen($data_property) > 0) {
 
-                        $qb->select('c')
-                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                                ->join('c.' . $sort, 'q')
-                                ->add('where', $where)
-                                ->orderBy('q.' . $data_property, strtoupper($order))
-                                ->setFirstResult($start)
-                                ->setMaxResults($maxResult);
+                        $qb->join('c.' . $sort, 'q');
+
+                        $qb->add('where', $where)
+                                ->orderBy('q.' . $data_property, strtoupper($order));
                     } else {
 
-                        $qb->select('c')
-                                ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
-                                ->add('where', $where)
-                                ->orderBy('c.' . $sort, strtoupper($order))
-                                ->setFirstResult($start)
-                                ->setMaxResults($maxResult);
+                        $qb->add('where', $where)
+                                ->orderBy('c.' . $sort, strtoupper($order));
                     }
+                    $qb->setFirstResult($start)
+                            ->setMaxResults($maxResult);
                 }
             }
         }
