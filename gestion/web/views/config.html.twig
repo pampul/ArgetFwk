@@ -82,21 +82,22 @@
 
                     </div>
 
+
                     <div class="row">
 
                         <div class="span5">
 
-                            Le site utilise le cache de ImageResizer :
+                            Les Logs sont activés :
 
                         </div>
 
                         <div class="span5">
 
                             <strong>
-                    {% if constant('IMAGE_RESIZER_CACHE') == false %}
-                                    Non
-                    {% else %}
+                    {% if constant('ERROR_LOGS_ENABLED') %}
                                     Oui
+                    {% else %}
+                                    Non
                     {% endif %}
                                 </strong>
 
@@ -104,18 +105,19 @@
 
                         </div>
 
+
                         <div class="row">
 
                             <div class="span5">
 
-                                Les Logs sont activés :
+                                Envoi d'email lors d'une erreur en prod/pre-prod :
 
                             </div>
 
                             <div class="span5">
 
                                 <strong>
-                    {% if constant('ERROR_LOGS_ENABLED') %}
+                    {% if constant('ERROR_SEND_EMAIL') %}
                                         Oui
                     {% else %}
                                         Non
@@ -126,23 +128,18 @@
 
                             </div>
 
-
                             <div class="row">
 
                                 <div class="span5">
 
-                                    Envoi d'email lors d'une erreur en prod/pre-prod :
+                                    Méthode de cryptage des mots de passe :
 
                                 </div>
 
                                 <div class="span5">
 
                                     <strong>
-                    {% if constant('ERROR_SEND_EMAIL') %}
-                                            Oui
-                    {% else %}
-                                            Non
-                    {% endif %}
+                    {{ constant('PASSWORD_METHOD') }}
                                         </strong>
 
                                     </div>
@@ -153,134 +150,134 @@
 
                                     <div class="span5">
 
-                                        Méthode de cryptage des mots de passe :
+                                        Protection contre le BruteForce :
 
                                     </div>
 
                                     <div class="span5">
 
                                         <strong>
-                    {{ constant('PASSWORD_METHOD') }}
+                    {% if constant('LOGIN_PROTECT') %}
+                                                Oui
+                    {% else %}
+                                                Non
+                    {% endif %}
                                             </strong>
 
                                         </div>
 
                                     </div>
 
+
+                                    <hr/>
+
+
                                     <div class="row">
 
                                         <div class="span5">
 
-                                            Protection contre le BruteForce :
+                                            Nom, prénom, email de l'Administrateur du site :
 
                                         </div>
 
                                         <div class="span5">
 
                                             <strong>
-                    {% if constant('LOGIN_PROTECT') %}
-                                                    Oui
-                    {% else %}
-                                                    Non
-                    {% endif %}
+                    {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
                                                 </strong>
 
                                             </div>
 
                                         </div>
 
-
-                                        <hr/>
-
-
                                         <div class="row">
 
-                                            <div class="span5">
+                                            <div class="span5 ">
 
-                                                Nom, prénom, email de l'Administrateur du site :
+                                                Nom, prénom, email du client :
 
                                             </div>
 
                                             <div class="span5">
 
                                                 <strong>
-                    {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
+                    {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
                                                     </strong>
 
                                                 </div>
 
                                             </div>
 
+                                            <hr/>
+
                                             <div class="row">
 
-                                                <div class="span5 ">
+                                                <div class="span5">
 
-                                                    Nom, prénom, email du client :
+                                                    Préfixe de BDD :
 
                                                 </div>
 
                                                 <div class="span5">
 
                                                     <strong>
-                    {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
+                                                        {{ constant('PDO_PREFIX') }}
                                                         </strong>
 
                                                     </div>
 
                                                 </div>
 
-                                                <hr/>
-
                                                 <div class="row">
 
                                                     <div class="span5">
 
-                                                        Préfixe de BDD :
+                                                        Driver utilisé :
 
                                                     </div>
 
                                                     <div class="span5">
 
                                                         <strong>
-                                                        {{ constant('PDO_PREFIX') }}
+                                                        {{ constant('PDO_DRIVER') }}
                                                             </strong>
 
                                                         </div>
 
                                                     </div>
 
+                                                    <br/>
+
                                                     <div class="row">
 
                                                         <div class="span5">
 
-                                                            Driver utilisé :
+                                                            Hôte de la base de donnée :
 
                                                         </div>
 
                                                         <div class="span5">
 
                                                             <strong>
-                                                        {{ constant('PDO_DRIVER') }}
+                                                        {{ constant('PDO_HOST') }}
                                                                 </strong>
 
                                                             </div>
 
                                                         </div>
 
-                                                        <br/>
-
                                                         <div class="row">
 
                                                             <div class="span5">
 
-                                                                Hôte de la base de donnée :
+                                                                Port de la base de donnée :
 
                                                             </div>
 
                                                             <div class="span5">
 
                                                                 <strong>
-                                                        {{ constant('PDO_HOST') }}
+                                                        {{ constant('PDO_PORT') }}
                                                                     </strong>
 
                                                                 </div>
@@ -291,68 +288,50 @@
 
                                                                 <div class="span5">
 
-                                                                    Port de la base de donnée :
+                                                                    Nom de la base de donnée :
 
                                                                 </div>
 
                                                                 <div class="span5">
 
                                                                     <strong>
-                                                        {{ constant('PDO_PORT') }}
+                                                        {{ constant('PDO_DATABASE_NAME') }}
                                                                         </strong>
 
                                                                     </div>
 
                                                                 </div>
 
+
                                                                 <div class="row">
 
                                                                     <div class="span5">
 
-                                                                        Nom de la base de donnée :
+                                                                        Mot de passe de la base de donnée :
 
                                                                     </div>
 
                                                                     <div class="span5">
 
                                                                         <strong>
-                                                        {{ constant('PDO_DATABASE_NAME') }}
-                                                                            </strong>
-
-                                                                        </div>
+                                                                            ******
+                                                                        </strong>
 
                                                                     </div>
-
-
-                                                                    <div class="row">
-
-                                                                        <div class="span5">
-
-                                                                            Mot de passe de la base de donnée :
-
-                                                                        </div>
-
-                                                                        <div class="span5">
-
-                                                                            <strong>
-                                                                                ******
-                                                                            </strong>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <hr/>
-
-                                                                    <br/><br/>
-
-                                                                    <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder à la configuration générale de PHP et du serveur.</a>
 
                                                                 </div>
+
+                                                                <hr/>
+
+                                                                <br/><br/>
+
+                                                                <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder à la configuration générale de PHP et du serveur.</a>
 
                                                             </div>
 
                                                         </div>
+
+                                                    </div>
 
 
 {% endblock %}
@@ -361,15 +340,15 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-                                                        <script>
+                                                    <script>
                         
-                                                            $('#modifierAvatar').click(function(){
-                                                                $('#modifierAvatarModal').modal({
+                                                        $('#modifierAvatar').click(function(){
+                                                            $('#modifierAvatarModal').modal({
                                 
-                                                                });
-                        
-                                                                $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
-                                                                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
                                                             });
-                                                            </script>
+                        
+                                                            $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
+                                                            $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+                                                        });
+                                                        </script>
 {% endblock %}
