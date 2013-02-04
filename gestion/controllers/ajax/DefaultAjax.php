@@ -174,9 +174,7 @@ class DefaultAjax extends AjaxManager {
                     if ($where != '')
                         $qb->add('where', $where);
                     
-                    $qb->orderBy('q.' . $data_property, strtoupper($order))
-                            ->setFirstResult($start)
-                            ->setMaxResults($maxResult);
+                    $qb->orderBy('q.' . $data_property, strtoupper($order));
                 } else {
 
                     if (sizeof($actionSups) > 0) {
@@ -193,10 +191,11 @@ class DefaultAjax extends AjaxManager {
 
                         $qb->add('where', $where);
                     }
-                    $qb->orderBy('c.' . $sort, strtoupper($order))
-                            ->setFirstResult($start)
-                            ->setMaxResults($maxResult);
+                    $qb->orderBy('c.' . $sort, strtoupper($order));
                 }
+                
+                $qb->setFirstResult($start)
+                        ->setMaxResults($maxResult);
             } else {
                 $arrayMethods = explode('-', $methods);
                 $where = '';

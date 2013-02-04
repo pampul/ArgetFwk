@@ -1,6 +1,10 @@
 $(function() {
 
-    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+    if ($.isFunction($('input[type=checkbox],input[type=radio],input[type=file]').uniform))
+    {
+        $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+    }
 
 
     var argetFwkUtilsLib = new ArgetFwkUtilsLib();
