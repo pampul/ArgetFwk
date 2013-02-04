@@ -733,15 +733,52 @@ class FwkUtils {
             return $lien;
         }
     }
-    
-    
+
     /**
      * Vérifie la validité d'une adresse email
      * @param string $email
-     * @return string
+     * @return boolean
      */
     public static function isValidEmail($email) {
         return preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $email);
+    }
+
+    /**
+     * Vérifie la validité d'un téléphone
+     * @param int $tel
+     * @return boolean
+     */
+    public static function isValidTel($tel) {
+        return preg_match("^0[0-9]{9,9}$", $name);
+    }
+
+    /**
+     * Vérifie la validité d'un nom/prénom
+     * @param string $name
+     * @return boolean
+     */
+    public static function isValidName($name) {
+        return preg_match("^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü- ]{2,}$", $name);
+    }
+
+    /**
+     * Teste la validité d'une string
+     * @param string $str
+     * @param int $min
+     * @param int $max
+     * @return boolean
+     */
+    public static function isValidString($str, $min = 1, $max = '') {
+        return preg_match('^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!-?:" ]{' . $min . ',' . $max . '}$', $str);
+    }
+    
+    /**
+     * Teste la validité d'un mot de passe
+     * @param string $password
+     * @return boolean
+     */
+    public static function isValidPassword($password){
+        return preg_match("^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü&@-]{5,15}$", $password);
     }
 
 }
