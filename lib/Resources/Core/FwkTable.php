@@ -261,9 +261,9 @@ class FwkTable extends FwkManager {
         $cols = '';
         foreach (current($this->arrayContentTable) as $key => $value) {
             if (!is_array($value))
-                $cols .= $key . '=>' . $value . '-';
+                $cols .= $key . '=>' . $value . '\o/';
             else
-                $cols .= $key . '=>(' . $value['class'] . ';' . $value['getter'] . ';' . $value['method'] . ';' . $value['sort'] . ')-';
+                $cols .= $key . '=>(' . $value['class'] . ';' . $value['getter'] . ';' . $value['method'] . ';' . $value['sort'] . ')\o/';
         }
 
         $this->thead = '

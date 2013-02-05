@@ -63,11 +63,10 @@ class DefaultAjax extends AjaxManager {
         extract($_POST);
 
         // Récupération des colonnes sous forme de tableau
-        $value = explode('-', $columns);
+        $value = explode('\o/', $columns);
         array_pop($value);
         $arrayBodyCheckTable = array();
         foreach ($value as $oneArrayTable) {
-
             $arrayCheck = explode('=>', $oneArrayTable);
             if (preg_match('#^\(([a-zA-Z0-9]+);([a-zA-Z0-9]+);([a-zA-Z0-9]+);([a-zA-Z0-9]+)\)$#', $arrayCheck[1], $matches)) {
                 $arrayBodyCheckTable[$arrayCheck[0]] = array('class' => $matches[1], 'getter' => $matches[2], 'method' => $matches[3], 'sort' => $matches[4]);
