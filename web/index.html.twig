@@ -26,10 +26,10 @@
         <!-- Ajout des css supplementaires here -->
         {% endblock %}
 
-            </head>
+    </head>
 
 
-            <body>
+    <body>
 
 
                     {% block header %}
@@ -48,8 +48,8 @@
                     {% endblock %}
 
                     </section>
-                
-                <div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
+
+                    <div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
 
                         <div class="modal-header" id=confirmHeader>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -71,21 +71,23 @@
 
                     <div id="messageBox" class="messageBox">
                         <div class="contentBox">
-                            
+
                         </div>
                     </div>
 
-                    <script src="web/lib/js/jquery.js"></script>
-                    <script src="web/lib/js/jquery-ui.js"></script>
-                    <script src="web/lib/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="web/lib/js/uniformjs.js"></script>
-                    <script src="{{ constant('SITE_URL') }}gestion/web/lib/js/AjaxLib.js"></script>
-                    <script src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLib.js"></script>
-                    <script src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkUtilsLib.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery-ui.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/js/bootstrap.min.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/uniformjs.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/AjaxLib.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLib.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkUtilsLib.js"></script>
+                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.form.js"></script>
+                    
             {% block jsinclude %}
 
             {% endblock %}
 
-                                    </body>
+                </body>
 
-                                </html>
+            </html>
