@@ -355,10 +355,16 @@ class FwkTable extends FwkManager {
 
                         $savedMethod = $oneMethod;
                         $oneMethod = 'get' . ucfirst($oneMethod);
-                        if ($savedMethod == 'id')
-                            $classActive = '';
-                        else
+                        if ($savedMethod != 'id' && isset($this->actionButtons['edit']) &&
+                                (
+                                (isset($this->actionButtons['edit']['level']) &&
+                                ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['edit']['level'] || $this->actionButtons['edit']['level'] == 'false')
+                                ) || !isset($this->actionButtons['edit']['level'])
+                                )
+                        )
                             $classActive = 'class="modify-item"';
+                        else
+                            $classActive = '';
 
                         $this->tbody .= '
                     <td ' . $classActive . ' data-edit="false" data-class="' . $class . '" data-method="' . $savedMethod . '" ' . (method_exists($objUnique, 'getId') ? 'data-id="' . $objUnique->getId() . '"' : '') . '">
@@ -512,14 +518,13 @@ class FwkTable extends FwkManager {
         $html = '
             <div id="moreItems">';
 
-        if (isset($this->actionButtons['delete']) && 
+        if (isset($this->actionButtons['delete']) &&
                 (
-                    (isset($this->actionButtons['delete']['level']) && 
-                            ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['delete']['level'] || $this->actionButtons['delete']['level'] == 'false')
-                    ) 
-                    || !isset($this->actionButtons['delete']['level'])
+                (isset($this->actionButtons['delete']['level']) &&
+                ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['delete']['level'] || $this->actionButtons['delete']['level'] == 'false')
+                ) || !isset($this->actionButtons['delete']['level'])
                 )
-            )
+        )
             $html .= '
                 <a id="linkDelete" class="btn btn-small" title="Supprimer les objets sélectionnés">
                     <i class="hand icon-trash"></i>
