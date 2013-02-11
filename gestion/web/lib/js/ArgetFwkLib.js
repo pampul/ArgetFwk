@@ -210,7 +210,7 @@ $(function() {
     });
 
     $('form').live('submit', function(e) {
-
+        
         if ($(this).attr('class') !== 'sendFile') {
 
             e.preventDefault();

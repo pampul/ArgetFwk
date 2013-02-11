@@ -91,7 +91,7 @@ function ArgetFwkUtilsLib()
             var method = target.parent('.value').attr('data-modify-type');
             var idLine = $('#id-user').val();
             var classCalled = $('#class-user').val();
-
+            
             var objAjax = new AjaxLib();
             objAjax.setController('table');
             objAjax.setMethod('modifyLine');
