@@ -132,7 +132,7 @@ class DefaultController extends ControllerManager {
      */
     protected function ticketsController() {
 
-        $arrayActionButtons = array('view' => array('link' => 'dashboard/ticket-details', 'ajax' => false), 'delete' => array('link' => 'dashboard/admins-delete'));
+        $arrayActionButtons = array('view' => array('link' => 'dashboard/ticket-details', 'ajax' => false, 'level' => 8), 'delete' => array('link' => 'dashboard/admins-delete'));
         $arrayContentTable = array('ticket' => array('#' => 'id', 'Admin' => array('class' => 'admin', 'getter' => 'admin', 'method' => 'getAdminName', 'sort' => 'prenom'), 'Type de ticket' => array('class' => 'ticket', 'getter' => 'typeTicket', 'method' => 'getTypeTicket', 'sort' => 'typeTicket'), 'Statut' => array('class' => 'ticket', 'getter' => 'statut', 'method' => 'getStatut', 'sort' => 'statut'), 'Date' => 'date', 'Titre' => 'titre'));
         $arraySearchTable = array('placeholder' => 'Titre/statut ...', 'autocomplete' => true, 'champs' => array('titre', 'statut'));
 
