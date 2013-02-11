@@ -367,10 +367,10 @@ class FwkTable extends FwkManager {
 
                         $getter = 'get' . ucfirst($oneMethod['getter']);
                         if (strtolower($class) == strtolower($oneMethod['class']))
-                            $this->tbody .= $this->em->getRepository((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
+                            $this->tbody .= $this->em->getRepository((in_array(ucfirst($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
                         else {
                             if (is_object($objUnique->$getter()))
-                                $this->tbody .= $this->em->getRepository((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
+                                $this->tbody .= $this->em->getRepository((in_array(ucfirst($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
                             else
                                 $this->tbody .= '<td>-</td>';
                         }
