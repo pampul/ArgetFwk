@@ -133,7 +133,7 @@ class FwkTable extends FwkManager {
      * 
      * @var EntityManager $em 
      */
-    private $em;
+    protected $em;
 
     /**
      * Array regroupant l'ensemble des classes utiles au Fwk
@@ -179,6 +179,7 @@ class FwkTable extends FwkManager {
         $this->totalTop = '';
         $this->totalBottom = '';
         $this->arrayContentTable = $arrayContentTable;
+        $this->setObjAdmin();
     }
 
     /**
@@ -420,7 +421,8 @@ class FwkTable extends FwkManager {
                     else
                         $ajaxEdit = '';
 
-                    $resultButtons .= '
+                    if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
+                        $resultButtons .= '
                         <a class="btn btn-small ' . $ajaxEdit . '" title="Editer" href="' . $arrayVals['link'] . '/' . $value . '" data-id="' . $value . '" data-class="' . $className . '" >
                             <i class="hand icon-edit" data-url="' . $arrayVals['link'] . '" ></i>
                             Edit.
@@ -434,7 +436,8 @@ class FwkTable extends FwkManager {
                     else
                         $ajaxEdit = '';
 
-                    $resultButtons .= '
+                    if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
+                        $resultButtons .= '
                         <a class="btn btn-small btn-danger ' . $ajaxEdit . '" title="Supprimer" href="' . $arrayVals['link'] . '/' . $value . '" data-id="' . $value . '" data-class="' . $className . '" >
                             <i class="hand icon-trash icon-white" data-url="' . $arrayVals['link'] . '" ></i>
                             Suppr.
@@ -448,7 +451,8 @@ class FwkTable extends FwkManager {
                     else
                         $ajaxEdit = '';
 
-                    $resultButtons .= '
+                    if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
+                        $resultButtons .= '
                         <a class="btn btn-small ' . $ajaxEdit . '" title="Voir les détails" href="' . $arrayVals['link'] . '/' . $value . '" data-id="' . $value . '" data-class="' . $className . '" >
                             <i class="hand icon-eye-open" data-url="' . $arrayVals['link'] . '" ></i>
                             Voir
@@ -506,7 +510,17 @@ class FwkTable extends FwkManager {
     public function buildEffacerCriteres() {
 
         $html = '
-            <div id="moreItems">
+            <div id="moreItems">';
+
+        if (isset($this->actionButtons['delete']) && 
+                (
+                    (isset($this->actionButtons['delete']['level']) && 
+                            ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['delete']['level'] || $this->actionButtons['delete']['level'] == 'false')
+                    ) 
+                    || !isset($this->actionButtons['delete']['level'])
+                )
+            )
+            $html .= '
                 <a id="linkDelete" class="btn btn-small" title="Supprimer les objets sélectionnés">
                     <i class="hand icon-trash"></i>
                 </a>
@@ -536,8 +550,14 @@ class FwkTable extends FwkManager {
                 $ajaxEdit = 'true';
             else
                 $ajaxEdit = 'false';
+
+            if (isset($arrayVals['level']))
+                $level = trim($arrayVals['level']);
+            else
+                $level = 'false';
+
             if ($oneButton != "SortSup")
-                $value .= $oneButton . '##link=>' . $arrayVals['link'] . '___ajax=>' . $ajaxEdit . '_#_';
+                $value .= $oneButton . '##link=>' . $arrayVals['link'] . '___ajax=>' . $ajaxEdit . '___level=>' . $level . '_#_';
         }
 
 
@@ -677,7 +697,7 @@ class FwkTable extends FwkManager {
 
             $html .= '
                 <select style="width: 150px;" class="sortSelect" id="sortSelect" data-method="' . $arrayVals['classMethod'] . '" data-class="' . $arrayVals['class'] . '" >
-                    <option value="">'.$oneActionSup.'</option>';
+                    <option value="">' . $oneActionSup . '</option>';
 
             $html .= $this->em->getRepository('Entities\\' . $arrayVals['class'])->$arrayVals['repositoryMethod']();
 
