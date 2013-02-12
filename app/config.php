@@ -35,7 +35,7 @@ define('MICRO_TIME', microtime(TRUE));
 /**
  * Le site comporte une BDD (false pour non)
  */
-define('CONFIG_REQUIRE_BDD', FALSE);
+define('CONFIG_REQUIRE_BDD', TRUE);
 
 /**
  * Le site est en mode intégration seule en Front Office (sans utiliser de PHP) : false pour integration
