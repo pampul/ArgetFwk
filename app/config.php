@@ -179,7 +179,7 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
      * 
      * @return boolean - True : dev / False : prod
      */
-    define('ENV_DEV', TRUE);
+    define('ENV_DEV', FALSE);
     define('ENV_LOCALHOST', FALSE);
 
     /*
