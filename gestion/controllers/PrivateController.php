@@ -28,17 +28,38 @@ class PrivateController extends ControllerManager {
             'tableFwk' => $objFwkTable
         ));
     }
-    
+
     /**
      * Affichage du PHP info
      */
-    protected function phpinfoController(){
-        
+    protected function phpinfoController() {
+
         phpinfo();
-        
     }
 
-    
+    protected function backupController() {
+
+        $filePath = '__backups/' . date('Y-m-d') . '_backup_DB.bkp';
+        $cmd = 'mysqldump --opt -h ' . PDO_HOST . ' --user=' . PDO_USER . ' --password=' . PDO_PASSWORD . ' ' . PDO_DATABASE_NAME . ' > ' . $filePath;
+
+
+        if (!is_dir('__backups'))
+            mkdir('__backups');
+
+        /*if (strlen(file_get_contents($filePath) < 5))
+            unlink($filePath);
+        */
+        exec($cmd);
+        
+        
+
+        $this->renderView('views/backup.html.twig', array(
+            'query' => $cmd,
+            'env_localhost' => ENV_LOCALHOST,
+            'link' => $filePath
+        ));
+    }
+
 }
 
 ?>

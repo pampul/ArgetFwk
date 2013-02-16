@@ -1,0 +1,48 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Backup{% endblock %}
+{% block description %}Description du document{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+
+{# Contenu de la page #}
+{% block content %}
+<br/>
+<div class="hero-unit">
+    <h4 class="fwk-title">Backup de la base de données</h4>
+    <hr/>
+
+    <br/>
+    Backup des fichiers en cours ...<br/><br/>
+    <br/><br/>
+    Commande exécutée : {{ query }}<br/>
+    {% if env_localhost %}
+
+    <br/>
+    <strong>ATTENTION</strong> : Votre environnement est en localhost.<br/>
+    Il se peut que le dump n'ai pas fonctionné.
+
+    {% endif %}
+    <br/><br/>
+    <a href="{{ link }}" title="Téléchargez le fichier" target="_blank">Téléchargez le fichier construit.</a>
+</div>
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+
+{% endblock %}
