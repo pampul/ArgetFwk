@@ -184,7 +184,7 @@ class DefaultController extends ControllerManager {
     protected function seoController() {
 
         $arrayActionButtons = array('edit' => array('link' => 'dashboard/seo-gestion', 'ajax' => true), 'delete' => array('link' => 'dashboard/seo-delete', 'ajax' => true));
-        $arrayContentTable = array('seo' => array('#' => 'id', 'URL' => 'url', 'Titre' => 'titre'));
+        $arrayContentTable = array('seo' => array('#' => 'id', 'URL' => 'url', 'Titre' => 'titre', 'Description' => 'description'));
         $arraySearchTable = array('placeholder' => 'Url ou titre ...', 'autocomplete' => true, 'champs' => array('url', 'titre'));
 
         $objFwkTable = new FwkTable($arrayContentTable, $arrayActionButtons);
