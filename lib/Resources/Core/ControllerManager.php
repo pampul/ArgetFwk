@@ -146,13 +146,17 @@ class ControllerManager extends FwkManager {
     private function getCurrentSeoUrl(){
         
         $currentUri = $_SERVER['REQUEST_URI'];
+        
+        $arrayParseUri = explode('/', $currentUri);
         if(ENV_LOCALHOST){
-            $arrayParseUri = explode('/', $currentUri);
             array_shift($arrayParseUri);
             array_shift($arrayParseUri);
-            $currentUri = implode('/', $arrayParseUri);
-            unset($arrayParseUri);
+        }else{
+            array_shift($arrayParseUri);
         }
+        $currentUri = implode('/', $arrayParseUri);
+        unset($arrayParseUri);
+        
         $arrayExploded = explode('/', $currentUri);
         if(preg_match('#gestion#', $arrayExploded[0]))
                 return '';
