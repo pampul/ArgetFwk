@@ -1,0 +1,31 @@
+<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm" data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
+
+    <div class="control-group">
+        <label class="control-label" style="width: 200px;">URL : {{ constant('SITE_URL_BASE') }}</label>
+        <div class="controls">
+            <input type="text" name="url" placeholder="Url…" value="{{ objSeo.url }}" data-verif="true">
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" style="width: 200px;">Titre : (max. 100 caractères)</label>
+        <div class="controls">
+            <input type="text" name="titre" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="100" data-verif="true">
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" style="width: 200px;">Description : (max. 200 caractères)</label>
+        <div class="controls">
+            <textarea name="description" placeholder="Description…" maxlength="200">{{ objSeo.description }}</textarea>
+        </div>
+    </div>
+
+    <input type="hidden" name="idItem" value="{{ objSeo.id }}">
+
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Valider</button>  
+        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+    </div>
+
+</form>

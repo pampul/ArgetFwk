@@ -9,8 +9,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <base href="{% block baseurl %}{% endblock %}" />
-        <title>{% block title %}En construction ...{% endblock %}</title>
-        <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
+        <title>{% if seoTitle is not null %}{{ seoTitle }}{% else %}{% block title %}En construction ...{% endblock %}{% endif %}</title>
+        <meta name="description" content="{% if seoDescription is not null %}{{ seoDescription }}{% else %}{% block description %} Description de le page {% endblock %}{% endif %}" />
 
         <meta name="keywords" content="" />
         <meta name="google-site-verification" content="" />

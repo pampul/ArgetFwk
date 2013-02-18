@@ -60,7 +60,7 @@ class ControllerManager extends FwkManager {
                             if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
                                 FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
                             else
-                                FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+                                FwkLog::add ('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class ($this), 'logs/', 'ErrorDocument/');
                         }
                         $this->error404Controller();
                     }
@@ -84,7 +84,6 @@ class ControllerManager extends FwkManager {
         $parameters = array_merge($parameters, $this->getBaseParameters());
         if (method_exists($this, 'addParametersInView'))
             $parameters = array_merge($parameters, $this->addParametersInView());
-
 
         $template = $this->twig->loadTemplate($view);
         echo $template->render($parameters);
@@ -111,11 +110,23 @@ class ControllerManager extends FwkManager {
             $serverReferer = SITE_URL;
         else
             $serverReferer = $_SERVER["HTTP_REFERER"];
+        
+        $seoTitle = null;
+        $seoDescription = null;
+        
+        $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
+        
+        if($objSeo instanceof Resources\Entities\Seo){
+            $seoTitle = $objSeo->getTitre();
+            $seoDescription = $objSeo->getDescription();
+        }
 
         $parameters = array(
             'tempsChargement' => number_format($this->getLoadingTime(), 3),
             'siteUri' => 'http://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"],
-            'sitePrevUri' => $serverReferer
+            'sitePrevUri' => $serverReferer,
+            'seoTitle' => $seoTitle,
+            'seoDescription' => $seoDescription
         );
 
         unset($serverReferer);
@@ -126,6 +137,34 @@ class ControllerManager extends FwkManager {
         }
 
         return $parameters;
+    }
+    
+    /**
+     * Retourne l'URL courante, sans les "?" et la base du site
+     * @return string
+     */
+    private function getCurrentSeoUrl(){
+        
+        $currentUri = $_SERVER['REQUEST_URI'];
+        if(ENV_LOCALHOST){
+            $arrayParseUri = explode('/', $currentUri);
+            array_shift($arrayParseUri);
+            array_shift($arrayParseUri);
+            $currentUri = implode('/', $arrayParseUri);
+            unset($arrayParseUri);
+        }
+        $arrayExploded = explode('/', $currentUri);
+        if(preg_match('#gestion#', $arrayExploded[0]))
+                return '';
+        
+        if(preg_match('#\?#', $currentUri)){
+            $arrayExploded = explode('?', $currentUri);
+            $currentUri = $arrayExploded[0];
+        }
+        
+        unset($arrayExploded);
+        return $currentUri;
+        
     }
 
     /**

@@ -660,6 +660,39 @@ class DefaultAjax extends AjaxManager {
                 echo $_POST['upfilepath'] . '/' . $arrayResult['success'];
         }
     }
+    
+    
+    /**
+     * Affichage de la page d'éditions des pages SEO
+     * 
+     * @return view
+     */
+    protected function seoGestionController() {
+
+        $objSeo = null;
+        if (isset($_POST['idItem'])) {
+            if (is_numeric($_POST['idItem']))
+                $objSeo = $this->em->getRepository('Resources\Entities\Seo')->find($_POST['idItem']);
+        }
+
+        if (isset($_POST['url'])) {
+            extract($_POST);
+            // On est en édition
+            if (!isset($objSeo)) {
+                $objSeo = new Resources\Entities\Seo;
+            }
+
+            $objSeo->setUrl($url);
+            $objSeo->setTitre($titre);
+            $objSeo->setDescription($description);
+            $this->em->persist($objSeo);
+            $this->em->flush();
+        } else {
+            $this->renderView('views/seo-gestion.html.twig', array(
+                'objSeo' => $objSeo
+            ));
+        }
+    }
 
 }
 

@@ -132,7 +132,7 @@ class DefaultController extends ControllerManager {
      */
     protected function ticketsController() {
 
-        $arrayActionButtons = array('view' => array('link' => 'dashboard/ticket-details', 'ajax' => false, 'level' => 8), 'delete' => array('link' => 'dashboard/admins-delete'));
+        $arrayActionButtons = array('view' => array('link' => 'dashboard/ticket-details', 'ajax' => false), 'delete' => array('link' => 'dashboard/admins-delete'));
         $arrayContentTable = array('ticket' => array('#' => 'id', 'Admin' => array('class' => 'admin', 'getter' => 'admin', 'method' => 'getAdminName', 'sort' => 'prenom'), 'Type de ticket' => array('class' => 'ticket', 'getter' => 'typeTicket', 'method' => 'getTypeTicket', 'sort' => 'typeTicket'), 'Statut' => array('class' => 'ticket', 'getter' => 'statut', 'method' => 'getStatut', 'sort' => 'statut'), 'Date' => 'date', 'Titre' => 'titre'));
         $arraySearchTable = array('placeholder' => 'Titre/statut ...', 'autocomplete' => true, 'champs' => array('titre', 'statut'));
 
@@ -178,6 +178,24 @@ class DefaultController extends ControllerManager {
         $this->renderView('views/config.html.twig', array(
                 ));
         
+    }
+    
+    
+    protected function seoController() {
+
+        $arrayActionButtons = array('edit' => array('link' => 'dashboard/seo-gestion', 'ajax' => true), 'delete' => array('link' => 'dashboard/seo-delete', 'ajax' => true));
+        $arrayContentTable = array('seo' => array('#' => 'id', 'URL' => 'url', 'Titre' => 'titre'));
+        $arraySearchTable = array('placeholder' => 'Url ou titre ...', 'autocomplete' => true, 'champs' => array('url', 'titre'));
+
+        $objFwkTable = new FwkTable($arrayContentTable, $arrayActionButtons);
+        $objFwkTable->buildHead();
+        $objFwkTable->buildBody();
+        $objFwkTable->buildSearch($arraySearchTable);
+        $objFwkTable->build();
+
+        $this->renderView('views/seo.html.twig', array(
+            'tableFwk' => $objFwkTable
+        ));
     }
 
 }
