@@ -99,44 +99,48 @@ class ControllerManager extends FwkManager {
         return microtime(true) - MICRO_TIME;
     }
 
+    
     /**
-     * Création des paramètres de base à envoyer
-     * 
-     * @return array
+     * Retourne l'URL courante, sans les "?" et la base du site
+     * @return string
      */
-    private function getBaseParameters() {
-
-        if (!isset($_SERVER["HTTP_REFERER"]))
-            $serverReferer = SITE_URL;
-        else
-            $serverReferer = $_SERVER["HTTP_REFERER"];
+    private function getCurrentSeoUrl(){
         
-        $seoTitle = null;
-        $seoDescription = null;
+        $currentUri = $_SERVER['REQUEST_URI'];
         
-        $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
-        
-        if($objSeo instanceof Resources\Entities\Seo){
-            $seoTitle = $objSeo->getTitre();
-            $seoDescription = $objSeo->getDescription();
+        $arrayParseUri = explode('/', $currentUri);
+        if(ENV_LOCALHOST){
+            array_shift($arrayParseUri);
+            array_shift($arrayParseUri);
+        }else{
+            array_shift($arrayParseUri);
         }
-
-        $parameters = array(
-            'tempsChargement' => number_format($this->getLoadingTime(), 3),
-            'siteUri' => 'http://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"],
-            'sitePrevUri' => $serverReferer,
-            'seoTitle' => $seoTitle,
-            'seoDescription' => $seoDescription
-        );
-
-        unset($serverReferer);
-
-        if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD) {
-            $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
-            $parameters = array_merge($parameters, array('admin' => $objAdmin));
+        $currentUri = implode('/', $arrayParseUri);
+        unset($arrayParseUri);
+        
+        $arrayExploded = explode('/', $currentUri);
+        if(preg_match('#gestion#', $arrayExploded[0]))
+                return '';
+        
+        if(preg_match('#\?#', $currentUri)){
+            $arrayExploded = explode('?', $currentUri);
+            $currentUri = $arrayExploded[0];
         }
-
-        return $parameters;
+        
+        if(preg_match('#page-#', $currentUri)){
+            $currentUri = preg_replace('#/page-[0-9]+#', '', $currentUri);
+        }
+        
+        if(preg_match('#/$#', $currentUri)){
+            $arrayParseUri = explode('/', $currentUri);
+            array_pop($arrayParseUri);
+            $currentUri = implode('/', $arrayParseUri);
+            unset($arrayParseUri);
+        }
+        
+        unset($arrayExploded);
+        return $currentUri;
+        
     }
     
     /**
