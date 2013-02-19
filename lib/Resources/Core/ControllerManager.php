@@ -99,6 +99,47 @@ class ControllerManager extends FwkManager {
         return microtime(true) - MICRO_TIME;
     }
 
+    /**
+     * Création des paramètres de base à envoyer
+     * 
+     * @return array
+     */
+    private function getBaseParameters() {
+
+        if (!isset($_SERVER["HTTP_REFERER"]))
+            $serverReferer = SITE_URL;
+        else
+            $serverReferer = $_SERVER["HTTP_REFERER"];
+        
+        $seoTitle = null;
+        $seoDescription = null;
+        
+        $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
+        
+        if($objSeo instanceof Resources\Entities\Seo){
+            $seoTitle = $objSeo->getTitre();
+            $seoDescription = $objSeo->getDescription();
+            $seoH1 = $objSeo->getH1();
+        }
+
+        $parameters = array(
+            'tempsChargement' => number_format($this->getLoadingTime(), 3),
+            'siteUri' => 'http://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"],
+            'sitePrevUri' => $serverReferer,
+            'seoTitle' => $seoTitle,
+            'seoDescription' => $seoDescription,
+            'seoH1' => $seoH1
+        );
+
+        unset($serverReferer);
+
+        if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD) {
+            $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
+            $parameters = array_merge($parameters, array('admin' => $objAdmin));
+        }
+
+        return $parameters;
+    }
     
     /**
      * Retourne l'URL courante, sans les "?" et la base du site
@@ -136,38 +177,6 @@ class ControllerManager extends FwkManager {
             array_pop($arrayParseUri);
             $currentUri = implode('/', $arrayParseUri);
             unset($arrayParseUri);
-        }
-        
-        unset($arrayExploded);
-        return $currentUri;
-        
-    }
-    
-    /**
-     * Retourne l'URL courante, sans les "?" et la base du site
-     * @return string
-     */
-    private function getCurrentSeoUrl(){
-        
-        $currentUri = $_SERVER['REQUEST_URI'];
-        
-        $arrayParseUri = explode('/', $currentUri);
-        if(ENV_LOCALHOST){
-            array_shift($arrayParseUri);
-            array_shift($arrayParseUri);
-        }else{
-            array_shift($arrayParseUri);
-        }
-        $currentUri = implode('/', $arrayParseUri);
-        unset($arrayParseUri);
-        
-        $arrayExploded = explode('/', $currentUri);
-        if(preg_match('#gestion#', $arrayExploded[0]))
-                return '';
-        
-        if(preg_match('#\?#', $currentUri)){
-            $arrayExploded = explode('?', $currentUri);
-            $currentUri = $arrayExploded[0];
         }
         
         unset($arrayExploded);
