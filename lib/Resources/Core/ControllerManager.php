@@ -113,6 +113,7 @@ class ControllerManager extends FwkManager {
         
         $seoTitle = null;
         $seoDescription = null;
+        $seoH1 = null;
         
         $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
         
