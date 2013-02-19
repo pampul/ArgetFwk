@@ -3,7 +3,7 @@
     <div class="control-group">
         <label class="control-label" style="width: 200px;">URL : {{ constant('SITE_URL_BASE') }}</label>
         <div class="controls">
-            <input type="text" name="url" placeholder="Url…" value="{{ objSeo.url }}" data-verif="true">
+            <input type="text" name="url" placeholder="Url…" value="{{ objSeo.url }}">
         </div>
     </div>
     
@@ -11,6 +11,13 @@
         <label class="control-label" style="width: 200px;">Titre : (max. 100 caractères)</label>
         <div class="controls">
             <input type="text" name="titre" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="100" data-verif="true">
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" style="width: 200px;">H1 : (max. 100 caractères)</label>
+        <div class="controls">
+            <input type="text" name="h1" placeholder="H1…" value="{{ objSeo.h1 }}" maxlength="100" data-verif="true">
         </div>
     </div>
     

@@ -26,6 +26,11 @@ class Seo {
     private $titre;
 
     /**
+     * @Column(type="string", length=100)
+     */
+    private $h1;
+
+    /**
      * @Column(type="string", length=200)
      */
     private $description;
@@ -52,6 +57,14 @@ class Seo {
 
     public function setTitre($titre) {
         $this->titre = $titre;
+    }
+
+    public function getH1() {
+        return $this->h1;
+    }
+
+    public function setH1($h1) {
+        $this->h1 = $h1;
     }
 
     public function getDescription() {
