@@ -78,24 +78,51 @@ class FwkLoader {
 
         return $arrayClasses;
     }
+    
+    /**
+     * Lis l'ensemble des classes du FrameWork et les retourne
+     * 
+     * @return array
+     */
+    public static function getFwkEntitiesLower() {
+
+        $arrayClasses = array();
+
+        $entitiesDirFwk = PATH_TO_IMPORTANT_FILES . 'lib/Resources/Entities/';
+        $dir2 = opendir($entitiesDirFwk);
+
+        while ($file = readdir($dir2)) {
+            if ($file != '.' && $file != '..' && !is_dir($entitiesDirFwk . $file) && !preg_match('#Repository#', $file)) {
+                $file = preg_replace('#\.php#', '', $file);
+                $arrayClasses[] = strtolower($file);
+            }
+        }
+
+        closedir($dir2);
+
+
+        return $arrayClasses;
+    }
 
     /**
      * Récupère l'environnement Twig
      * 
      * @return Twig_Environment
      */
-    public static function getTwigEnvironement() {
+    public static function getTwigEnvironement($path = '') {
 
         include_once(PATH_TO_IMPORTANT_FILES . 'lib/Resources/Twig/Autoloader.php');
         Twig_Autoloader::register();
 
-        if (PATH_TO_BACKOFFICE_FILES === '') {
+        if($path != $path)
+            $viewDirectory = $path . 'web/';
+        elseif (PATH_TO_BACKOFFICE_FILES === '') 
             $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/';
-        } elseif (PATH_TO_BACKOFFICE_FILES === '../') {
+        elseif (PATH_TO_BACKOFFICE_FILES === '../')
             $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/';
-        } else {
+        else
             $viewDirectory = PATH_TO_IMPORTANT_FILES . 'web/';
-        }
+        
 
         $loader = new Twig_Loader_Filesystem($viewDirectory); // Dossier contenant les templates
         unset($viewDirectory);
@@ -210,6 +237,9 @@ class FwkLoader {
         
         // Classe de resizing d'images
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/WideImage/WideImage.php';
+        
+        // Classe de resizing d'images
+        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/BlogManager.php';
     }
 
 }

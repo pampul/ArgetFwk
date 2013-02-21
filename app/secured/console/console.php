@@ -29,7 +29,8 @@ class console extends SecuredClass {
     <head>
         <title>App Console</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="' . SITE_URL . 'web/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="' . SITE_URL . 'gestion/web/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+            <link href="' . SITE_URL . 'gestion/web/css/style.css" rel="stylesheet">
     </head>
     <body>
         <section id="main" class="container">

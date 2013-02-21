@@ -61,6 +61,11 @@ class Admin {
      */
     private $avatar;
 
+    /**
+     * @Column(type="string", length=150, nullable=true) 
+     */
+    private $pseudo;
+
     public function getId() {
         return $this->id;
     }
@@ -139,6 +144,14 @@ class Admin {
 
     public function setAvatar($avatar) {
         $this->avatar = $avatar;
+    }
+
+    public function getPseudo() {
+        return $this->pseudo;
+    }
+
+    public function setPseudo($pseudo) {
+        $this->pseudo = $pseudo;
     }
 
 }

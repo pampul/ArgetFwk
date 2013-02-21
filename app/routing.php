@@ -11,6 +11,7 @@ switch(GET_PATTERN){
     /*
      * Laisser le case url-error il permet le traitement de 404
      */
+    case 'blogchecker' :
     case 'default' :
     case 'url-error' :
     case null :

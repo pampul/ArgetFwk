@@ -1,0 +1,51 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}{{ objPost.seoTitle }}{% endblock %}
+{% block description %}{{ objPost.seoDescription }}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+{% endblock %}
+
+{% block h1 %}{{ objPost.seoH1 }}{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
+<br/><br/><br/>
+
+<div class="row">
+
+    <div class="span12">
+
+        <h2 class="fwk-title">{{ objPost.titre }}</h2>
+        
+        <p>
+            <i style="font-style: italic; font-size: 11px;">Publié par {{ objPost.admin.pseudo }} le {{ objPost.dateAdd }}</i>
+        </p>
+        
+        <hr/>
+
+        <p>
+
+            {{ objPost.texte|raw }}
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+{% endblock %}

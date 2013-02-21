@@ -15,6 +15,13 @@
         </div>
     </div>
 
+    <div class="control-group">
+        <label class="control-label">Pseudo : </label>
+        <div class="controls">
+            <input type="text" name="pseudo" placeholder="Pseudo…" value="{{ objAdmin.pseudo }}">
+        </div>
+    </div>
+
     <br/>
 
     <div class="control-group">
@@ -47,15 +54,15 @@
                 {% for privilege in colPrivilege %}
                     <option value="{{ privilege.id }}" {% if privilege.id == objAdmin.privilege.id %} selected="SELECTED" {% endif %}>{{ privilege.nom }}</option>
                 {% endfor %}
-            </select>
+                </select>
+            </div>
         </div>
-    </div>
-    
-    <input type="hidden" name="idItem" value="{{ objAdmin.id }}">
 
-    <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Valider</button>  
-        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
-    </div>
+        <input type="hidden" name="idItem" value="{{ objAdmin.id }}">
 
-</form>
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Valider</button>  
+            <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+        </div>
+
+    </form>

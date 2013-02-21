@@ -186,6 +186,10 @@ hr{
     position: relative;
 }
 
+.noclear{
+    clear: none;
+}
+
 .widget-box-title{
     background-color: #EFEFEF;
     background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#FDFDFD), to(#EAEAEA));
@@ -285,6 +289,15 @@ table i {
 }
 
 #modifyInput{
+    font-family: Calibri;
+    border-radius: 0;
+    padding: 0; 
+    margin: 0; 
+    box-shadow: none; 
+    border: 0;
+}
+
+#inputWithoutBootstrap{
     font-family: Calibri;
     border-radius: 0;
     padding: 0; 
@@ -594,4 +607,13 @@ textarea{
     color: #fff;
     font-weight: bold;
     z-index: 1000;
+}
+
+
+ul.nav li.dropdown-custom:hover ul.dropdown-menu{
+    display: block;    
+}
+
+a.menu:after, .dropdown-toggle-custom:after {
+  content: none;
 }

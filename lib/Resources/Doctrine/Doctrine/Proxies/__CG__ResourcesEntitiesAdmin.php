@@ -165,10 +165,22 @@ class Admin extends \Resources\Entities\Admin implements \Doctrine\ORM\Proxy\Pro
         return parent::setAvatar($avatar);
     }
 
+    public function getPseudo()
+    {
+        $this->__load();
+        return parent::getPseudo();
+    }
+
+    public function setPseudo($pseudo)
+    {
+        $this->__load();
+        return parent::setPseudo($pseudo);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'token', 'tsToken', 'nom', 'prenom', 'fonction', 'email', 'password', 'avatar', 'privilege');
+        return array('__isInitialized__', 'id', 'token', 'tsToken', 'nom', 'prenom', 'fonction', 'email', 'password', 'avatar', 'pseudo', 'privilege');
     }
 
     public function __clone()

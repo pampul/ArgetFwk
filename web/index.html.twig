@@ -18,9 +18,10 @@
 
         <link rel="shortcut icon" href="/favicon.ico" />
 
-        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css" />
-        <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css" />
+        <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css" />
+        <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/css/uniform.default.css" type="text/css" />
+        <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/css/style.css" type="text/css" />
         <link rel="stylesheet" href="web/css/style.css" type="text/css" />
         {%block stylesheets %}
         <!-- Ajout des css supplementaires here -->
@@ -34,6 +35,11 @@
 
                     {% block header %}
         <header id="header">
+                    {% if seoH1 is not null %}
+                        <h1 style="text-indent: -40000px;"><a href="{{ siteUri }}" title="{{ seoH1 }}">{{ seoH1 }}</a></h1>
+                    {% else %}
+                            <h1 style="text-indent: -40000px;">{% block h1 %}{% endblock %}</h1>
+                    {% endif %}
                     {% include 'views/layouts/header.html.twig' %}
             </header>
         {% endblock %}

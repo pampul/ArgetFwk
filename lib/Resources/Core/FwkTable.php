@@ -164,7 +164,7 @@ class FwkTable extends FwkManager {
     public function __construct($arrayContentTable, $actionButtons = array(), $limit = 10, $tsearch = true, $tpagination = true, $exportCsv = true, $order = array('orderBy' => 'id', 'orderDir' => 'DESC'), $defineBy = 'id') {
 
         $this->em = FwkLoader::getEntityManager();
-        $this->fwkClasses = FwkLoader::getFwkEntities();
+        $this->fwkClasses = FwkLoader::getFwkEntitiesLower();
         $this->className = ucfirst(key($arrayContentTable));
         $this->thead = '';
         $this->tbody = '';
@@ -187,11 +187,10 @@ class FwkTable extends FwkManager {
      */
     public function build() {
 
-
         $qb = $this->em->createQueryBuilder();
         $qb->select('count(c)')
-                ->from((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($this->className), 'c');
-
+                ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($this->className), 'c');
+        
         $totalRows = $qb->getQuery()->getSingleScalarResult();
         $this->tcontent = '';
 
@@ -228,7 +227,6 @@ class FwkTable extends FwkManager {
             </table>
             
         ';
-
         $this->tcontent .= $this->totalBottom;
 
         if ($this->tpagination)
@@ -236,7 +234,7 @@ class FwkTable extends FwkManager {
 
         $this->tcontent .= $this->drawHiddenInputLink();
 
-        $this->tcontent .= '<br/><hr />';
+        $this->tcontent .= '';
     }
 
     /**
@@ -321,7 +319,7 @@ class FwkTable extends FwkManager {
             if (!is_array($colObject)) {
                 $qb = $this->em->createQueryBuilder();
                 $qb->select('c')
-                        ->from((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
+                        ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c')
                         ->orderBy('c.' . $this->order['orderBy'], strtoupper($this->order['orderDir']))
                         ->setFirstResult(0)
                         ->setMaxResults($this->limit);
@@ -371,13 +369,12 @@ class FwkTable extends FwkManager {
                         ' . $objUnique->$oneMethod() . '
                     </td>';
                     }else {
-
                         $getter = 'get' . ucfirst($oneMethod['getter']);
                         if (strtolower($class) == strtolower($oneMethod['class']))
-                            $this->tbody .= $this->em->getRepository((in_array(ucfirst($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
+                            $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
                         else {
                             if (is_object($objUnique->$getter()))
-                                $this->tbody .= $this->em->getRepository((in_array(ucfirst($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
+                                $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
                             else
                                 $this->tbody .= '<td>-</td>';
                         }
@@ -577,7 +574,7 @@ class FwkTable extends FwkManager {
 
         $qb = $this->em->createQueryBuilder();
         $qb->select('count(c)')
-                ->from((in_array($this->className, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($className), 'c');
+                ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($className), 'c');
 
         $totalRows = $qb->getQuery()->getSingleScalarResult();
 
@@ -704,7 +701,7 @@ class FwkTable extends FwkManager {
                 <select style="width: 150px;" class="sortSelect" id="sortSelect" data-method="' . $arrayVals['classMethod'] . '" data-class="' . $arrayVals['class'] . '" >
                     <option value="">' . $oneActionSup . '</option>';
 
-            $html .= $this->em->getRepository('Entities\\' . $arrayVals['class'])->$arrayVals['repositoryMethod']();
+            $html .= $this->em->getRepository((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . $arrayVals['class'])->$arrayVals['repositoryMethod']();
 
             $html .= '
                 </select>';

@@ -197,6 +197,87 @@ class DefaultController extends ControllerManager {
             'tableFwk' => $objFwkTable
         ));
     }
+    
+    protected function blogPostController() {
+
+        $arrayActionButtons = array('edit' => array('link' => 'dashboard/blog-post-gestion', 'ajax' => false), 'delete' => array('link' => 'dashboard/blog-post-delete', 'ajax' => true),
+            'SortSup' => array('Statut ...' => array('class' => 'blogPost', 'classMethod' => 'statut', 'repositoryMethod' => 'getSelectStatut')));
+        $arrayContentTable = array('blogPost' => array('#' => 'id', 'Date d\'ajout' => 'dateAdd', 'Auteur' => array('class' => 'admin', 'getter' => 'admin', 'method' => 'getAdminName', 'sort' => 'prenom'), 'URL' => 'seoUrl', 'Titre' => 'titre', 'Statut' => array('class' => 'blogPost', 'getter' => 'statut', 'method' => 'getStatut', 'sort' => 'statut')));
+        $arraySearchTable = array('placeholder' => 'Url, titre ...', 'autocomplete' => true, 'champs' => array('seoUrl', 'titre', 'seoTitle', 'seoDescription'));
+
+        $objFwkTable = new FwkTable($arrayContentTable, $arrayActionButtons);
+        $objFwkTable->buildHead();
+        $objFwkTable->buildBody();
+        $objFwkTable->buildSearch($arraySearchTable);
+        $objFwkTable->build();
+
+        $this->renderView('views/blog-post.html.twig', array(
+            'tableFwk' => $objFwkTable
+        ));
+    }
+    
+    
+    /**
+     * Affichage de la page d'édition de posts
+     * 
+     * @return view
+     */
+    protected function blogPostGestionController() {
+
+        $objBlogPost = null;
+        if (isset($_GET['id'])) {
+            if (is_numeric($_GET['id']))
+                $objBlogPost = $this->em->getRepository('Resources\Entities\BlogPost')->find($_GET['id']);
+        }
+
+        if (isset($_POST['titre'])) {
+            extract($_POST);
+            // On est en édition
+            if (!isset($objBlogPost)) {
+                $objBlogPost = new Resources\Entities\BlogPost;
+                $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
+            }
+            
+            $objBlogPost->setDateEdit(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
+            $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
+            
+            $objBlogPost->setAdmin($objAdmin);
+            if(strlen($seoTitle) > 3)
+                $objBlogPost->setSeoTitle($seoTitle);
+            else
+                $objBlogPost->setSeoTitle($titre);
+            if(strlen($seoTitle) > 3)
+                $objBlogPost->setSeoH1($seoH1);
+            else
+                $objBlogPost->setSeoH1($titre);
+            if(strlen($seoTitle) > 3)
+                $objBlogPost->setSeoDescription($seoDescription);
+            else
+                $objBlogPost->setSeoDescription(FwkUtils::couperTexte(160, $texte));
+            if(strlen($seoUrl) > 3)
+                $objBlogPost->setSeoUrl(FwkUtils::urlAlizeAllowSlash($seoUrl));
+            else
+                $objBlogPost->setSeoUrl(FwkUtils::urlAlizeAllowSlash($titre));
+            $objBlogPost->setStatut($statut);
+            $objBlogPost->setTemplateUrl($templateUrl);
+            $objBlogPost->setTitre($titre);
+            $objBlogPost->setTexte($texte);
+            
+            
+            $this->em->persist($objBlogPost);
+            $this->em->flush();
+            
+            if($actionType == 'save')
+                header('Location: ' . SITE_CURRENT_URI);
+            else
+                header('Location: ' . SITE_URL . 'dashboard/blog-post');
+        } else {
+            $this->renderView('views/blog-post-gestion.html.twig', array(
+                'objBlogPost' => $objBlogPost,
+                'listTemplates' => BlogManager::getTemplates()
+            ));
+        }
+    }
 
 }
 

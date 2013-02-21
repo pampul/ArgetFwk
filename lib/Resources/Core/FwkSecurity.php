@@ -144,7 +144,7 @@ class FwkSecurity extends FwkManager {
                  * 123123123123 | florian.mithieux@gmail.com | 4
                  * timestamp | login | tentatives
                  */
-                if (preg_match('#([0-9]+)\s--\s([0-9:]+)\s--\s([a-zA-Z0-9 \.@-_]+)\s--\s([0-9]+)#', $lastLine, $matches)) {
+                if (preg_match('#([0-9]+)\s--\s([0-9:]+)\s--\s([-_a-zA-Z0-9 \.@]+)\s--\s([0-9]+)#', $lastLine, $matches)) {
 
                     $secondPassed = time() - $matches[1];
                     if(isset($arrayParams['seconds'])) self::$nbrOfWaitingSecond = $arrayParams['seconds'];

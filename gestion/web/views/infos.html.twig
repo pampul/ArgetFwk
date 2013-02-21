@@ -57,52 +57,60 @@
                                 </span>
                             </div>
                             <div class="modif-container">
-                                <strong>Fonction : </strong> 
-                                <span class="value" data-modify-type="fonction" data-val="{{ objUser.fonction }}">
-                    {{ objUser.fonction }}
+                                <strong>Pseudo : </strong> 
+                                <span class="value" data-modify-type="pseudo" data-val="{{ objUser.pseudo }}">
+                    {{ objUser.pseudo }}
                                     </span>
                                 </div>
-                                <div class="normal-container">
-                                    <strong>Privilège : </strong> 
-                                    <span data-modify-type="privilege" data-val="{{ objUser.privilege }}">
-                    {{ objUser.privilege }}
+                                <div class="modif-container">
+                                    <strong>Fonction : </strong> 
+                                    <span class="value" data-modify-type="fonction" data-val="{{ objUser.fonction }}">
+                    {{ objUser.fonction }}
                                         </span>
                                     </div>
-                                    <div class="modif-container">
-                                        <strong>Email : </strong> 
-                                        <span class="value" data-modify-type="email" data-val="{{ objUser.email }}">
-                    {{ objUser.email }}
+                                    <div class="normal-container">
+                                        <strong>Privilège : </strong> 
+                                        <span data-modify-type="privilege" data-val="{{ objUser.privilege }}">
+                    {{ objUser.privilege }}
                                             </span>
                                         </div>
                                         <div class="modif-container">
-                                            <strong>Mot de passe : </strong> 
-                                            <span class="value" data-modify-type="password" data-val="password">
-                                                ********
-                                            </span>
+                                            <strong>Email : </strong> 
+                                            <span class="value" data-modify-type="email" data-val="{{ objUser.email }}">
+                    {{ objUser.email }}
+                                                </span>
+                                            </div>
+                                            <div class="modif-container">
+                                                <strong>Mot de passe : </strong> 
+                                                <span class="value" data-modify-type="password" data-val="password">
+                                                    ********
+                                                </span>
+                                            </div>
+
+                                            <input type="hidden" id="id-user" value="{{ objUser.id }}" />
+                                            <input type="hidden" id="class-user" value="admin" />
+
                                         </div>
 
-                                        <input type="hidden" id="id-user" value="{{ objUser.id }}" />
-                                        <input type="hidden" id="class-user" value="admin" />
+                                        <div class="span2">
 
-                                    </div>
+                                            <div class="avatar-user">
 
-                                    <div class="span2">
-
-                                        <div class="avatar-user">
-
-                                            <div class="avatar-user-container" id="modifierAvatar">
+                                                <div class="avatar-user-container" id="modifierAvatar">
 
                                                 {% if objUser.avatar is null %}
 
-                                                <img src="web/img/default.png" alt="avatar default" />
+                                                    <img src="web/img/default.png" alt="avatar default" />
 
                                                 {% else %}
 
-                                                <img src="web/uploads/{{ objUser.avatar }}" alt="Avatar utilisateur" />
+                                                    <img src="web/uploads/{{ objUser.avatar }}" alt="Avatar utilisateur" />
 
                                                 {% endif %}
 
-                                                <div class="hide-message">Changer d'avatar</div>
+                                                    <div class="hide-message">Changer d'avatar</div>
+
+                                                </div>
 
                                             </div>
 
@@ -110,36 +118,34 @@
 
                                     </div>
 
-                                </div>
 
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="modifierAvatarModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" class="modal hide">
+                            <div class="modal-header" id="editAvatarHeader">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3>Changer votre avatar</h3>
+                            </div>
+
+                            <div class="modal-body" id="editAvatarBody">
+
+                                <form id="editAddForm" method="POST">
+
+                                    <div class="control-group">
+                                        <label class="control-label">Choix de votre avatar :</label>
+                                        <div class="controls" id="inputsVals">
+
+                                        </div>
+                                    </div>
+
+                                </form>
 
                             </div>
-                        </div>
-
-                    </div>
-
-                    <div id="modifierAvatarModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" class="modal hide">
-                        <div class="modal-header" id="editAvatarHeader">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3>Changer votre avatar</h3>
-                        </div>
-
-                        <div class="modal-body" id="editAvatarBody">
-
-                            <form id="editAddForm" method="POST">
-
-                                <div class="control-group">
-                                    <label class="control-label">Choix de votre avatar :</label>
-                                    <div class="controls" id="inputsVals">
-                                        
-                                    </div>
-                                </div>
-
-                            </form>
 
                         </div>
-
-                    </div>
 
 
 {% endblock %}
@@ -148,15 +154,14 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-                    <script>
-                        
-                        $('#modifierAvatar').click(function(){
-                            $('#modifierAvatarModal').modal({
-                                
+                        <script>
+
+                            $('#modifierAvatar').click(function() {
+                                $('#modifierAvatarModal').modal({
+                                });
+
+                                $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
+                                $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
                             });
-                        
-                            $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
-                            $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-                        });
-                        </script>
+                            </script>
 {% endblock %}

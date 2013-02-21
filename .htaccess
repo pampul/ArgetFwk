@@ -114,4 +114,7 @@ RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?pattern=$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?pattern=$1&content=$2 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ app.php?pattern=blogchecker&content=$1 [QSA,L]
 

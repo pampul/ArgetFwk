@@ -398,6 +398,7 @@ class DefaultAjax extends AjaxManager {
             $objAdmin->setPrivilege($objPrivilege);
             $objAdmin->setFonction($fonction);
             $objAdmin->setEmail($email);
+            $objAdmin->setPseudo($pseudo);
             $this->em->persist($objAdmin);
             $this->em->flush();
         } else {
@@ -693,6 +694,15 @@ class DefaultAjax extends AjaxManager {
                 'objSeo' => $objSeo
             ));
         }
+    }
+    
+    
+    protected function makeUrlCleanerController(){
+        
+        extract($_POST);
+        
+        echo $str = FwkUtils::urlAlizeAllowSlash($str);
+        
     }
 
 }

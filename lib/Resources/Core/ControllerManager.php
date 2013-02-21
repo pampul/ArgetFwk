@@ -49,26 +49,35 @@ class ControllerManager extends FwkManager {
         if (method_exists($this, $methodCalled))
             $this->$methodCalled();
         else {
-            if (ENV_DEV) {
-                if (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')
-                    throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-                else {
-                    if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
-                        $this->renderView('views/' . GET_CONTENT . '.html.twig');
-                    } else {
-                        if (ERROR_LOGS_ENABLED) {
-                            if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
-                                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
-                            else
-                                FwkLog::add ('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class ($this), 'logs/', 'ErrorDocument/');
-                        }
-                        $this->error404Controller();
-                    }
-                }
+            $bool = (GET_PATTERN == 'post-preview' && $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']) instanceof Resources\Entities\Admin);
+            $objPost = $this->em->getRepository('Resources\Entities\BlogPost')->findOneBy(array('seoUrl' => $this->getCurrentSeoUrl($bool)));
+            if ($objPost instanceof \Resources\Entities\BlogPost && $objPost->getStatut() != 'trash' && (($objPost->getStatut() == 'draft' && $bool) || $objPost->getStatut() == 'publish')) {
+                $objBlogManager = new BlogManager();
+                $objBlogManager->loadTemplate($objPost);
             } else {
-                if (ERROR_LOGS_ENABLED)
-                    FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
-                $this->error404Controller();
+                if (ENV_DEV) {
+                    if (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')
+                        throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
+                    else {
+                        if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
+                            $this->renderView('views/' . GET_CONTENT . '.html.twig');
+                        } else {
+                            unset($objPost);
+                            if (ERROR_LOGS_ENABLED) {
+                                if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
+                                    FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
+                                else
+                                    FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+                            }
+                            $this->error404Controller();
+                        }
+                    }
+                } else {
+
+                    if (ERROR_LOGS_ENABLED)
+                        FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+                    $this->error404Controller();
+                }
             }
         }
     }
@@ -110,14 +119,14 @@ class ControllerManager extends FwkManager {
             $serverReferer = SITE_URL;
         else
             $serverReferer = $_SERVER["HTTP_REFERER"];
-        
+
         $seoTitle = null;
         $seoDescription = null;
         $seoH1 = null;
-        
+
         $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
-        
-        if($objSeo instanceof Resources\Entities\Seo){
+
+        if ($objSeo instanceof Resources\Entities\Seo) {
             $seoTitle = $objSeo->getTitre();
             $seoDescription = $objSeo->getDescription();
             $seoH1 = $objSeo->getH1();
@@ -125,7 +134,7 @@ class ControllerManager extends FwkManager {
 
         $parameters = array(
             'tempsChargement' => number_format($this->getLoadingTime(), 3),
-            'siteUri' => 'http://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"],
+            'siteUri' => SITE_URL_BASE . $_SERVER["REQUEST_URI"],
             'sitePrevUri' => $serverReferer,
             'seoTitle' => $seoTitle,
             'seoDescription' => $seoDescription,
@@ -141,48 +150,50 @@ class ControllerManager extends FwkManager {
 
         return $parameters;
     }
-    
+
     /**
      * Retourne l'URL courante, sans les "?" et la base du site
      * @return string
      */
-    private function getCurrentSeoUrl(){
-        
+    private function getCurrentSeoUrl($preview = false) {
+
         $currentUri = $_SERVER['REQUEST_URI'];
-        
+
         $arrayParseUri = explode('/', $currentUri);
-        if(ENV_LOCALHOST){
+        if (ENV_LOCALHOST) {
             array_shift($arrayParseUri);
             array_shift($arrayParseUri);
-        }else{
+        } else {
             array_shift($arrayParseUri);
         }
         $currentUri = implode('/', $arrayParseUri);
         unset($arrayParseUri);
-        
+
         $arrayExploded = explode('/', $currentUri);
-        if(preg_match('#gestion#', $arrayExploded[0]))
-                return '';
-        
-        if(preg_match('#\?#', $currentUri)){
+        if (preg_match('#gestion#', $arrayExploded[0]))
+            return '';
+
+        if (preg_match('#\?#', $currentUri)) {
             $arrayExploded = explode('?', $currentUri);
             $currentUri = $arrayExploded[0];
         }
-        
-        if(preg_match('#page-#', $currentUri)){
+
+        if (preg_match('#page-#', $currentUri)) {
             $currentUri = preg_replace('#/page-[0-9]+#', '', $currentUri);
         }
-        
-        if(preg_match('#/$#', $currentUri)){
+
+        if (preg_match('#/$#', $currentUri)) {
             $arrayParseUri = explode('/', $currentUri);
             array_pop($arrayParseUri);
             $currentUri = implode('/', $arrayParseUri);
             unset($arrayParseUri);
         }
+
+        if ($preview)
+            $currentUri = preg_replace('#post-preview/#', '', $currentUri);
         
         unset($arrayExploded);
         return $currentUri;
-        
     }
 
     /**
@@ -246,5 +257,4 @@ class ControllerManager extends FwkManager {
     }
 
 }
-
 ?>

@@ -28,15 +28,22 @@
     <div class="span12">
 
         <div class="widget-content">
+            
+            <a class="btn btn-primary addEditItem pull-right" id="addItem" data-width="850px" title="Ajouter" href="dashboard/seo-gestion">
+                <i class="icon icon-plus-sign icon-white"></i> Ajouter une page
+            </a>
 
-            <h4 class="fwk-title">Gestion SEO des pages statiques</h4>
+            <h4 class="fwk-title">
+                <a title="Rafraîchir la page" class="hand" href="{{ constant('SITE_CURRENT_URI') }}">
+                    <i class="icon-refresh" style="margin-top: 6px;"></i>
+                </a>
+             Gestion SEO des pages statiques
+            </h4>
             <hr/>
 
             <br/>
 
             {{ tableFwk.show| raw }}
-
-            <a class="btn btn-primary btn-large addEditItem" id="addItem" data-width="850px" title="Ajouter" href="dashboard/seo-gestion">Ajouter une page</a>
 
             <br/><br/>
 
