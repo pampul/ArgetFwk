@@ -247,11 +247,11 @@ class DefaultController extends ControllerManager {
                 $objBlogPost->setSeoTitle($seoTitle);
             else
                 $objBlogPost->setSeoTitle($titre);
-            if(strlen($seoTitle) > 3)
+            if(strlen($seoH1) > 3)
                 $objBlogPost->setSeoH1($seoH1);
             else
                 $objBlogPost->setSeoH1($titre);
-            if(strlen($seoTitle) > 3)
+            if(strlen($seoDescription) > 3)
                 $objBlogPost->setSeoDescription($seoDescription);
             else
                 $objBlogPost->setSeoDescription(FwkUtils::couperTexte(160, $texte));
