@@ -29,6 +29,7 @@ class FwkLoader {
         $entitiesClassLoader->register();
 
         $config = new Configuration;
+        $config->addCustomNumericFunction('RAND', 'Doctrine\ORM\Query\AST\Functions\Rand');
         //$cache = new ApcCache;
         //$config->setMetadataCacheImpl($cache);
         $driverImpl = $config->newDefaultAnnotationDriver(array(__DIR__ . '/../../../lib/Entities', __DIR__ . '/../../../lib/Resources/Entities'));
@@ -240,6 +241,8 @@ class FwkLoader {
         
         // Classe de resizing d'images
         require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/BlogManager.php';
+        // Classe de resizing d'images
+        require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Simplehtmldom/simple_html_dom.php';
     }
 
 }
