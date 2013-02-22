@@ -234,6 +234,7 @@ class DefaultController extends ControllerManager {
             extract($_POST);
             // On est en édition
             if (!isset($objBlogPost)) {
+                $blogPostUnset = true;
                 $objBlogPost = new Resources\Entities\BlogPost;
                 $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
             }
@@ -267,9 +268,12 @@ class DefaultController extends ControllerManager {
             $this->em->persist($objBlogPost);
             $this->em->flush();
             
-            if($actionType == 'save')
-                header('Location: ' . SITE_CURRENT_URI);
-            else
+            if($actionType == 'save'){
+                if(!isset($blogPostUnset))
+                    header('Location: ' . SITE_CURRENT_URI);
+                else
+                    header('Location: ' . SITE_CURRENT_URI . '/' . $objBlogPost->getId());
+            }else
                 header('Location: ' . SITE_URL . 'dashboard/blog-post');
         } else {
             $this->renderView('views/blog-post-gestion.html.twig', array(
