@@ -42,9 +42,15 @@ class BlogManager {
     public function loadTemplate(Resources\Entities\BlogPost $objBlogPost){
         
         $template = $this->twig->loadTemplate('views/blogTemplates/' . $objBlogPost->getTemplateUrl() . '.html.twig');
-        echo $template->render(array(
-            'objPost' => $objBlogPost
-        ));
+        
+        require_once __DIR__.'/../../../controllers/PageController.php';
+        $objPageController = new PageController($objBlogPost->getTemplateUrl());
+        $params = $objPageController->getParameters();
+        
+        
+        $params['objPost'] = $objBlogPost;
+        
+        echo $template->render($params);
         
         
     }
