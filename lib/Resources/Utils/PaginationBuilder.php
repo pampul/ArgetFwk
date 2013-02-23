@@ -89,7 +89,9 @@ class PaginationBuilder {
      */
     public function buildSimplePagination() {
 
-        $str = '';
+        $str = '
+        <div class="pagination">    
+            <ul>';
 
         $this->prevPage = $this->currentPage - 1;
         $this->nextPage = $this->currentPage + 1;
@@ -104,6 +106,10 @@ class PaginationBuilder {
 
             $str .= $this->getTotalRowsHtml();
         }
+        
+        $str .= '
+            </ul>
+        </div>';
 
         return $str;
     }
@@ -145,14 +151,14 @@ class PaginationBuilder {
 
         if ($this->nbrPages > 1 && $this->currentPage > 1)
             return '
-                <div id="precedent"><a href="' . $this->urlPrev . '/page-' . $this->prevPage . $this->urlNext . '" title="Aller à la page -' . $this->prevPage . '-">Précédent</a></div>';
+                <li><a href="' . $this->urlPrev . '/page-' . $this->prevPage . $this->urlNext . '" title="Aller à la page -' . $this->prevPage . '-">Précédent</a></li>';
     }
 
     private function getNextPage() {
 
         if ($this->nbrPages > 1 && $this->currentPage < $this->nbrPages)
             return '
-                <div id="suivant"><a href="' . $this->urlPrev . '/page-' . $this->nextPage . $this->urlNext . '" title="Aller &agrave; la page -' . $this->nextPage . '-"  class="suivant" >Suivant</a></div>';
+                <li id="suivant"><a href="' . $this->urlPrev . '/page-' . $this->nextPage . $this->urlNext . '" title="Aller &agrave; la page -' . $this->nextPage . '-"  class="suivant" >Suivant</a></li>';
     }
 
     private function getTotalRowsHtml() {
@@ -170,28 +176,28 @@ class PaginationBuilder {
 
             if ($i == $this->currentPage) {
 
-                $str .= ' <span class="paginationSelected" data-value="' . $i . '">[ ' . $i . ' ]</span> ';
+                $str .= ' <li class="paginationSelected disabled" data-value="' . $i . '"><a href="" title="Page existante">' . $i . '</a></li>';
                 $checkin = true;
             } else {
 
                 if ($this->prevPage == $i)
-                    $str .= ' <a class="paginationItem" data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a> - ';
+                    $str .= ' <li class="paginationItem"><a data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a></li>';
                 elseif ($this->nextPage == $i) {
 
                     if ($this->nextPage == $this->nbrPages)
-                        $str .= ' <a class="paginationItem" data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a>';
+                        $str .= ' <li class="paginationItem"><a data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a></li>';
                     else
-                        $str .= ' <a class="paginationItem" data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a> - ';
+                        $str .= ' <li class="paginationItem"><a data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a></li>';
                 } elseif ($i < 2)
-                    $str .= ' <a class="paginationItem" data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a> - ';
+                    $str .= ' <li class="paginationItem"><a data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a></li>';
                 elseif ($i >= 2 && $this->nbrPages == $i)
-                    $str .= ' <a class="paginationItem" data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a>';
+                    $str .= ' <li class="paginationItem"><a data-value="' . $i . '" href="' . $this->urlPrev . '/page-' . $i . $this->urlNext . '" title="Aller &agrave; la page -' . $i . '-" >' . $i . '</a></li>';
                 elseif ($i >= 2 && $checkNbr == 0) {
                     $checkNbr = $i;
-                    $str .= '... -';
+                    $str .= '<li>... </li>';
                 } elseif ($i >= 2 && $checkin == true && $this->currentPage > $checkNbr) {
                     $checkNbr = $this->currentPage++;
-                    $str .= '... -';
+                    $str .= '<li>...</li>';
                 } else {
                     $str .= '';
                 }
