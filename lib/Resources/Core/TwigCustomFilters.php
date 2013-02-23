@@ -49,7 +49,10 @@ function resizeImage($imageUrl, $complUrl = '', $width = null, $height = null, $
             mkdir($partialDir . $folder);
         
         if (strlen($imageUrl) > 5) {
-            $image = WideImage::load(__DIR__ . '/../../../' . $complUrl . $imageUrl);
+            if(preg_match('#http#', $complUrl . $imageUrl))
+                $image = WideImage::load($complUrl . $imageUrl);
+            else
+                $image = WideImage::load(__DIR__ . '/../../../' . $complUrl . $imageUrl);
             $newImage = $image->resize($width, $height);
             $newImage->saveToFile($fullDir);
         }
