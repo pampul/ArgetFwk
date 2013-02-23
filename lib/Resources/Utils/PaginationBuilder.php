@@ -162,8 +162,9 @@ class PaginationBuilder {
     }
 
     private function getTotalRowsHtml() {
-        return '
-                <i>&nbsp;&nbsp;&nbsp; (Total: ' . $this->totalRows . ') </i>';
+        return '';
+        /*return '
+                <i>&nbsp;&nbsp;&nbsp; (Total: ' . $this->totalRows . ') </i>';*/
     }
 
     private function getBodyPagination() {
