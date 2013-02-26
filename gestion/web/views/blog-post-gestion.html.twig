@@ -201,9 +201,9 @@
                     objAjax.setMethod('makeUrlCleaner');
                     objAjax.setAsyncValue(false);
                     objAjax.setDataString('&str=' + $('#titrePost').val());
-                    returnValue = objAjax.execute();
+                    var returnValue = objAjax.execute();
 
-                    $('#modifyInput').val(returnValue);
+                    $('#inputWithoutBootstrap').val(returnValue);
 
 
 
