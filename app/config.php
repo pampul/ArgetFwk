@@ -145,8 +145,8 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
     define('PDO_PORT', '');
     define('PDO_DATABASE_NAME', 'argetfwk');
     define('PDO_USER', 'root');
-    define('PDO_PASSWORD', '');
-} elseif (preg_match("#dev#", $_SERVER['HTTP_HOST'])) {
+    define('PDO_PASSWORD', 'root');
+} elseif (preg_match("#argetfwk#", $_SERVER['HTTP_HOST'])) {
 
     /**
      * Environnement de developpement
@@ -159,7 +159,7 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
     /*
      * Génération de l'url de pre-prod
      */
-    define('SITE_URL_BASE', 'http://yourwebsite.fr/');
+    define('SITE_URL_BASE', 'http://argetfwk.fr/');
     define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
     define('SITE_URL_REFERENCEMENT', '');
     /*
@@ -169,8 +169,8 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
     define('PDO_DRIVER', 'pdo_mysql');
     define('PDO_HOST', 'localhost');
     define('PDO_PORT', '');
-    define('PDO_DATABASE_NAME', 'doctrineproject');
-    define('PDO_USER', 'root');
+    define('PDO_DATABASE_NAME', '');
+    define('PDO_USER', '');
     define('PDO_PASSWORD', '');
 } else {
 
@@ -181,6 +181,12 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
      */
     define('ENV_DEV', FALSE);
     define('ENV_LOCALHOST', FALSE);
+    
+    /**
+     * Suppression de l'affichage des erreurs
+     */
+    ini_set("display_errors", 'off');
+    error_reporting(0);
 
     /*
      * Génération de l'url de base Web
