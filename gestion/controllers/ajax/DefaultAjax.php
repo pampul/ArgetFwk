@@ -684,9 +684,9 @@ class DefaultAjax extends AjaxManager {
             }
 
             $objSeo->setUrl($url);
-            $objSeo->setTitre($titre);
-            $objSeo->setH1($h1);
-            $objSeo->setDescription($description);
+            $objSeo->setTitre($seoTitle);
+            $objSeo->setH1($seoH1);
+            $objSeo->setDescription($seoDescription);
             $this->em->persist($objSeo);
             $this->em->flush();
         } else {

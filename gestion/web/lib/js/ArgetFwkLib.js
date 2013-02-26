@@ -9,6 +9,12 @@ $(function() {
 
     var argetFwkUtilsLib = new ArgetFwkUtilsLib();
 
+    $('textarea[name=seoDescription],input[name=seoTitle], input[name=seoH1]').live('keyup', function() {
+
+        argetFwkUtilsLib.messageBox('#messageBox', $(this).val().length + ' caractères', 500);
+
+    });
+
 
     /* 
      * ArgetFwk - Lib : Login Function
@@ -210,7 +216,7 @@ $(function() {
     });
 
     $('form').live('submit', function(e) {
-        
+
         if ($(this).attr('class') !== 'sendFile') {
 
             e.preventDefault();
