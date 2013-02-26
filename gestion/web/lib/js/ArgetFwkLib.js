@@ -129,7 +129,7 @@ $(function() {
         var objAjax = new AjaxLib();
         objAjax.setController(arrayLink[0]);
         objAjax.setMethod(arrayLink[1]);
-        objAjax.setAsyncValue(true);
+        objAjax.setAsyncValue(false);
         objAjax.setDataString(dataStr);
         objAjax.execute();
         
