@@ -463,6 +463,20 @@ class FwkTable extends FwkManager {
                         <span class="separator">·</span>
                         ';
                     break;
+                default:
+                    if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
+                        $ajaxEdit = 'ajaxRefreshWhenClick';
+                    else
+                        $ajaxEdit = '';
+
+                    $resultButtons .= '
+                        <a class="btn btn-small ' . $ajaxEdit . '" title="Voir les détails" href="' . $arrayVals['link'] . '/' . $value . '" data-id="' . $value . '" data-class="' . $className . '" >
+                            <i class="hand icon-cog" data-url="' . $arrayVals['link'] . '" ></i>
+                            ' . $oneButton . '
+                        </a>
+                        <span class="separator">·</span>
+                        ';
+                    break;
             }
         }
 

@@ -111,6 +111,30 @@ $(function() {
     $('.sortSelect').change(function() {
         argetFwkUtilsLib.refreshContent($(this), new Array());
     });
+    
+    
+    
+    /*
+     * Gestion des boutons custom du tableau
+     */
+    $('.ajaxRefreshWhenClick').live('click', function(e){
+        e.preventDefault();
+        
+        var link = $(this).attr('href');
+        var dataStr = '';
+        if ($(this).attr('data-id'))
+            dataStr = '&idItem=' + $(this).attr('data-id');
+        var arrayLink = link.split('/');
+        
+        var objAjax = new AjaxLib();
+        objAjax.setController(arrayLink[0]);
+        objAjax.setMethod(arrayLink[1]);
+        objAjax.setAsyncValue(true);
+        objAjax.setDataString(dataStr);
+        objAjax.execute();
+        
+        argetFwkUtilsLib.refreshContent($(this), new Array());
+    });
 
 
     $('.delete-item').live('click', function(e) {
