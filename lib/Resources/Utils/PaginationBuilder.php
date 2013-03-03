@@ -7,14 +7,16 @@
  */
 class PaginationBuilder {
 
-    public $limit = 4;
-    public $currentPage = 0;
-    public $urlPrev;
-    public $urlNext;
-    public $totalRows;
-    public $nbrPages;
-    public $prevPage;
-    public $nextPage;
+    private $limit = 4;
+    private $currentPage = 0;
+    private $urlPrev;
+    private $hasUrlPrev = null;
+    private $urlNext;
+    private $hasUrlNext = null;
+    private $totalRows;
+    private $nbrPages;
+    private $prevPage;
+    private $nextPage;
 
     public function getLimit() {
         return $this->limit;
@@ -106,7 +108,7 @@ class PaginationBuilder {
 
             $str .= $this->getTotalRowsHtml();
         }
-        
+
         $str .= '
             </ul>
         </div>';
@@ -149,22 +151,26 @@ class PaginationBuilder {
 
     private function getPreviousPage() {
 
-        if ($this->nbrPages > 1 && $this->currentPage > 1)
+        if ($this->nbrPages > 1 && $this->currentPage > 1) {
+            $this->hasUrlPrev = $this->urlPrev . '/page-' . $this->prevPage . $this->urlNext;
             return '
                 <li><a href="' . $this->urlPrev . '/page-' . $this->prevPage . $this->urlNext . '" title="Aller à la page -' . $this->prevPage . '-">Précédent</a></li>';
+        }
     }
 
     private function getNextPage() {
 
-        if ($this->nbrPages > 1 && $this->currentPage < $this->nbrPages)
+        if ($this->nbrPages > 1 && $this->currentPage < $this->nbrPages) {
+            $this->hasUrlNext = $this->urlPrev . '/page-' . $this->nextPage . $this->urlNext;
             return '
                 <li id="suivant"><a href="' . $this->urlPrev . '/page-' . $this->nextPage . $this->urlNext . '" title="Aller &agrave; la page -' . $this->nextPage . '-"  class="suivant" >Suivant</a></li>';
+        }
     }
 
     private function getTotalRowsHtml() {
+        /* return '
+          <i>&nbsp;&nbsp;&nbsp; (Total: ' . $this->totalRows . ') </i>'; */
         return '';
-        /*return '
-                <i>&nbsp;&nbsp;&nbsp; (Total: ' . $this->totalRows . ') </i>';*/
     }
 
     private function getBodyPagination() {
@@ -206,6 +212,26 @@ class PaginationBuilder {
         }
 
         return $str;
+    }
+
+    /**
+     * Génère les meta nécessaires pour une pagination réussie en terme de SEO
+     * @return string
+     */
+    public function getHeaderRelLinks() {
+        
+        $str = '';
+        if($this->hasUrlPrev != null)
+            $str .= '
+        <link rel="prev" title="Page précédente - ' . $this->prevPage . '" href="' . $this->hasUrlPrev . '" />';
+        if($this->hasUrlNext != null)
+            $str .= '
+        <link rel="next" title="Page suivante - ' . $this->nextPage . '" href="' . $this->hasUrlNext .  '" />';
+        $str .= '
+        <link rel="canonical" href="' . SITE_URL . GET_PATTERN . '/' . GET_CONTENT . '" />';
+        
+        return $str;
+        
     }
 
 }

@@ -159,7 +159,7 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
     /*
      * Génération de l'url de pre-prod
      */
-    define('SITE_URL_BASE', 'http://argetfwk.fr/');
+    define('SITE_URL_BASE', 'http://argetfwk.argetweb.fr/');
     define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
     define('SITE_URL_REFERENCEMENT', '');
     /*
@@ -169,9 +169,9 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
     define('PDO_DRIVER', 'pdo_mysql');
     define('PDO_HOST', 'localhost');
     define('PDO_PORT', '');
-    define('PDO_DATABASE_NAME', '');
-    define('PDO_USER', '');
-    define('PDO_PASSWORD', '');
+    define('PDO_DATABASE_NAME', 'argetweb_argetfwk');
+    define('PDO_USER', 'argetweb');
+    define('PDO_PASSWORD', 'ArgetL0um');
 } else {
 
     /**

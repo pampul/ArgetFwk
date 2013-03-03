@@ -9,6 +9,7 @@ SetEnv ZEND_OPTIMIZER 1
 SetEnv MAGIC_QUOTES 0
 php_flag magic_quotes_gpc Off
 php_value magic_quotes_gpc Off
+php_value safe_mode "0"
 ServerSignature EMail
 SetEnv SERVER_ADMIN florian.mithieux@gmail.com
 

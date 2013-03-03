@@ -105,7 +105,7 @@ class FwkUpload extends FwkManager {
 
         if (!strlen($this->file['name']))
             return array('error' => 'Fichier vide.');
-        
+
         $arrayFileName = explode(".", $this->file['name']);
         $this->fileExt = array_pop($arrayFileName);
         $this->fileName = implode('.', $arrayFileName);
@@ -114,7 +114,8 @@ class FwkUpload extends FwkManager {
         if (in_array($this->fileExt, $this->validFormats)) {
             if ($this->fileSize < $this->maxSize) {
 
-                FwkUtils::Mkpath('', $this->pathUploads);
+                if (!is_dir($this->pathUploads))
+                    FwkUtils::Mkpath('', $this->pathUploads);
                 if (is_dir($this->pathUploads)) {
 
                     switch ($this->fileType) {

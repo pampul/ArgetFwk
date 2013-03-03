@@ -13,7 +13,6 @@
         <meta name="description" content="{% if seoDescription is not null %}{{ seoDescription }}{% else %}{% block description %} Description de le page {% endblock %}{% endif %}" />
 
         <meta name="keywords" content="" />
-        <meta name="google-site-verification" content="" />
         <meta name="author" content="AUTEUR" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -22,11 +21,13 @@
         <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css" />
         <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css" type="text/css" />
-        <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/css/uniform.default.css" type="text/css" />
         <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/css/style.css" type="text/css" />
         <link rel="stylesheet" href="web/css/style.css" type="text/css" />
         {%block stylesheets %}
         <!-- Ajout des css supplementaires here -->
+        {% endblock %}
+        
+        {% block linkrel %}
         {% endblock %}
 
     </head>
@@ -84,9 +85,7 @@
                     </div>
 
                     <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.js"></script>
-                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery-ui.js"></script>
                     <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/js/bootstrap.min.js"></script>
-                    <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/uniformjs.js"></script>
                     <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/AjaxLib.js"></script>
                     <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLib.js"></script>
                     <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkUtilsLib.js"></script>

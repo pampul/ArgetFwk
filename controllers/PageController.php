@@ -39,17 +39,7 @@ class PageController extends ControllerManager {
     }
 
     private function defaultTemplate() {
-        $colLastActus = $this->em->createQueryBuilder()->select('c')
-                ->from('Entities\Actualite', 'c')
-                ->orderBy('c.id', 'DESC')
-                ->setFirstResult(0)
-                ->setMaxResults(2)
-                ->getQuery()
-                ->execute();
-
-        $parameters = array(
-            'colLastActus' => $colLastActus
-        );
+        $parameters = array();
 
 
         $this->setParameters($parameters);
