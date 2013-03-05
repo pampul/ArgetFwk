@@ -704,6 +704,36 @@ class DefaultAjax extends AjaxManager {
         echo $str = FwkUtils::urlAlizeAllowSlash($str);
         
     }
+    
+    /**
+     * Affichage de la page d'éditions des catégories
+     * 
+     * @return view
+     */
+    protected function blogCategorieGestionController() {
+
+        $objCategory = null;
+        if (isset($_POST['idItem'])) {
+            if (is_numeric($_POST['idItem']))
+                $objCategory = $this->em->getRepository('Resources\Entities\BlogCategory')->find($_POST['idItem']);
+        }
+
+        if (isset($_POST['nom'])) {
+            extract($_POST);
+            // On est en édition
+            if (!isset($objCategory)) {
+                $objCategory = new Resources\Entities\BlogCategory;
+            }
+
+            $objCategory->setNom($nom);
+            $this->em->persist($objCategory);
+            $this->em->flush();
+        } else {
+            $this->renderView('views/blog-categorie-gestion.html.twig', array(
+                'objCategory' => $objCategory
+            ));
+        }
+    }
 
 }
 

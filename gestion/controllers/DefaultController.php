@@ -264,6 +264,10 @@ class DefaultController extends ControllerManager {
             $objBlogPost->setTitre($titre);
             $objBlogPost->setTexte($texte);
             
+            if($category != "none")
+                $objBlogPost->setBlogCategory ($this->em->getRepository ('Resources\Entities\BlogCategory')->find($category));
+            else
+                $objBlogPost->setBlogCategory (null);
             
             $this->em->persist($objBlogPost);
             $this->em->flush();
@@ -276,11 +280,30 @@ class DefaultController extends ControllerManager {
             }else
                 header('Location: ' . SITE_URL . 'dashboard/blog-post');
         } else {
+            $colCategorys = $this->em->getRepository('Resources\Entities\BlogCategory')->findAll();
             $this->renderView('views/blog-post-gestion.html.twig', array(
                 'objBlogPost' => $objBlogPost,
-                'listTemplates' => BlogManager::getTemplates()
+                'listTemplates' => BlogManager::getTemplates(),
+                'colCategorys' => $colCategorys
             ));
         }
+    }
+    
+    protected function blogCategorieController() {
+
+        $arrayActionButtons = array('edit' => array('link' => 'dashboard/blog-categorie-gestion', 'ajax' => true), 'delete' => array('link' => 'blog-categorie-delete', 'ajax' => true));
+        $arrayContentTable = array('blogCategory' => array('#' => 'id', 'Nom' => 'nom'));
+        $arraySearchTable = array('placeholder' => 'Nom ...', 'autocomplete' => true, 'champs' => array('nom'));
+
+        $objFwkTable = new FwkTable($arrayContentTable, $arrayActionButtons);
+        $objFwkTable->buildHead();
+        $objFwkTable->buildBody();
+        $objFwkTable->buildSearch($arraySearchTable);
+        $objFwkTable->build();
+
+        $this->renderView('views/blog-categorie.html.twig', array(
+            'tableFwk' => $objFwkTable
+        ));
     }
 
 }

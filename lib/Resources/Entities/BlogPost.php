@@ -71,6 +71,12 @@ class BlogPost {
      */
     private $templateUrl;
 
+    /**
+     * @ManyToOne(targetEntity="BlogCategory")
+     * @JoinColumn(name="blog_category", nullable=true)
+     */
+    private $blogCategory;
+
     public function getId() {
         return $this->id;
     }
@@ -175,5 +181,12 @@ class BlogPost {
         $this->isDelete = $isDelete;
     }
 
+    public function getBlogCategory() {
+        return $this->blogCategory;
+    }
+
+    public function setBlogCategory($blogCategory) {
+        $this->blogCategory = $blogCategory;
+    }
 
 }
