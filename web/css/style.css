@@ -33,3 +33,13 @@ body {
   border: 1px solid #d7d7d7;
 
 }
+
+
+/**
+* Footer
+*/
+
+#footer{
+  margin-top: 20px;
+  text-align: center;
+}

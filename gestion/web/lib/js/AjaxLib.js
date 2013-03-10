@@ -1,4 +1,4 @@
-/** 
+/**
  * Classe de génération d'Ajax (utilise jquery)
  * 
  * @author f.mithieux

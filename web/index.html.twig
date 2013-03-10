@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
-
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <base href="{% block baseurl %}{% endblock %}"/>
     <title>{% if seoTitle is not null %}{{ seoTitle }}{% else %}{% block title %}En construction ...{% endblock %}{% endif %}</title>
@@ -17,8 +20,7 @@
 
     <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css"/>
-    <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css"
-          type="text/css"/>
+    <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/css/style.css" type="text/css"/>
     <link rel="stylesheet" href="web/css/style.css" type="text/css"/>
     {% block stylesheets %}
@@ -32,6 +34,9 @@
 
 
 <body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
 
 
 {% block header %}
@@ -47,35 +52,16 @@
 
 <section id="main" {% block container %}class="container"{% endblock %}>
     {% block content %}{% endblock %}
-
-    {% block footer %}
-        <footer id="footer">
-            {% include 'views/layouts/footer.html.twig' %}
-        </footer>
-    {% endblock %}
-
 </section>
 
-<div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     class="modal hide fade">
 
-    <div class="modal-header" id=confirmHeader>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Confirmation</h3>
-    </div>
 
-    <div class="modal-body" id="confirmBody">
+{% block footer %}
+    <footer id="footer">
+        {% include 'views/layouts/footer.html.twig' %}
+    </footer>
+{% endblock %}
 
-        Voulez-vous vraiment effectuer cette action ?
-
-    </div>
-
-    <div class="modal-footer" id="confirmFooter">
-        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
-        <a href="#" class="btn btn-danger" id="confirmTrue" data-uri="">Valider</a>
-    </div>
-
-</div>
 
 <div id="messageBox" class="messageBox">
     <div class="contentBox">
@@ -85,10 +71,14 @@
 
 <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.js"></script>
 <script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/AjaxLib.js"></script>
-<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLib.js"></script>
-<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkUtilsLib.js"></script>
-<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLibs.min.js"></script>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
 
 {% block jsinclude %}
 
