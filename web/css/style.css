@@ -8,15 +8,28 @@
 
 
 body {
-    margin: 0px;
-    padding: 0px;
-    background:#fff;
-    width: 100%;
+  margin: 0px;
+  padding: 0px;
+  background:#fafafa;
+  width: 100%;
 }
 
 
 .hero-unit{
-    
-    background: #eeeeee;
-    
+
+  background: #eeeeee;
+
+}
+
+
+/**
+* Main content
+*/
+
+#main-content{
+
+  margin-top: 50px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+
 }

@@ -18,29 +18,32 @@
 {# Contenu de la page #}
 {% block content %}
 
-<br/><br/><br/>
+    <div id="main-content">
 
-<div class="row">
+        <div class="row">
 
-    <div class="span12">
+            <div class="span12">
 
-        <h2 class="fwk-title">{{ objPost.titre }}</h2>
-        
-        <p>
-            <i style="font-style: italic; font-size: 11px;">Publié par {{ objPost.admin.pseudo }} le {{ objPost.dateAdd }}</i>
-        </p>
-        
-        <hr/>
+                <h2 class="fwk-title">{{ objPost.titre }}</h2>
 
-        <p>
+                <p>
+                    <i style="font-style: italic; font-size: 11px;">Publié par {{ objPost.admin.pseudo }} le {{ objPost.dateAdd }}</i>
+                </p>
 
-            {{ objPost.texte|raw }}
+                <hr/>
 
-        </p>
+                <p>
+
+                    {{ objPost.texte|raw }}
+
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
 
 {% endblock %}
 
