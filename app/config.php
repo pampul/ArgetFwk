@@ -96,14 +96,14 @@ define('LOGIN_PROTECT', TRUE);
  * Constantes de recuperation en HTTP
  */
 if (isset($_GET['pattern']))
-    define('GET_PATTERN', $_GET['pattern']);
+  define('GET_PATTERN', $_GET['pattern']);
 else
-    define('GET_PATTERN', NULL);
+  define('GET_PATTERN', NULL);
 
 if (isset($_GET['content']))
-    define('GET_CONTENT', $_GET['content']);
+  define('GET_CONTENT', $_GET['content']);
 else
-    define('GET_CONTENT', 'home');
+  define('GET_CONTENT', 'home');
 
 /**
  * Constantes relatives au navigateur
@@ -121,89 +121,89 @@ define('SITE_CURRENT_URI', $_SERVER['REQUEST_URI']);
  */
 if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
 
-    /**
-     * Environnement de developpement
-     * 
-     * @return boolean - True : dev / False : prod
-     */
-    define('ENV_DEV', TRUE);
-    define('ENV_LOCALHOST', TRUE);
+  /**
+   * Environnement de developpement
+   *
+   * @return boolean - True : dev / False : prod
+   */
+  define('ENV_DEV', TRUE);
+  define('ENV_LOCALHOST', TRUE);
 
-    /**
-     * Génération de l'URL de base pour le local
-     */
-    define('SITE_URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/ArgetFwk/');
-    define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
-    define('SITE_URL_REFERENCEMENT', '');
+  /**
+   * Génération de l'URL de base pour le local
+   */
+  define('SITE_URL_BASE', 'http://' . $_SERVER['HTTP_HOST'] . '/ArgetFwk/');
+  define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
+  define('SITE_URL_REFERENCEMENT', '');
 
-    /*
-     * Connexion à la BDD locale
-     */
-    define('PDO_PREFIX', 'db_');
-    define('PDO_DRIVER', 'pdo_mysql');
-    define('PDO_HOST', 'localhost');
-    define('PDO_PORT', '');
-    define('PDO_DATABASE_NAME', 'argetfwk');
-    define('PDO_USER', 'root');
-    define('PDO_PASSWORD', 'root');
+  /*
+   * Connexion à la BDD locale
+   */
+  define('PDO_PREFIX', 'db_');
+  define('PDO_DRIVER', 'pdo_mysql');
+  define('PDO_HOST', 'localhost');
+  define('PDO_PORT', '');
+  define('PDO_DATABASE_NAME', 'argetfwk');
+  define('PDO_USER', 'root');
+  define('PDO_PASSWORD', 'root');
 } elseif (preg_match("#argetfwk#", $_SERVER['HTTP_HOST'])) {
 
-    /**
-     * Environnement de developpement
-     * 
-     * @return boolean - True : dev / False : prod
-     */
-    define('ENV_DEV', TRUE);
-    define('ENV_LOCALHOST', FALSE);
-    
-    /*
-     * Génération de l'url de pre-prod
-     */
-    define('SITE_URL_BASE', 'http://argetfwk.argetweb.fr/');
-    define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
-    define('SITE_URL_REFERENCEMENT', '');
-    /*
-     * Connexion à la BDD pre-prod
-     */
-    define('PDO_PREFIX', 'db_');
-    define('PDO_DRIVER', 'pdo_mysql');
-    define('PDO_HOST', 'localhost');
-    define('PDO_PORT', '');
-    define('PDO_DATABASE_NAME', 'argetweb_argetfwk');
-    define('PDO_USER', 'argetweb');
-    define('PDO_PASSWORD', 'ArgetL0um');
+  /**
+   * Environnement de developpement
+   *
+   * @return boolean - True : dev / False : prod
+   */
+  define('ENV_DEV', TRUE);
+  define('ENV_LOCALHOST', FALSE);
+
+  /*
+   * Génération de l'url de pre-prod
+   */
+  define('SITE_URL_BASE', 'http://argetfwk.argetweb.fr/');
+  define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
+  define('SITE_URL_REFERENCEMENT', '');
+  /*
+   * Connexion à la BDD pre-prod
+   */
+  define('PDO_PREFIX', 'db_');
+  define('PDO_DRIVER', 'pdo_mysql');
+  define('PDO_HOST', 'localhost');
+  define('PDO_PORT', '');
+  define('PDO_DATABASE_NAME', 'argetweb_argetfwk');
+  define('PDO_USER', 'argetweb');
+  define('PDO_PASSWORD', 'ArgetL0um');
 } else {
 
-    /**
-     * Environnement de production
-     * 
-     * @return boolean - True : dev / False : prod
-     */
-    define('ENV_DEV', FALSE);
-    define('ENV_LOCALHOST', FALSE);
-    
-    /**
-     * Suppression de l'affichage des erreurs
-     */
-    ini_set("display_errors", 'off');
-    error_reporting(0);
+  /**
+   * Environnement de production
+   *
+   * @return boolean - True : dev / False : prod
+   */
+  define('ENV_DEV', FALSE);
+  define('ENV_LOCALHOST', FALSE);
 
-    /*
-     * Génération de l'url de base Web
-     */
-    define('SITE_URL_BASE', 'http://argetfwk.fr/');
-    define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
-    define('SITE_URL_REFERENCEMENT', '');
+  /**
+   * Suppression de l'affichage des erreurs
+   */
+  ini_set("display_errors", 'off');
+  error_reporting(0);
 
-    /*
-     * Connexion à la BDD Web
-     */
-    define('PDO_PREFIX', 'db_');
-    define('PDO_DRIVER', 'pdo_mysql');
-    define('PDO_HOST', 'localhost');
-    define('PDO_PORT', '');
-    define('PDO_DATABASE_NAME', 'argetfwk');
-    define('PDO_USER', '');
-    define('PDO_PASSWORD', '');
+  /*
+   * Génération de l'url de base Web
+   */
+  define('SITE_URL_BASE', 'http://argetfwk.fr/');
+  define('SITE_URL', SITE_URL_BASE . BACKOFFICE_ACTIVE);
+  define('SITE_URL_REFERENCEMENT', '');
+
+  /*
+   * Connexion à la BDD Web
+   */
+  define('PDO_PREFIX', 'db_');
+  define('PDO_DRIVER', 'pdo_mysql');
+  define('PDO_HOST', 'localhost');
+  define('PDO_PORT', '');
+  define('PDO_DATABASE_NAME', 'argetfwk');
+  define('PDO_USER', '');
+  define('PDO_PASSWORD', '');
 }
 ?>
