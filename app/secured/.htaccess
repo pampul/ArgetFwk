@@ -15,3 +15,7 @@ Allow from 127.0.0.1
 Order Deny,Allow
 Deny from all
 Allow from localhost
+
+Order Deny,Allow
+Deny from all
+Allow from 89.93.227.129
