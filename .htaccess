@@ -1,7 +1,3 @@
-### -----------------------------------------------------------------------------------------------------------------------------
-### ------ On travaille en php5 et les variables de sessions sont cachees
-### -----------------------------------------------------------------------------------------------------------------------------
-
 SetEnv PHP_VER 5_4
 SetEnv SESSION_USE_TRANS_SID 0
 SetEnv REGISTER_GLOBALS 0
@@ -12,6 +8,7 @@ php_value magic_quotes_gpc Off
 php_value safe_mode "0"
 ServerSignature EMail
 SetEnv SERVER_ADMIN florian.mithieux@gmail.com
+DirectoryIndex app.php
 
 # ----------------------------------------------------------------------
 # Better website experience for IE users
@@ -62,50 +59,6 @@ SetEnv SERVER_ADMIN florian.mithieux@gmail.com
     </FilesMatch>
   </IfModule>
 </IfModule>
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Interdire l'accès à certains fichiers
-### -----------------------------------------------------------------------------------------------------------------------------
-
-<FilesMatch ".(htaccess|htpasswd|ini|phps|fla|psd|log|sh|sql)$">
- Order Allow,Deny
- Deny from all
-</FilesMatch>
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Mise en cache des fichiers pour les performances
-### -----------------------------------------------------------------------------------------------------------------------------
-
-<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|css|pdf)$">
-###Header set Cache-Control "max-age=2592000"
-</FilesMatch>
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Compression des fichiers pour un gain en performances
-### -----------------------------------------------------------------------------------------------------------------------------
-
-###<IfModule mod_deflate.c>
-###    AddOutputFilterByType DEFLATE text/plain
-###    AddOutputFilterByType DEFLATE text/html
-###    AddOutputFilterByType DEFLATE text/xml
-###    AddOutputFilterByType DEFLATE text/css
-###    AddOutputFilterByType DEFLATE text/x-component
-###    AddOutputFilterByType DEFLATE application/xml
-###    AddOutputFilterByType DEFLATE application/xhtml+xml
-###    AddOutputFilterByType DEFLATE application/rss+xml
-###    AddOutputFilterByType DEFLATE application/javascript
-###    AddOutputFilterByType DEFLATE application/x-javascript
-###</IfModule>
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Redirection en cas d'erreur
-### -----------------------------------------------------------------------------------------------------------------------------
-
-Options -Indexes
-DirectoryIndex app.php
-ErrorDocument 403 /app.php?pattern=url-error&content=error403
-ErrorDocument 404 /app.php?pattern=url-error&content=error404
-ErrorDocument 500 /app.php?pattern=url-error&content=error500
 
 # ----------------------------------------------------------------------
 # Webfont access
@@ -469,15 +422,13 @@ FileETag None
 
 Options -MultiViews
 
-
 ### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Protection contre les PHP Easter Eggs
+### ----- Redirection en cas d'erreur
 ### -----------------------------------------------------------------------------------------------------------------------------
 
-###ServerTokens Prod
-ServerSignature Off
-RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
-RewriteRule .* - [F]
+ErrorDocument 403 /app.php?pattern=url-error&content=error403
+ErrorDocument 404 /app.php?pattern=url-error&content=error404
+ErrorDocument 500 /app.php?pattern=url-error&content=error500
 
 # ----------------------------------------------------------------------
 # UTF-8 encoding
@@ -513,12 +464,10 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
   RewriteCond %{SCRIPT_FILENAME} -d [OR]
   RewriteCond %{SCRIPT_FILENAME} -f
   RewriteRule "(^|/)\." - [F]
+
   ### -----------------------------------------------------------------------------------------------------------------------------
   ### ----- Application des regles de reecriture
   ### -----------------------------------------------------------------------------------------------------------------------------
-
-
-
 
   RewriteRule ^apps/console$ app/secured/SecuredLauncher.php?path=console&page=console [L]
   RewriteRule ^apps/console/([a-zA-Z0-9]+) app/secured/SecuredLauncher.php?path=console&page=console&req=$1 [L]
