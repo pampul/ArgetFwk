@@ -513,6 +513,41 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
   RewriteCond %{SCRIPT_FILENAME} -d [OR]
   RewriteCond %{SCRIPT_FILENAME} -f
   RewriteRule "(^|/)\." - [F]
+  ### -----------------------------------------------------------------------------------------------------------------------------
+  ### ----- Application des regles de reecriture
+  ### -----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+  RewriteRule ^apps/console$ app/secured/SecuredLauncher.php?path=console&page=console [L]
+  RewriteRule ^apps/console/([a-zA-Z0-9]+) app/secured/SecuredLauncher.php?path=console&page=console&req=$1 [L]
+  RewriteRule ^apps/([a-z]+)/([a-zA-Z0-9-_]+) app/secured/SecuredLauncher.php?path=$1&page=$2 [L]
+  #RewriteRule ^(.*)$ app.php [QSA,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+)/page-([0-9]+) app.php?pattern=$1&content=$2&value=$3&page=$4 [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/page-([0-9]+) app.php?pattern=$1&content=$2&page=$3 [QSA,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?pattern=$1&content=$2 [QSA,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ app.php?pattern=blogchecker&content=$1 [QSA,L]
+
+
 </IfModule>
 
 # Block access to backup and source files. These files may be left by some
@@ -586,36 +621,4 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
 <IfModule mod_php5.c>
   php_value session.cookie_httponly true
 </IfModule>
-
-### -----------------------------------------------------------------------------------------------------------------------------
-### ----- Application des regles de reecriture
-### -----------------------------------------------------------------------------------------------------------------------------
-
-
-RewriteRule ^apps/console$ app/secured/SecuredLauncher.php?path=console&page=console [L]
-RewriteRule ^apps/console/([a-zA-Z0-9]+) app/secured/SecuredLauncher.php?path=console&page=console&req=$1 [L]
-RewriteRule ^apps/([a-z]+)/([a-zA-Z0-9-_]+) app/secured/SecuredLauncher.php?path=$1&page=$2 [L]
-#RewriteRule ^(.*)$ app.php [QSA,L]
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+) app.php?pattern=$1&content=$2&id=$3 [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+)/page-([0-9]+) app.php?pattern=$1&content=$2&value=$3&page=$4 [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/page-([0-9]+) app.php?pattern=$1&content=$2&page=$3 [QSA,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?pattern=$1&content=$2 [QSA,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ app.php?pattern=blogchecker&content=$1 [QSA,L]
 
