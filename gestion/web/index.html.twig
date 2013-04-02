@@ -1,116 +1,133 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <!–[if lt IE 9]>
-        <!--<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
-        <![endif]–>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!–[if lt IE 9]>
+  <!--<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
+  <![endif]–>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-        <base href="{% block baseurl %}{% endblock %}" />
-        <title>{{ constant('SITE_NOM') }} | Gestion - {% block title %}En construction ...{% endblock %}</title>
-        <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
+  <base href="{% block baseurl %}{% endblock %}" />
+  <title>{{ constant('SITE_NOM') }} | Gestion - {% block title %}En construction ...{% endblock %}</title>
+  <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
 
-        <meta name="google-site-verification" content="" />
-        <meta name="author" content="{{ constant('ADMIN_PRENOM') }} {{ constant('ADMIN_PRENOM') }}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-        <link rel="shortcut icon" href="/favicon.ico" />
-
-        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css" />
-        <link rel="stylesheet" href="web/lib/fontawesome/css/font-awesome.min.css" type="text/css" />
-        <link rel="stylesheet" href="web/css/FwkStyle.css" type="text/css" />
-        <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css" />
-        <link rel="stylesheet" href="web/lib/redactor/css/redactor.css" />
-        <link rel="stylesheet" href="web/css/style.css" type="text/css" />
-        {%block stylesheets %}
-        <!-- Ajout des css supplementaires here -->
-        {% endblock %}
-
-    </head>
+  <meta name="google-site-verification" content="" />
+  <meta name="author" content="{{ constant('ADMIN_PRENOM') }} {{ constant('ADMIN_PRENOM') }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <body>
+  <link rel="shortcut icon" href="/favicon.ico" />
 
-        {% block header %}
-        <header id="header">
-                    {% include 'views/layouts/header.html.twig' %}
-            </header>
-        {% endblock %}
+  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css" />
+  <link rel="stylesheet" href="web/lib/fontawesome/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="web/css/FwkStyle.css" type="text/css" />
+  <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css" />
+  <link rel="stylesheet" href="web/lib/redactor/css/redactor.css" />
+  <link rel="stylesheet" href="web/css/style.css" type="text/css" />
+  {%block stylesheets %}
+    <!-- Ajout des css supplementaires here -->
+  {% endblock %}
 
-            <section id="main" {% block container %}class="container"{% endblock %}>
-                    {% block content %}{% endblock %}
+</head>
 
-                    {% block footer %}
-                    <footer id="footer">
-                        {% include 'views/layouts/footer.html.twig' %}
-                        </footer>
-                    {% endblock %}
 
-                    </section>
+<body>
 
-                    <div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
+{% block header %}
+  <header id="header">
+    {% include 'views/layouts/header.html.twig' %}
+  </header>
+{% endblock %}
 
-                        <div class="modal-header" id=confirmHeader>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3>Confirmation</h3>
-                        </div>
+<section id="main" {% block container %}class="container"{% endblock %}>
+  {% block content %}{% endblock %}
 
-                        <div class="modal-body" id="confirmBody">
+  {% block footer %}
+    <footer id="footer">
+      {% include 'views/layouts/footer.html.twig' %}
+    </footer>
+  {% endblock %}
 
-                            Voulez-vous vraiment effectuer cette action ?
+</section>
 
-                        </div>
+<div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
 
-                        <div class="modal-footer" id="confirmFooter">
-                            <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
-                            <a href="#" class="btn btn-danger" id="confirmTrue" data-uri="">Valider</a>
-                        </div>
+  <div class="modal-header" id=confirmHeader>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Confirmation</h3>
+  </div>
 
-                    </div>
+  <div class="modal-body" id="confirmBody">
 
-                    <div id="messageBox" class="messageBox">
-                        <div class="contentBox">
-                            
-                        </div>
-                    </div>
-        
-                    <div id="editBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade editBody">
-                        <div class="modal-header" id="editHeader">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3>Ajout/Edition</h3>
-                        </div>
-                            
-                        <div class="modal-body" id="editBody">
+    Voulez-vous vraiment effectuer cette action ?
 
-                        </div>
-                            
-                    </div>
+  </div>
 
-                    <script src="web/lib/js/jquery.js"></script>
-                    <script src="web/lib/js/jquery-ui.js"></script>
-                    <script src="web/lib/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="web/lib/js/uniformjs.js"></script>
-                    <script src="web/lib/js/AjaxLib.js"></script>
-                    <script src="web/lib/js/ArgetFwkLib.js"></script>
-                    <script src="web/lib/js/ArgetFwkUtilsLib.js"></script>
-                    <script src="web/lib/js/GoogleChartAPI.js"></script>
-                    <script src="web/lib/js/bootstrap-datepicker.js"></script>
-                    <script src="web/lib/redactor/redactor.min.js"></script>
-                    <script src="web/lib/js/jquery.form.js"></script>
-                    <script>
-                        $(function(){
-                            $().UItoTop({ easingType: 'easeOutQuart' });
-                        });
-                    </script>
+  <div class="modal-footer" id="confirmFooter">
+    <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+    <a href="#" class="btn btn-danger" id="confirmTrue" data-uri="">Valider</a>
+  </div>
 
-            {% block jsinclude %}
+</div>
 
-            {% endblock %}
+<div id="messageBox" class="messageBox">
+  <div class="contentBox">
 
-                </body>
+  </div>
+</div>
 
-            </html>
+<div id="editBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade editBody">
+  <div class="modal-header" id="editHeader">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Ajout/Edition</h3>
+  </div>
+
+  <div class="modal-body" id="editBody">
+
+  </div>
+
+</div>
+
+<script src="web/lib/js/jquery.js"></script>
+<script src="web/lib/js/jquery-ui.js"></script>
+<script src="web/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="web/lib/js/uniformjs.js"></script>
+<script src="web/lib/js/AjaxLib.js"></script>
+<script src="web/lib/js/ArgetFwkLib.js"></script>
+<script src="web/lib/js/ArgetFwkUtilsLib.js"></script>
+<script src="web/lib/js/GoogleChartAPI.js"></script>
+<script src="web/lib/js/bootstrap-datepicker.js"></script>
+<script src="web/lib/redactor/redactor.min.js"></script>
+<script src="web/lib/js/jquery.form.js"></script>
+<script src="web/lib/js/idleTimer.js"></script>
+<script>
+  $(function(){
+    $().UItoTop({ easingType: 'easeOutQuart' });
+  });
+  {% if constant('REFRESH_AUTO_BO') %}
+  $.idleTimer(5000);
+
+  var bootboxActiv = false;
+
+  $(document).bind("idle.idleTimer", function(){
+
+    if(!bootboxActiv)
+      bootboxActiv = true;
+    bootbox.confirm("Une inactivité dépassant les 3 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
+      bootboxActiv = false;
+      if(result)
+        location.reload(true);
+    });
+  });
+  {% endif %}
+</script>
+
+{% block jsinclude %}
+
+{% endblock %}
+
+</body>
+
+</html>

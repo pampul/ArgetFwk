@@ -59,6 +59,11 @@ define('ERROR_SEND_EMAIL', TRUE);
 define('ERROR_LOGS_ENABLED', TRUE);
 
 /**
+ * Activation du refresh automatique en back office
+ */
+define('REFRESH_AUTO_BO', TRUE);
+
+/**
  * Constantes relatives à la societe
  */
 define('SOCIETE_NOM', 'ArgetFwk');
