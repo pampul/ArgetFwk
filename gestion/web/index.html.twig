@@ -113,13 +113,14 @@
 
   $(document).bind("idle.idleTimer", function(){
 
-    if(!bootboxActiv)
+    if(!bootboxActiv){
       bootboxActiv = true;
-    bootbox.confirm("Une inactivité dépassant les 3 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
-      bootboxActiv = false;
-      if(result)
-        location.reload(true);
-    });
+      bootbox.confirm("Une inactivité dépassant les 3 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
+        bootboxActiv = false;
+        if(result)
+          location.reload(true);
+      });
+    }
   });
   {% endif %}
 </script>
