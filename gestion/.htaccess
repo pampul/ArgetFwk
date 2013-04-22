@@ -5,10 +5,9 @@
 SetEnv PHP_VER 5_4
 SetEnv SESSION_USE_TRANS_SID 0
 SetEnv REGISTER_GLOBALS 0
-SetEnv ZEND_OPTIMIZER 1
 SetEnv MAGIC_QUOTES 0
-php_flag magic_quotes_gpc Off
-php_value magic_quotes_gpc Off
+php_flag magic_quotes_gpc off
+SetEnv ZEND_OPTIMIZER 1
 
 ### -----------------------------------------------------------------------------------------------------------------------------
 ### ----- Redirection en cas d'erreur

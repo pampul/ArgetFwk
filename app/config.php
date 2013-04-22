@@ -175,8 +175,8 @@ if (preg_match("#localhost#", $_SERVER['HTTP_HOST'])) {
   define('PDO_HOST', 'localhost');
   define('PDO_PORT', '');
   define('PDO_DATABASE_NAME', 'argetweb_argetfwk');
-  define('PDO_USER', '****');
-  define('PDO_PASSWORD', '******');
+  define('PDO_USER', 'argetweb');
+  define('PDO_PASSWORD', 'PASSWORD');
 } else {
 
   /**

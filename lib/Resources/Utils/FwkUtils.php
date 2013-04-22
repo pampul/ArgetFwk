@@ -723,7 +723,7 @@ class FwkUtils
 
     $texte       = stripslashes($texte);
     $displayText = preg_replace("#&nbsp;#", "", strip_tags($texte));
-    $var         = " [...]";
+    $var         = " ...";
     $length      = strlen($displayText);
     $displayText = wordwrap($displayText, $longueurMax, ";-;-;");
     $tableau     = explode(";-;-;", $displayText);
