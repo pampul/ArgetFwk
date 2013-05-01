@@ -225,6 +225,7 @@ class DefaultController extends ControllerManager {
   protected function blogPostGestionController() {
 
     $objBlogPost = null;
+    $blogPostAdd = false;
     if (isset($_GET['id'])) {
       if (is_numeric($_GET['id']))
         $objBlogPost = $this->em->getRepository('Resources\Entities\BlogPost')->find($_GET['id']);
@@ -232,9 +233,10 @@ class DefaultController extends ControllerManager {
 
     if (isset($_POST['titre'])) {
       extract($_POST);
-      // On est en édition
+      // On est en ajout
       if (!isset($objBlogPost)) {
         $blogPostUnset = true;
+        $blogPostAdd = true;
         $objBlogPost = new Resources\Entities\BlogPost;
         $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
       }
@@ -255,10 +257,13 @@ class DefaultController extends ControllerManager {
         $objBlogPost->setSeoDescription($seoDescription);
       else
         $objBlogPost->setSeoDescription(FwkUtils::couperTexte(160, $texte));
-      if(strlen($seoUrl) > 3)
-        $objBlogPost->setSeoUrl(FwkUtils::urlAlizeAllowSlash($seoUrl));
-      else
-        $objBlogPost->setSeoUrl(FwkUtils::urlAlizeAllowSlash($titre));
+      if(isset($seoUrl) && strlen($seoUrl) > 3)
+        $objBlogPost->setSeoUrl($this->setSeoURl(FwkUtils::urlAlizeAllowSlash($seoUrl), $objBlogPost));
+      elseif(isset($seoUrl))
+        $objBlogPost->setSeoUrl($this->setSeoURl(FwkUtils::urlAlizeAllowSlash($titre), $objBlogPost));
+      elseif($blogPostAdd)
+        $objBlogPost->setSeoUrl($this->setSeoURl(FwkUtils::urlAlizeAllowSlash($titre), $objBlogPost));
+
       $objBlogPost->setStatut($statut);
       $objBlogPost->setTemplateUrl($templateUrl);
       $objBlogPost->setTitre($titre);
@@ -287,6 +292,44 @@ class DefaultController extends ControllerManager {
         'colCategorys' => $colCategorys
       ));
     }
+  }
+
+  private function setSeoURl($str, $objBlogPost){
+
+    $i = 1;
+    $newStr = $str;
+    while(!$this->getQuerySeoUrl($newStr, $objBlogPost->getId())){
+      $i++;
+      $newStr = $str.'-'.$i;
+      if($i > 30)
+        $this->error500Controller();
+
+    }
+
+    return $newStr;
+
+  }
+
+  private function getQuerySeoUrl($str, $id){
+
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('bp')
+      ->from('Resources\Entities\BlogPost', 'bp');
+
+    if(is_null($id))
+      $qb->where('bp.seoUrl = :seoUrl')
+        ->setParameters(['seoUrl' => $str]);
+    else
+      $qb->where('bp.seoUrl = :seoUrl AND bp.id != :id')
+        ->setParameters(['seoUrl' => $str, 'id' => $id]);
+
+    $arrayResult = $qb->getQuery()->getArrayResult();
+
+    if(count($arrayResult) > 0)
+      return false;
+    else
+      return true;
+
   }
 
   protected function blogCategorieController() {

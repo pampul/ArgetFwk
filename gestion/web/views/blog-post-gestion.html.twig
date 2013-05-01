@@ -27,200 +27,208 @@
 
   <div class="span12">
 
-    <div class="widget-content" id="blog-post-gestion">
+  <div class="widget-content" id="blog-post-gestion">
 
 
 
-      <a class="hand" id="goBack" href="dashbord/blog-post"><i class="icon-arrow-left"></i> Page précédente</a>
+  <a class="hand" id="goBack" href="dashbord/blog-post"><i class="icon-arrow-left"></i> Page précédente</a>
 
-      <br/><br/>
+  <br/><br/>
 
-      <h4 class="fwk-title">{% if objBlogPost.titre is defined %}Modifier la page : "{{ objBlogPost.titre }}"{% else %}Ajout d'une page{% endif %}</h4>
-      <hr/>
+  <h4 class="fwk-title">{% if objBlogPost.titre is defined %}Modifier la page : "{{ objBlogPost.titre }}"{% else %}Ajout d'une page{% endif %}</h4>
+  <hr/>
 
-      <form action="{{ constant('SITE_CURRENT_URI') }}" method="POST" id="postForm">
+  <form action="{{ constant('SITE_CURRENT_URI') }}" method="POST" id="postForm">
 
-        <div class="span4 widget-box noclear pull-right">
+    <div class="span4 widget-box noclear pull-right">
 
-          <div class="widget-box-title">
-            <h5>Publication</h5>
+      <div class="widget-box-title">
+        <h5>Publication</h5>
+      </div>
+
+      <div class="widget-box-content nobackground">
+
+        <div class="row">
+          <div class="control-group span2" style="width: 150px;">
+            <label class="control-label">Template de page :</label>
+            <div class="controls">
+              <select name="templateUrl" style="width: 125px;">
+                {% for template in listTemplates %}
+                  <option value="{{ template }}" {% if objBlogPost.templateUrl == template %}SELECTED="selected"{% endif %}>{{ template }}</option>
+                {% endfor %}
+              </select>
+            </div>
           </div>
 
-          <div class="widget-box-content nobackground">
+          <div class="span2 nomargin">
 
-            <div class="row">
-              <div class="control-group span2" style="width: 150px;">
-                <label class="control-label">Template de page :</label>
-                <div class="controls">
-                  <select name="templateUrl" style="width: 125px;">
-                    {% for template in listTemplates %}
-                      <option value="{{ template }}" {% if objBlogPost.templateUrl == template %}SELECTED="selected"{% endif %}>{{ template }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+            {% if objBlogPost.titre is defined and objBlogPost.statut == 'publish' %}
+              <br/>
+              <a class="hand pull-right" href="{{ constant('SITE_URL_BASE') }}{{ objBlogPost.seoUrl }}" target="_blank"><i class="icon icon-eye-open"></i> Voir la page</a><br/>
+              <i class="pull-right" style="font-style:italic; font-size: 11px;">(Sauv. avant de voir)</i>
+            {% elseif objBlogPost.titre is defined and objBlogPost.statut == 'draft' %}
+              <div class="pull-right">
+                <br/>
+                <a class="hand pull-right" href="{{ constant('SITE_URL_BASE') }}post-preview/{{ objBlogPost.seoUrl }}" target="_blank"><i class="icon icon-eye-open"></i> Tester la page</a><br/>
+                <i class="pull-right" style="font-style:italic; font-size: 11px;">(Sauv. avant de tester)</i>
               </div>
-
-              <div class="span2 nomargin">
-
-                {% if objBlogPost.titre is defined and objBlogPost.statut == 'publish' %}
-                  <br/>
-                  <a class="hand pull-right" href="{{ constant('SITE_URL_BASE') }}{{ objBlogPost.seoUrl }}" target="_blank"><i class="icon icon-eye-open"></i> Voir la page</a><br/>
-                  <i class="pull-right" style="font-style:italic; font-size: 11px;">(Sauv. avant de voir)</i>
-                {% elseif objBlogPost.titre is defined and objBlogPost.statut == 'draft' %}
-                  <div class="pull-right">
-                    <br/>
-                    <a class="hand pull-right" href="{{ constant('SITE_URL_BASE') }}post-preview/{{ objBlogPost.seoUrl }}" target="_blank"><i class="icon icon-eye-open"></i> Tester la page</a><br/>
-                    <i class="pull-right" style="font-style:italic; font-size: 11px;">(Sauv. avant de tester)</i>
-                  </div>
-                {% endif %}
-
-              </div>
-            </div>
-
-            <div class="row">
-
-              <div class="control-group span2" style="width:150px;">
-                <label class="control-label">Statut de la page :</label>
-                <div class="controls">
-                  <select name="statut" style="width: 125px;">
-                    <option value="publish" {% if objBlogPost.statut == "publish" %} selected="selected" {% endif %}>Publiée</option>
-                    <option value="draft" {% if objBlogPost.statut == "draft" %} selected="selected" {% endif %}>Brouillon</option>
-                    <option value="trash" {% if objBlogPost.statut == "trash" %} selected="selected" {% endif %}>Corbeille</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="control-group span2" style="width:150px;">
-                <label class="control-label">Catégorie : </label>
-                <div class="controls">
-                  <select name="category" style="width: 125px;">
-                    <option value="none">Aucune</option>
-                    {% for objCategory in colCategorys %}
-                      <option value="{{ objCategory.id }}" {% if objCategory == objBlogPost.blogCategory %} SELECTED="SELECTED"{% endif %}>{{ objCategory.nom }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="text-align-center">
-
-              <div style="text-align: center;">
-
-                <a class="btn btn-info btn-mini sendFormButton" id="sendFormSave">Sauvegarder</a>
-                ·
-                <a class="btn btn-success btn-mini sendFormButton"  id="sendFormValid">Valider</a>
-
-              </div>
-
-            </div>
+            {% endif %}
 
           </div>
-
         </div>
-
-        <br/>
 
         <div class="row">
 
-
-
-          <div class="span7">
-            <div class="control-group">
-              <label class="control-label">Titre de la page :</label>
-              <div class="controls">
-                <input id="titrePost" type="text" name="titre" placeholder="Titre…" value="{{ objBlogPost.titre }}" data-verif="true">
-              </div>
+          <div class="control-group span2" style="width:150px;">
+            <label class="control-label">Statut de la page :</label>
+            <div class="controls">
+              <select name="statut" style="width: 125px;">
+                <option value="publish" {% if objBlogPost.statut == "publish" %} selected="selected" {% endif %}>Publiée</option>
+                <option value="draft" {% if objBlogPost.statut == "draft" %} selected="selected" {% endif %}>Brouillon</option>
+                <option value="trash" {% if objBlogPost.statut == "trash" %} selected="selected" {% endif %}>Corbeille</option>
+              </select>
             </div>
-
-            {% if objBlogPost.titre is defined %}
-              <i style="font-style: italic; font-size: 12px;">Date d'ajout de la page : {{ objBlogPost.dateAdd }}</i><br/>
-              <i style="font-style: italic; font-size: 12px;">Date de dernière édition : {{ objBlogPost.dateEdit }}</i><br/>
-            {% else %}
-              <br/>
-            {% endif %}
-            <br/><br/>
-
-            Lien permanent : (vous pouvez le modifier directement ci-dessous)
-            <div class="widget-box nomargin" style="width: 85%;">
-              <div class="widget-box-content nobackground" style="padding: 5px; font-size: 14px;">
-                {{ constant('SITE_URL_BASE') }}<input type="text" name="seoUrl" id="inputWithoutBootstrap" style="background:#F9F9F9; color:#960034;" value="{{ objBlogPost.seoUrl }}" />
-              </div>
-            </div>
-
-            <hr/>
           </div>
 
+          <div class="control-group span2" style="width:150px;">
+            <label class="control-label">Catégorie : </label>
+            <div class="controls">
+              <select name="category" style="width: 125px;">
+                <option value="none">Aucune</option>
+                {% for objCategory in colCategorys %}
+                  <option value="{{ objCategory.id }}" {% if objCategory == objBlogPost.blogCategory %} SELECTED="SELECTED"{% endif %}>{{ objCategory.nom }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
 
         </div>
 
+        <div class="text-align-center">
 
-        <div class="control-group">
-          <label class="control-label">Contenu de votre page :</label>
-          <div class="controls">
-            <textarea name="texte" rows="10" style="width: 80%;" class="redactormini">{{ objBlogPost.texte }}</textarea>
-          </div>
-        </div>
+          <div style="text-align: center;">
 
-        <hr/>
-
-        <div class="widget-box">
-
-          <div class="widget-box-title">
-
-            <h5 class="fwk-title">Référencement de votre page :</h5>
-
-          </div>
-
-          <div class="widget-box-content nobackground">
-
-            <div class="row">
-
-              <div class="span10">
-
-                <div class="row">
-                  <div class="control-group span5">
-                    <label class="control-label">SEO Title : (90 caractères max.)</label>
-                    <div class="controls">
-                      <input type="text" name="seoTitle" placeholder="Title…" value="{{ objBlogPost.seoTitle }}" maxlength="90">
-                    </div>
-                  </div>
-
-                  <div class="control-group span5">
-                    <label class="control-label">SEO H1 : (90 caractères max.)</label>
-                    <div class="controls">
-                      <input type="text" name="seoH1" placeholder="H1…" value="{{ objBlogPost.seoH1 }}" maxlength="90">
-                    </div>
-                  </div>
-
-                </div>
-
-
-                <div class="control-group">
-                  <label class="control-label">SEO Description : (180 caractères max.)</label>
-                  <div class="controls">
-                    <textarea name="seoDescription" style="width: 100%;" rows="2" maxlength="180">{{ objBlogPost.seoDescription }}</textarea>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <input type="hidden" name="idItem" value="{{ objBlogPost.id }}">
-            <input type="hidden" name="actionType" id="actionType" value="">
+            <a class="btn btn-info btn-mini sendFormButton" id="sendFormSave">Sauvegarder</a>
+            ·
+            <a class="btn btn-success btn-mini sendFormButton"  id="sendFormValid">Valider</a>
 
           </div>
 
         </div>
 
-      </form>
-
-      <br/><br/>
+      </div>
 
     </div>
+
+    <br/>
+
+    <div class="row">
+
+
+
+      <div class="span7">
+        <div class="control-group">
+          <label class="control-label">Titre de la page :</label>
+          <div class="controls">
+            <input id="titrePost" type="text" name="titre" placeholder="Titre…" value="{{ objBlogPost.titre }}" data-verif="true">
+          </div>
+        </div>
+
+        {% if objBlogPost.titre is defined %}
+          <i style="font-style: italic; font-size: 12px;">Date d'ajout de la page : {{ objBlogPost.dateAdd }}</i><br/>
+          <i style="font-style: italic; font-size: 12px;">Date de dernière édition : {{ objBlogPost.dateEdit }}</i><br/>
+        {% else %}
+          <br/>
+        {% endif %}
+        <br/><br/>
+
+        {% if admin.privilege.level > 5 %}
+
+          Lien permanent : (vous pouvez le modifier directement ci-dessous)
+          <div class="widget-box nomargin" style="width: 85%;">
+            <div class="widget-box-content nobackground" style="padding: 5px; font-size: 14px;">
+              {{ constant('SITE_URL_BASE') }}<input type="text" name="seoUrl" id="inputWithoutBootstrap" style="background:#F9F9F9; color:#960034;" value="{{ objBlogPost.seoUrl }}" />
+            </div>
+          </div>
+
+        {% else %}
+          <br/>
+          <strong>Lien permanent : </strong>{{ constant('SITE_URL_BASE') }}<span style="color: #960034;">{{ objBlogPost.seoUrl }}</span>
+          <br/><br/>
+        {% endif %}
+
+        <hr/>
+      </div>
+
+
+    </div>
+
+
+    <div class="control-group">
+      <label class="control-label">Contenu de votre page :</label>
+      <div class="controls">
+        <textarea name="texte" rows="10" style="width: 80%;" class="redactormini">{{ objBlogPost.texte }}</textarea>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="widget-box">
+
+      <div class="widget-box-title">
+
+        <h5 class="fwk-title">Référencement de votre page :</h5>
+
+      </div>
+
+      <div class="widget-box-content nobackground">
+
+        <div class="row">
+
+          <div class="span10">
+
+            <div class="row">
+              <div class="control-group span5">
+                <label class="control-label">SEO Title : (90 caractères max.)</label>
+                <div class="controls">
+                  <input type="text" name="seoTitle" placeholder="Title…" value="{{ objBlogPost.seoTitle }}" maxlength="90">
+                </div>
+              </div>
+
+              <div class="control-group span5">
+                <label class="control-label">SEO H1 : (90 caractères max.)</label>
+                <div class="controls">
+                  <input type="text" name="seoH1" placeholder="H1…" value="{{ objBlogPost.seoH1 }}" maxlength="90">
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="control-group">
+              <label class="control-label">SEO Description : (180 caractères max.)</label>
+              <div class="controls">
+                <textarea name="seoDescription" style="width: 100%;" rows="2" maxlength="180">{{ objBlogPost.seoDescription }}</textarea>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <input type="hidden" name="idItem" value="{{ objBlogPost.id }}">
+        <input type="hidden" name="actionType" id="actionType" value="">
+
+      </div>
+
+    </div>
+
+  </form>
+
+  <br/><br/>
+
+  </div>
   </div>
 
   </div>
@@ -233,7 +241,7 @@
 {% block jsinclude %}
   <script>
     $(function() {
-
+      {% if admin.privilege.level > 5 %}
       $('#titrePost').live('change', function() {
 
         var objAjax = new AjaxLib();
@@ -245,24 +253,21 @@
 
         $('#inputWithoutBootstrap').val(returnValue);
 
-
-
       });
 
-      $('#modifyInput').live('change', function() {
+      $('#inputWithoutBootstrap').live('change', function() {
 
         var objAjax = new AjaxLib();
         objAjax.setController('private');
         objAjax.setMethod('makeUrlCleaner');
         objAjax.setAsyncValue(false);
-        objAjax.setDataString('&str=' + $('#modifyInput').val());
+        objAjax.setDataString('&str=' + $('#inputWithoutBootstrap').val());
         returnValue = objAjax.execute();
 
-        $('#modifyInput').val(returnValue);
-
-
+        $('#inputWithoutBootstrap').val(returnValue);
 
       });
+      {% endif %}
 
       $('.sendFormButton').click(function() {
 

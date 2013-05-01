@@ -107,7 +107,7 @@ class FwkUtils
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
     $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
-    $str = preg_replace('/([^.A-Za-z0-9]+)/', '-', $str);
+    $str = preg_replace('#([^A-Za-z0-9]+)([\.]*)#', '-', $str);
     $str = strtolower($str);
 
     return $str;
@@ -127,7 +127,7 @@ class FwkUtils
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
     $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
-    $str = preg_replace('/([^.A-Za-z0-9\/]+)/', '-', $str);
+    $str = preg_replace('/([^A-Za-z0-9\/]+)/', '-', $str);
     $str = strtolower($str);
 
     return $str;
@@ -721,16 +721,14 @@ class FwkUtils
   public static function couperTexte($longueurMax, $texte)
   {
 
-    $texte       = stripslashes($texte);
-    $displayText = preg_replace("#&nbsp;#", "", strip_tags($texte));
-    $var         = " ...";
-    $length      = strlen($displayText);
-    $displayText = wordwrap($displayText, $longueurMax, ";-;-;");
-    $tableau     = explode(";-;-;", $displayText);
+    $length = strlen(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)));
+    $string = wordwrap(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)), $longueurMax);
+
+    $var    = " ...";
     if ($length > $longueurMax)
-      return $tableau[0] . $var;
+      return $string . $var;
     else
-      return $tableau[0];
+      return $string;
   }
 
   public static function checkFileName($path, $fileName, $ext)
