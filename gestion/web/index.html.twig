@@ -107,7 +107,7 @@
     $().UItoTop({ easingType: 'easeOutQuart' });
   });
   {% if constant('REFRESH_AUTO_BO') %}
-  $.idleTimer(300000);
+  $.idleTimer(1000000);
 
   var bootboxActiv = false;
 
@@ -115,7 +115,7 @@
 
     if(!bootboxActiv){
       bootboxActiv = true;
-      bootbox.confirm("Une inactivité dépassant les 3 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
+      bootbox.confirm("Une inactivité dépassant les 10 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
         bootboxActiv = false;
         if(result)
           location.reload(true);

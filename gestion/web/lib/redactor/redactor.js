@@ -759,13 +759,12 @@ var RTOOLBAR = {};
 			html = html.replace(/[\s\n]*$/, '');
 
 			// empty tags
-			var etags = ["<pre></pre>","<blockquote>\\s*</blockquote>","<em>\\s*</em>","<b>\\s*</b>","<ul></ul>","<ol></ol>","<li></li>","<table></table>","<tr></tr>","<span>\\s*<span>", "<span>&nbsp;<span>", "<p>\\s*</p>", "<p>&nbsp;</p>",  "<p>\\s*<br>\\s*</p>", "<div>\\s*</div>", "<div>\\s*<br>\\s*</div>"];
+			var etags = ["<pre></pre>","<blockquote>\\s*</blockquote>","<em>\\s*</em>","<b>\\s*</b>","<ul></ul>","<ol></ol>","<li></li>","<table></table>","<tr></tr>","<span>\\s*<span>", "<span>&nbsp;<span>", "<p>\\s*</p>", "<p>&nbsp;</p>", "<div>\\s*</div>", "<div>\\s*<br>\\s*</div>"];
 			for (var i = 0; i < etags.length; ++i)
 			{
 				var bbb = etags[i];
 				html = html.replace(new RegExp(bbb,'gi'), "");
 			}
-			
 			
 			// add formatting before
 			var lb = '\r\n';
@@ -775,7 +774,6 @@ var RTOOLBAR = {};
 				var eee = btags[i];
 				html = html.replace(new RegExp(eee,'gi'),lb+eee);
 			}
-			
 			// add formatting after
 			var atags = ['</p>', '</div>', '</ul>', '</ol>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '<br>', '<br />', '</dl>', '</dt>', '</dd>', '</form>', '</blockquote>', '</pre>', '</legend>', '</fieldset>', '</object>', '</embed>', '</textarea>', '</select>', '</option>', '</table>', '</thead>', '</tbody>', '</tr>', '</td>', '</th>', '</figure>'];
 			for (var i = 0; i < atags.length; ++i)
@@ -783,13 +781,11 @@ var RTOOLBAR = {};
 				var aaa = atags[i];
 				html = html.replace(new RegExp(aaa,'gi'),aaa+lb);
 			}
-
 			// indenting
 			html = html.replace(/<li/g, "\t<li");
 			html = html.replace(/<tr/g, "\t<tr");
 			html = html.replace(/<td/g, "\t\t<td");
 			html = html.replace(/<\/tr>/g, "\t</tr>");
-
 			return html;
 		},
 

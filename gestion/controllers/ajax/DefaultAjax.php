@@ -75,19 +75,27 @@ class DefaultAjax extends AjaxManager {
       }
     }
 
+    // On obtient le listing nécessaire pour la classe FwkTable
     $arrayBodyTable = array($class => $arrayBodyCheckTable);
 
+    // Si pas de tri défini, ce sera par ID DESC
     if ($sort == '' || $order == '') {
       $sort = 'id';
       $order = 'desc';
     }
+
+    // On garde le max result en mémoire
     $trueMaxResult = $maxResult;
+    // dans le cas où aucune demande de pagination existe
     if ($sendPagination == 0) {
+      // on récupère les lignes de 0 à la valeur spécifiée dans le controller
       $start = 0;
       $maxResult = $nbrSaved;
-    } else {
+      // Autrement, on multiplie la valeur controller par la page demandée
+    } else
       $start = $pagination * $maxResult;
-    }
+
+    // On récupère les boutons spécifiés dans le controller (edit/delete/view etc..)
     $arrayActionButtonsCatched = explode('_#_', $actionButtons);
     $arrayActionButtons = array();
     foreach ($arrayActionButtonsCatched as $oneButton) {
@@ -102,6 +110,7 @@ class DefaultAjax extends AjaxManager {
       }
     }
 
+    // On sélectionne les actions supplémentaires (tri par statut etc..)
     $arraySelectsVals = explode('||', $selectsVals);
     array_pop($arraySelectsVals);
     $actionSups = array();
@@ -117,10 +126,22 @@ class DefaultAjax extends AjaxManager {
         $actionSups[] = $actionSupTmp;
     }
 
+    // Création du query builder pour faire une recherche sur la classe spécifiée
     $qb = $this->em->createQueryBuilder();
     $qb->select('c')
       ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
 
+
+    // On créé la session lié à la classe si cela n'est pas déjà fait
+    if(!isset($_SESSION['poney_search'][strtolower($class)]) || (int)$removeCriteria == 1)
+      $_SESSION['poney_search'][strtolower($class)] = array();
+
+
+
+    /**
+     * Si les paramIds sont présents, la requête est faite pour exporter en CSV
+     * Export de CSV
+     */
     if (isset($paramIds) && preg_match('#,#', $paramIds)) {
 
       $arrayParamIds = explode(',', $paramIds);
@@ -128,112 +149,121 @@ class DefaultAjax extends AjaxManager {
 
       $where = '';
       $i = 0;
-      foreach ($arrayParamIds as $idProduit) {
-        $objItem = $this->em->getRepository((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class))->find($idProduit);
+      // On ajoute le c.id dans le cas où la ligne existe
+      foreach ($arrayParamIds as $idItem) {
+        $objItem = $this->em->getRepository((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class))->find($idItem);
         if (is_object($objItem)) {
           $i++;
           if ($i === 1)
-            $where .= 'c.id = ' . $idProduit;
+            $where .= 'c.id = ' . $idItem;
           else
-            $where .= ' OR c.id = ' . $idProduit;
+            $where .= ' OR c.id = ' . $idItem;
         }
       }
 
-      if (strlen($data_property) > 0) {
-        $qb->join('c.' . $sort, 'q');
-
-        $qb->add('where', $where)
+      // Dans le cas où un join est nécessaire pour le tri
+      if (strlen($data_property) > 0)
+        $qb->join('c.' . $sort, 'q')
+          ->add('where', $where)
           ->orderBy('q.' . $data_property, strtoupper($order));
-      } else {
-
+      // Autrement on execute un where normal
+      else
         $qb->add('where', $where)
           ->orderBy('c.' . $sort, strtoupper($order));
-      }
+
 
       $qb->setFirstResult($start)
         ->setMaxResults($maxResult);
+
+      /**
+       * Gestion du tri et de la recherche générale
+       */
     } else {
-      if ($search == '') {
-        if (strlen($data_property) > 0) {
 
-          $where = '';
-          if (sizeof($actionSups) > 0) {
-            $i = 0;
-            foreach ($actionSups as $oneActionSup) {
-              $i++;
-              if ($i === 1)
-                $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-              else
-                $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-            }
-          }
+      // On initialise la recherche et les actions sup à 0
+      $_SESSION['poney_search'][strtolower($class)]['search_keyword'] = null;
+      $_SESSION['poney_search'][strtolower($class)]['action_sup'] = null;
 
-          $qb->join('c.' . $sort, 'q');
-
-          if ($where != '')
-            $qb->add('where', $where);
-
-          $qb->orderBy('q.' . $data_property, strtoupper($order));
-        } else {
-
-          if (sizeof($actionSups) > 0) {
-
-            $where = '';
-            $i = 0;
-            foreach ($actionSups as $oneActionSup) {
-              $i++;
-              if ($i === 1)
-                $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-              else
-                $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-            }
-
-            $qb->add('where', $where);
-          }
-          $qb->orderBy('c.' . $sort, strtoupper($order));
+      $where = '';
+      // Les actions de tri supplémentaires sont compris dans la query
+      if (sizeof($actionSups) > 0) {
+        $_SESSION['poney_search'][strtolower($class)]['action_sup'] = $actionSups;
+        $i = 0;
+        foreach ($actionSups as $oneActionSup) {
+          $i++;
+          if ($i === 1)
+            $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
+          else
+            $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
         }
+      }
 
-        $qb->setFirstResult($start)
-          ->setMaxResults($maxResult);
-      } else {
+
+
+      // La recherche par mot clef est comprise dans la query
+      if ($search != '') {
+        $_SESSION['poney_search'][strtolower($class)]['search_keyword'] = $search;
         $arrayMethods = explode('-', $methods);
-        $where = '';
-        $sizeArray = sizeof($arrayMethods);
+        $whereStart = $where;
         $i = 0;
         foreach ($arrayMethods as $oneMethod) {
           if (!empty($oneMethod) && $oneMethod != '') {
             $i++;
-            if ($i === 1)
+            if ($i === 1 && $where == '')
               $where .= 'c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
+            elseif($i === 1 && $where != '')
+              $where .= ' AND (c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
             else
               $where .= ' OR c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
           }
         }
-
-        if ($where != '') {
-
-          foreach ($actionSups as $oneActionSup) {
-            $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-          }
-
-          if (strlen($data_property) > 0) {
-
-            $qb->join('c.' . $sort, 'q');
-
-            $qb->add('where', $where)
-              ->orderBy('q.' . $data_property, strtoupper($order));
-          } else {
-
-            $qb->add('where', $where)
-              ->orderBy('c.' . $sort, strtoupper($order));
-          }
-          $qb->setFirstResult($start)
-            ->setMaxResults($maxResult);
-        }
+        if($i != 0 && $whereStart != '')
+          $where .= ')';
       }
+
+      // On applique les nouveaux paramètres de session
+      $_SESSION['poney_search'][strtolower($class)]['where'] = $where;
+      $_SESSION['poney_search'][strtolower($class)]['join'] = array();
+      $_SESSION['poney_search'][strtolower($class)]['order'] = array();
+
+      // Si un join est nécessaire dans le tri de la query
+      if (strlen($data_property) > 0) {
+
+        // On met les paramètres de session correspondant
+        $_SESSION['poney_search'][strtolower($class)]['join']['sort'] = $sort;
+        $_SESSION['poney_search'][strtolower($class)]['join']['data_property'] = $data_property;
+        $_SESSION['poney_search'][strtolower($class)]['join']['order'] = $order;
+
+        $qb->join('c.' . $sort, 'q');
+
+        if ($where != '')
+          $qb->add('where', $where);
+
+        $qb->orderBy('q.' . $data_property, strtoupper($order));
+
+        // Autrement
+      } else {
+
+        if ($where != '')
+          $qb->add('where', $where);
+
+        $qb->orderBy('c.' . $sort, strtoupper($order));
+
+        // On met les paramètres de session correspondant
+        $_SESSION['poney_search'][strtolower($class)]['order']['sort'] = $sort;
+        $_SESSION['poney_search'][strtolower($class)]['order']['order'] = $order;
+
+      }
+
+      // On attribue les paramètres de session de pagination
+      $_SESSION['poney_search'][strtolower($class)]['results']['first_result'] = 0;
+      $_SESSION['poney_search'][strtolower($class)]['results']['max_result'] = $maxResult * ($start == 0 ? 1 : $start);
+
+      $qb->setFirstResult($start)
+        ->setMaxResults($maxResult);
     }
 
-
+    // On récupère l'ensemble des résultats
     $colObject = $qb->getQuery()->getResult();
 
     // Si pas de paramètre CSV, on rafraîchit le contenu du tableau
@@ -270,6 +300,9 @@ class DefaultAjax extends AjaxManager {
             </xmlresults>';
 
       echo $xml;
+
+
+      // Le CSV est demandé
     }else {
 
       // On génère un CSV grâce au colObject, et on retourne son URL.
@@ -288,6 +321,7 @@ class DefaultAjax extends AjaxManager {
       fclose($fichier);
 
       echo $srcFile;
+      // le javascript s'occupera par la suite de demander un téléchargement grâce à l'url
     }
   }
 

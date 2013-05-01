@@ -15,557 +15,572 @@ var bootbox=window.bootbox||function(w,n){function k(b,a){"undefined"===typeof a
     s:c.backdrop,keyboard:!1,show:!1});f.on("show",function(){n(w).off("focusin.modal")});("undefined"===typeof c.show||!0===c.show)&&f.modal("show");return f},modal:function(){var b,a,c,e={onEscape:null,keyboard:!0,backdrop:s};switch(arguments.length){case 1:b=arguments[0];break;case 2:b=arguments[0];"object"==typeof arguments[1]?c=arguments[1]:a=arguments[1];break;case 3:b=arguments[0];a=arguments[1];c=arguments[2];break;default:throw Error("Incorrect number of arguments: expected 1-3");}e.header=a;
   c="object"==typeof c?n.extend(e,c):e;return m.dialog(b,[],c)},hideAll:function(){n(".bootbox").modal("hide")},animate:function(b){u=b},backdrop:function(b){s=b},classes:function(b){v=b}},j={en:{OK:"OK",CANCEL:"Cancel",CONFIRM:"OK"},fr:{OK:"OK",CANCEL:"Annuler",CONFIRM:"D'accord"},de:{OK:"OK",CANCEL:"Abbrechen",CONFIRM:"Akzeptieren"},es:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Aceptar"},br:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Sim"},nl:{OK:"OK",CANCEL:"Annuleren",CONFIRM:"Accepteren"},ru:{OK:"OK",CANCEL:"\u041e\u0442\u043c\u0435\u043d\u0430",
   CONFIRM:"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c"},it:{OK:"OK",CANCEL:"Annulla",CONFIRM:"Conferma"}};return m}(document,window.jQuery);window.bootbox=bootbox;
-
+$.fn.exists = function() { return this.length > 0; };
 // Avoid `console` errors in browsers that lack a console.
 (function() {
-    var method;
-    var noop = function () {};
-    var methods = [
-        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-        'timeStamp', 'trace', 'warn'
-    ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
+  var method;
+  var noop = function () {};
+  var methods = [
+    'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+    'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+    'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+    'timeStamp', 'trace', 'warn'
+  ];
+  var length = methods.length;
+  var console = (window.console = window.console || {});
 
-    while (length--) {
-        method = methods[length];
+  while (length--) {
+    method = methods[length];
 
-        // Only stub undefined methods.
-        if (!console[method]) {
-            console[method] = noop;
-        }
+    // Only stub undefined methods.
+    if (!console[method]) {
+      console[method] = noop;
     }
+  }
 }());
 
 $(function() {
 
-    if ($.isFunction($('input[type=checkbox],input[type=radio],input[type=file]').uniform))
-    {
-        $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+  if ($.isFunction($('input[type=checkbox],input[type=radio],input[type=file]').uniform))
+  {
+    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+  }
+
+
+  var argetFwkUtilsLib = new ArgetFwkUtilsLib();
+
+  $('textarea[name=seoDescription],input[name=seoTitle], input[name=seoH1]').live('keyup', function() {
+
+    argetFwkUtilsLib.messageBox('#messageBox', $(this).val().length + ' caractères', 500);
+
+  });
+
+
+  /*
+   * ArgetFwk - Lib : Login Function
+   */
+  $('#submit').click(function() {
+
+    var login = $('#inputEmail').val();
+    var password = $('#inputPassword').val();
+
+    var objAjax = new AjaxLib();
+    objAjax.setController('login');
+    objAjax.setMethod('login');
+    objAjax.setDataString('&login=' + login + '&password=' + password);
+
+    var html = objAjax.execute();
+    var result = html;
+    var regex = /^\d/;
+    if (result === 'User checked.') {
+      $('#validation-login').submit();
+    }
+    else if (result.match(regex)) {
+      $('#texteLogin').html('<p>Trop de tentatives de connexion.<br/>Merci de patienter ' + result + ' secondes.</p>');
+      $("#warning").modal({
+        keyboard: false
+      });
+    } else {
+      $('#texteLogin').html('<p>Vos identifiants sont incorrects.</p>');
+      $("#warning").modal({
+        keyboard: false
+      });
+    }
+
+  });
+
+  /*
+   * ArgetFwk - Lib : Forget Password Function
+   */
+  $('#submitForget').click(function(e) {
+
+    e.preventDefault();
+
+    var messageSent = 'Le champ email est incorrect ...';
+    var expreg = '';
+    var type = 'email';
+    var ajax = '';
+    var repo = '';
+    var method = '';
+
+    if (!argetFwkUtilsLib.checkInputs($('#inputEmail'), expreg, type, ajax, repo, method)) {
+      argetFwkUtilsLib.messageBox('#messageBox', messageSent, 2000);
+    } else {
+      var login = $('#inputEmail').val();
+
+      var objAjax = new AjaxLib();
+      objAjax.setController('login');
+      objAjax.setMethod('forget');
+      objAjax.setDataString('&login=' + login);
+
+      var html = objAjax.execute();
+      var result = html;
+      var regex = /^\d/;
+      if (result === 'User checked.') {
+        $('#validation-login').submit();
+      }
+      else if (result.match(regex)) {
+        $('#texteLogin').html('<p>Trop de tentatives de demandes de mot de passe.<br/>Merci de patienter ' + result + ' secondes.</p>');
+        $("#warning").modal({
+          keyboard: false
+        });
+      } else {
+        $('#texteLogin').html('<p>Votre message a bien été envoyé.</p>');
+        $("#warning").modal({
+          keyboard: false
+        });
+      }
 
     }
 
+  });
 
-    var argetFwkUtilsLib = new ArgetFwkUtilsLib();
 
-    $('textarea[name=seoDescription],input[name=seoTitle], input[name=seoH1]').live('keyup', function() {
+  /**
+   * ArgetFwk - Lib : Gestion dynamique des tableaux
+   * -- Rafraîchissement des lignes de body
+   */
+  if($('#dynamic-table').exists()){
+    var tableSelects = $('#dynamic-table').attr('data-select-selected');
 
-        argetFwkUtilsLib.messageBox('#messageBox', $(this).val().length + ' caractères', 500);
+    var arraySplitted = tableSelects.split(';');
 
+    for(var i=0; i < arraySplitted.length; i++){
+      if(arraySplitted[i] != ''){
+        var array2 = arraySplitted[i].split('--');
+
+        $('.sortSelect[data-class="'+array2[0]+'"]').val(array2[1]);
+      }
+    }
+
+    //$('.sortSelect[data-class=""]')
+  }
+
+  /**
+   * Tri ASC ou DESC
+   */
+  $('.sort').click(function() {
+    argetFwkUtilsLib.refreshContent($(this), new Array());
+  });
+
+  $('.sortSelect').change(function() {
+    argetFwkUtilsLib.refreshContent($(this), new Array());
+  });
+
+
+
+  /*
+   * Gestion des boutons custom du tableau
+   */
+  $('.ajaxRefreshWhenClick').live('click', function(e){
+    e.preventDefault();
+
+    var link = $(this).attr('href');
+    var dataStr = '';
+    if ($(this).attr('data-id'))
+      dataStr = '&idItem=' + $(this).attr('data-id');
+    var arrayLink = link.split('/');
+
+    var objAjax = new AjaxLib();
+    objAjax.setController(arrayLink[0]);
+    objAjax.setMethod(arrayLink[1]);
+    objAjax.setAsyncValue(false);
+    objAjax.setDataString(dataStr);
+    objAjax.execute();
+
+    argetFwkUtilsLib.refreshContent($(this), new Array());
+  });
+
+
+  $('.delete-item').live('click', function(e) {
+    e.preventDefault();
+
+    $('#confirmBox').modal({backdrop: false});
+    $('#confirmTrue').attr('href', $(this).attr('href'));
+    $('#confirmTrue').attr('data-id', $(this).attr('data-id'));
+    $('#confirmTrue').attr('data-class', $(this).attr('data-class'));
+
+  });
+
+  $('#confirmTrue').live('click', function(e) {
+
+    e.preventDefault();
+    var objAjax = new AjaxLib();
+    objAjax.setController('table');
+    objAjax.setMethod('deleteLine');
+    objAjax.setAsyncValue(false);
+    objAjax.setDataString('&class=' + $(this).attr('data-class') + '&idProduct=' + $(this).attr('data-id'));
+    var result = objAjax.execute();
+
+    $('#confirmBox').modal('hide');
+
+    if (result === 'done.') {
+      if ($(this).attr('data-refresh')) {
+        if ($(this).attr('data-refresh') === 'refreshreponses') {
+          argetFwkUtilsLib.refreshReponses($(this).attr('data-idticket'));
+        }
+      } else
+        argetFwkUtilsLib.refreshContent($(document), new Array());
+    } else if (result === 'error.')
+      argetFwkUtilsLib.messageBox('#messageBox', 'Erreur serveur. Merci de contacter l\'administrateur.', 2000);
+    else
+      argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de supprimer cet élément. D\'autre tables sont liées.', 2000);
+
+  });
+
+  $('.modify-item').live('click', function(e) {
+
+    if ($(this).attr('data-edit') === 'false' && $(e.target).attr('id') !== 'iconValidation') {
+      argetFwkUtilsLib.inputsUnselect();
+      argetFwkUtilsLib.inputsActive($(this));
+    }
+
+  });
+
+  $('#modif-save').live('click', function() {
+
+    var target = $(this).prev('input');
+    argetFwkUtilsLib.modifInfoValidation(target);
+
+  });
+
+  $('.modif-container').live('click', function() {
+
+    argetFwkUtilsLib.modifyInfoInactiv();
+    $(this).attr('class', 'modif-container-edit');
+    var stylesInput = ' style="font-size: 14px; margin-top: 6px; height: 14px;"';
+    var value = $(this).children('span').html();
+    if ($(this).children('span').attr('data-modify-type') !== 'password') {
+      $(this).children('span').html('<input class="modif-input"' + stylesInput + ' value="' + value + '" type="text" id="modif-input" /> <i class="icon-ok hand modif-input-save" id="modif-save"></i>');
+    } else {
+      $(this).children('span').html('<input class="modif-input"' + stylesInput + ' value="password" type="password" id="modif-input" /> <i class="icon-ok hand modif-input-save" id="modif-save"></i>');
+    }
+
+    $(this).children('span').children('input').select();
+  });
+
+  $('.modifySave').live('click', function(e) {
+
+    e.preventDefault();
+    var target = $(this).prev('input');
+    argetFwkUtilsLib.inputsValidation(target);
+
+  });
+
+  $('.addEditItem').live('click', function(e) {
+
+    e.preventDefault();
+    var link = $(this).attr('href');
+    var modalWidth = $('#addItem').attr('data-width');
+    var dataStr = '';
+    if ($(this).attr('data-id'))
+      dataStr = '&idItem=' + $(this).attr('data-id');
+    arrayLink = link.split('/');
+    var objAjax = new AjaxLib();
+    objAjax.setController(arrayLink[0]);
+    objAjax.setMethod(arrayLink[1]);
+    objAjax.setAsyncValue(false);
+    objAjax.setDataString(dataStr);
+    $('#editBody').html(objAjax.execute());
+
+    $('#editBox').modal({backdrop: false}).css({
+      width: modalWidth,
+      'margin-left': function() {
+        return -($(this).width() / 2);
+      }
     });
 
+    $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 
-    /* 
-     * ArgetFwk - Lib : Login Function
-     */
-    $('#submit').click(function() {
+  });
 
-        var login = $('#inputEmail').val();
-        var password = $('#inputPassword').val();
+  $('form').live('submit', function(e) {
 
-        var objAjax = new AjaxLib();
-        objAjax.setController('login');
-        objAjax.setMethod('login');
-        objAjax.setDataString('&login=' + login + '&password=' + password);
+    if ($(this).attr('class') !== 'sendFile') {
 
-        var html = objAjax.execute();
-        var result = html;
-        var regex = /^\d/;
-        if (result === 'User checked.') {
-            $('#validation-login').submit();
-        }
-        else if (result.match(regex)) {
-            $('#texteLogin').html('<p>Trop de tentatives de connexion.<br/>Merci de patienter ' + result + ' secondes.</p>');
-            $("#warning").modal({
-                keyboard: false
-            });
-        } else {
-            $('#texteLogin').html('<p>Vos identifiants sont incorrects.</p>');
-            $("#warning").modal({
-                keyboard: false
-            });
-        }
+      e.preventDefault();
 
-    });
+      var checked = true;
 
-    /* 
-     * ArgetFwk - Lib : Forget Password Function
-     */
-    $('#submitForget').click(function(e) {
+      if ($(this).attr('id')) {
+        $('#' + $(this).attr('id') + ' :input').each(function() {
+          if ($(this).attr('data-verif')) {
+            var messageSent = 'Le champ ' + $(this).attr('name') + ' est incorrect ...';
+            var expreg = '';
+            var type = '';
+            var ajax = '';
+            var repo = '';
+            var method = '';
+            var datalength = '';
+            if ($(this).attr('data-expreg'))
+              expreg = $(this).attr('data-expreg');
+            if ($(this).attr('data-message'))
+              messageSent = $(this).attr('data-message');
+            if ($(this).attr('data-type'))
+              type = $(this).attr('data-type');
+            if ($(this).attr('data-ajax'))
+              ajax = $(this).attr('data-ajax');
+            if ($(this).attr('data-repo'))
+              repo = $(this).attr('data-repo');
+            if ($(this).attr('data-method'))
+              method = $(this).attr('data-method');
+            if ($(this).attr('data-length'))
+              datalength = $(this).attr('data-length');
 
-        e.preventDefault();
-
-        var messageSent = 'Le champ email est incorrect ...';
-        var expreg = '';
-        var type = 'email';
-        var ajax = '';
-        var repo = '';
-        var method = '';
-
-        if (!argetFwkUtilsLib.checkInputs($('#inputEmail'), expreg, type, ajax, repo, method)) {
-            argetFwkUtilsLib.messageBox('#messageBox', messageSent, 2000);
-        } else {
-            var login = $('#inputEmail').val();
-
-            var objAjax = new AjaxLib();
-            objAjax.setController('login');
-            objAjax.setMethod('forget');
-            objAjax.setDataString('&login=' + login);
-
-            var html = objAjax.execute();
-            var result = html;
-            var regex = /^\d/;
-            if (result === 'User checked.') {
-                $('#validation-login').submit();
+            if (!argetFwkUtilsLib.checkInputs($(this), expreg, type, ajax, repo, method, datalength)) {
+              argetFwkUtilsLib.messageBox('#messageBox', messageSent, 2000);
+              checked = false;
             }
-            else if (result.match(regex)) {
-                $('#texteLogin').html('<p>Trop de tentatives de demandes de mot de passe.<br/>Merci de patienter ' + result + ' secondes.</p>');
-                $("#warning").modal({
-                    keyboard: false
-                });
-            } else {
-                $('#texteLogin').html('<p>Votre message a bien été envoyé.</p>');
-                $("#warning").modal({
-                    keyboard: false
-                });
-            }
+          }
+        });
+      }
 
-        }
+      if ($(this).attr('id') === 'editAddForm' && checked) {
 
-    });
+        checked = false;
 
-
-    /**
-     * ArgetFwk - Lib : Gestion dynamique des tableaux
-     * -- Rafraîchissement des lignes de body
-     */
-
-    /*
-     * Tri ASC ou DESC
-     */
-    $('.sort').click(function() {
-        argetFwkUtilsLib.refreshContent($(this), new Array());
-    });
-
-    $('.sortSelect').change(function() {
-        argetFwkUtilsLib.refreshContent($(this), new Array());
-    });
-    
-    
-    
-    /*
-     * Gestion des boutons custom du tableau
-     */
-    $('.ajaxRefreshWhenClick').live('click', function(e){
-        e.preventDefault();
-        
-        var link = $(this).attr('href');
-        var dataStr = '';
-        if ($(this).attr('data-id'))
-            dataStr = '&idItem=' + $(this).attr('data-id');
-        var arrayLink = link.split('/');
-        
         var objAjax = new AjaxLib();
-        objAjax.setController(arrayLink[0]);
-        objAjax.setMethod(arrayLink[1]);
+        objAjax.setController($(this).attr('data-controller'));
+        objAjax.setMethod($(this).attr('data-method'));
+        objAjax.setDataString('&' + $(this).serialize());
         objAjax.setAsyncValue(false);
-        objAjax.setDataString(dataStr);
-        objAjax.execute();
-        
-        argetFwkUtilsLib.refreshContent($(this), new Array());
-    });
-
-
-    $('.delete-item').live('click', function(e) {
-        e.preventDefault();
-
-        $('#confirmBox').modal({backdrop: false});
-        $('#confirmTrue').attr('href', $(this).attr('href'));
-        $('#confirmTrue').attr('data-id', $(this).attr('data-id'));
-        $('#confirmTrue').attr('data-class', $(this).attr('data-class'));
-
-    });
-
-    $('#confirmTrue').live('click', function(e) {
-
-        e.preventDefault();
-        var objAjax = new AjaxLib();
-        objAjax.setController('table');
-        objAjax.setMethod('deleteLine');
-        objAjax.setAsyncValue(false);
-        objAjax.setDataString('&class=' + $(this).attr('data-class') + '&idProduct=' + $(this).attr('data-id'));
         var result = objAjax.execute();
 
-        $('#confirmBox').modal('hide');
+        var regexpDuplicate = '1062 Duplicate entry \'([a-zA-Z0-9àâäçèéêëìíîïòóôùúûü& -\.@]+)\' for key';
+        var regDuplicate = new RegExp(regexpDuplicate, 'i');
 
-        if (result === 'done.') {
-            if ($(this).attr('data-refresh')) {
-                if ($(this).attr('data-refresh') === 'refreshreponses') {
-                    argetFwkUtilsLib.refreshReponses($(this).attr('data-idticket'));
-                }
-            } else
-                argetFwkUtilsLib.refreshContent($(document), new Array());
-        } else if (result === 'error.')
-            argetFwkUtilsLib.messageBox('#messageBox', 'Erreur serveur. Merci de contacter l\'administrateur.', 2000);
-        else
-            argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de supprimer cet élément. D\'autre tables sont liées.', 2000);
+        if (result === '') {
+          argetFwkUtilsLib.refreshContent($('#search'), new Array());
+          $('#editBox').modal('hide');
+        } else if (regDuplicate.test(result)) {
+          if (result.match(regexpDuplicate)[1])
+            var txt = ' l\'élément : "' + result.match(regexpDuplicate)[1] + '"';
+          else
+            var txt = ' un autre élément.'
+          argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de sauvegarder.<br/>Il existe des similarités avec' + txt, 2500);
+        } else
+          argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de sauvegarder cet élément.<br/> Une erreur est survenue.', 2000);
+      }
 
-    });
+      if (checked)
+        this.submit();
 
-    $('.modify-item').live('click', function(e) {
+    }
 
-        if ($(this).attr('data-edit') === 'false' && $(e.target).attr('id') !== 'iconValidation') {
-            argetFwkUtilsLib.inputsUnselect();
-            argetFwkUtilsLib.inputsActive($(this));
-        }
+  });
 
-    });
+  $(document).keydown(function(e) {
 
-    $('#modif-save').live('click', function() {
+    var code = (e.keyCode ? e.keyCode : e.which);
 
-        var target = $(this).prev('input');
-        argetFwkUtilsLib.modifInfoValidation(target);
-
-    });
-
-    $('.modif-container').live('click', function() {
-
-        argetFwkUtilsLib.modifyInfoInactiv();
-        $(this).attr('class', 'modif-container-edit');
-        var stylesInput = ' style="font-size: 14px; margin-top: 6px; height: 14px;"';
-        var value = $(this).children('span').html();
-        if ($(this).children('span').attr('data-modify-type') !== 'password') {
-            $(this).children('span').html('<input class="modif-input"' + stylesInput + ' value="' + value + '" type="text" id="modif-input" /> <i class="icon-ok hand modif-input-save" id="modif-save"></i>');
-        } else {
-            $(this).children('span').html('<input class="modif-input"' + stylesInput + ' value="password" type="password" id="modif-input" /> <i class="icon-ok hand modif-input-save" id="modif-save"></i>');
-        }
-
-        $(this).children('span').children('input').select();
-    });
-
-    $('.modifySave').live('click', function(e) {
-
+    if (code === 9) {
+      var target = $(e.target);
+      if (target.attr('id') === 'modifyInput') {
         e.preventDefault();
-        var target = $(this).prev('input');
+        var parent = target.parent('.modify-item');
+        argetFwkUtilsLib.inputsUnselect();
+        if (parent.next('.modify-item').exists())
+          argetFwkUtilsLib.inputsActive(parent.next('.modify-item'));
+        else {
+          var nextTr = parent.parent('tr').next('tr');
+          argetFwkUtilsLib.inputsActive(nextTr.children('.modify-item').eq(0));
+        }
+      }
+
+    } else if (code === 27) {
+      e.preventDefault();
+      argetFwkUtilsLib.inputsUnselect();
+      argetFwkUtilsLib.modifyInfoInactiv();
+    } else if (code === 13) {
+      var target = $(e.target);
+      if (target.attr('type') === 'search') {
+        argetFwkUtilsLib.refreshContent($('#search'), new Array());
+      } else {
         argetFwkUtilsLib.inputsValidation(target);
+        argetFwkUtilsLib.modifInfoValidation(target);
+      }
+    }
 
+  });
+
+  $(document).live('click', function(e) {
+    var target = $(e.target);
+    if (target.attr('class') !== 'modify-item' && target.attr('id') !== 'modifyInput' && target.attr('class') !== 'modifySave' && target.attr('class') !== 'modif-container' && target.attr('class') !== 'modif-container-edit' && target.attr('class') !== 'value' && target.attr('id') !== 'modif-save' && target.attr('class') !== 'modif-input') {
+      argetFwkUtilsLib.inputsUnselect();
+      argetFwkUtilsLib.modifyInfoInactiv();
+    }
+
+  });
+
+  $('#exportCsvRefresh').click(function(e) {
+    e.preventDefault();
+    var arrayParams = new Array();
+
+    var ids = '';
+    $('td.checkItemTd input:checked').each(function() {
+      ids += $(this).attr('data-id') + ',';
     });
 
-    $('.addEditItem').live('click', function(e) {
+    arrayParams['ids'] = ids;
+    arrayParams['csv'] = true;
+    arrayParams['href'] = $(this).attr('href');
+    argetFwkUtilsLib.refreshContent($('#search'), arrayParams);
+  });
 
-        e.preventDefault();
-        var link = $(this).attr('href');
-        var modalWidth = $('#addItem').attr('data-width');
-        var dataStr = '';
-        if ($(this).attr('data-id'))
-            dataStr = '&idItem=' + $(this).attr('data-id');
-        arrayLink = link.split('/');
-        var objAjax = new AjaxLib();
-        objAjax.setController(arrayLink[0]);
-        objAjax.setMethod(arrayLink[1]);
-        objAjax.setAsyncValue(false);
-        objAjax.setDataString(dataStr);
-        $('#editBody').html(objAjax.execute());
+  $('#checkAll').click(function() {
 
-        $('#editBox').modal({backdrop: false}).css({
-            width: modalWidth,
-            'margin-left': function() {
-                return -($(this).width() / 2);
-            }
-        });
+    var checkedVal = $(this).attr('checked');
 
-        $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
+    $('td.checkItemTd input').each(function() {
+      if (checkedVal !== 'checked') {
+        var uniUpdate = $(this).removeAttr('checked');
+        $.uniform.update(uniUpdate);
+      } else {
+        var uniUpdate = $(this).attr('checked', checkedVal);
+        $.uniform.update(uniUpdate);
+      }
+      argetFwkUtilsLib.checkChecked();
     });
 
-    $('form').live('submit', function(e) {
+  });
 
-        if ($(this).attr('class') !== 'sendFile') {
+  $('.checkitem').live('change', function() {
 
-            e.preventDefault();
+    argetFwkUtilsLib.checkChecked();
 
-            var checked = true;
+  });
 
-            if ($(this).attr('id')) {
-                $('#' + $(this).attr('id') + ' :input').each(function() {
-                    if ($(this).attr('data-verif')) {
-                        var messageSent = 'Le champ ' + $(this).attr('name') + ' est incorrect ...';
-                        var expreg = '';
-                        var type = '';
-                        var ajax = '';
-                        var repo = '';
-                        var method = '';
-                        var datalength = '';
-                        if ($(this).attr('data-expreg'))
-                            expreg = $(this).attr('data-expreg');
-                        if ($(this).attr('data-message'))
-                            messageSent = $(this).attr('data-message');
-                        if ($(this).attr('data-type'))
-                            type = $(this).attr('data-type');
-                        if ($(this).attr('data-ajax'))
-                            ajax = $(this).attr('data-ajax');
-                        if ($(this).attr('data-repo'))
-                            repo = $(this).attr('data-repo');
-                        if ($(this).attr('data-method'))
-                            method = $(this).attr('data-method');
-                        if ($(this).attr('data-length'))
-                            datalength = $(this).attr('data-length');
+  $('#linkDelete').click(function() {
 
-                        if (!argetFwkUtilsLib.checkInputs($(this), expreg, type, ajax, repo, method, datalength)) {
-                            argetFwkUtilsLib.messageBox('#messageBox', messageSent, 2000);
-                            checked = false;
-                        }
-                    }
-                });
-            }
+    var ids = '';
+    var classItem = '';
+    $('td.checkItemTd input:checked').each(function() {
+      ids += $(this).attr('data-id') + ',';
+      classItem = $(this).attr('data-class');
+    });
 
-            if ($(this).attr('id') === 'editAddForm' && checked) {
+    $('#confirmBox').modal({backdrop: false});
+    $('#confirmTrue').attr('href', '');
+    $('#confirmTrue').attr('data-id', ids);
+    $('#confirmTrue').attr('data-class', classItem);
 
-                checked = false;
+  });
 
-                var objAjax = new AjaxLib();
-                objAjax.setController($(this).attr('data-controller'));
-                objAjax.setMethod($(this).attr('data-method'));
-                objAjax.setDataString('&' + $(this).serialize());
-                objAjax.setAsyncValue(false);
-                var result = objAjax.execute();
+  $('.ajaxImageUpload').live('change', function() {
 
-                var regexpDuplicate = '1062 Duplicate entry \'([a-zA-Z0-9àâäçèéêëìíîïòóôùúûü& -\.@]+)\' for key';
-                var regDuplicate = new RegExp(regexpDuplicate, 'i');
+    $('#editAddForm').attr('class', 'sendFile');
 
-                if (result === '') {
-                    argetFwkUtilsLib.refreshContent($('#search'), new Array());
-                    $('#editBox').modal('hide');
-                } else if (regDuplicate.test(result)) {
-                    if (result.match(regexpDuplicate)[1])
-                        var txt = ' l\'élément : "' + result.match(regexpDuplicate)[1] + '"';
-                    else
-                        var txt = ' un autre élément.'
-                    argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de sauvegarder.<br/>Il existe des similarités avec' + txt, 2500);
-                } else
-                    argetFwkUtilsLib.messageBox('#messageBox', 'Impossible de sauvegarder cet élément.<br/> Une erreur est survenue.', 2000);
-            }
+    var elem = $(this).parent().next().next();
+    elem.html('');
+    elem.html('<br/><img src="web/img/bibliotheque/wait.gif" alt="Uploading ...">');
 
-            if (checked)
-                this.submit();
+    if ($(this).attr('data-max-size'))
+      var maxsizeVar = $(this).attr('data-max-size');
+    else
+      var maxsizeVar = 5000;
 
+    if ($(this).attr('data-formats'))
+      var formatsVar = $(this).attr('data-formats');
+    else
+      var formatsVar = 'jpg,jpeg,gif,png';
+
+    if ($(this).attr('data-filename'))
+      var fileNameVar = $(this).attr('data-filename');
+    else
+      var fileNameVar = 'logo';
+
+    if ($(this).attr('data-path'))
+      var filePathVar = $(this).attr('data-path');
+    else
+      var filePathVar = 'default';
+
+    if ($(this).attr('data-perso'))
+      var dataPerso = $(this).attr('data-perso');
+    else
+      var dataPerso = 0;
+
+    if ($(this).attr('data-type'))
+      var dataType = $(this).attr('data-type');
+    else
+      var dataType = 'imageUpload';
+
+    $("#editAddForm").ajaxForm({
+      url: 'app/ajax.php',
+      data: {method: dataType, controller: 'dashboard', upmaxsize: maxsizeVar, upformat: formatsVar, upfilename: fileNameVar, upfilepath: filePathVar, dataPersoId: dataPerso},
+      success: function(data) {
+
+        $('#editAddForm').attr('class', '');
+        if (data.length > 2) {
+
+          elem.html('<img src="' + data + '" style="max-width: 75px; max-height: 75px;"');
+          elem.prev('input').val(data);
+          $('.ajaxImageUpload').val('');
+
+        } else if (data.length === 1) {
+          window.location.reload();
+        } else {
+          if ($('.ajaxImageUpload').val() !== "")
+            argetFwkUtilsLib.messageBox('#messageBox', 'Erreur lors de l\'upload. Vérifiez que le format est bien en (png,jpg,jpeg ou gif) et que le fichier ne dépasse pas les ' + argetFwkUtilsLib.getBytesWithUnit(maxsizeVar) + '.', 5000);
+          elem.html('');
+          $('.ajaxImageUpload').val('');
         }
-
-    });
-
-    $(document).keydown(function(e) {
-
-        var code = (e.keyCode ? e.keyCode : e.which);
-
-        if (code === 9) {
-            var target = $(e.target);
-            if (target.attr('id') === 'modifyInput') {
-                e.preventDefault();
-                var parent = target.parent('.modify-item');
-                argetFwkUtilsLib.inputsUnselect();
-                if (parent.next('.modify-item').length > 0)
-                    argetFwkUtilsLib.inputsActive(parent.next('.modify-item'));
-                else {
-                    var nextTr = parent.parent('tr').next('tr');
-                    argetFwkUtilsLib.inputsActive(nextTr.children('.modify-item').eq(0));
-                }
-            }
-
-        } else if (code === 27) {
-            e.preventDefault();
-            argetFwkUtilsLib.inputsUnselect();
-            argetFwkUtilsLib.modifyInfoInactiv();
-        } else if (code === 13) {
-            var target = $(e.target);
-            if (target.attr('type') === 'search') {
-                argetFwkUtilsLib.refreshContent($('#search'), new Array());
-            } else {
-                argetFwkUtilsLib.inputsValidation(target);
-                argetFwkUtilsLib.modifInfoValidation(target);
-            }
-        }
-
-    });
-
-    $(document).live('click', function(e) {
-        var target = $(e.target);
-        if (target.attr('class') !== 'modify-item' && target.attr('id') !== 'modifyInput' && target.attr('class') !== 'modifySave' && target.attr('class') !== 'modif-container' && target.attr('class') !== 'modif-container-edit' && target.attr('class') !== 'value' && target.attr('id') !== 'modif-save' && target.attr('class') !== 'modif-input') {
-            argetFwkUtilsLib.inputsUnselect();
-            argetFwkUtilsLib.modifyInfoInactiv();
-        }
-
-    });
-
-    $('#exportCsvRefresh').click(function(e) {
-        e.preventDefault();
-        var arrayParams = new Array();
-
-        var ids = '';
-        $('td.checkItemTd input:checked').each(function() {
-            ids += $(this).attr('data-id') + ',';
-        });
-
-        arrayParams['ids'] = ids;
-        arrayParams['csv'] = true;
-        arrayParams['href'] = $(this).attr('href');
-        argetFwkUtilsLib.refreshContent($('#search'), arrayParams);
-    });
-
-    $('#checkAll').click(function() {
-
-        var checkedVal = $(this).attr('checked');
-
-        $('td.checkItemTd input').each(function() {
-            if (checkedVal !== 'checked') {
-                var uniUpdate = $(this).removeAttr('checked');
-                $.uniform.update(uniUpdate);
-            } else {
-                var uniUpdate = $(this).attr('checked', checkedVal);
-                $.uniform.update(uniUpdate);
-            }
-            argetFwkUtilsLib.checkChecked();
-        });
-
-    });
-
-    $('.checkitem').live('change', function() {
-
-        argetFwkUtilsLib.checkChecked();
-
-    });
-
-    $('#linkDelete').click(function() {
-
-        var ids = '';
-        var classItem = '';
-        $('td.checkItemTd input:checked').each(function() {
-            ids += $(this).attr('data-id') + ',';
-            classItem = $(this).attr('data-class');
-        });
-
-        $('#confirmBox').modal({backdrop: false});
-        $('#confirmTrue').attr('href', '');
-        $('#confirmTrue').attr('data-id', ids);
-        $('#confirmTrue').attr('data-class', classItem);
-
-    });
-
-    $('.ajaxImageUpload').live('change', function() {
-
-        $('#editAddForm').attr('class', 'sendFile');
-
-        var elem = $(this).parent().next().next();
-        elem.html('');
-        elem.html('<br/><img src="web/img/bibliotheque/wait.gif" alt="Uploading ...">');
-
-        if ($(this).attr('data-max-size'))
-            var maxsizeVar = $(this).attr('data-max-size');
-        else
-            var maxsizeVar = 5000;
-
-        if ($(this).attr('data-formats'))
-            var formatsVar = $(this).attr('data-formats');
-        else
-            var formatsVar = 'jpg,jpeg,gif,png';
-
-        if ($(this).attr('data-filename'))
-            var fileNameVar = $(this).attr('data-filename');
-        else
-            var fileNameVar = 'logo';
-
-        if ($(this).attr('data-path'))
-            var filePathVar = $(this).attr('data-path');
-        else
-            var filePathVar = 'default';
-
-        if ($(this).attr('data-perso'))
-            var dataPerso = $(this).attr('data-perso');
-        else
-            var dataPerso = 0;
-
-        if ($(this).attr('data-type'))
-            var dataType = $(this).attr('data-type');
-        else
-            var dataType = 'imageUpload';
-
-        $("#editAddForm").ajaxForm({
-            url: 'app/ajax.php',
-            data: {method: dataType, controller: 'dashboard', upmaxsize: maxsizeVar, upformat: formatsVar, upfilename: fileNameVar, upfilepath: filePathVar, dataPersoId: dataPerso},
-            success: function(data) {
-
-                $('#editAddForm').attr('class', '');
-                if (data.length > 2) {
-
-                    elem.html('<img src="' + data + '" style="max-width: 75px; max-height: 75px;"');
-                    elem.prev('input').val(data);
-                    $('.ajaxImageUpload').val('');
-
-                } else if (data.length === 1) {
-                    window.location.reload();
-                } else {
-                    if ($('.ajaxImageUpload').val() !== "")
-                        argetFwkUtilsLib.messageBox('#messageBox', 'Erreur lors de l\'upload. Vérifiez que le format est bien en (png,jpg,jpeg ou gif) et que le fichier ne dépasse pas les ' + argetFwkUtilsLib.getBytesWithUnit(maxsizeVar) + '.', 5000);
-                    elem.html('');
-                    $('.ajaxImageUpload').val('');
-                }
-            }
-        }).submit();
+      }
+    }).submit();
 
 
 
-    });
+  });
 
-    $.fn.UItoTop = function(options) {
+  $.fn.UItoTop = function(options) {
 
-        var defaults = {
-            text: 'Top',
-            min: 200,
-            inDelay: 600,
-            outDelay: 400,
-            containerID: 'toTop',
-            containerHoverID: 'toTopHover',
-            scrollSpeed: 1200,
-            easingType: 'linear'
-        };
-
-        var settings = $.extend(defaults, options);
-        var containerIDhash = '#' + settings.containerID;
-        var containerHoverIDHash = '#' + settings.containerHoverID;
-
-        $('body').append('<a href="#" id="' + settings.containerID + '">' + settings.text + '</a>');
-        $(containerIDhash).hide().click(function() {
-            $('html, body').animate({scrollTop: 0}, settings.scrollSpeed, settings.easingType);
-            $('#' + settings.containerHoverID, this).stop().animate({'opacity': 0}, settings.inDelay, settings.easingType);
-            return false;
-        })
-                .prepend('<span id="' + settings.containerHoverID + '"></span>')
-                .hover(function() {
-            $(containerHoverIDHash, this).stop().animate({
-                'opacity': 1
-            }, 600, 'linear');
-        }, function() {
-            $(containerHoverIDHash, this).stop().animate({
-                'opacity': 0
-            }, 700, 'linear');
-        });
-
-        $(window).scroll(function() {
-            var sd = $(window).scrollTop();
-            if (typeof document.body.style.maxHeight === "undefined") {
-                $(containerIDhash).css({
-                    'position': 'absolute',
-                    'top': $(window).scrollTop() + $(window).height() - 50
-                });
-            }
-            if (sd > settings.min)
-                $(containerIDhash).fadeIn(settings.inDelay);
-            else
-                $(containerIDhash).fadeOut(settings.Outdelay);
-        });
-
+    var defaults = {
+      text: 'Top',
+      min: 200,
+      inDelay: 600,
+      outDelay: 400,
+      containerID: 'toTop',
+      containerHoverID: 'toTopHover',
+      scrollSpeed: 1200,
+      easingType: 'linear'
     };
+
+    var settings = $.extend(defaults, options);
+    var containerIDhash = '#' + settings.containerID;
+    var containerHoverIDHash = '#' + settings.containerHoverID;
+
+    $('body').append('<a href="#" id="' + settings.containerID + '">' + settings.text + '</a>');
+    $(containerIDhash).hide().click(function() {
+      $('html, body').animate({scrollTop: 0}, settings.scrollSpeed, settings.easingType);
+      $('#' + settings.containerHoverID, this).stop().animate({'opacity': 0}, settings.inDelay, settings.easingType);
+      return false;
+    })
+      .prepend('<span id="' + settings.containerHoverID + '"></span>')
+      .hover(function() {
+        $(containerHoverIDHash, this).stop().animate({
+          'opacity': 1
+        }, 600, 'linear');
+      }, function() {
+        $(containerHoverIDHash, this).stop().animate({
+          'opacity': 0
+        }, 700, 'linear');
+      });
+
+    $(window).scroll(function() {
+      var sd = $(window).scrollTop();
+      if (typeof document.body.style.maxHeight === "undefined") {
+        $(containerIDhash).css({
+          'position': 'absolute',
+          'top': $(window).scrollTop() + $(window).height() - 50
+        });
+      }
+      if (sd > settings.min)
+        $(containerIDhash).fadeIn(settings.inDelay);
+      else
+        $(containerIDhash).fadeOut(settings.Outdelay);
+    });
+
+  };
 
 
 });
