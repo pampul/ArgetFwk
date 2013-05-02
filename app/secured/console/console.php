@@ -56,16 +56,6 @@ class console extends SecuredClass {
 
     $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
 
-    /*
-     * Ajout incremental des classes
-     */
-    /* $classes = array(
-      $em->getClassMetadata('Entities\User')
-      ); */
-
-    /*
-     * Ajout automatique
-     */
     $entitiesDir = PATH_TO_IMPORTANT_FILES . 'lib/Entities/';
     $dir = opendir($entitiesDir);
     $classes = array();
@@ -117,7 +107,7 @@ class console extends SecuredClass {
         case 'createfirstschema':
           $tool->createSchema($classes);
           $html .= '
-                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : OK.</div><br/><br/></pre>';
+                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : OK.<br/>Vous pouvez maintenant vous connecter au back office avec vos identifiants</div><br/><br/></pre>';
 
           // Creation d'un privilege
           $privilege = new Resources\Entities\Privilege;
@@ -175,7 +165,9 @@ class console extends SecuredClass {
     return '
                     <form action="" method="POST">
                         <br/><br/>
-                        Merci de vous connecter :<br/>
+                        <strong>Merci de vous connecter : </strong><br/>
+                        <small><i>(les identifiants sont les constantes définies dans le fichier app/config.php : "ADMIN_EMAIL" et "ADMIN_PASSWORD")</i></small><br/>
+                        <br/>
                         <input type="text" name="login" placeholder="Login ..." /><br/><br/>
                         <input type="password" name="password" placeholder="Mot de passe ..." /><br><br/>
                         <input type="submit" class="btn btn-primary" value="Valider" />

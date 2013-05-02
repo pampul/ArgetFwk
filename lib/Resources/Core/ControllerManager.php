@@ -269,8 +269,7 @@ class ControllerManager extends FwkManager {
    */
   private function checkDBConnection(){
     try{
-      $this->em->beginTransaction();
-      $this->em->close();
+      $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
     }catch(Exception $e){
       if(!ENV_DEV){
         $this->bigError = true;

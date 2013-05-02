@@ -84,20 +84,16 @@ define('ADMIN_PASSWORD', 'admin');
 /**
  * Définition des différents environnements de développement
  * --------------------------------------------------------------------------------
+ *
+ *
+ *
+ * Si environnement Localhost :
  */
 if (HttpCore::isLocalhost()) {
 
-  /**
-   * Environnement de developpement
-   *
-   * @return boolean - True : dev / False : prod
-   */
   define('ENV_DEV', TRUE);
   define('ENV_LOCALHOST', TRUE);
 
-  /**
-   * Connexion à la BDD locale
-   */
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
@@ -106,20 +102,14 @@ if (HttpCore::isLocalhost()) {
   define('PDO_USER', 'root');
   define('PDO_PASSWORD', 'root');
 
-
+/**
+ * Connexion à la BDD en cas de PreProd (si l'url contient le mot ci-dessous) :
+ */
 } elseif (HttpCore::isPreprodUrl('argetfwk')) {
 
-  /**
-   * Environnement de developpement
-   *
-   * @return boolean - True : dev / False : prod
-   */
   define('ENV_DEV', TRUE);
   define('ENV_LOCALHOST', FALSE);
 
-  /**
-   * Connexion à la BDD pre-prod
-   */
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
@@ -128,15 +118,10 @@ if (HttpCore::isLocalhost()) {
   define('PDO_USER', 'argetweb');
   define('PDO_PASSWORD', '');
 
-} else {
-
   /**
-   * Environnement de production
-   *
-   * @return boolean - True : dev / False : prod
+   * Autrement, nous sommes en conditions de production
    */
-  define('ENV_DEV', FALSE);
-  define('ENV_LOCALHOST', FALSE);
+} else {
 
   /**
    * Suppression de l'affichage des erreurs
@@ -144,9 +129,9 @@ if (HttpCore::isLocalhost()) {
   ini_set("display_errors", 'off');
   error_reporting(0);
 
-  /*
-   * Connexion à la BDD Web
-   */
+  define('ENV_DEV', FALSE);
+  define('ENV_LOCALHOST', FALSE);
+
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');

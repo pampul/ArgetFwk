@@ -6,3 +6,4 @@ User-agent: *
 # Sitemap: http://www.yourproject.fr/sitemap.xml
 
 Disallow: /gestion/
+Disallow: /apps/
