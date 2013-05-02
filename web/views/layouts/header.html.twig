@@ -1,25 +1,23 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="{{ constant('SITE_URL') }}">{{ constant('SITE_NOM') }}</a>
-            <div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="active"><a href="{{ constant('SITE_URL') }}"><i class="icon-home"></i> Accueil</a></li>
-                </ul>
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="{{ constant('SITE_URL') }}" title="{{ constant('SITE_NOM') }} WebSite">{{ constant('SITE_NOM') }}</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><a href="{{ constant('SITE_URL') }}" title="Home"><i class="icon-home"></i> Accueil</a></li>
+        </ul>
 
-                <ul class="nav pull-right">
+        <ul class="nav pull-right">
 
-                    <li class="dropdown">
+          <li><a href="gestion/" title="Admin">Administration</a></li>
 
-                    <li><a href="gestion/">Administration</a></li>
-
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
+  </div>
 </div>
