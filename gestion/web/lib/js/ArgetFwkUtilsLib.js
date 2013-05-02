@@ -221,16 +221,23 @@ function ArgetFwkUtilsLib()
     var columns = $('#columns').attr('name');
     if (elem.attr('id') === 'sort') {
       orderBy = elem.attr('type');
+      $('#dynamic-table').attr('data-orderby', orderBy);
       orderDir = elem.attr('name');
-      if (elem.attr('data-property'))
+      $('#dynamic-table').attr('data-orderdir', orderDir);
+      if (elem.attr('data-property')){
         dataProperty = elem.attr('data-property');
-      else
+        $('#dynamic-table').attr('data-property', dataProperty);
+      }else{
         dataProperty = '';
+        $('#dynamic-table').attr('data-property', dataProperty);
+      }
     } else if (elem.attr('id') === 'pagination-button') {
       pagination++;
       if (orderBy === '') {
         orderBy = $('#last-tr').attr('data-order-by');
+        $('#dynamic-table').attr('data-orderby', orderBy);
         orderDir = $('#last-tr').attr('data-order-dir');
+        $('#dynamic-table').attr('data-orderdir', orderDir);
       }
       var paginationSaved = pagination;
       paginationSaved++;
@@ -250,8 +257,11 @@ function ArgetFwkUtilsLib()
       sendPagination = 0;
       search = '';
       dataProperty = '';
+      $('#dynamic-table').attr('data-property', dataProperty);
       orderBy = $('#last-tr').attr('data-order-by');
+      $('#dynamic-table').attr('data-orderby', orderBy);
       orderDir = $('#last-tr').attr('data-order-dir');
+      $('#dynamic-table').attr('data-orderdir', orderDir);
       $('.sortSelect').each(function() {
         $(this).val('');
       });
@@ -265,7 +275,7 @@ function ArgetFwkUtilsLib()
     var objAjax = new AjaxLib();
     objAjax.setController('table');
     objAjax.setMethod('refreshBody');
-    objAjax.setDataString('&class=' + className + '&sort=' + orderBy + '&order=' + orderDir + '&columns=' + columns + '&pagination=' + pagination + '&search=' + $('.search-query').val() + '&maxResult=' + maxResults + '&nbrSaved=' + $('#dynamic-table').attr('data-nbrsaved') + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + dataProperty + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds + '&removeCriteria='+removeCriteria+'&selectsVals=' + selectsVals);
+    objAjax.setDataString('&class=' + className + '&sort=' + $('#dynamic-table').attr('data-orderby') + '&order=' + $('#dynamic-table').attr('data-orderdir') + '&columns=' + columns + '&pagination=' + pagination + '&search=' + $('.search-query').val() + '&maxResult=' + maxResults + '&nbrSaved=' + $('#dynamic-table').attr('data-nbrsaved') + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + $('#dynamic-table').attr('data-property') + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds + '&removeCriteria='+removeCriteria+'&selectsVals=' + selectsVals);
     if (!arrayParams["csv"]) {
       objAjax.setDataType("xml");
       objAjax.setAsyncValue(true);

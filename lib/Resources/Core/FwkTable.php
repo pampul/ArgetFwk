@@ -211,10 +211,10 @@ class FwkTable extends FwkManager {
 
     $this->tcontent .= '
             <br/>
-            
-            
-            <table class="table table-bordered table-hover" id="dynamic-table" name="' . $this->className . '" data-max-result="'.$this->limit.'" data-nbrsaved="' . (isset($_SESSION['poney_search'][strtolower($this->className)]) ? $_SESSION['poney_search'][strtolower($this->className)]['results']['max_result'] : $this->limit) . '" data-select-selected="'.$this->checkSelectSelected().'">
-            
+
+
+            <table class="table table-bordered table-hover" id="dynamic-table" name="' . $this->className . '" data-max-result="'.$this->limit.'" data-nbrsaved="' . (isset($_SESSION['poney_search'][strtolower($this->className)]) ? $_SESSION['poney_search'][strtolower($this->className)]['results']['max_result'] : $this->limit) . '" data-select-selected="'.$this->checkSelectSelected().'" data-orderby="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['sort']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'] : '') . '" data-orderdir="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['order']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['order'] : '') . '" data-property="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property']) ? $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'] : '') . '">
+
         ';
     $this->tcontent .= $this->thead;
 
@@ -333,13 +333,13 @@ class FwkTable extends FwkManager {
             ->setMaxResults($this->limit);
         }else{
           // Il y a un join
-          if(isset($_SESSION['poney_search'][strtolower($this->className)]['join']['sort'])){
-            $qb->join('c.' . $_SESSION['poney_search'][strtolower($this->className)]['join']['sort'], 'q');
+          if(isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'])){
+            $qb->join('c.' . $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'], 'q');
 
             if ($_SESSION['poney_search'][strtolower($this->className)]['where'] != '')
               $qb->add('where', $_SESSION['poney_search'][strtolower($this->className)]['where']);
 
-            $qb->orderBy('q.' . $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'], strtoupper($_SESSION['poney_search'][strtolower($this->className)]['join']['order']));
+            $qb->orderBy('q.' . $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'], strtoupper($_SESSION['poney_search'][strtolower($this->className)]['order']['order']));
           }else{
             if ($_SESSION['poney_search'][strtolower($this->className)]['where'] != '')
               $qb->add('where', $_SESSION['poney_search'][strtolower($this->className)]['where']);

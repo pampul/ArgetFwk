@@ -230,9 +230,9 @@ class DefaultAjax extends AjaxManager {
       if (strlen($data_property) > 0) {
 
         // On met les paramètres de session correspondant
-        $_SESSION['poney_search'][strtolower($class)]['join']['sort'] = $sort;
+        $_SESSION['poney_search'][strtolower($class)]['order']['sort'] = $sort;
         $_SESSION['poney_search'][strtolower($class)]['join']['data_property'] = $data_property;
-        $_SESSION['poney_search'][strtolower($class)]['join']['order'] = $order;
+        $_SESSION['poney_search'][strtolower($class)]['order']['order'] = $order;
 
         $qb->join('c.' . $sort, 'q');
 
