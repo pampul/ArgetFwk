@@ -202,7 +202,7 @@ class DefaultController extends ControllerManager {
 
     $arrayActionButtons = array('edit' => array('link' => 'dashboard/blog-post-gestion', 'ajax' => false), 'delete' => array('link' => 'dashboard/blog-post-delete', 'ajax' => true),
                                 'SortSup' => array('Statut ...' => array('class' => 'blogPost', 'classMethod' => 'statut', 'repositoryMethod' => 'getSelectStatut')));
-    $arrayContentTable = array('blogPost' => array('#' => 'id', 'Date d\'ajout' => 'dateAdd', 'Auteur' => array('class' => 'admin', 'getter' => 'admin', 'method' => 'getAdminName', 'sort' => 'prenom'), 'URL' => 'seoUrl', 'Titre' => 'titre', 'Statut' => array('class' => 'blogPost', 'getter' => 'statut', 'method' => 'getStatut', 'sort' => 'statut')));
+    $arrayContentTable = array('blogPost' => array('#' => 'id', 'Date d\'ajout' => array('class' => 'blogPost', 'getter' => 'dateAdd', 'method' => 'getDate', 'sort' => 'dateAdd'), 'Auteur' => array('class' => 'admin', 'getter' => 'admin', 'method' => 'getAdminName', 'sort' => 'prenom'), 'URL' => array('class' => 'blogPost', 'getter' => 'seoUrl', 'method' => 'getUrl', 'sort' => 'seoUrl'), 'Titre' => 'titre', 'Statut' => array('class' => 'blogPost', 'getter' => 'statut', 'method' => 'getStatut', 'sort' => 'statut')));
     $arraySearchTable = array('placeholder' => 'Url, titre ...', 'autocomplete' => true, 'champs' => array('seoUrl', 'titre', 'seoTitle', 'seoDescription'));
 
     $objFwkTable = new FwkTable($arrayContentTable, $arrayActionButtons);
