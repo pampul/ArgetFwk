@@ -1,45 +1,61 @@
-{# Home page #}
-{% extends "index.html.twig" %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-{# Pase URL #}
-{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+  <base href="{{ constant('SITE_URL') }}"/>
+  <title>Internal Server Error : 500</title>
+  <meta name="description" content="Erreur 500 de générée. Votre site internet a connu une erreur grave."/>
 
-{# Gestion SEO #}
-{% block title %}500 Internal Server Error{% endblock %}
-{% block description %}{% endblock %}
+  <link rel="shortcut icon" href="/favicon.ico"/>
+
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css"/>
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="web/css/style.css" type="text/css"/>
+  {% block stylesheets %}
+    <!-- Ajout des css supplementaires here -->
+  {% endblock %}
+
+  {% block linkrel %}
+  {% endblock %}
+
+</head>
 
 
-{# Ajout des nouveaux styles #}
-{% block stylesheets %}
-
-{% endblock %}
-
-
-
-{# Contenu de la page #}
-{% block content %}
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
 
 <br/><br/><br/><br/><br/><br/>
 
-<div class="alert alert-error">
+<div class="container">
+  <div class="alert alert-error">
 
-<h2>Internal Server Error : 500</h2>
+    <h2>Internal Server Error : 500</h2>
 
-<br/>
+    <br/>
 
-Ceci est un code d'erreur 500 : Le serveur a rencontré un grave problème.<br/><br/>
+    Ceci est un code d'erreur 500 : Le serveur a rencontré un grave problème.<br/><br/>
 
-Si le problème persiste, merci de contacter un administrateur.
+    Si le problème persiste, merci de contacter un administrateur.
 
+  </div>
+
+  <br/><br/><br/><br/><br/>
+</div>
+<div id="messageBox" class="messageBox">
+  <div class="contentBox">
+
+  </div>
 </div>
 
-<br/><br/><br/><br/><br/>
-
-{% endblock %}
-
-
-
-{# Importation du JS #}
-{% block jsinclude %}
-
-{% endblock %}
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.js"></script>
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLibs.min.js"></script>
+</body>

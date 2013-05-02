@@ -23,6 +23,11 @@ class ControllerManager extends FwkManager {
   protected $em;
 
   /**
+   * Huge error to display
+   */
+  protected $bigError = false;
+
+  /**
    * Array regroupant l'ensemble des classes utiles au Fwk
    *
    * @var array $fwkClasses
@@ -35,6 +40,7 @@ class ControllerManager extends FwkManager {
       $this->em = FwkLoader::getEntityManager();
     $this->fwkClasses = FwkLoader::getFwkEntities();
 
+    $this->checkDBConnection();
     $this->execute();
   }
 
@@ -124,9 +130,10 @@ class ControllerManager extends FwkManager {
     $seoDescription = null;
     $seoH1 = null;
 
-    $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
+    if(!$this->bigError)
+      $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
 
-    if ($objSeo instanceof Resources\Entities\Seo) {
+    if (isset($objSeo) && $objSeo instanceof Resources\Entities\Seo) {
       $seoTitle = $objSeo->getTitre();
       $seoDescription = $objSeo->getDescription();
       $seoH1 = $objSeo->getH1();
@@ -143,7 +150,7 @@ class ControllerManager extends FwkManager {
 
     unset($serverReferer);
 
-    if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD) {
+    if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD && !$this->bigError) {
       $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
       $parameters = array_merge($parameters, array('admin' => $objAdmin));
     }
@@ -254,6 +261,34 @@ class ControllerManager extends FwkManager {
   protected function error500DisplayController() {
 
     $this->renderView('views/500.html.twig');
+  }
+
+  /**
+   * Check if the connection is available
+   * If ENV PROD : 500 elseif preprod show message elseif dev : link to build DB and msg
+   */
+  private function checkDBConnection(){
+    try{
+      $this->em->beginTransaction();
+      $this->em->close();
+    }catch(Exception $e){
+      if(!ENV_DEV){
+        $this->bigError = true;
+        $this->error500Controller();
+        die();
+      }elseif(ENV_DEV && !ENV_LOCALHOST){
+        echo '<strong style="color: red;">DATABASE CONNECTION FAILED.</strong>';
+        die();
+      }else{
+        echo '
+        <strong style="color: red;">DATABASE CONNECTION FAILED.</strong><br/><br/>
+        - First installation ? Check the manual (Readme.md) !<br/><br/>
+        - Want to be a superhero ? Go to the app/config.php and check the database config !<br/><br/>
+        - You\'re already a superhero ? Check if your database "'.PDO_DATABASE_NAME.'" is created and go to <a href="'.SITE_URL_BASE.'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
+        ';
+        die();
+      }
+    }
   }
 
 }
