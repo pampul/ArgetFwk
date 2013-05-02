@@ -846,6 +846,7 @@ class FwkUtils
     return preg_match("#^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü&@-]{5,15}$#", $password);
   }
 
+
 }
 
 ?>

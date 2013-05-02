@@ -10,6 +10,12 @@ if (isset($_POST['method']) && isset($_POST['controller'])) {
   define('GET_METHOD', $_POST['method']);
   define('GET_CONTROLLER', $_POST['controller']);
 
+
+  /**
+   * Appel de la classe HTTP
+   */
+  require_once PATH_TO_IMPORTANT_FILES.'app/HttpCore.php';
+
   /*
    * Appel au fichier de configuration et des constantes
    */
