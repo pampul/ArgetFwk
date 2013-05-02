@@ -10,7 +10,7 @@ class HttpCore{
     if (self::isGet('pattern'))
       define('GET_PATTERN', self::get('pattern'));
     else
-      define('GET_PATTERN', NULL);
+      define('GET_PATTERN', null);
 
     if (self::isGet('pattern'))
       define('GET_CONTENT', self::get('content'));
@@ -26,12 +26,12 @@ class HttpCore{
     /**
      * Lancement de la gestion de chrono
      */
-    define('MICRO_TIME', microtime(TRUE));
+    define('MICRO_TIME', microtime(true));
 
     /**
      * Le site comporte une BDD (false pour non)
      */
-    define('CONFIG_REQUIRE_BDD', TRUE);
+    define('CONFIG_REQUIRE_BDD', true);
 
 
     /**
@@ -40,7 +40,7 @@ class HttpCore{
      * Login Protect = Empêcher les brute force
      */
     define('PASSWORD_METHOD', 'SHA512');
-    define('LOGIN_PROTECT', TRUE);
+    define('LOGIN_PROTECT', true);
 
     /**
      * Constantes relatives au navigateur

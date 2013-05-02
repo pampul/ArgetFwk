@@ -1,8 +1,8 @@
 <?php
 
 define('BACKOFFICE_ACTIVE', '');
-define('PATH_TO_IMPORTANT_FILES', '');
-define('PATH_TO_BACKOFFICE_FILES', 'gestion/');
+define('PATH_TO_IMPORTANT_FILES', __DIR__.'/../');
+define('PATH_TO_BACKOFFICE_FILES', __DIR__.'/../gestion/');
 
 /**
  * Appel de la classe HTTP

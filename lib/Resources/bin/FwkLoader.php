@@ -115,11 +115,7 @@ class FwkLoader {
     include_once(PATH_TO_IMPORTANT_FILES . 'lib/Resources/Twig/Autoloader.php');
     Twig_Autoloader::register();
 
-    if($path != $path)
-      $viewDirectory = $path . 'web/';
-    elseif (PATH_TO_BACKOFFICE_FILES === '')
-      $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/';
-    elseif (PATH_TO_BACKOFFICE_FILES === '../')
+    if (BACKOFFICE_ACTIVE === 'gestion/')
       $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/';
     else
       $viewDirectory = PATH_TO_IMPORTANT_FILES . 'web/';
@@ -127,10 +123,15 @@ class FwkLoader {
 
     $loader = new Twig_Loader_Filesystem($viewDirectory); // Dossier contenant les templates
     unset($viewDirectory);
-    return new Twig_Environment($loader, array(
-      'cache' => TWIG_CACHE_PATH
-      //'cache' => PATH_TO_IMPORTANT_FILES . 'lib/Twig/Cache/'
-    ));
+
+    if(BACKOFFICE_ACTIVE != 'gestion/')
+      return new Twig_Environment($loader, array(
+        'cache' => TWIG_CACHE_PATH
+      ));
+    else
+      return new Twig_Environment($loader, array(
+        'cache' => FALSE
+      ));
   }
 
   /**

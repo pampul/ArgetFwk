@@ -5,8 +5,8 @@ session_start();
 if (isset($_POST['method']) && isset($_POST['controller'])) {
 
   define('BACKOFFICE_ACTIVE', 'gestion/');
-  define('PATH_TO_IMPORTANT_FILES', '../../');
-  define('PATH_TO_BACKOFFICE_FILES', '../');
+  define('PATH_TO_IMPORTANT_FILES', __DIR__.'/../../');
+  define('PATH_TO_BACKOFFICE_FILES', __DIR__.'/../');
   define('GET_METHOD', $_POST['method']);
   define('GET_CONTROLLER', $_POST['controller']);
 

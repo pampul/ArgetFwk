@@ -2,16 +2,16 @@
 
 session_start();
 define('BACKOFFICE_ACTIVE', '');
-define('PATH_TO_IMPORTANT_FILES', '../../');
+define('PATH_TO_IMPORTANT_FILES', __DIR__.'/../../');
 
-require_once '../HttpCore.php';
-require_once '../config.php';
+require_once __DIR__.'/../HttpCore.php';
+require_once __DIR__.'/../config.php';
 
 /*
  * Appel aux classes utiles du Fwk
  */
 require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/bin/FwkLoader.php';
-require_once 'lib/SecuredClass.php';
+require_once __DIR__.'/lib/SecuredClass.php';
 
 FwkLoader::getContext();
 $em = FwkLoader::getEntityManager();

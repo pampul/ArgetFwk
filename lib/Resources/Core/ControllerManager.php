@@ -61,28 +61,29 @@ class ControllerManager extends FwkManager {
         $objBlogManager = new BlogManager();
         $objBlogManager->loadTemplate($objPost);
       } else {
-        if (ENV_DEV) {
-          if (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')
+        if (ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != ''))
+          throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
+        elseif(!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')){
+          if(BACKOFFICE_ACTIVE != '')
             throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-          else {
-            if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
-              $this->renderView('views/' . GET_CONTENT . '.html.twig');
-            } else {
-              unset($objPost);
-              if (ERROR_LOGS_ENABLED) {
-                if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
-                  FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
-                else
-                  FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
-              }
-              $this->error404Controller();
-            }
+          else{
+            if (ERROR_LOGS_ENABLED)
+              FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+            $this->error404Controller();
           }
-        } else {
-
-          if (ERROR_LOGS_ENABLED)
-            FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
-          $this->error404Controller();
+        }else {
+          if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
+            $this->renderView('views/' . GET_CONTENT . '.html.twig');
+          } else {
+            unset($objPost);
+            if (ERROR_LOGS_ENABLED) {
+              if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
+                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
+              else
+                FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
+            }
+            $this->error404Controller();
+          }
         }
       }
     }
@@ -276,7 +277,9 @@ class ControllerManager extends FwkManager {
         $this->error500Controller();
         die();
       }elseif(ENV_DEV && !ENV_LOCALHOST){
-        echo '<strong style="color: red;">DATABASE CONNECTION FAILED.</strong>';
+        echo '
+        <strong style="color: red;">DATABASE CONNECTION FAILED.</strong>
+        ';
         die();
       }else{
         echo '
