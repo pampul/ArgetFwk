@@ -4,6 +4,7 @@ session_start();
 define('BACKOFFICE_ACTIVE', '');
 define('PATH_TO_IMPORTANT_FILES', '../../');
 
+require_once '../HttpCore.php';
 require_once '../config.php';
 
 /*

@@ -126,7 +126,7 @@ if (HttpCore::isLocalhost()) {
   define('PDO_PORT', '');
   define('PDO_DATABASE_NAME', 'argetweb_argetfwk');
   define('PDO_USER', 'argetweb');
-  define('PDO_PASSWORD', 'ArgetL0um');
+  define('PDO_PASSWORD', '');
 
 } else {
 
