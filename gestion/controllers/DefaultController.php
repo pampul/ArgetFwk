@@ -238,10 +238,10 @@ class DefaultController extends ControllerManager {
         $blogPostUnset = true;
         $blogPostAdd = true;
         $objBlogPost = new Resources\Entities\BlogPost;
-        $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
+        $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Paris')));
       }
 
-      $objBlogPost->setDateEdit(new DateTime("now", new DateTimeZone('Europe/Warsaw')));
+      $objBlogPost->setDateEdit(new DateTime("now", new DateTimeZone('Europe/Paris')));
       $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
 
       $objBlogPost->setAdmin($objAdmin);
@@ -296,14 +296,15 @@ class DefaultController extends ControllerManager {
 
   private function setSeoURl($str, $objBlogPost){
 
-    $i = 1;
+    $i = 0;
     $newStr = $str;
     while(!$this->getQuerySeoUrl($newStr, $objBlogPost->getId())){
       $i++;
-      $newStr = $str.'-'.$i;
-      if($i > 30)
+      if($i > 30){
         $this->error500Controller();
-
+        die();
+      }
+      $newStr = $str.'-'.$i;
     }
 
     return $newStr;

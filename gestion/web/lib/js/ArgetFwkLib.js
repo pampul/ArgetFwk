@@ -150,7 +150,7 @@ $(function() {
       if(arraySplitted[i] != ''){
         var array2 = arraySplitted[i].split('--');
 
-        $('.sortSelect[data-class="'+array2[0]+'"]').val(array2[1]);
+        $('.sortSelect[data-method="'+array2[0]+'"]').val(array2[1]);
       }
     }
 

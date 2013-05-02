@@ -767,7 +767,7 @@ class FwkTable extends FwkManager {
     if(isset($_SESSION['poney_search'][strtolower($this->className)]['action_sup'])){
       $val = '';
       foreach($_SESSION['poney_search'][strtolower($this->className)]['action_sup'] as $oneAction){
-        $val .= ';'.$oneAction['class'].'--'.$oneAction['value'];
+        $val .= ';'.$oneAction['method'].'--'.$oneAction['value'];
       }
 
       return $val;

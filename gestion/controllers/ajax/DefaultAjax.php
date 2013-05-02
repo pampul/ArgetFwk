@@ -257,7 +257,7 @@ class DefaultAjax extends AjaxManager {
 
       // On attribue les paramètres de session de pagination
       $_SESSION['poney_search'][strtolower($class)]['results']['first_result'] = 0;
-      $_SESSION['poney_search'][strtolower($class)]['results']['max_result'] = $maxResult * ($start == 0 ? 1 : $start);
+      $_SESSION['poney_search'][strtolower($class)]['results']['max_result'] = $trueMaxResult * ($pagination + 1);
 
       $qb->setFirstResult($start)
         ->setMaxResults($maxResult);
