@@ -322,7 +322,8 @@ class DefaultController extends ControllerManager {
         ->setParameter('seoUrl', $str);
     else
       $qb->where('bp.seoUrl = :seoUrl AND bp.id != :id')
-        ->setParameters(['seoUrl' => $str, 'id' => $id]);
+        ->setParameter('seoUrl', $str)
+        ->setParameter('id', $id);
 
     $arrayResult = $qb->getQuery()->getArrayResult();
 

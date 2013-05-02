@@ -107,7 +107,7 @@ class console extends SecuredClass {
         case 'createfirstschema':
           $tool->createSchema($classes);
           $html .= '
-                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : OK.<br/>Vous pouvez maintenant vous connecter au back office avec vos identifiants</div><br/><br/></pre>';
+                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : OK.<br/>Vous pouvez maintenant <a href="'.SITE_URL.'gestion/">vous connecter au back office</a> avec vos identifiants</div><br/><br/></pre>';
 
           // Creation d'un privilege
           $privilege = new Resources\Entities\Privilege;
