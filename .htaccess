@@ -472,6 +472,10 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
   RewriteRule ^apps/([a-z]+)/([a-zA-Z0-9-_]+) app/secured/SecuredLauncher.php?path=$1&page=$2 [L]
   #RewriteRule ^(.*)$ app.php [QSA,L]
 
+
+  ## ----------------------------------------
+  ## IF SingleLingual Website : do this
+  ## ----------------------------------------
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+)/(.*) app.php?pattern=$1&content=$2&id=$3&titre=$4 [L]
@@ -493,6 +497,31 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.*)$ app.php?pattern=blogchecker&content=$1 [QSA,L]
+
+  ## ----------------------------------------
+  ## IF MultiLingual Website : uncomment this
+  ## ----------------------------------------
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+)/(.*) app.php?lang=$1&pattern=$2&content=$3&id=$4&titre=$5 [L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([0-9]+) app.php?lang=$1&pattern=$2&content=$3&id=$4 [L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+)/page-([0-9]+) app.php?lang=$1&pattern=$2&content=$3&value=$4&page=$5 [L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/page-([0-9]+) app.php?lang=$1&pattern=$2&content=$3&page=$4 [QSA,L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?lang=$1&pattern=$2&content=$3&value=$4 [L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?lang=$1&pattern=$2&content=$3 [QSA,L]
+  #RewriteCond %{REQUEST_FILENAME} !-f
+  #RewriteCond %{REQUEST_FILENAME} !-d
+  #RewriteRule ^([a-z]+)/(.*)$ app.php?lang=$1&pattern=blogchecker&content=$2 [QSA,L]
 
 
 </IfModule>

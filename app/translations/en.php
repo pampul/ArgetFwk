@@ -8,7 +8,8 @@ class LangTranslation{
     return array(
 
       'mot' => 'word',
-      'secondmot' => 'second word'
+      'secondmot' => 'second word',
+      'bienvenue' => 'welcome'
 
     );
 
