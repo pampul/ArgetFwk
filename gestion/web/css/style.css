@@ -1386,3 +1386,22 @@ ul.nav li.dropdown-custom:hover ul.dropdown-menu{
 a.menu:after, .dropdown-toggle-custom:after {
   content: none;
 }
+
+.dropdown-custom .dropdown-menu{
+  top: 92%!important;
+}
+
+
+.dropdown-custom .dropdown-menu:before{
+  border-right: 0px!important;
+  border-bottom: 0px!important;
+  border-left: 0px!important;
+  content: '';
+}
+
+.dropdown-custom .dropdown-menu:after{
+  border-right: 0px!important;
+  border-bottom: 0px!important;
+  border-left: 0px!important;
+  content: '';
+}

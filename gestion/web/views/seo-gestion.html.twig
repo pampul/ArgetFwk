@@ -8,23 +8,23 @@
     </div>
     
     <div class="control-group">
-        <label class="control-label" style="width: 300px;">Titre : (max. 100 caractères)</label>
+        <label class="control-label" style="width: 300px;">Titre : (max. 90 caractères)</label>
         <div class="controls">
-            <input type="text" name="seoTitle" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="100" data-verif="true">
+            <input type="text" name="seoTitle" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="90" data-verif="true">
         </div>
     </div>
     
     <div class="control-group">
-        <label class="control-label" style="width: 300px;">H1 : (max. 100 caractères)</label>
+        <label class="control-label" style="width: 300px;">H1 : (max. 90 caractères)</label>
         <div class="controls">
-            <input type="text" name="seoH1" placeholder="H1…" value="{{ objSeo.h1 }}" maxlength="100" data-verif="true">
+            <input type="text" name="seoH1" placeholder="H1…" value="{{ objSeo.h1 }}" maxlength="90" data-verif="true">
         </div>
     </div>
     
     <div class="control-group">
-        <label class="control-label" style="width: 300px;">Description : (max. 200 caractères)</label>
+        <label class="control-label" style="width: 300px;">Description : (max. 180 caractères)</label>
         <div class="controls">
-            <textarea name="seoDescription" placeholder="Description…" maxlength="200">{{ objSeo.description }}</textarea>
+            <textarea name="seoDescription" placeholder="Description…" maxlength="180">{{ objSeo.description }}</textarea>
         </div>
     </div>
 
@@ -36,3 +36,10 @@
     </div>
 
 </form>
+
+<script>
+  $('input[name="seoTitle"],input[name="seoH1"],textarea[name="seoDescription"]').maxlength({
+    alwaysShow: true,
+    placement: 'top'
+  });
+</script>

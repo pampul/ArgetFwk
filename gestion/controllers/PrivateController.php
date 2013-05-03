@@ -55,6 +55,20 @@ class PrivateController extends ControllerManager {
     ));
   }
 
+
+
+  protected function archiveController(){
+
+    require_once PATH_TO_IMPORTANT_FILES.'app/secured/lib/SecuredClass.php';
+
+    require_once PATH_TO_IMPORTANT_FILES.'app/secured/cron/archive.php';
+
+    $object = new cron($this->em);
+    $object->execute();
+
+
+  }
+
 }
 
 ?>

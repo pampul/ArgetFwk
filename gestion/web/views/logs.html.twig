@@ -19,49 +19,49 @@
 {# Contenu de la page #}
 {% block content %}
 
-<div class="row">
+  <div class="row">
 
     <br/><br/><br/>
 
 
     <div class="span12">
 
-        <div class="widget-content">
+      <div class="widget-content">
 
 
-            <h4 class="fwk-title">Gestion des logs</h4>
-            <hr/>
+        <h4 class="fwk-title">Gestion des logs</h4>
+        <hr/>
 
-            <br/>
+        <br/>
 
-            <p>
-                Affichage de l'ensemble des logs de votre site internet
-            </p>
+        <p>
+          Affichage de l'ensemble des logs de votre site internet
+        </p>
 
-            <br/><br/>
+        <br/><br/>
 
-            <div class="controls">
-                <label>Choix du répertoire : </label>
-                <select id="selectDir">
-                    <option value="errors">...</option>
-                {% for logDir in tabLogs %}
-                    <option value="{{ logDir }}">{{ logDir }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+        <div class="controls">
+          <label>Choix du répertoire : </label>
+          <select id="selectDir">
+            <option value="errors">...</option>
+            {% for logDir in tabLogs %}
+              <option value="{{ logDir }}">{{ logDir }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-            <br/>
+        <br/>
 
-            <div id="logsList">
+        <div id="logsList">
 
-            {{ dirList|raw }}
-
-            </div>
+          {{ dirList|raw }}
 
         </div>
+
+      </div>
     </div>
 
-</div>
+  </div>
 
 {% endblock %}
 
@@ -69,86 +69,86 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-<script>
+  <script>
     $('#selectDir').live('change', function(){
 
-        var dirVal = $(this).val();
+      var dirVal = $(this).val();
 
-        $('#logsList').fadeOut(250, function(){
-            
-            var objAjax = new AjaxLib();
-            objAjax.setController('dashboard');
-            objAjax.setMethod('logFiles');
-            objAjax.setAsyncValue(false);
-            objAjax.setDataString('&dir=' + dirVal);
+      $('#logsList').fadeOut(250, function(){
 
-            $('#logsList').html(objAjax.execute());
-            $('#logsList').fadeIn(250);
-            
-        });
-        
-        
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('logFiles');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&dir=' + dirVal);
+
+        $('#logsList').html(objAjax.execute());
+        $('#logsList').fadeIn(250);
+
+      });
+
+
     });
 
     $('#goBack').live('click', function(){
-        
-        var dirVal = $(this).attr('data-prevdir');
-        
-        $('#logsList').fadeOut(250, function(){
-            
-            var objAjax = new AjaxLib();
-            objAjax.setController('dashboard');
-            objAjax.setMethod('logFiles');
-            objAjax.setAsyncValue(false);
-            objAjax.setDataString('&dir=' + dirVal);
 
-            $('#logsList').html(objAjax.execute());
-            $('#logsList').fadeIn(250);
-            
-        });
-        
+      var dirVal = $(this).attr('data-prevdir');
+
+      $('#logsList').fadeOut(250, function(){
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('logFiles');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&dir=' + dirVal);
+
+        $('#logsList').html(objAjax.execute());
+        $('#logsList').fadeIn(250);
+
+      });
+
     });
 
     $('.goToLogFile').live('click', function(){
-    
-        var dirVal = $('#selectDir').val();
-        var fileVal = $(this).html();
-        
-        $('#logsList').fadeOut(250, function(){
-    
-            var objAjax = new AjaxLib();
-            objAjax.setController('dashboard');
-            objAjax.setMethod('logReadFile');
-            objAjax.setAsyncValue(false);
-            objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
 
-            $('#logsList').html(objAjax.execute());
-            $('#logsList').fadeIn(250);
-            
-        });
-        
+      var dirVal = $('#selectDir').val();
+      var fileVal = $(this).html();
+
+      $('#logsList').fadeOut(250, function(){
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('logReadFile');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
+
+        $('#logsList').html(objAjax.execute());
+        $('#logsList').fadeIn(250);
+
+      });
+
     });
 
     $('#refresh').live('click', function(){
-        
-        var dirVal = $(this).attr('data-dir');
-        var fileVal = $(this).attr('data-file');
-        
-        $('#logsList').fadeOut(250, function(){
-    
-            var objAjax = new AjaxLib();
-            objAjax.setController('dashboard');
-            objAjax.setMethod('logReadFile');
-            objAjax.setAsyncValue(false);
-            objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
 
-            $('#logsList').html(objAjax.execute());
-            $('#logsList').fadeIn(250);
-            
-        });
-        
+      var dirVal = $(this).attr('data-dir');
+      var fileVal = $(this).attr('data-file');
+
+      $('#logsList').fadeOut(250, function(){
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('logReadFile');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&file=' + fileVal + '&dir=' + dirVal);
+
+        $('#logsList').html(objAjax.execute());
+        $('#logsList').fadeIn(250);
+
+      });
+
     });
 
 
-    </script>
+  </script>
 {% endblock %}

@@ -1,0 +1,75 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Configuration du site{% endblock %}
+{% block description %}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{% block container %}class="container"{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
+  <div class="row">
+
+    <br/><br/><br/>
+
+
+    <div class="span12">
+
+      <div class="widget-content">
+
+        <h4 class="fwk-title"><i class="icon-cogs"></i> Boite à Outils</h4>
+        <h4>Le site est actuellement en : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
+        <hr/>
+
+        <div class="row-fluid">
+
+          <h3>Liens utiles</h3>
+
+          - <a href="dashboard/config">Accéder à la configuration de votre site internet.</a><br/>
+          - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder au phpinfo().</a><br/>
+          - <a href="test/test-page">Crash Test Page</a>
+
+          <h3>Outils</h3>
+
+          - <a href="private/archive" target="_blank">Archiver les fichiers de log</a><br/>
+          - <a href="private/backup">Réaliser un Backup de base de donnée</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+  <script>
+
+    $('#modifierAvatar').click(function(){
+      $('#modifierAvatarModal').modal({
+
+      });
+
+      $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
+      $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+    });
+  </script>
+{% endblock %}

@@ -20,318 +20,318 @@
 {# Contenu de la page #}
 {% block content %}
 
-<div class="row">
+  <div class="row">
 
-    <br/><br/><br/>
+  <br/><br/><br/>
 
 
-    <div class="span12">
+  <div class="span12">
 
-        <div class="widget-content">
+  <div class="widget-content">
 
-            <h4 class="fwk-title">Configuration du site</h4>
-            <hr/>
+  <h4 class="fwk-title">Configuration du site</h4>
+  <hr/>
 
-            <br/>
+  <br/>
 
-            <h4>Le site est actuellement en : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
+  <h4>Le site est actuellement en : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
 
-            <br/>
+  <br/>
 
-            <div class="row">
+  <div class="row">
 
-                <div class="span5">
+    <div class="span5">
 
-                    Le site est en mode intégration seule en Front Office (sans utiliser de PHP) :
+      Le site est en mode intégration seule en Front Office (sans utiliser de PHP) :
 
-                </div>
+    </div>
 
-                <div class="span5">
+    <div class="span5">
 
-                    <strong>
-                    {% if constant('CONFIG_DEV_PHP') %}
-                            Non
-                    {% else %}
-                            Oui
-                    {% endif %}
-                        </strong>
+      <strong>
+        {% if constant('CONFIG_DEV_PHP') %}
+          Non
+        {% else %}
+          Oui
+        {% endif %}
+      </strong>
 
-                    </div>
+    </div>
 
-                </div>
+  </div>
 
-                <div class="row">
+  <div class="row">
 
-                    <div class="span5">
+    <div class="span5">
 
-                        Le site utilise le cache de Twig :
+      Le site utilise le cache de Twig :
 
-                    </div>
+    </div>
 
-                    <div class="span5">
+    <div class="span5">
 
-                        <strong>
-                    {% if constant('TWIG_CACHE_PATH') == false %}
-                                Non
-                    {% else %}
-                                A ce chemin : "{{ constant('TWIG_CACHE_PATH') }}"
-                    {% endif %}
-                            </strong>
+      <strong>
+        {% if constant('TWIG_CACHE_PATH') == false %}
+          Non
+        {% else %}
+          A ce chemin : "{{ constant('TWIG_CACHE_PATH') }}"
+        {% endif %}
+      </strong>
 
-                        </div>
+    </div>
 
-                    </div>
+  </div>
 
 
-                    <div class="row">
+  <div class="row">
 
-                        <div class="span5">
+    <div class="span5">
 
-                            Les Logs sont activés :
+      Les Logs sont activés :
 
-                        </div>
+    </div>
 
-                        <div class="span5">
+    <div class="span5">
 
-                            <strong>
-                    {% if constant('ERROR_LOGS_ENABLED') %}
-                                    Oui
-                    {% else %}
-                                    Non
-                    {% endif %}
-                                </strong>
+      <strong>
+        {% if constant('ERROR_LOGS_ENABLED') %}
+          Oui
+        {% else %}
+          Non
+        {% endif %}
+      </strong>
 
-                            </div>
+    </div>
 
-                        </div>
+  </div>
 
 
-                        <div class="row">
+  <div class="row">
 
-                            <div class="span5">
+    <div class="span5">
 
-                                Envoi d'email lors d'une erreur en prod/pre-prod :
+      Envoi d'email lors d'une erreur en prod/pre-prod :
 
-                            </div>
+    </div>
 
-                            <div class="span5">
+    <div class="span5">
 
-                                <strong>
-                    {% if constant('ERROR_SEND_EMAIL') %}
-                                        Oui
-                    {% else %}
-                                        Non
-                    {% endif %}
-                                    </strong>
+      <strong>
+        {% if constant('ERROR_SEND_EMAIL') %}
+          Oui
+        {% else %}
+          Non
+        {% endif %}
+      </strong>
 
-                                </div>
+    </div>
 
-                            </div>
+  </div>
 
-                            <div class="row">
+  <div class="row">
 
-                                <div class="span5">
+    <div class="span5">
 
-                                    Méthode de cryptage des mots de passe :
+      Méthode de cryptage des mots de passe :
 
-                                </div>
+    </div>
 
-                                <div class="span5">
+    <div class="span5">
 
-                                    <strong>
-                    {{ constant('PASSWORD_METHOD') }}
-                                        </strong>
+      <strong>
+        {{ constant('PASSWORD_METHOD') }}
+      </strong>
 
-                                    </div>
+    </div>
 
-                                </div>
+  </div>
 
-                                <div class="row">
+  <div class="row">
 
-                                    <div class="span5">
+    <div class="span5">
 
-                                        Protection contre le BruteForce :
+      Protection contre le BruteForce :
 
-                                    </div>
+    </div>
 
-                                    <div class="span5">
+    <div class="span5">
 
-                                        <strong>
-                    {% if constant('LOGIN_PROTECT') %}
-                                                Oui
-                    {% else %}
-                                                Non
-                    {% endif %}
-                                            </strong>
+      <strong>
+        {% if constant('LOGIN_PROTECT') %}
+          Oui
+        {% else %}
+          Non
+        {% endif %}
+      </strong>
 
-                                        </div>
+    </div>
 
-                                    </div>
+  </div>
 
 
-                                    <hr/>
+  <hr/>
 
 
-                                    <div class="row">
+  <div class="row">
 
-                                        <div class="span5">
+    <div class="span5">
 
-                                            Nom, prénom, email de l'Administrateur du site :
+      Nom, prénom, email de l'Administrateur du site :
 
-                                        </div>
+    </div>
 
-                                        <div class="span5">
+    <div class="span5">
 
-                                            <strong>
-                    {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
-                                                </strong>
+      <strong>
+        {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
+      </strong>
 
-                                            </div>
+    </div>
 
-                                        </div>
+  </div>
 
-                                        <div class="row">
+  <div class="row">
 
-                                            <div class="span5 ">
+    <div class="span5 ">
 
-                                                Nom, prénom, email du client :
+      Nom, prénom, email du client :
 
-                                            </div>
+    </div>
 
-                                            <div class="span5">
+    <div class="span5">
 
-                                                <strong>
-                    {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
-                                                    </strong>
+      <strong>
+        {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
+      </strong>
 
-                                                </div>
+    </div>
 
-                                            </div>
+  </div>
 
-                                            <hr/>
+  <hr/>
 
-                                            <div class="row">
+  <div class="row">
 
-                                                <div class="span5">
+    <div class="span5">
 
-                                                    Préfixe de BDD :
+      Préfixe de BDD :
 
-                                                </div>
+    </div>
 
-                                                <div class="span5">
+    <div class="span5">
 
-                                                    <strong>
-                                                        {{ constant('PDO_PREFIX') }}
-                                                        </strong>
+      <strong>
+        {{ constant('PDO_PREFIX') }}
+      </strong>
 
-                                                    </div>
+    </div>
 
-                                                </div>
+  </div>
 
-                                                <div class="row">
+  <div class="row">
 
-                                                    <div class="span5">
+    <div class="span5">
 
-                                                        Driver utilisé :
+      Driver utilisé :
 
-                                                    </div>
+    </div>
 
-                                                    <div class="span5">
+    <div class="span5">
 
-                                                        <strong>
-                                                        {{ constant('PDO_DRIVER') }}
-                                                            </strong>
+      <strong>
+        {{ constant('PDO_DRIVER') }}
+      </strong>
 
-                                                        </div>
+    </div>
 
-                                                    </div>
+  </div>
 
-                                                    <br/>
+  <br/>
 
-                                                    <div class="row">
+  <div class="row">
 
-                                                        <div class="span5">
+    <div class="span5">
 
-                                                            Hôte de la base de donnée :
+      Hôte de la base de donnée :
 
-                                                        </div>
+    </div>
 
-                                                        <div class="span5">
+    <div class="span5">
 
-                                                            <strong>
-                                                        {{ constant('PDO_HOST') }}
-                                                                </strong>
+      <strong>
+        {{ constant('PDO_HOST') }}
+      </strong>
 
-                                                            </div>
+    </div>
 
-                                                        </div>
+  </div>
 
-                                                        <div class="row">
+  <div class="row">
 
-                                                            <div class="span5">
+    <div class="span5">
 
-                                                                Port de la base de donnée :
+      Port de la base de donnée :
 
-                                                            </div>
+    </div>
 
-                                                            <div class="span5">
+    <div class="span5">
 
-                                                                <strong>
-                                                        {{ constant('PDO_PORT') }}
-                                                                    </strong>
+      <strong>
+        {{ constant('PDO_PORT') }}
+      </strong>
 
-                                                                </div>
+    </div>
 
-                                                            </div>
+  </div>
 
-                                                            <div class="row">
+  <div class="row">
 
-                                                                <div class="span5">
+    <div class="span5">
 
-                                                                    Nom de la base de donnée :
+      Nom de la base de donnée :
 
-                                                                </div>
+    </div>
 
-                                                                <div class="span5">
+    <div class="span5">
 
-                                                                    <strong>
-                                                        {{ constant('PDO_DATABASE_NAME') }}
-                                                                        </strong>
+      <strong>
+        {{ constant('PDO_DATABASE_NAME') }}
+      </strong>
 
-                                                                    </div>
+    </div>
 
-                                                                </div>
+  </div>
 
 
-                                                                <div class="row">
+  <div class="row">
 
-                                                                    <div class="span5">
+    <div class="span5">
 
-                                                                        Mot de passe de la base de donnée :
+      Mot de passe de la base de donnée :
 
-                                                                    </div>
+    </div>
 
-                                                                    <div class="span5">
+    <div class="span5">
 
-                                                                        <strong>
-                                                                            ******
-                                                                        </strong>
+      <strong>
+        ******
+      </strong>
 
-                                                                    </div>
+    </div>
 
-                                                                </div>
+  </div>
 
-                                                                <hr/>
+  <hr/>
 
-                                                                <br/><br/>
+  <br/><br/>
 
-                                                                <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder à la configuration générale de PHP et du serveur.</a>
+  <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder à la configuration générale de PHP et du serveur.</a>
 
-                                                            </div>
+  </div>
 
-                                                        </div>
+  </div>
 
-                                                    </div>
+  </div>
 
 
 {% endblock %}
@@ -340,15 +340,15 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-                                                    <script>
-                        
-                                                        $('#modifierAvatar').click(function(){
-                                                            $('#modifierAvatarModal').modal({
-                                
-                                                            });
-                        
-                                                            $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
-                                                            $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-                                                        });
-                                                        </script>
+  <script>
+
+    $('#modifierAvatar').click(function(){
+      $('#modifierAvatarModal').modal({
+
+      });
+
+      $('#inputsVals').html('<input type="file" name="logotoupload" class="ajaxImageUpload" data-max-size="1000000" data-formats="png,jpg,jpeg" data-filename="logotoupload" data-path="avatars" data-perso="{{ objUser.id }}"><input type="hidden" name="logo" /><div class="loadingDiv"></div>');
+      $('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+    });
+  </script>
 {% endblock %}

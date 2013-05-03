@@ -105,8 +105,8 @@ class DefaultController extends ControllerManager {
                 <th>Nom du fichier</th>
             </thead>
             <tbody>';
+    asort($dirList);
     $dirList = array_reverse($dirList);
-
     foreach ($dirList as $oneDir) {
       if (FwkUtils::getExtension($oneDir) === 'log')
         $html .= '
@@ -176,6 +176,13 @@ class DefaultController extends ControllerManager {
   protected function configController(){
 
     $this->renderView('views/config.html.twig', array(
+    ));
+
+  }
+
+  protected function toolBoxController(){
+
+    $this->renderView('views/tool-box.html.twig', array(
     ));
 
   }

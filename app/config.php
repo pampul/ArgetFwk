@@ -22,55 +22,35 @@
  */
 
 
-/**
- * Définition des variables de routing
- */
+// Définition des variables de routing
 HttpCore::initialize();
-
-
-/**
- * Le site est en mode intégration seule en Front Office (sans utiliser de PHP) : false pour integration
- */
+// Le site est en MVC obligatoire avec un controller nécessaire pour une vue
 define('CONFIG_DEV_PHP', false);
-
-/**
- * Utilisation du cache de Twig
- * Si oui : PATH_TO_IMPORTANT_FILES . 'lib/Resources/Twig/Cache/'
- */
+// Utilisation du cache de Twig
+// Si oui : PATH_TO_IMPORTANT_FILES . 'lib/Resources/Twig/Cache/'
 define('TWIG_CACHE_PATH', false);
-
-/**
- * Envoi d'email si erreur production
- */
+// Envoi d'email si erreur production
 define('ERROR_SEND_EMAIL', true);
-
-/**
- * Activation des logs
- */
+// Activation des logs
 define('ERROR_LOGS_ENABLED', true);
-
-/**
- * Activation du refresh automatique en back office après 10 sec d'inactivité
- */
+// Activation du refresh automatique en back office après 10 sec d'inactivité
 define('REFRESH_AUTO_BO', true);
 
-/**
- * Constantes relatives à la societe
- */
+
+
+
+
+// Constantes relatives à la societe
 define('SOCIETE_NOM', 'ArgetFwk');
 define('SITE_NOM', 'ArgetFwk');
 
-/**
- * Constantes relatives au client
- */
+// Constantes relatives aux clients
 define('CLIENT_EMAIL', 'florian.mithieux@supinfo.com');
 define('CLIENT_EMAIL_LISTING', serialize(array('florian.mithieux@supinfo.com')));
 define('CLIENT_NOM', 'Mithieux');
 define('CLIENT_PRENOM', 'Florian');
 
-/**
- * Constantes relatives à l'admin
- */
+// Constantes relatives à l'administrateur
 define('ADMIN_EMAIL', 'florian.mithieux@gmail.com');
 define('ADMIN_EMAIL_LISTING', serialize(array('florian.mithieux@gmail.com')));
 define('ADMIN_NOM', 'M.');
@@ -84,7 +64,7 @@ define('ADMIN_PASSWORD', 'admin');
  *
  *
  *
- * Connexion à la BDD si environnement Localhost :
+ * Connexion à la BDD si environnement Localhost
  */
 if (HttpCore::isLocalhost()) {
 
@@ -99,10 +79,10 @@ if (HttpCore::isLocalhost()) {
   define('PDO_USER', 'root');
   define('PDO_PASSWORD', 'root');
 
-/**
- * --------------------------------------------------------------------------------
- * Connexion à la BDD en cas de PreProd (si l'url contient le mot ci-dessous) :
- */
+  /**
+   * --------------------------------------------------------------------------------
+   * Connexion à la BDD en cas de PreProd (si l'url contient le mot ci-dessous)
+   */
 } elseif (HttpCore::isPreprodUrl('argetfwk')) {
 
   define('ENV_DEV', true);
@@ -122,9 +102,7 @@ if (HttpCore::isLocalhost()) {
    */
 } else {
 
-  /**
-   * Suppression de l'affichage des erreurs
-   */
+  // Suppression de l'affichage des erreurs
   ini_set("display_errors", 'off');
   error_reporting(0);
 
