@@ -2,6 +2,10 @@
 
 class HttpCore{
 
+  /**
+   * @var Translation
+   */
+  public static $translation;
 
   public static function initialize(){
     /**
@@ -17,6 +21,20 @@ class HttpCore{
     else
       define('GET_CONTENT', 'home');
 
+
+    /**
+     * si le paramètre "lang" est défini dans l'url et s'il existe dans la liste
+     * $lang prend la valeur de $_GET['lang']
+     */
+    $lang = 'fr';
+    if (self::isGet('lang'))
+      $lang = self::get('lang');
+
+    /**
+     * On appelle le fichier de langues
+     */
+    require_once PATH_TO_IMPORTANT_FILES.'lib/Resources/Core/Translation.php';
+    Translation::initialize($lang);
 
     /**
      * TimeZone du serveur

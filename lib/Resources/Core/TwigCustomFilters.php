@@ -20,6 +20,7 @@ class TwigCustomFilters {
     $filters['pictureFromTxt'] = new Twig_Filter_Function("pictureFromTxt");
     $filters['resizeImage'] = new Twig_Filter_Function("resizeImage");
     $filters['getGravatar'] = new Twig_Filter_Function("getGravatar");
+    $filters['translate'] = new Twig_Filter_Function("translate", array('is_safe' => array('html')));
 
     return $filters;
   }
@@ -85,6 +86,10 @@ function getGravatar( $email, $s = 80, $d = 'mm', $img = false, $atts = array() 
     $url .= ' />';
   }
   return $url;
+}
+
+function translate($wordToTranslate){
+  return Translation::translate($wordToTranslate);
 }
 
 ?>
