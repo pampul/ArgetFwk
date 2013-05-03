@@ -1,6 +1,7 @@
 #ArgetFwk
 -----------------
 
+
 [ArgetFwk](http://florian-mithieux.fr/developpeur-web-lyon/portfolio-webmaster/10/argetfwk) est un framework MVC utilisant Doctrine 2 et Twig, adapté aux besoins de suite-logique, ainsi qu'aux clients.
 Il a été développé durant mes heures personnelles, dans le but de me simplifier la vie.
 Il a ensuite été amélioré durant le développement des nouveaux projets au sein de suite logique.
@@ -14,7 +15,6 @@ Sa création a été faite de façon à pouvoir optimiser le référencement de 
 Enfin, une documentation technique est en cours d'écriture, et devrait pouvoir simplifier la vie de bon nombre de développeurs.
 
 ##Installation
------------------
 
 Pour faire fonctionner le FrameWork, merci de suivre ces étapes :
 
