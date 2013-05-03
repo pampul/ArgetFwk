@@ -95,7 +95,7 @@ class console extends SecuredClass {
         case 'deleteschema':
           $tool->dropSchema($classes);
           $html .= '
-                    <pre><br/><br/><div class="alert alert-info">Schéma supprimé avec succès.</div><br/><br/></pre>';
+                    <pre><br/><br/><div class="alert alert-info">Schéma supprimé avec succès.</div><br/></pre>';
           break;
 
         case 'updateschema':
@@ -105,41 +105,46 @@ class console extends SecuredClass {
           break;
 
         case 'createfirstschema':
-          $tool->createSchema($classes);
-          $html .= '
-                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : OK.<br/>Vous pouvez maintenant <a href="'.SITE_URL.'gestion/">vous connecter au back office</a> avec vos identifiants</div><br/><br/></pre>';
+          try{
+            $tool->createSchema($classes);
+            $html .= '
+                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : <strong>OK</strong>.<br/>Vous pouvez maintenant <a href="'.SITE_URL.'gestion/"><span style="text-decoration: underline;">vous connecter au back office</span></a> avec vos identifiants</div><br/></pre>';
 
-          // Creation d'un privilege
-          $privilege = new Resources\Entities\Privilege;
-          $privilege->setId(1);
-          $privilege->setNom('Administrateur');
-          $privilege->setLevel(9);
-          $this->em->persist($privilege);
+            // Creation d'un privilege
+            $privilege = new Resources\Entities\Privilege;
+            $privilege->setId(1);
+            $privilege->setNom('Administrateur');
+            $privilege->setLevel(9);
+            $this->em->persist($privilege);
 
-          $privilege2 = new Resources\Entities\Privilege;
-          $privilege2->setId(2);
-          $privilege2->setNom('WebMaster');
-          $privilege2->setLevel(10);
-          $this->em->persist($privilege2);
+            $privilege2 = new Resources\Entities\Privilege;
+            $privilege2->setId(2);
+            $privilege2->setNom('WebMaster');
+            $privilege2->setLevel(10);
+            $this->em->persist($privilege2);
 
-          $privilege3 = new Resources\Entities\Privilege;
-          $privilege3->setId(3);
-          $privilege3->setNom('Normal');
-          $privilege3->setLevel(5);
-          $this->em->persist($privilege3);
+            $privilege3 = new Resources\Entities\Privilege;
+            $privilege3->setId(3);
+            $privilege3->setNom('Normal');
+            $privilege3->setLevel(5);
+            $this->em->persist($privilege3);
 
-          // Creation d'utilisateur
-          $admin = new Resources\Entities\Admin;
-          $admin->setId(1);
-          $admin->setEmail(ADMIN_EMAIL);
-          $admin->setFonction('Développeur Web');
-          $admin->setNom(ADMIN_NOM);
-          $admin->setPrenom(ADMIN_PRENOM);
-          $admin->setPassword(FwkSecurity::encryptPassword(ADMIN_PASSWORD));
-          $admin->setPrivilege($privilege2);
+            // Creation d'utilisateur
+            $admin = new Resources\Entities\Admin;
+            $admin->setId(1);
+            $admin->setEmail(ADMIN_EMAIL);
+            $admin->setFonction('Développeur Web');
+            $admin->setNom(ADMIN_NOM);
+            $admin->setPrenom(ADMIN_PRENOM);
+            $admin->setPassword(FwkSecurity::encryptPassword(ADMIN_PASSWORD));
+            $admin->setPrivilege($privilege2);
 
-          $this->em->persist($admin);
-          $this->em->flush();
+            $this->em->persist($admin);
+            $this->em->flush();
+          }catch(Exception $e){
+            $html .= '
+                    <pre><br/><div class="alert alert-error">Le schéma est déjà créé, vous ne pouvez pas répéter cette action.</div></pre>';
+          }
           break;
       }
     } else {
@@ -152,9 +157,9 @@ class console extends SecuredClass {
     $html .= '
                     <br/>
 
-                    - <a href="'.SITE_URL.'apps/console/createschema" title="Creer le schema">Générer le schéma</a><br/><br/>
+                    <!--- <a href="'.SITE_URL.'apps/console/createschema" title="Creer le schema">Générer le schéma</a><br/><br/>-->
                     - <a href="'.SITE_URL.'apps/console/createfirstschema" title="Creer le schema">Générer le schéma avec un premier enregistrement</a><br/><br/>
-                    - <a href="'.SITE_URL.'apps/console/deleteschema" title="Supprimer le schema">Supprimer le schéma</a><br/><br/>
+                    - <a href="'.SITE_URL.'apps/console/deleteschema" title="Supprimer le schema" onclick="if(confirm(\'Voulez-vous vraiment supprimer le schema ?\')) return true; else return false;">Supprimer le schéma</a><br/><br/>
                     - <a href="'.SITE_URL.'apps/console/updateschema" title="Mettre a jour le schema">Mettre a jour le schéma</a><br/>';
 
     return $html;

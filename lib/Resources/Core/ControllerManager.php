@@ -284,9 +284,9 @@ class ControllerManager extends FwkManager {
       }else{
         echo '
         <strong style="color: red;">DATABASE CONNECTION FAILED.</strong><br/><br/>
-        - First installation ? Check the manual (Readme.md) !<br/><br/>
-        - Want to be a superhero ? Go to the app/config.php and check the database config !<br/><br/>
-        - You\'re already a superhero ? Check if your database "'.PDO_DATABASE_NAME.'" is created and go to <a href="'.SITE_URL_BASE.'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
+        - First installation ? Check the manual (<a href="https://github.com/Argetloum/ArgetFwk/blob/master/README.md">Readme.md</a>) !<br/><br/>
+        - If not, go to the app/config.php and check the database config !<br/><br/>
+        - Then, check if your database "'.PDO_DATABASE_NAME.'" is created and go to <a href="'.SITE_URL_BASE.'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
         ';
         die();
       }
