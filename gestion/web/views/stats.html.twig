@@ -20,283 +20,283 @@
 {# Contenu de la page #}
 {% block content %}
 
-<div class="row">
+  <div class="row">
 
     <br/><br/>
 
 
     <div class="span12">
 
-        <div class="widget-box">
+      <div class="widget-box">
 
-            <div class="widget-box-title">
+        <div class="widget-box-title">
                 <span class="icon">
                     <i class="icon-signal"></i>
                 </span>
-                <h5>Line Chart</h5>
+          <h5>Line Chart</h5>
+        </div>
+
+        <div class="widget-box-content">
+
+          <div class="row">
+            <div class="span8 makeborderright" id="gChartLine">
+              {{ gChartLine.drawHtml|raw }}
             </div>
 
-            <div class="widget-box-content">
+            <div class="span3">
 
-                <div class="row">
-                    <div class="span8 makeborderright" id="gChartLine">
-                        {{ gChartLine.drawHtml|raw }}
-                        </div>
+              <form class="form-horizontal form-custom" method="POST" action="{{ siteUri }}">
 
-                        <div class="span3">
+                <h4>Sélection de période</h4>
 
-                            <form class="form-horizontal form-custom" method="POST" action="{{ siteUri }}">
+                <hr/>
 
-                                <h4>Sélection de période</h4>
-
-                                <hr/>
-
-                                <div class="control-group">
-                                    <label class="control-label">Du :</label>
-                                    <div class="controls">
-                                        <div class="input-append date" id="dpstart" data-date="{{ startDate }}" data-date-format="dd-mm-yyyy">
-                                            <input class="span2" size="16" name="dateStart" type="text" value="{{ startDate }}" readonly="">
-                                            <div class="add-on" id="oui"><i class="icon-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="control-group">
-                                    <label class="control-label">Au :</label>
-                                    <div class="controls">
-                                        <div class="input-append date" id="dpend" data-date="{{ endDate }}" data-date-format="dd-mm-yyyy">
-                                            <input class="span2" size="16" type="text" name="dateEnd" value="{{ endDate }}" readonly="">
-                                            <div class="add-on"><i class="icon-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <input type="submit" class="btn btn-small" value="Valider" />
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
+                <div class="control-group">
+                  <label class="control-label">Du :</label>
+                  <div class="controls">
+                    <div class="input-append date" id="dpstart" data-date="{{ startDate }}" data-date-format="dd-mm-yyyy">
+                      <input class="span2" size="16" name="dateStart" type="text" value="{{ startDate }}" readonly="">
+                      <div class="add-on" id="oui"><i class="icon-calendar"></i></div>
                     </div>
-
+                  </div>
                 </div>
 
+                <div class="control-group">
+                  <label class="control-label">Au :</label>
+                  <div class="controls">
+                    <div class="input-append date" id="dpend" data-date="{{ endDate }}" data-date-format="dd-mm-yyyy">
+                      <input class="span2" size="16" type="text" name="dateEnd" value="{{ endDate }}" readonly="">
+                      <div class="add-on"><i class="icon-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <div class="controls">
+                    <input type="submit" class="btn btn-small" value="Valider" />
+                  </div>
+                </div>
+
+              </form>
             </div>
+          </div>
 
         </div>
 
+      </div>
+
     </div>
 
-    <div class="row-fluid">
+  </div>
 
-        <div class="span6">
+  <div class="row-fluid">
 
-            <div class="widget-box">
+    <div class="span6">
 
-                <div class="widget-box-title">
+      <div class="widget-box">
+
+        <div class="widget-box-title">
                     <span class="icon">
                         <i class="icon-signal"></i>
                     </span>
-                    <h5>Pie Chart</h5>
-                </div>
+          <h5>Pie Chart</h5>
+        </div>
 
-                <div class="widget-box-content">
+        <div class="widget-box-content">
 
-                    <div class="row">
-                        <div class="span12">
-                        {{ gChartPie.drawHtml|raw }}
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
+          <div class="row">
+            <div class="span12">
+              {{ gChartPie.drawHtml|raw }}
             </div>
+          </div>
 
-            <div class="span6">
+        </div>
 
-                <div class="widget-box">
+      </div>
 
-                    <div class="widget-box-title">
+    </div>
+
+    <div class="span6">
+
+      <div class="widget-box">
+
+        <div class="widget-box-title">
                         <span class="icon">
                             <i class="icon-signal"></i>
                         </span>
-                        <h5>Pie Chart</h5>
-                    </div>
+          <h5>Pie Chart</h5>
+        </div>
 
-                    <div class="widget-box-content">
+        <div class="widget-box-content">
 
-                        <div class="row">
-                            <div class="span12">
-                        {{ gChartPie2.drawHtml|raw }}
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+          <div class="row">
+            <div class="span12">
+              {{ gChartPie2.drawHtml|raw }}
             </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 
-            <div class="row-fluid">
+  <div class="row-fluid">
 
-                <div class="span4">
+    <div class="span4">
 
-                    <div class="widget-box">
+      <div class="widget-box">
 
-                        <div class="widget-box-title">
+        <div class="widget-box-title">
                             <span class="icon">
                                 <i class="icon-eye-open"></i>
                             </span>
-                            <h5>Statistiques</h5>
-                        </div>
+          <h5>Statistiques</h5>
+        </div>
 
-                        <div class="widget-box-content nopadding">
+        <div class="widget-box-content nopadding">
 
-                            <table class="table table-hover nomargin">
-                                <thead>
-                                    <tr>
-                                        <th>Navigateur</th>
-                                        <th>Visites</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Chrome</td>
-                                        <td>8775</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Firefox</td>
-                                        <td>5692</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Internet Explorer</td>
-                                        <td>4030</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Opera</td>
-                                        <td>1674</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Safari</td>
-                                        <td>1166</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+          <table class="table table-hover nomargin">
+            <thead>
+            <tr>
+              <th>Navigateur</th>
+              <th>Visites</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Chrome</td>
+              <td>8775</td>
+            </tr>
+            <tr>
+              <td>Firefox</td>
+              <td>5692</td>
+            </tr>
+            <tr>
+              <td>Internet Explorer</td>
+              <td>4030</td>
+            </tr>
+            <tr>
+              <td>Opera</td>
+              <td>1674</td>
+            </tr>
+            <tr>
+              <td>Safari</td>
+              <td>1166</td>
+            </tr>
+            </tbody>
+          </table>
 
-                        </div>
+        </div>
 
-                    </div>
+      </div>
 
-                </div>
+    </div>
 
-                <div class="span4">
+    <div class="span4">
 
-                    <div class="widget-box">
+      <div class="widget-box">
 
-                        <div class="widget-box-title">
+        <div class="widget-box-title">
                             <span class="icon">
                                 <i class="icon-eye-open"></i>
                             </span>
-                            <h5>Nombre de visites</h5>
-                        </div>
+          <h5>Nombre de visites</h5>
+        </div>
 
-                        <div class="widget-box-content nopadding">
+        <div class="widget-box-content nopadding">
 
-                            <table class="table table-hover nomargin">
-                                <thead>
-                                    <tr>
-                                        <th>Navigateur</th>
-                                        <th>Visites</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Chrome</td>
-                                        <td>8775</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Firefox</td>
-                                        <td>5692</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Internet Explorer</td>
-                                        <td>4030</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Opera</td>
-                                        <td>1674</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Safari</td>
-                                        <td>1166</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+          <table class="table table-hover nomargin">
+            <thead>
+            <tr>
+              <th>Navigateur</th>
+              <th>Visites</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Chrome</td>
+              <td>8775</td>
+            </tr>
+            <tr>
+              <td>Firefox</td>
+              <td>5692</td>
+            </tr>
+            <tr>
+              <td>Internet Explorer</td>
+              <td>4030</td>
+            </tr>
+            <tr>
+              <td>Opera</td>
+              <td>1674</td>
+            </tr>
+            <tr>
+              <td>Safari</td>
+              <td>1166</td>
+            </tr>
+            </tbody>
+          </table>
 
-                        </div>
+        </div>
 
-                    </div>
+      </div>
 
-                </div>
+    </div>
 
-                <div class="span4">
+    <div class="span4">
 
-                    <div class="widget-box">
+      <div class="widget-box">
 
-                        <div class="widget-box-title">
+        <div class="widget-box-title">
                             <span class="icon">
                                 <i class="icon-eye-open"></i>
                             </span>
-                            <h5>Chiffre d'affaires</h5>
-                        </div>
+          <h5>Chiffre d'affaires</h5>
+        </div>
 
-                        <div class="widget-box-content nopadding">
+        <div class="widget-box-content nopadding">
 
-                            <table class="table table-hover nomargin">
-                                <thead>
-                                    <tr>
-                                        <th>Navigateur</th>
-                                        <th>Visites</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Chrome</td>
-                                        <td>8775</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Firefox</td>
-                                        <td>5692</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Internet Explorer</td>
-                                        <td>4030</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Opera</td>
-                                        <td>1674</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Safari</td>
-                                        <td>1166</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+          <table class="table table-hover nomargin">
+            <thead>
+            <tr>
+              <th>Navigateur</th>
+              <th>Visites</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Chrome</td>
+              <td>8775</td>
+            </tr>
+            <tr>
+              <td>Firefox</td>
+              <td>5692</td>
+            </tr>
+            <tr>
+              <td>Internet Explorer</td>
+              <td>4030</td>
+            </tr>
+            <tr>
+              <td>Opera</td>
+              <td>1674</td>
+            </tr>
+            <tr>
+              <td>Safari</td>
+              <td>1166</td>
+            </tr>
+            </tbody>
+          </table>
 
-                        </div>
+        </div>
 
-                    </div>
+      </div>
 
-                </div>
+    </div>
 
-            </div>
+  </div>
 
 {% endblock %}
 
@@ -304,43 +304,43 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-<script>
+  <script>
     var argetFwkUtilsLib = new ArgetFwkUtilsLib();
-    
+
     $('#dpstart').datepicker().on('changeDate', function(ev){
-        
-        var startValue = $(this).find('input').val();
-        arrayStart = startValue.split('-');
-        var startValue = new Date(arrayStart[2], arrayStart[1], arrayStart[0]);
-        var endValue = $('#dpend').find('input').val();
-        arrayEnd = endValue.split('-');
-        var endValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
-        
-        $('#dpstart').datepicker('hide');
-        
-	if (startValue.valueOf() > endValue.valueOf()){
-            $(this).find('input').val($('#dpend').find('input').val());
-	}
+
+      var startValue = $(this).find('input').val();
+      arrayStart = startValue.split('-');
+      var startValue = new Date(arrayStart[2], arrayStart[1], arrayStart[0]);
+      var endValue = $('#dpend').find('input').val();
+      arrayEnd = endValue.split('-');
+      var endValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
+
+      $('#dpstart').datepicker('hide');
+
+      if (startValue.valueOf() > endValue.valueOf()){
+        $(this).find('input').val($('#dpend').find('input').val());
+      }
     });
-    
+
     $('#dpend').datepicker().on('changeDate', function(ev){
-        
-        var endValue = $(this).find('input').val();
-        arrayEnd = endValue.split('-');
-        var endValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
-        var startValue = $('#dpstart').find('input').val();
-        arrayEnd = startValue.split('-');
-        var startValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
-        
-        $('#dpend').datepicker('hide');
-        
-	if (endValue.valueOf() < startValue.valueOf()){
-            $(this).find('input').val($('#dpstart').find('input').val());
-	}
-        
+
+      var endValue = $(this).find('input').val();
+      arrayEnd = endValue.split('-');
+      var endValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
+      var startValue = $('#dpstart').find('input').val();
+      arrayEnd = startValue.split('-');
+      var startValue = new Date(arrayEnd[2], arrayEnd[1], arrayEnd[0]);
+
+      $('#dpend').datepicker('hide');
+
+      if (endValue.valueOf() < startValue.valueOf()){
+        $(this).find('input').val($('#dpstart').find('input').val());
+      }
+
     });
-</script>
-{{ gChartPie.drawJs|raw }}
-{{ gChartPie2.drawJs|raw }}
-{{ gChartLine.drawJs|raw }}
+  </script>
+  {{ gChartPie.drawJs|raw }}
+  {{ gChartPie2.drawJs|raw }}
+  {{ gChartLine.drawJs|raw }}
 {% endblock %}

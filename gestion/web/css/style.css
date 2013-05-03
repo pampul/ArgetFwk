@@ -1405,3 +1405,7 @@ a.menu:after, .dropdown-toggle-custom:after {
   border-left: 0px!important;
   content: '';
 }
+
+.navbar .brand {
+  color: #9fe0fc!important;
+}
