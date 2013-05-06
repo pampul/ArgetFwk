@@ -20,6 +20,7 @@ Enfin, une documentation technique est en cours d'écriture, et devrait pouvoir 
 
 ###Fonctionnalités principales du framework
 
+- Framework MVC
 - Framework utilisant l'ORM Doctrine et le moteur de template Twig
 - Back Office intégré avec un module "CMS" permettant de créer des pages en fonction de templates
 - Classes de génération de tableau de gestion en ajax pour back-end : construisez des modules gérables en back office très rapidement
