@@ -13,11 +13,21 @@ Complet, ce framework a pour but de créer des back offices de sites internet tr
 Sa création a été faite de façon à pouvoir optimiser le référencement de toutes les pages d'un site web. Il est en effet aisé de changer une H1, un title ou une description.
 
 
-
 Enfin, une documentation technique est en cours d'écriture, et devrait pouvoir simplifier la vie de bon nombre de développeurs.
 
 
+
+
 ###Fonctionnalités principales du framework
+
+- Framework utilisant l'ORM Doctrine et le moteur de template Twig
+- Back Office intégré avec un module "CMS" permettant de créer des pages en fonction de templates
+- Classes de génération de tableau de gestion en ajax pour back-end : construisez des modules gérables en back office très rapidement
+- Routing très précis, obligant à fonctionner avec le .htaccess
+- Module permettant d'update/remove/create la base de donnée directement en ligne
+- Framework construis de façon à favoriser le référencement (les titles/descriptions et h1 sont à l'honneur)
+
+
 
 
 ##Installation
