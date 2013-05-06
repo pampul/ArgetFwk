@@ -32,3 +32,27 @@ Générez la base de données.
 
 Accédez au Back-Office
 - Allez simplement sur ce lien : `VOTREURL/gestion/`
+
+
+## Librairies utilisées
+
+  - Doctrine 2 (ORM PHP)
+  - Twig (Moteur de template PHP)
+  - SimpleHtmlDom (lib PHP de gestion de DOM)
+  - SwiftMailer (lib PHP pour mails)
+  - WideImage (lib PHP de crop/resize/caching d'images)
+  - TwitterBootstrap 2.1 (lib css)
+  - Less Css (facultatif. lib css : necessite d'installer le GEM Less)
+
+
+## Site multilingue
+
+Vous pouvez gérer votre site de façon multilingue en modifiant simplement le `.htaccess`.
+A l'emplacement de l'URL Rewriting, commentez les lignes de la première option, et décommentez les autres.
+La langue est gérée grâce au paramètre `GET` envoyé par l'URL. Vous pouvez gérer vos traductions dans le dossier `app/translations`.
+Chaque langue est disponible dès que le fichier `.php` correspondant est créé.
+
+Enfin, afin de traduire un mot, c'est très simple. Vous avez juste à utiliser la fonction `translate` créée dans ce but.
+Exemple : `{{ 'bienvenue'|translate }}`
+
+
