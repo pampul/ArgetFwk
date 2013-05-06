@@ -164,9 +164,12 @@ class console extends SecuredClass {
             if(preg_match('#Unknown database#', $e->getMessage()))
               $html .= '
                     <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
-            else
+            elseif(preg_match('#Base table or view already exists#', $e->getMessage()))
               $html .= '
                     <pre><br/><div class="alert alert-error">Le schéma est déjà créé, vous ne pouvez pas répéter cette action.</div></pre>';
+            else
+              $html .= '
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
           }
           break;
       }

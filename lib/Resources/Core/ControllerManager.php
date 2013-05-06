@@ -276,23 +276,28 @@ class ControllerManager extends FwkManager {
         $this->bigError = true;
         $this->error500Controller();
         die();
-      }elseif(ENV_DEV && !ENV_LOCALHOST){
+      }elseif(ENV_DEV && !ENV_LOCALHOST && !PRE_PROD_ALLOW_HELP){
         echo '
         <strong style="color: red;">DATABASE CONNECTION FAILED.</strong>
         ';
-        if(preg_match('#Unknown database#', $e->getMessage()))
-          echo '<br/><br/>Base de donnée "'.PDO_DATABASE_NAME.'" inexistante.';
         die();
       }else{
         $db = true;
         if(preg_match('#Unknown database#', $e->getMessage()))
           $db = false;
         echo '
-        <strong style="color: red;">DATABASE CONNECTION FAILED.</strong><br/><br/>
-        - First installation ? Check the manual (<a href="https://github.com/Argetloum/ArgetFwk/blob/master/README.md">Readme.md</a>) !<br/><br/>
+        <strong style="color: red; font-size: 20px;">DATABASE CONNECTION FAILED.</strong>';
+
+
+        echo '<br/><br/><strong>Status Error :</strong>
+              <i>'.$e->getMessage().'</i><br/><br/><br/>';
+
+        echo'
+        - First installation ? Check the manual (<a target="_blank" href="https://github.com/Argetloum/ArgetFwk/blob/master/README.md">Readme.md</a>) !<br/><br/>
         - If not, go to the app/config.php and check the database config !<br/><br/>
         - Then, '.(!$db ? 'create your database "'.PDO_DATABASE_NAME.'" and go': 'Go').' to <a href="'.SITE_URL_BASE.'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
         ';
+
         die();
       }
     }

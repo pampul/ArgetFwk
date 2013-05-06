@@ -24,6 +24,8 @@
 
 // Définition des variables de routing
 HttpCore::initialize();
+
+
 // Le site est en MVC obligatoire avec un controller nécessaire pour une vue
 define('CONFIG_DEV_PHP', false);
 // Utilisation du cache de Twig
@@ -35,7 +37,8 @@ define('ERROR_SEND_EMAIL', true);
 define('ERROR_LOGS_ENABLED', true);
 // Activation du refresh automatique en back office après 10 sec d'inactivité
 define('REFRESH_AUTO_BO', true);
-
+// Le site autorise l'aide un peu plus poussée en pre-prod (problèmes de DB plus explicite etc..)
+define('PRE_PROD_ALLOW_HELP', true);
 
 
 
@@ -75,7 +78,7 @@ if (HttpCore::isLocalhost()) {
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
   define('PDO_PORT', '');
-  define('PDO_DATABASE_NAME', 'argetfwk8');
+  define('PDO_DATABASE_NAME', 'argetfwk2');
   define('PDO_USER', 'root');
   define('PDO_PASSWORD', 'root');
 
