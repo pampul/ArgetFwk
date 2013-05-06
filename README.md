@@ -34,6 +34,19 @@ Accédez au Back-Office
 - Allez simplement sur ce lien : `VOTREURL/gestion/`
 
 
+
+## Site multilingue
+
+Vous pouvez gérer votre site de façon multilingue en modifiant simplement le `.htaccess`.
+A l'emplacement de l'URL Rewriting, commentez les lignes de la première option, et décommentez les autres.
+La langue est gérée grâce au paramètre `GET` envoyé par l'URL. Vous pouvez gérer vos traductions dans le dossier `app/translations`.
+Chaque langue est disponible dès que le fichier `.php` correspondant est créé.
+
+Enfin, afin de traduire un mot, c'est très simple. Vous avez juste à utiliser la fonction `translate` créée dans ce but.
+Exemple : `{{ 'bienvenue'|translate }}`
+
+
+
 ## Librairies utilisées
 
   - [Doctrine 2 (ORM PHP)](http://www.doctrine-project.org/)
@@ -47,16 +60,4 @@ Accédez au Back-Office
   - [Uniform (lib permettant de styliser les checkbox/select)](http://uniformjs.com/)
   - [Chosen (lib permettant de designer les select et select multiple)](http://harvesthq.github.io/chosen/)
   - [Bootstrap datepicker (un datepicker made in bootstrap)](http://www.eyecon.ro/bootstrap-datepicker/)
-
-
-## Site multilingue
-
-Vous pouvez gérer votre site de façon multilingue en modifiant simplement le `.htaccess`.
-A l'emplacement de l'URL Rewriting, commentez les lignes de la première option, et décommentez les autres.
-La langue est gérée grâce au paramètre `GET` envoyé par l'URL. Vous pouvez gérer vos traductions dans le dossier `app/translations`.
-Chaque langue est disponible dès que le fichier `.php` correspondant est créé.
-
-Enfin, afin de traduire un mot, c'est très simple. Vous avez juste à utiliser la fonction `translate` créée dans ce but.
-Exemple : `{{ 'bienvenue'|translate }}`
-
 
