@@ -26,6 +26,7 @@ Enfin, une documentation technique est en cours d'écriture, et devrait pouvoir 
 - Routing très précis, obligant à fonctionner avec le .htaccess
 - Module permettant d'update/remove/create la base de donnée directement en ligne
 - Framework construis de façon à favoriser le référencement (les titles/descriptions et h1 sont à l'honneur)
+- Gestion des sites multilingues
 
 
 
