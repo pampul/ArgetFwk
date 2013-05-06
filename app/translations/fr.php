@@ -9,7 +9,7 @@ class LangTranslation{
 
       'mot' => 'mot',
       'secondmot' => 'second mot',
-      'bienvenue' => 'Bienvenue'
+      'bienvenue' => 'bienvenue'
 
     );
 

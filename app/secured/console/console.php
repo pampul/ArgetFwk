@@ -93,15 +93,34 @@ class console extends SecuredClass {
                     <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.</div><br/><br/></pre>';
           break;
         case 'deleteschema':
-          $tool->dropSchema($classes);
-          $html .= '
+          try{
+            $tool->dropSchema($classes);
+            $html .= '
                     <pre><br/><br/><div class="alert alert-info">Schéma supprimé avec succès.</div><br/></pre>';
+          }catch(Exception $e){
+            if(preg_match('#Unknown database#', $e->getMessage()))
+              $html .= '
+                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
+            else
+              $html .= '
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
+          }
           break;
 
         case 'updateschema':
-          $tool->updateSchema($classes);
-          $html .= '
+          try{
+            $tool->updateSchema($classes);
+            $html .= '
                     <pre><br/><br/><div class="alert alert-info">Schéma mis à jour avec succès.</div><br/><br/></pre>';
+          }catch(Exception $e){
+            if(preg_match('#Unknown database#', $e->getMessage()))
+              $html .= '
+                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
+            else
+              $html .= '
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
+          }
+
           break;
 
         case 'createfirstschema':
@@ -142,7 +161,11 @@ class console extends SecuredClass {
             $this->em->persist($admin);
             $this->em->flush();
           }catch(Exception $e){
-            $html .= '
+            if(preg_match('#Unknown database#', $e->getMessage()))
+              $html .= '
+                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
+            else
+              $html .= '
                     <pre><br/><div class="alert alert-error">Le schéma est déjà créé, vous ne pouvez pas répéter cette action.</div></pre>';
           }
           break;

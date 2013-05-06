@@ -75,7 +75,7 @@ if (HttpCore::isLocalhost()) {
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
   define('PDO_PORT', '');
-  define('PDO_DATABASE_NAME', 'argetfwk2');
+  define('PDO_DATABASE_NAME', 'argetfwk8');
   define('PDO_USER', 'root');
   define('PDO_PASSWORD', 'root');
 
