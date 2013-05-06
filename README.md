@@ -36,13 +36,17 @@ Accédez au Back-Office
 
 ## Librairies utilisées
 
-  - Doctrine 2 (ORM PHP)
-  - Twig (Moteur de template PHP)
-  - SimpleHtmlDom (lib PHP de gestion de DOM)
-  - SwiftMailer (lib PHP pour mails)
-  - WideImage (lib PHP de crop/resize/caching d'images)
-  - TwitterBootstrap 2.1 (lib css)
-  - Less Css (facultatif. lib css : necessite d'installer le GEM Less)
+  - [Doctrine 2 (ORM PHP)](http://www.doctrine-project.org/)
+  - [Twig (Moteur de template PHP)](http://twig.sensiolabs.org/)
+  - [SimpleHtmlDom (lib PHP de gestion de DOM)](http://simplehtmldom.sourceforge.net/)
+  - [SwiftMailer (lib PHP pour mails)](http://swiftmailer.org/)
+  - [WideImage (lib PHP de crop/resize/caching d'images)](http://wideimage.sourceforge.net/)
+  - [TwitterBootstrap 2.1 (lib css)](http://twitter.github.io/bootstrap/)
+  - [FontAwesome (lib proposant des icones en vectoriel)](http://fortawesome.github.io/Font-Awesome/)
+  - [Less Css (facultatif. lib css : necessite d'installer le GEM Less)](http://lesscss.org/)
+  - [Uniform (lib permettant de styliser les checkbox/select)](http://uniformjs.com/)
+  - [Chosen (lib permettant de designer les select et select multiple)](http://harvesthq.github.io/chosen/)
+  - [Bootstrap datepicker (un datepicker made in bootstrap)](http://www.eyecon.ro/bootstrap-datepicker/)
 
 
 ## Site multilingue
