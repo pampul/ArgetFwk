@@ -80,6 +80,7 @@ class FwkUtils
    * Suppression d'accents plus safe
    *
    * @param string $str
+   * @param string $charset
    * @return string
    */
   public static function removeAccentsLonger($str, $charset = 'utf-8')
@@ -97,6 +98,7 @@ class FwkUtils
    * Retourne une url propre
    *
    * @param string $str
+   * @param string $charset
    * @return string
    */
   public static function urlAlize($str, $charset = 'utf-8')
@@ -117,6 +119,7 @@ class FwkUtils
    * Retourne une url propre
    *
    * @param string $str
+   * @param string $charset
    * @return string
    */
   public static function urlAlizeAllowSlash($str, $charset = 'utf-8')
@@ -217,6 +220,7 @@ class FwkUtils
    * retourne le nom d'un fichier
    *
    * @param string $file
+   * @return string
    */
   public static function getNameFile($file)
   {
@@ -298,7 +302,7 @@ class FwkUtils
    *
    * @param String $strRootPath
    * @param String $strSubPath
-   * @param array  $tabOptions
+   * @param String $tabOptions
    * @return String
    */
   public static function CreatePath($strRootPath, $strSubPath, $tabOptions = '')
@@ -347,7 +351,7 @@ class FwkUtils
    * \\server/share/dir1/dir2/dir3/dir4
    *
    * @param unknown_type $strRootPath
-   * @param unknown_type $path
+   * @param unknown_type $strSubPath
    * @return none
    */
   public static function Mkpath($strRootPath, $strSubPath)
@@ -437,7 +441,7 @@ class FwkUtils
    * Dé-Camel-Case une chaine
    * ex : IAmTheBest => i am the best
    *
-   * @param String $String
+   * @param String $string
    * @return String
    */
   public static function Uncamelize($string)
@@ -450,8 +454,8 @@ class FwkUtils
    * Camel-Case une chaine
    * ex : je veux du café => JeVeuxDuCafe
    *
-   * @param String $String
-   * @return String
+   * @param string $string
+   * @return string
    */
   public static function Camelize($string)
   {
@@ -497,8 +501,9 @@ class FwkUtils
   /**
    * Returns subject replaced with regular expression matchs
    *
-   * @param mixed subject to search
-   * @param array array of search => replace pairs
+   * @param mixed $search subject to search
+   * @param array $replacePairs array of search => replace pairs
+   * @return string
    */
   public static function pregtr($search, $replacePairs)
   {
@@ -647,7 +652,7 @@ class FwkUtils
   /**
    * Raccourcis sur test si chaine est vide
    *
-   * @param string $str
+   * @param string $v
    * @return bool
    */
   public static function estVide($v)
@@ -753,31 +758,15 @@ class FwkUtils
   public static function getPictureFromText($texte)
   {
 
-    if (preg_match("#<img(.*?)>#s", stripslashes($texte), $matches)) {
-      preg_match('#src="((.*?)")#', $matches[0], $resultat);
-      if ($resultat[0] == null) {
-        preg_match("#src='((.*?)')#", $matches[0], $resultat);
-        if (!preg_match("#src='/gestion/#", $resultat[0])) {
-          $newSRC = str_replace("src='", "src='gestion/", $resultat[0]);
-        } else {
-          $newSRC = $resultat[0];
-        }
-      } else {
-        if (!preg_match('#src="/gestion/#', $resultat[0])) {
-          $newSRC = str_replace('src="', 'src="gestion/', $resultat[0]);
-        } else {
-          $newSRC = $resultat[0];
-        }
-      }
-    } else {
-      $newSRC = null;
+    $postHtml = str_get_html($texte);
+
+    $firsImg = $postHtml->find('img', 0);
+
+    if ($firsImg !== null) {
+      return $firsImg->src;
     }
 
-    if (isset($newSRC) && FwkUtils::checkhttp($newSRC))
-      return $resultat[0];
-    elseif (isset($newSRC))
-      return $newSRC; else
-      return null;
+    return null;
   }
 
   public static function checkhttp($lien)
@@ -827,11 +816,11 @@ class FwkUtils
    * Teste la validité d'une string
    *
    * @param string $str
-   * @param int    $min
-   * @param int    $max
+   * @param string    $min
+   * @param string    $max
    * @return boolean
    */
-  public static function isValidString($str, $min = 1, $max = '')
+  public static function isValidString($str, $min = '1', $max = '')
   {
     return preg_match('#^[-a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!?:" ]{' . $min . ',' . $max . '}$#', $str);
   }
