@@ -71,10 +71,10 @@
     <div class="span5">
 
       <strong>
-        {% if constant('TWIG_CACHE_PATH') == false %}
+        {% if constant('TWIG_CACHE_ACTIVE') == false %}
           Non
         {% else %}
-          A ce chemin : "{{ constant('TWIG_CACHE_PATH') }}"
+          Oui
         {% endif %}
       </strong>
 

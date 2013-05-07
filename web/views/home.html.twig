@@ -20,8 +20,8 @@
 {% block content %}
   <br/>
   <div class="well">
-    <h3>{{ 'bienvenue'|translate }} sur la page d'accueil du framework.</h3>
-
+    <h3>{{ 'bienvenue'|translate|capitalize }} sur la page d'accueil du framework.</h3>
+    {{ 'test de texte oui oui avec un autre mot en plus non non bien sûr yep oui !!! <br/><br/> html <p>ouiouioui</p>'|couperTexte(10) }}
   </div>
 
   <div class="row">

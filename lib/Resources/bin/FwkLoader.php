@@ -11,6 +11,8 @@ use Doctrine\Common\ClassLoader,
  */
 class FwkLoader {
 
+  private static $twigCachePath = 'lib/Resources/Twig/Cache/';
+
   /**
    * Se connecte à la BDD et récupère l'entity manager
    *
@@ -76,7 +78,6 @@ class FwkLoader {
 
     closedir($dir2);
 
-
     return $arrayClasses;
   }
 
@@ -101,13 +102,13 @@ class FwkLoader {
 
     closedir($dir2);
 
-
     return $arrayClasses;
   }
 
   /**
    * Récupère l'environnement Twig
    *
+   * @param $path
    * @return Twig_Environment
    */
   public static function getTwigEnvironement($path = '') {
@@ -120,17 +121,17 @@ class FwkLoader {
     else
       $viewDirectory = PATH_TO_IMPORTANT_FILES . 'web/';
 
-
-    $loader = new Twig_Loader_Filesystem($viewDirectory); // Dossier contenant les templates
+    // Dossier contenant les templates
+    $loader = new Twig_Loader_Filesystem($viewDirectory);
     unset($viewDirectory);
 
     if(BACKOFFICE_ACTIVE != 'gestion/')
       return new Twig_Environment($loader, array(
-        'cache' => TWIG_CACHE_PATH
+        'cache' => (TWIG_CACHE_ACTIVE ? PATH_TO_IMPORTANT_FILES.self::$twigCachePath : false)
       ));
     else
       return new Twig_Environment($loader, array(
-        'cache' => FALSE
+        'cache' => false
       ));
   }
 
@@ -141,23 +142,17 @@ class FwkLoader {
    */
   public static function getContext($path = null) {
 
-    /**
-     * Heure du serveur
-     */
+    // Heure du serveur
     date_default_timezone_set(TIMEZONE);
 
     self::coreLoader();
     self::utilsLoader();
-    /**
-     * Gestion des erreurs en fonction de l'environnement
-     */
+    // Gestion des erreurs en fonction de l'environnement
     FwkErrorHandler::execute(PATH_TO_IMPORTANT_FILES . 'logs/errors/' . date("Y-m-d") . '.log');
 
     if (!is_null($path)) {
 
-      /*
-       * Appel des Filters pour la gestion de sessions ou autre
-       */
+      // Appel des Filters pour la gestion de sessions ou autre
       require_once $path . 'app/filters.php';
 
       /*
@@ -180,23 +175,11 @@ class FwkLoader {
     // Appel à la boite à outils du fwk
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/FwkUtils.php';
 
-    // Gestion des emails
-    require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/wamailer-dev/mailer.class.php';
-
     // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/FwkCustom.php';
 
-    // Classe custom utile uniquement dans le projet (notament pour l'envoi de mails)
+    // Classe custom nécessaire pour la génération de pagination custom
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/PaginationBuilder.php';
-
-
-    /*
-     *
-     * Classes facultatives
-     *
-      require_once PATH_TO_IMPORTANT_FILES.'lib/Utils/ftp.php';
-     *
-     */
   }
 
   private static function coreLoader() {
@@ -240,9 +223,10 @@ class FwkLoader {
     // Classe de resizing d'images
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/WideImage/WideImage.php';
 
-    // Classe de resizing d'images
+    // Classe gérant les URLs du blog
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/BlogManager.php';
-    // Classe de resizing d'images
+
+    // Classe de parsing de dom
     require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Simplehtmldom/simple_html_dom.php';
   }
 

@@ -723,6 +723,7 @@ class FwkUtils
 
     $length = strlen(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)));
     $string = wordwrap(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)), $longueurMax);
+    $string = substr($string, 0, strpos($string, "\n"));
 
     $var    = " ...";
     if ($length > $longueurMax)

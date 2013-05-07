@@ -6,8 +6,7 @@ HttpCore::initialize();
 // Le site est en MVC obligatoire avec un controller nécessaire pour une vue
 define('CONFIG_DEV_PHP', false);
 // Utilisation du cache de Twig
-// Si oui : PATH_TO_IMPORTANT_FILES . 'lib/Resources/Twig/Cache/'
-define('TWIG_CACHE_PATH', false);
+define('TWIG_CACHE_ACTIVE', false);
 // Envoi d'email si erreur production
 define('ERROR_SEND_EMAIL', true);
 // Activation des logs
@@ -16,7 +15,6 @@ define('ERROR_LOGS_ENABLED', true);
 define('REFRESH_AUTO_BO', true);
 // Le site autorise l'aide un peu plus poussée en pre-prod (problèmes de DB plus explicite etc..)
 define('PRE_PROD_ALLOW_HELP', true);
-
 
 
 
@@ -44,13 +42,19 @@ define('ADMIN_PASSWORD', 'admin');
  *
  *
  *
- * Connexion à la BDD si environnement Localhost
+ * Connexion à la BDD si Localhost
  */
 if (HttpCore::isLocalhost()) {
+
+  // Affichage des erreurs
+  error_reporting(E_ALL);
+  ini_set('display_errors', 'On');
+  ini_set('html_errors', 'On');
 
   define('ENV_DEV', true);
   define('ENV_LOCALHOST', true);
 
+  // Configuration de la DB DEV
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
@@ -65,9 +69,15 @@ if (HttpCore::isLocalhost()) {
    */
 } elseif (HttpCore::isPreprodUrl('argetfwk')) {
 
+  // Affichage des erreurs
+  error_reporting(E_ALL);
+  ini_set('display_errors', 'On');
+  ini_set('html_errors', 'On');
+
   define('ENV_DEV', true);
   define('ENV_LOCALHOST', false);
 
+  // Configuration de la DB PRE-PROD
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
@@ -89,6 +99,7 @@ if (HttpCore::isLocalhost()) {
   define('ENV_DEV', false);
   define('ENV_LOCALHOST', false);
 
+  // Configuration de la DB PROD
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
