@@ -7,7 +7,7 @@ HttpCore::initialize();
 define('CONFIG_DEV_PHP', false);
 // Utilisation du cache de Twig
 define('TWIG_CACHE_ACTIVE', false);
-// Envoi d'email si erreur production
+// Envoi d'email si erreur en production
 define('ERROR_SEND_EMAIL', true);
 // Activation des logs
 define('ERROR_LOGS_ENABLED', true);
