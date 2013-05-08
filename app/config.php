@@ -51,15 +51,15 @@ if (HttpCore::isLocalhost()) {
   ini_set('display_errors', 'On');
   ini_set('html_errors', 'On');
 
-  define('ENV_DEV', false);
-  define('ENV_LOCALHOST', false);
+  define('ENV_DEV', true);
+  define('ENV_LOCALHOST', true);
 
   // Configuration de la DB DEV
   define('PDO_PREFIX', 'db_');
   define('PDO_DRIVER', 'pdo_mysql');
   define('PDO_HOST', 'localhost');
   define('PDO_PORT', '');
-  define('PDO_DATABASE_NAME', 'argetfwk2');
+  define('PDO_DATABASE_NAME', 'argetfwk');
   define('PDO_USER', 'root');
   define('PDO_PASSWORD', 'root');
 

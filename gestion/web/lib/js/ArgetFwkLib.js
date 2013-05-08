@@ -163,6 +163,11 @@ $(function() {
     argetFwkUtilsLib.refreshContent($(this), new Array());
   });
 
+  $('.refresh-page').click(function(e){
+    e.preventDefault();
+    argetFwkUtilsLib.refreshContent($(this), new Array());
+  });
+
   $('.sortSelect').change(function() {
     argetFwkUtilsLib.refreshContent($(this), new Array());
   });
