@@ -515,7 +515,7 @@ class DefaultAjax extends AjaxManager {
       $this->em->persist($objTicket);
       $this->em->flush();
 
-      if($objTicket->getAdmin()->getEmail() == ADMIN_EMAIL){
+      if($objTicket->getAdmin()->getEmail() != ADMIN_EMAIL){
         $html = "
                         <h3>Nouveau ticket sur le site ".SITE_NOM."</h3>
                         <br />\n
