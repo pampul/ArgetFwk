@@ -64,9 +64,9 @@ class ControllerManager extends FwkManager {
         if (ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != ''))
           throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
         elseif(!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')){
-          if(BACKOFFICE_ACTIVE != '')
+          if(BACKOFFICE_ACTIVE != ''){
             throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-          else{
+          }else{
             if (ERROR_LOGS_ENABLED)
               FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
             $this->error404Controller();

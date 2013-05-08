@@ -51,8 +51,8 @@ if (HttpCore::isLocalhost()) {
   ini_set('display_errors', 'On');
   ini_set('html_errors', 'On');
 
-  define('ENV_DEV', true);
-  define('ENV_LOCALHOST', true);
+  define('ENV_DEV', false);
+  define('ENV_LOCALHOST', false);
 
   // Configuration de la DB DEV
   define('PDO_PREFIX', 'db_');
@@ -93,8 +93,9 @@ if (HttpCore::isLocalhost()) {
 } else {
 
   // Suppression de l'affichage des erreurs
-  ini_set("display_errors", 'off');
   error_reporting(0);
+  ini_set("display_errors", 'off');
+  ini_set('html_errors', 'Off');
 
   define('ENV_DEV', false);
   define('ENV_LOCALHOST', false);

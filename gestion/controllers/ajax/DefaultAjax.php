@@ -514,6 +514,36 @@ class DefaultAjax extends AjaxManager {
 
       $this->em->persist($objTicket);
       $this->em->flush();
+
+      if($objTicket->getAdmin()->getEmail() == ADMIN_EMAIL){
+        $html = "
+                        <h3>Nouveau ticket sur le site ".SITE_NOM."</h3>
+                        <br />\n
+                        Un nouveau ticket a été créé sur ce site web.
+                        <br/>\n
+                        Vous pouvez y accéder directement via ce lien : <a href='" . SITE_URL . "dashboard/ticket-details/" . $objTicket->getId() . "' title='Accéder au ticket'>Accéder au ticket ici.</a>
+                        <br/>\n<br/>\n<br/>\n
+                        <strong style='text-decoration:underline;'>Contenu du ticket :</strong><br/>\n<br/>\n
+                        <strong>Sujet : </strong>".$objTicket->getTitre()."<br/>\n
+                        <strong>Type de ticket : </strong>".$objTicket->getTypeTicket()."<br/>\n
+                        <strong>Contenu : </strong><br/>\n
+                        ".nl2br($objTicket->getTexte())."
+                        <br />\n<br />\n<br/>\n
+                        -----------------------------
+                        <br />\n
+                        <i style='font-size: 11px;'>Merci de ne pas répondre à ce message.</i>
+                        <br />\n<br />\n
+                        ";
+
+        $message = Swift_Message::newInstance();
+        $mailer = Swift_MailTransport::newInstance();
+        $message->setSubject('Nouveau ticket sur le site : ' . SITE_NOM);
+        $message->setFrom(array('postmaster@' . strtolower(SITE_NOM) . '.com' => 'postmaster@' . strtolower(SITE_NOM)));
+        $message->setTo(array(ADMIN_EMAIL => ADMIN_PRENOM . ' ' . ADMIN_NOM));
+        $message->setBody($html, 'text/html');
+
+        $mailer->send($message);
+      }
     } else {
       $this->renderView('views/ticket-add.html.twig', array(
         'idAdmin' => $idUser

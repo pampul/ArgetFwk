@@ -17,12 +17,6 @@
   <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css"/>
   <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css"/>
   <link rel="stylesheet" href="web/css/style.css" type="text/css"/>
-  {% block stylesheets %}
-    <!-- Ajout des css supplementaires here -->
-  {% endblock %}
-
-  {% block linkrel %}
-  {% endblock %}
 
 </head>
 
@@ -44,6 +38,10 @@
     Ceci est un code d'erreur 500 : Le serveur a rencontré un grave problème.<br/><br/>
 
     Si le problème persiste, merci de contacter un administrateur.
+
+    <br/><br/>
+
+    <a href="{{ constant('SITE_URL_BASE') }}" title="Revenir au site"><i class="icon-backward"></i> Revenir au site web.</a>
 
   </div>
 

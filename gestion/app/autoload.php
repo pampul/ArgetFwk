@@ -3,7 +3,6 @@ define('BACKOFFICE_ACTIVE', 'gestion/');
 define('PATH_TO_IMPORTANT_FILES', __DIR__.'/../../');
 define('PATH_TO_BACKOFFICE_FILES', __DIR__.'/../');
 
-
 /**
  * Appel de la classe HTTP
  */
