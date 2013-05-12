@@ -69,6 +69,50 @@ class PrivateController extends ControllerManager {
 
   }
 
+  protected function workshopController() {
+
+    $change = false;
+
+    $configWorkshop = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
+
+    if(HttpCore::isPost('ipValues') && $configWorkshop->getValue() == 0){
+
+      // Suppression de toutes les entrées d'IP dans la BDD
+      $colConfigIps = $this->em->getRepository('Resources\Entities\Config')->findBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
+      foreach($colConfigIps as $oneConfigIP){
+        $this->em->remove($oneConfigIP);
+      }
+
+      $configIP = new Resources\Entities\Config();
+      $configIP->setName('SITE_CONSTRUCTION_IP_SAFE');
+      $configIP->setValue(HttpCore::post('ipValues'));
+
+      $configWorkshop->setValue(1);
+
+      $this->em->persist($configIP);
+      $this->em->persist($configWorkshop);
+
+      $this->em->flush();
+
+      $change = true;
+
+    }elseif(HttpCore::isPost('activate')){
+
+      $configWorkshop->setValue(0);
+
+      $this->em->persist($configWorkshop);
+      $this->em->flush();
+
+      $change = true;
+
+    }
+
+    $this->renderView('views/workshop.html.twig', array(
+      'change' => $change,
+      'configWorkshop' => $configWorkshop
+    ));
+  }
+
 }
 
 ?>

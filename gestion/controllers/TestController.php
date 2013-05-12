@@ -9,7 +9,7 @@ class TestController extends ControllerManager {
 
   protected function testPageController() {
 
-    echo HttpCore::getSchemeAndHttpHost();
+    var_dump(FwkUtils::getClientIp());
     die();
 
     $this->renderView('views/test-page.html.twig');

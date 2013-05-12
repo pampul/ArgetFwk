@@ -189,6 +189,8 @@ function ArgetFwkUtilsLib()
     if (!time)
       time = 10;
 
+    $(boxChoice).stop();
+
     $(boxChoice).children('.contentBox').html(content);
 
     $(boxChoice).fadeIn('fast');

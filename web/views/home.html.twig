@@ -5,8 +5,8 @@
 {% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
 
 {# Gestion SEO #}
-{% block title %}Page d'accueil du FrameWork{% endblock %}
-{% block description %}Description du document{% endblock %}
+{% block title %}{{ constant('SITE_NOM') }} - Accueil{% endblock %}
+{% block description %}Bienvenue sur la page d'accueil de {{ constant('SITE_NOM') }}{% endblock %}
 
 
 {# Ajout des nouveaux styles #}

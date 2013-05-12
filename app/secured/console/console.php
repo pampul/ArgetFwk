@@ -132,13 +132,13 @@ class console extends SecuredClass {
             // Creation d'un privilege
             $privilege = new Resources\Entities\Privilege;
             $privilege->setId(1);
-            $privilege->setNom('Administrateur');
+            $privilege->setNom('Admin');
             $privilege->setLevel(9);
             $this->em->persist($privilege);
 
             $privilege2 = new Resources\Entities\Privilege;
             $privilege2->setId(2);
-            $privilege2->setNom('WebMaster');
+            $privilege2->setNom('SuperAdmin');
             $privilege2->setLevel(10);
             $this->em->persist($privilege2);
 
@@ -148,17 +148,33 @@ class console extends SecuredClass {
             $privilege3->setLevel(5);
             $this->em->persist($privilege3);
 
+            $privilege4 = new Resources\Entities\Privilege;
+            $privilege4->setId(4);
+            $privilege4->setNom('SEO');
+            $privilege4->setLevel(9);
+            $this->em->persist($privilege4);
+
             // Creation d'utilisateur
             $admin = new Resources\Entities\Admin;
             $admin->setId(1);
             $admin->setEmail(ADMIN_EMAIL);
-            $admin->setFonction('Développeur Web');
+            $admin->setFonction('Analyste Développeur Web');
             $admin->setNom(ADMIN_NOM);
             $admin->setPrenom(ADMIN_PRENOM);
             $admin->setPassword(FwkSecurity::encryptPassword(ADMIN_PASSWORD));
             $admin->setPrivilege($privilege2);
 
+            $config = new Resources\Entities\Config();
+            $config->setName('SITE_CONSTRUCTION');
+            $config->setValue(0);
+
+            $config2 = new Resources\Entities\Config();
+            $config2->setName('SITE_CONSTRUCTION_IP_SAFE');
+            $config2->setValue('');
+
             $this->em->persist($admin);
+            $this->em->persist($config);
+            $this->em->persist($config2);
             $this->em->flush();
           }catch(Exception $e){
             if(preg_match('#Unknown database#', $e->getMessage()))

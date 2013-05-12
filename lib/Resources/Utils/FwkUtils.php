@@ -8,6 +8,7 @@
 class FwkUtils
 {
 
+  protected static $trustProxy = false;
   /**
    * Valeurs non-autorisées pour lire un dossier
    *
@@ -777,6 +778,44 @@ class FwkUtils
     } else {
       return $lien;
     }
+  }
+
+  /**
+   * Returns the client IP address.
+   *
+   * @param  Boolean $proxy Whether the current request has been made behind a proxy or not
+   *
+   * @return string The client IP address
+   *
+   * @api
+   */
+  public static function getClientIp($proxy = false, $trustProxy = false)
+  {
+    if($trustProxy)
+      self::trustProxyData();
+    if ($proxy) {
+      if(isset($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+      } elseif (self::$trustProxy && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $clientIp = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
+
+        return isset($clientIp[0]) ? trim($clientIp[0]) : '';
+      }
+    }
+    return ($_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR']);
+  }
+
+  /**
+   * Trusts $_SERVER entries coming from proxies.
+   *
+   * You should only call this method if your application
+   * is hosted behind a reverse proxy that you manage.
+   *
+   * @api
+   */
+  static public function trustProxyData()
+  {
+    self::$trustProxy = true;
   }
 
   /**

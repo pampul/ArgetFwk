@@ -1,9 +1,7 @@
 # robotstxt.org/
 
 User-agent: *
-
-
-# Sitemap: http://www.yourproject.fr/sitemap.xml
-
 Disallow: /gestion/
 Disallow: /apps/
+
+# Sitemap: http://www.yourproject.fr/sitemap.xml

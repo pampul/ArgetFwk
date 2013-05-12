@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <base href="{{ constant('SITE_URL') }}"/>
+  <title>{{ constant('SITE_NOM') }} en construction</title>
+  <meta name="description" content="Votre site {{ constant('SITE_NOM') }} est actuellement en construction. Merci de patienter."/>
+
+  <link rel="shortcut icon" href="/favicon.ico"/>
+
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/css/bootstrap-responsive.css"/>
+  <link rel="stylesheet" href="{{ constant('SITE_URL') }}gestion/web/lib/fontawesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="web/css/style.css" type="text/css"/>
+
+</head>
+
+
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+
+<br/><br/><br/><br/><br/><br/>
+
+<div class="container">
+  <div class="alert alert-info">
+
+    <h2><i class="icon-cogs"></i> {{ constant('SITE_NOM') }} en travaux</h2>
+
+    <br/>
+
+    Merci de patienter, votre site sera bientôt de retour !
+
+    <br/><br/>
+
+    <a href="{{ constant('SITE_URL_BASE') }}" title="Revenir au site"><i class="icon-refresh"></i> Rééssayer.</a>
+
+  </div>
+
+  <br/><br/><br/><br/><br/>
+</div>
+<div id="messageBox" class="messageBox">
+  <div class="contentBox">
+
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/jquery.js"></script>
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ constant('SITE_URL') }}gestion/web/lib/js/ArgetFwkLibs.min.js"></script>
+</body>

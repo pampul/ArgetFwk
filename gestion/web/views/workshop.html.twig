@@ -1,0 +1,117 @@
+{# Home page #}
+{% extends "index.html.twig" %}
+
+{# Pase URL #}
+{% block baseurl %}{{ constant('SITE_URL') }}{% endblock %}
+
+{# Gestion SEO #}
+{% block title %}Site en travaux{% endblock %}
+{% block description %}{% endblock %}
+
+
+{# Ajout des nouveaux styles #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{% block container %}class="container"{% endblock %}
+
+{# Contenu de la page #}
+{% block content %}
+
+  <div class="row">
+
+    <br/><br/><br/>
+
+
+    <div class="span12">
+
+      <div class="widget-content">
+
+        <h4 class="fwk-title"><i class="icon-cogs"></i> Mettre votre site {% if configWorkshop.value == 0 %}en travaux{% else %}en production{% endif %}</h4>
+
+        <hr/>
+
+        <div class="row-fluid">
+
+          {% if configWorkshop.value == 0 %}
+
+            <div class="alert alert-danger">
+              <strong>ATTENTION</strong> : Veillez bien à rentrer les bonnes adresses IPs afin de pouvoir modifier cette valeur par la suite !<br/><br/>
+              Dans le cas où vous n'arrivez pas à accéder à votre site par la suite, vous pouvez modifier ces données directement dans la base de données.<br/>
+              Les champs sont "SITE_CONSTRUCTION" et "SITE_CONSTRUCTION_IP_SAFE".
+            </div>
+            <h3>Adresses IPs permises durant la mise en travaux :</h3>
+
+            <form method="post">
+
+              <i>Séparez directement les adresses IPs par des virgules.</i><br/>
+              <strong>Adresses IPs : </strong><input type="text" maxlength="250" name="ipValues" placeholder="127.0.0.1,192.168.1.10" required="required">
+
+              <br/>
+              <br/>
+
+              <button type="submit" class="btn btn-danger"><i class="icon-warning-sign"></i> Valider la mise en travaux</button>
+
+            </form>
+
+          {% else %}
+
+            <div class="alert alert-danger">
+              <strong>ATTENTION</strong> : Cette action rendra votre site visible par tous les utilisateurs.
+            </div>
+
+            <form method="post">
+              <input type="hidden" name="activate" value="1" />
+
+              <button type="submit" class="btn btn-info"><i class="icon-info-sign"></i> Valider la mise en production</button>
+            </form>
+
+          {% endif %}
+
+          <br/><br/>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  {% if change %}
+
+    <div class="modal hide fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Information</h3>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info" id="texteLogin">
+          <p>
+            Votre modification a bien été prise en compte.<br/>
+            {% if configWorkshop.value == 1 %}Votre site est maintenant en travaux.{% else %}Votre site est maintenant totalement opérationnel.{% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Ok</button>
+      </div>
+    </div>
+
+  {% endif %}
+
+
+{% endblock %}
+
+
+
+{# Importation du JS #}
+{% block jsinclude %}
+  <script>
+    {% if change %}
+    $('#warning').modal({});
+    {% endif %}
+  </script>
+{% endblock %}

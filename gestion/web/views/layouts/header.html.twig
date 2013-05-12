@@ -20,12 +20,11 @@
           <li class="active"><a href="{{ constant('SITE_URL') }}"><i class="icon-home"></i> Accueil</a></li>
 
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% if admin.privilege.level > 8 %}Gestion SEO  {% else %}Pages{% endif %}<b class=caret></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% if admin.privilege.level > 8 %}Gestion des pages & SEO  {% else %}Gestion des pages{% endif %}<b class=caret></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               {% if admin.privilege.level > 8 %}
                 <li><a href="dashboard/seo">T&D pages statiques</a></li>
                 <li><a href="dashboard/blog-categorie">Gestion des catégories de pages</a></li>
-
               {% endif %}
               <li><a href="dashboard/blog-post">Gestion des pages</a></li>
             </ul>

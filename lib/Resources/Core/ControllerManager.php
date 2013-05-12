@@ -40,7 +40,7 @@ class ControllerManager extends FwkManager {
       $this->em = FwkLoader::getEntityManager();
     $this->fwkClasses = FwkLoader::getFwkEntities();
 
-    $this->checkDBConnection();
+    $this->checkDBConnectionAndConfig();
     $this->execute();
   }
 
@@ -265,12 +265,37 @@ class ControllerManager extends FwkManager {
   }
 
   /**
+   * Redirection de la page sur la page de travaux
+   * Si get_content = site-construction alors affichage de la page
+   */
+  protected function siteConstructionController() {
+
+    if (GET_CONTENT === 'site-construction')
+      $this->siteConstructionDisplayController();
+    else
+      header('Location: ' . SITE_URL_BASE . 'url-error/site-construction');
+  }
+
+  /**
+   * Affichage de la page de travaux
+   */
+  protected function siteConstructionDisplayController() {
+    $this->renderView('views/site-construction.html.twig');
+  }
+
+  /**
    * Check if the connection is available
    * If ENV PROD : 500 elseif preprod show message elseif dev : link to build DB and msg
    */
-  private function checkDBConnection(){
+  private function checkDBConnectionAndConfig(){
     try{
-      $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
+      $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
+      if($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction'){
+        $configIps = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
+        $listIps = explode(',', $configIps->getValue());
+        if(!in_array(FwkUtils::getClientIp(), $listIps))
+          $this->siteConstructionController();
+      }
     }catch(Exception $e){
       if(!ENV_DEV){
         $this->bigError = true;
