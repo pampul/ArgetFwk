@@ -280,6 +280,12 @@ class ControllerManager extends FwkManager {
    * Affichage de la page de travaux
    */
   protected function siteConstructionDisplayController() {
+
+    $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
+
+    if($objConfig->getValue() == 0)
+      header('Location: '.SITE_URL_BASE);
+
     $this->renderView('views/site-construction.html.twig');
   }
 
@@ -292,9 +298,11 @@ class ControllerManager extends FwkManager {
       $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
       if($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction'){
         $configIps = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
-        $listIps = explode(',', $configIps->getValue());
-        if(!in_array(FwkUtils::getClientIp(), $listIps))
-          $this->siteConstructionController();
+        if(is_object($configIps)){
+          $listIps = explode(',', $configIps->getValue());
+          if(!in_array(FwkUtils::getClientIp(), $listIps))
+            $this->siteConstructionController();
+        }
       }
     }catch(Exception $e){
       if(!ENV_DEV){
