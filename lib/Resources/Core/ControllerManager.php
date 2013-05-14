@@ -52,7 +52,7 @@ class ControllerManager extends FwkManager {
   private function execute() {
 
     $methodCalled = lcfirst((string) FwkUtils::Camelize(GET_CONTENT) . 'Controller');
-    if (method_exists($this, $methodCalled))
+    if (method_exists($this, $methodCalled) && GET_PATTERN != 'blogchecker')
       $this->$methodCalled();
     else {
       $bool = (GET_PATTERN == 'post-preview' && $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']) instanceof Resources\Entities\Admin);
@@ -72,7 +72,7 @@ class ControllerManager extends FwkManager {
             $this->error404Controller();
           }
         }else {
-          if (file_exists('web/views/' . GET_CONTENT . '.html.twig')) {
+          if (file_exists('web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
             $this->renderView('views/' . GET_CONTENT . '.html.twig');
           } else {
             unset($objPost);

@@ -490,10 +490,10 @@ AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
   RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/page-([0-9]+) app.php?pattern=$1&content=$2&page=$3 [QSA,L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+) app.php?pattern=$1&content=$2&value=$3 [L]
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)/([A-Za-z-0-9]+)(?!(\.)) app.php?pattern=$1&content=$2&value=$3 [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+) app.php?pattern=$1&content=$2 [QSA,L]
+  RewriteRule ^([-A-Za-z0-9]+)/([A-Za-z0-9\-_]+)$ app.php?pattern=$1&content=$2 [QSA,L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^(.*)$ app.php?pattern=blogchecker&content=$1 [QSA,L]
