@@ -226,33 +226,37 @@
 
   </form>
 
-  <hr/>
+  {% if objBlogPost.blogPostRevisions|length > 0 %}
 
-  <div class="widget-box">
+    <hr/>
 
-    <div class="widget-box-title">
+    <div class="widget-box">
 
-      <h5 class="fwk-title">Dernières révisions de votre page :</h5>
+      <div class="widget-box-title">
 
-    </div>
+        <h5 class="fwk-title">Dernières révisions de votre page :</h5>
 
-    <div class="widget-box-content nobackground">
+      </div>
 
-      <div class="row">
+      <div class="widget-box-content nobackground">
 
-        <div class="span10">
+        <div class="row">
 
-          <ul class="unstyled" style="padding-left: 20px;">
+          <div class="span10">
 
-            {% for blogPostRevision in objBlogPost.blogPostRevisions %}
+            <ul class="unstyled" style="padding-left: 20px;">
 
-              <li>
-                <i class="icon-star-empty"></i> <a href="dashboard/blog-post-revision/{{ blogPostRevision.id }}" title="Consulter la révision">{{ blogPostRevision.dateAddLitteral }}</a> {% if loop.index == 1 %}- [Sauvegarde actuelle] -{% endif %} par {{ blogPostRevision.admin.prenom }} {{ blogPostRevision.admin.nom }}
-              </li>
+              {% for blogPostRevision in objBlogPost.blogPostRevisions %}
 
-            {% endfor %}
+                <li>
+                  <i class="icon-star-empty"></i> <a href="dashboard/blog-post-revision/{{ blogPostRevision.id }}" title="Consulter la révision">{{ blogPostRevision.dateAddLitteral }}</a> {% if loop.index == 1 %}- [Sauvegarde actuelle] -{% endif %} par {{ blogPostRevision.admin.prenom }} {{ blogPostRevision.admin.nom }}
+                </li>
 
-          </ul>
+              {% endfor %}
+
+            </ul>
+
+          </div>
 
         </div>
 
@@ -260,9 +264,7 @@
 
     </div>
 
-  </div>
-
-  <br/><br/>
+  {% endif %}
 
   </div>
   </div>
