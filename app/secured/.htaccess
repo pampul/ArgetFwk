@@ -22,3 +22,7 @@ Allow from 89.93.227.129
 Order Deny,Allow
 Deny from all
 Allow from 109.6.177.222
+
+Order Deny,Allow
+Deny from all
+Allow from 192.168.1

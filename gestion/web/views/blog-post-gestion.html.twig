@@ -226,6 +226,42 @@
 
   </form>
 
+  <hr/>
+
+  <div class="widget-box">
+
+    <div class="widget-box-title">
+
+      <h5 class="fwk-title">Dernières révisions de votre page :</h5>
+
+    </div>
+
+    <div class="widget-box-content nobackground">
+
+      <div class="row">
+
+        <div class="span10">
+
+          <ul class="unstyled" style="padding-left: 20px;">
+
+            {% for blogPostRevision in objBlogPost.blogPostRevisions %}
+
+              <li>
+                <i class="icon-star-empty"></i> <a href="dashboard/blog-post-revision/{{ blogPostRevision.id }}" title="Consulter la révision">{{ blogPostRevision.dateAddLitteral }}</a> {% if loop.index == 1 %}- [Sauvegarde actuelle] -{% endif %} par {{ blogPostRevision.admin.prenom }} {{ blogPostRevision.admin.nom }}
+              </li>
+
+            {% endfor %}
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
   <br/><br/>
 
   </div>

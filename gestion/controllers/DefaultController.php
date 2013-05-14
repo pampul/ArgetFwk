@@ -246,6 +246,9 @@ class DefaultController extends ControllerManager {
         $blogPostAdd = true;
         $objBlogPost = new Resources\Entities\BlogPost;
         $objBlogPost->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Paris')));
+      }else{
+        // On est en édition : suppression de la dernière révision si plus de 15
+        $this->dealWithPostRevisions($objBlogPost, $texte);
       }
 
       $objBlogPost->setDateEdit(new DateTime("now", new DateTimeZone('Europe/Paris')));
@@ -341,6 +344,41 @@ class DefaultController extends ControllerManager {
 
   }
 
+  private function dealWithPostRevisions($objBlogPost, $content){
+
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('count(bpr.id)')
+      ->from('Resources\Entities\BlogPostRevision', 'bpr')
+      ->where('bpr.blogPost=:blogpostid')
+      ->setParameter('blogpostid', $objBlogPost->getId());
+
+    $count = $qb->getQuery()->getSingleScalarResult();
+
+    // Si plus grand que 15, on delete le dernier
+    if($count >= 20){
+      $qb = $this->em->createQueryBuilder();
+      $qb->select('bpr')
+        ->from('Resources\Entities\BlogPostRevision', 'bpr')
+        ->where('bpr.blogPost=:blogpostid')
+        ->orderBy('bpr.dateAdd', 'DESC')
+        ->setMaxResults(1)
+        ->setParameter('blogpostid', $objBlogPost->getId());
+
+      $lastPostRevision = $qb->getQuery()->getSingleResult();
+      $this->em->remove($lastPostRevision);
+    }
+
+    $blogPostRevision = new \Resources\Entities\BlogPostRevision();
+    $blogPostRevision->setBlogPost($objBlogPost);
+    $blogPostRevision->setDateAdd(new DateTime("now", new DateTimeZone('Europe/Paris')));
+    $blogPostRevision->setTexte($content);
+    $blogPostRevision->setAdmin($this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']));
+
+    $this->em->persist($blogPostRevision);
+    $this->em->flush();
+
+  }
+
   protected function blogCategorieController() {
 
     $arrayActionButtons = array('edit' => array('link' => 'dashboard/blog-categorie-gestion', 'ajax' => true), 'delete' => array('link' => 'blog-categorie-delete', 'ajax' => true));
@@ -356,6 +394,32 @@ class DefaultController extends ControllerManager {
     $this->renderView('views/blog-categorie.html.twig', array(
       'tableFwk' => $objFwkTable
     ));
+  }
+
+  protected function blogPostRevisionController(){
+
+    if (isset($_GET['id'])) {
+      if (is_numeric($_GET['id']))
+        $objBlogPostRevision = $this->em->getRepository('Resources\Entities\BlogPostRevision')->find($_GET['id']);
+    }
+
+    if(!is_object($objBlogPostRevision))
+      header('Location: '.SITE_URL.'dashboard/blog-post');
+
+    if(isset($_POST['restoreContent'])){
+      $objBlogPost = $objBlogPostRevision->getBlogPost();
+      $objBlogPost->setTexte($objBlogPostRevision->getTexte());
+
+      $this->em->persist($objBlogPost);
+      $this->em->flush();
+
+      header('Location: '.SITE_URL.'dashboard/blog-post-gestion/'.$objBlogPost->getId());
+    }
+
+    $this->renderView('views/blog-post-revision.html.twig', array(
+      'objBlogPostRevision' => $objBlogPostRevision
+    ));
+
   }
 
 }

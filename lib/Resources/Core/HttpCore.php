@@ -123,7 +123,7 @@ class HttpCore{
    * @return int
    */
   public static function isLocalhost(){
-    return preg_match("#localhost#", $_SERVER['HTTP_HOST']);
+    return preg_match("#(localhost)|(192\.168)#", $_SERVER['HTTP_HOST']);
   }
 
   /**

@@ -6,22 +6,22 @@ use Doctrine\ORM\EntityRepository;
 
 class PrivilegeRepository extends EntityRepository {
 
-    /**
-     * Génération de td pour l'affichage d'univers dans d'autres classes
-     * 
-     * @param \Resources\Entities\Privilege $objPrivilege
-     * @return string
-     */
-    public function getTableName(\Resources\Entities\Privilege $objPrivilege) {
+  /**
+   * Génération de td pour l'affichage d'univers dans d'autres classes
+   *
+   * @param \Resources\Entities\Privilege $objPrivilege
+   * @return string
+   */
+  public function getTableName(\Resources\Entities\Privilege $objPrivilege) {
 
-        $html = '
+    $html = '
                     <td data-id="' . $objPrivilege->getId() . '">
                         ' . $objPrivilege->getNom() . '
                     </td>';
-        
-        return $html;
-    }
-    
+
+    return $html;
+  }
+
 }
 
 ?>

@@ -204,19 +204,17 @@ class FwkUpload extends FwkManager {
 
     $finfo = new finfo(FILEINFO_MIME);
 
-    if ($finfo) {
+    if ($finfo)
       $mime = $finfo->file($this->file['tmp_name']);
-    }
-    else {
+
+    else
       $mime = $this->file['tmp_name'];
-    }
 
     $mime = explode(" ", $mime);
     $mime = $mime[0];
 
-    if (substr($mime, -1, 1) == ";") {
+    if (substr($mime, -1, 1) == ";")
       $mime = trim(substr($mime, 0, -1));
-    }
 
     return (in_array($mime, $this->mimeTypeBlackList) == false);
 
