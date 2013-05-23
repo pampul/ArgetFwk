@@ -18,12 +18,12 @@ $em = FwkLoader::getEntityManager();
 
 if (is_file($_GET['path'] . DIRECTORY_SEPARATOR . $_GET['page'] . '.php')) {
 
-    require_once $_GET['path'] . DIRECTORY_SEPARATOR . $_GET['page'] . '.php';
-    $object = new $_GET['path']($em);
-    $object->execute();
-    unset($object);
-    
+  require_once $_GET['path'] . DIRECTORY_SEPARATOR . $_GET['page'] . '.php';
+  $object = new $_GET['path']($em);
+  $object->execute();
+  unset($object);
+
 }else{
-    throw new Exception('Le fichier '.$_GET['page'].'.php n\'existe pas dans le dossier '.$_GET['path']);
+  throw new Exception('Le fichier '.$_GET['page'].'.php n\'existe pas dans le dossier '.$_GET['path']);
 }
 ?>

@@ -72,7 +72,7 @@ class ControllerManager extends FwkManager {
             $this->error404Controller();
           }
         }else {
-          if (file_exists('web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
+          if (file_exists(PATH_TO_IMPORTANT_FILES.'gestion/web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
             $this->renderView('views/' . GET_CONTENT . '.html.twig');
           } else {
             unset($objPost);
@@ -295,14 +295,24 @@ class ControllerManager extends FwkManager {
    */
   private function checkDBConnectionAndConfig(){
     try{
+      checkConfig:
       $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
-      if($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction'){
-        $configIps = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
-        if(is_object($configIps)){
-          $listIps = explode(',', $configIps->getValue());
-          if(!in_array(FwkUtils::getClientIp(), $listIps))
-            $this->siteConstructionController();
+      if(is_object($objConfig)){
+        if($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction'){
+          $configIps = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
+          if(is_object($configIps)){
+            $listIps = explode(',', $configIps->getValue());
+            if(!in_array(FwkUtils::getClientIp(), $listIps))
+              $this->siteConstructionController();
+          }
         }
+      }else{
+        $objConfigNew = new Resources\Entities\Config();
+        $objConfigNew->setName('SITE_CONSTRUCTION');
+        $objConfigNew->setValue(0);
+        $this->em->persist($objConfigNew);
+        $this->em->flush();
+        goto checkConfig;
       }
     }catch(Exception $e){
       if(!ENV_DEV){
