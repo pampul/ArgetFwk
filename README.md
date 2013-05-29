@@ -1,4 +1,3 @@
-
 #ArgetFwk
 -----------------
 
@@ -45,6 +44,7 @@ Ouvrez le fichier `app/config.php`.
 Générez la base de données.
 - Créez une base de données ayant pour nom celui que vous avez donné dans l'étape précédente.
 - Allez sur `VOTREURL/apps/console`, connectez-vous avec les informations présentes dans le fichier `config.php` (`ADMIN_EMAIL` et `ADMIN_PASSWORD`)
+Dans le cas où vous n'accédez pas à l'URL précédentes, vérifiez que votre IP est bien contenue dans le fichier `app/secured/.htaccess`.
 - Cliquez sur générer la base de donnée avec un premier enregistrement.
 
 
