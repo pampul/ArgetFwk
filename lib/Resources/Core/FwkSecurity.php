@@ -103,7 +103,7 @@ class FwkSecurity extends FwkManager {
         break;
 
       case 'MD5':
-        if (md5(self::encryptPassword($pwdEntered)) == $pwdHashed)
+        if (self::encryptPassword($pwdEntered) == $pwdHashed)
           $result = true;
         break;
     }
