@@ -19,9 +19,7 @@
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform,
-    Doctrine\DBAL\Schema\Column,
-    Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Platforms\AbstractPlatform, Doctrine\DBAL\Schema\Column, Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * Event Arguments used when SQL queries for adding table columns are generated inside Doctrine\DBAL\Platform\*Platform.
@@ -31,84 +29,77 @@ use Doctrine\DBAL\Platforms\AbstractPlatform,
  * @since       2.2
  * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
-class SchemaAlterTableAddColumnEventArgs extends SchemaEventArgs
-{
-    /**
-     * @var \Doctrine\DBAL\Schema\Column
-     */
-    private $_column = null;
+class SchemaAlterTableAddColumnEventArgs extends SchemaEventArgs {
+  /**
+   * @var \Doctrine\DBAL\Schema\Column
+   */
+  private $_column = null;
 
-    /**
-     * @var \Doctrine\DBAL\Schema\TableDiff
-     */
-    private $_tableDiff = null;
+  /**
+   * @var \Doctrine\DBAL\Schema\TableDiff
+   */
+  private $_tableDiff = null;
 
-    /**
-     * @var \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    private $_platform = null;
+  /**
+   * @var \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  private $_platform = null;
 
-    /**
-     * @var array
-     */
-    private $_sql = array();
+  /**
+   * @var array
+   */
+  private $_sql = array();
 
-    /**
-     * @param \Doctrine\DBAL\Schema\Column $column
-     * @param \Doctrine\DBAL\Schema\TableDiff $tableDiff
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     */
-    public function __construct(Column $column, TableDiff $tableDiff, AbstractPlatform $platform)
-    {
-        $this->_column    = $column;
-        $this->_tableDiff = $tableDiff;
-        $this->_platform  = $platform;
+  /**
+   * @param \Doctrine\DBAL\Schema\Column              $column
+   * @param \Doctrine\DBAL\Schema\TableDiff           $tableDiff
+   * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
+   */
+  public function __construct(Column $column, TableDiff $tableDiff, AbstractPlatform $platform) {
+    $this->_column    = $column;
+    $this->_tableDiff = $tableDiff;
+    $this->_platform  = $platform;
+  }
+
+  /**
+   * @return \Doctrine\DBAL\Schema\Column
+   */
+  public function getColumn() {
+    return $this->_column;
+  }
+
+  /**
+   * @return \Doctrine\DBAL\Schema\TableDiff
+   */
+  public function getTableDiff() {
+    return $this->_tableDiff;
+  }
+
+  /**
+   * @return \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  public function getPlatform() {
+    return $this->_platform;
+  }
+
+  /**
+   * @param string|array $sql
+   * @return \Doctrine\DBAL\Event\SchemaAlterTableAddColumnEventArgs
+   */
+  public function addSql($sql) {
+    if (is_array($sql)) {
+      $this->_sql = array_merge($this->_sql, $sql);
+    } else {
+      $this->_sql[] = $sql;
     }
 
-    /**
-     * @return \Doctrine\DBAL\Schema\Column
-     */
-    public function getColumn()
-    {
-        return $this->_column;
-    }
+    return $this;
+  }
 
-    /**
-     * @return \Doctrine\DBAL\Schema\TableDiff
-     */
-    public function getTableDiff()
-    {
-        return $this->_tableDiff;
-    }
-
-    /**
-     * @return \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    public function getPlatform()
-    {
-        return $this->_platform;
-    }
-
-    /**
-     * @param string|array $sql
-     * @return \Doctrine\DBAL\Event\SchemaAlterTableAddColumnEventArgs
-     */
-    public function addSql($sql)
-    {
-        if (is_array($sql)) {
-            $this->_sql = array_merge($this->_sql, $sql);
-        } else {
-            $this->_sql[] = $sql;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSql()
-    {
-        return $this->_sql;
-    }
+  /**
+   * @return array
+   */
+  public function getSql() {
+    return $this->_sql;
+  }
 }

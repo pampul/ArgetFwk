@@ -27,54 +27,53 @@ namespace Doctrine\Common\Persistence\Mapping;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-interface ReflectionService
-{
-    /**
-     * Return an array of the parent classes (not interfaces) for the given class.
-     *
-     * @param string $class
-     * @return array
-     */
-    function getParentClasses($class);
+interface ReflectionService {
+  /**
+   * Return an array of the parent classes (not interfaces) for the given class.
+   *
+   * @param string $class
+   * @return array
+   */
+  function getParentClasses($class);
 
-    /**
-     * Return the shortname of a class.
-     *
-     * @param string $class
-     * @return string
-     */
-    function getClassShortName($class);
+  /**
+   * Return the shortname of a class.
+   *
+   * @param string $class
+   * @return string
+   */
+  function getClassShortName($class);
 
-    /**
-     * @param string $class
-     * @return string
-     */
-    function getClassNamespace($class);
+  /**
+   * @param string $class
+   * @return string
+   */
+  function getClassNamespace($class);
 
-    /**
-     * Return a reflection class instance or null
-     *
-     * @param string $class
-     * @return ReflectionClass|null
-     */
-    function getClass($class);
+  /**
+   * Return a reflection class instance or null
+   *
+   * @param string $class
+   * @return ReflectionClass|null
+   */
+  function getClass($class);
 
-    /**
-     * Return an accessible property (setAccessible(true)) or null.
-     *
-     * @param string $class
-     * @param string $property
-     * @return ReflectionProperty|null
-     */
-    function getAccessibleProperty($class, $property);
+  /**
+   * Return an accessible property (setAccessible(true)) or null.
+   *
+   * @param string $class
+   * @param string $property
+   * @return ReflectionProperty|null
+   */
+  function getAccessibleProperty($class, $property);
 
-    /**
-     * Check if the class have a public method with the given name.
-     *
-     * @param mixed $class
-     * @param mixed $method
-     * @return bool
-     */
-    function hasPublicMethod($class, $method);
+  /**
+   * Check if the class have a public method with the given name.
+   *
+   * @param mixed $class
+   * @param mixed $method
+   * @return bool
+   */
+  function hasPublicMethod($class, $method);
 }
 

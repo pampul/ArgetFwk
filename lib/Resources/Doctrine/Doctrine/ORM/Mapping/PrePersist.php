@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("METHOD")
  */
-final class PrePersist implements Annotation
-{
+final class PrePersist implements Annotation {
 }

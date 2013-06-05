@@ -34,12 +34,11 @@ namespace Doctrine\Common;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-interface EventSubscriber
-{
-    /**
-     * Returns an array of events this subscriber wants to listen to.
-     *
-     * @return array
-     */
-    function getSubscribedEvents();
+interface EventSubscriber {
+  /**
+   * Returns an array of events this subscriber wants to listen to.
+   *
+   * @return array
+   */
+  function getSubscribedEvents();
 }

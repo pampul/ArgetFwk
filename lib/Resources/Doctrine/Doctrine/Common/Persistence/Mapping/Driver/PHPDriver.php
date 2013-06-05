@@ -25,46 +25,42 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
  * The PHPDriver includes php files which just populate ClassMetadataInfo
  * instances with plain php code
  *
- * @license 	http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @link    	www.doctrine-project.org
- * @since   	2.0
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.org
+ * @since       2.0
  * @version     $Revision$
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  * @author      Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class PHPDriver extends FileDriver
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected $metadata;
+class PHPDriver extends FileDriver {
+  /**
+   * {@inheritdoc}
+   */
+  protected $metadata;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function __construct($locator, $fileExtension = null)
-    {
-        $fileExtension = ".php";
-        parent::__construct($locator, $fileExtension);
-    }
+  /**
+   * {@inheritDoc}
+   */
+  public function __construct($locator, $fileExtension = null) {
+    $fileExtension = ".php";
+    parent::__construct($locator, $fileExtension);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadMetadataForClass($className, ClassMetadata $metadata)
-    {
-        $this->metadata = $metadata;
-        $this->loadMappingFile($this->locator->findMappingFile($className));
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function loadMetadataForClass($className, ClassMetadata $metadata) {
+    $this->metadata = $metadata;
+    $this->loadMappingFile($this->locator->findMappingFile($className));
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadMappingFile($file)
-    {
-        $metadata = $this->metadata;
-        include $file;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function loadMappingFile($file) {
+    $metadata = $this->metadata;
+    include $file;
+  }
 }

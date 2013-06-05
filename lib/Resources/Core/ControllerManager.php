@@ -4,6 +4,7 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Classe regroupant les fonctions de bases présentes dans tous les controllers
+ *
  * @author f.mithieux
  */
 class ControllerManager extends FwkManager {
@@ -51,35 +52,32 @@ class ControllerManager extends FwkManager {
    */
   private function execute() {
 
-    $methodCalled = lcfirst((string) FwkUtils::Camelize(GET_CONTENT) . 'Controller');
+    $methodCalled = lcfirst((string)FwkUtils::Camelize(GET_CONTENT) . 'Controller');
     if (method_exists($this, $methodCalled) && GET_PATTERN != 'blogchecker')
-      $this->$methodCalled();
-    else {
-      $bool = (GET_PATTERN == 'post-preview' && $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']) instanceof Resources\Entities\Admin);
+      $this->$methodCalled(); else {
+      $bool    = (GET_PATTERN == 'post-preview' && $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']) instanceof Resources\Entities\Admin);
       $objPost = $this->em->getRepository('Resources\Entities\BlogPost')->findOneBy(array('seoUrl' => $this->getCurrentSeoUrl($bool)));
       if ($objPost instanceof \Resources\Entities\BlogPost && $objPost->getStatut() != 'trash' && (($objPost->getStatut() == 'draft' && $bool) || $objPost->getStatut() == 'publish')) {
         $objBlogManager = new BlogManager();
         $objBlogManager->loadTemplate($objPost);
       } else {
         if (ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != ''))
-          throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-        elseif(!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')){
-          if(BACKOFFICE_ACTIVE != ''){
+          throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled); elseif (!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')) {
+          if (BACKOFFICE_ACTIVE != '') {
             throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-          }else{
+          } else {
             if (ERROR_LOGS_ENABLED)
               FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
             $this->error404Controller();
           }
-        }else {
-          if (file_exists(PATH_TO_IMPORTANT_FILES.'gestion/web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
+        } else {
+          if (file_exists(PATH_TO_IMPORTANT_FILES . 'gestion/web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
             $this->renderView('views/' . GET_CONTENT . '.html.twig');
           } else {
             unset($objPost);
             if (ERROR_LOGS_ENABLED) {
               if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
-                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
-              else
+                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/'); else
                 FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
             }
             $this->error404Controller();
@@ -93,7 +91,7 @@ class ControllerManager extends FwkManager {
    * Fonction permettant de générer plus rapidement du Twig avec les variables envoyées de base
    *
    * @param string $view
-   * @param array $parameters
+   * @param array  $parameters
    */
   protected function renderView($view, $parameters = array()) {
 
@@ -123,36 +121,28 @@ class ControllerManager extends FwkManager {
   private function getBaseParameters() {
 
     if (!isset($_SERVER["HTTP_REFERER"]))
-      $serverReferer = SITE_URL;
-    else
+      $serverReferer = SITE_URL; else
       $serverReferer = $_SERVER["HTTP_REFERER"];
 
-    $seoTitle = null;
+    $seoTitle       = null;
     $seoDescription = null;
-    $seoH1 = null;
+    $seoH1          = null;
 
-    if(!$this->bigError)
+    if (!$this->bigError)
       $objSeo = $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => $this->getCurrentSeoUrl()));
 
     if (isset($objSeo) && $objSeo instanceof Resources\Entities\Seo) {
-      $seoTitle = $objSeo->getTitre();
+      $seoTitle       = $objSeo->getTitre();
       $seoDescription = $objSeo->getDescription();
-      $seoH1 = $objSeo->getH1();
+      $seoH1          = $objSeo->getH1();
     }
 
-    $parameters = array(
-      'tempsChargement' => number_format($this->getLoadingTime(), 3),
-      'siteUri' => SITE_URL_BASE . $_SERVER["REQUEST_URI"],
-      'sitePrevUri' => $serverReferer,
-      'seoTitle' => $seoTitle,
-      'seoDescription' => $seoDescription,
-      'seoH1' => $seoH1
-    );
+    $parameters = array('tempsChargement' => number_format($this->getLoadingTime(), 3), 'siteUri' => SITE_URL_BASE . $_SERVER["REQUEST_URI"], 'sitePrevUri' => $serverReferer, 'seoTitle' => $seoTitle, 'seoDescription' => $seoDescription, 'seoH1' => $seoH1);
 
     unset($serverReferer);
 
     if (isset($_SESSION['admin']) && CONFIG_REQUIRE_BDD && !$this->bigError) {
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
+      $objAdmin   = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
       $parameters = array_merge($parameters, array('admin' => $objAdmin));
     }
 
@@ -161,6 +151,7 @@ class ControllerManager extends FwkManager {
 
   /**
    * Retourne l'URL courante, sans les "?" et la base du site
+   *
    * @return string
    */
   private function getCurrentSeoUrl($preview = false) {
@@ -183,7 +174,7 @@ class ControllerManager extends FwkManager {
 
     if (preg_match('#\?#', $currentUri)) {
       $arrayExploded = explode('?', $currentUri);
-      $currentUri = $arrayExploded[0];
+      $currentUri    = $arrayExploded[0];
     }
 
     if (preg_match('#page-#', $currentUri)) {
@@ -201,6 +192,7 @@ class ControllerManager extends FwkManager {
       $currentUri = preg_replace('#post-preview/#', '', $currentUri);
 
     unset($arrayExploded);
+
     return $currentUri;
   }
 
@@ -211,8 +203,7 @@ class ControllerManager extends FwkManager {
   protected function error403Controller() {
 
     if (GET_CONTENT === 'error403')
-      $this->error500DisplayController();
-    else
+      $this->error500DisplayController(); else
       header('Location: ' . SITE_URL . 'url-error/error403');
   }
 
@@ -231,8 +222,7 @@ class ControllerManager extends FwkManager {
   protected function error404Controller() {
 
     if (GET_CONTENT === 'error404')
-      $this->error404DisplayController();
-    else
+      $this->error404DisplayController(); else
       header('Location: ' . SITE_URL . 'url-error/error404');
   }
 
@@ -251,8 +241,7 @@ class ControllerManager extends FwkManager {
   protected function error500Controller() {
 
     if (GET_CONTENT === 'error500')
-      $this->error500DisplayController();
-    else
+      $this->error500DisplayController(); else
       header('Location: ' . SITE_URL . 'url-error/error500');
   }
 
@@ -271,8 +260,7 @@ class ControllerManager extends FwkManager {
   protected function siteConstructionController() {
 
     if (GET_CONTENT === 'site-construction')
-      $this->siteConstructionDisplayController();
-    else
+      $this->siteConstructionDisplayController(); else
       header('Location: ' . SITE_URL_BASE . 'url-error/site-construction');
   }
 
@@ -283,8 +271,8 @@ class ControllerManager extends FwkManager {
 
     $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
 
-    if($objConfig->getValue() == 0)
-      header('Location: '.SITE_URL_BASE);
+    if ($objConfig->getValue() == 0)
+      header('Location: ' . SITE_URL_BASE);
 
     $this->renderView('views/site-construction.html.twig');
   }
@@ -293,20 +281,20 @@ class ControllerManager extends FwkManager {
    * Check if the connection is available
    * If ENV PROD : 500 elseif preprod show message elseif dev : link to build DB and msg
    */
-  private function checkDBConnectionAndConfig(){
-    try{
+  private function checkDBConnectionAndConfig() {
+    try {
       checkConfig:
       $objConfig = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION'));
-      if(is_object($objConfig)){
-        if($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction'){
+      if (is_object($objConfig)) {
+        if ($objConfig->getValue() == 1 && GET_CONTENT != 'site-construction') {
           $configIps = $this->em->getRepository('Resources\Entities\Config')->findOneBy(array('name' => 'SITE_CONSTRUCTION_IP_SAFE'));
-          if(is_object($configIps)){
+          if (is_object($configIps)) {
             $listIps = explode(',', $configIps->getValue());
-            if(!in_array(FwkUtils::getClientIp(), $listIps))
+            if (!in_array(FwkUtils::getClientIp(), $listIps))
               $this->siteConstructionController();
           }
         }
-      }else{
+      } else {
         $objConfigNew = new Resources\Entities\Config();
         $objConfigNew->setName('SITE_CONSTRUCTION');
         $objConfigNew->setValue(0);
@@ -314,31 +302,31 @@ class ControllerManager extends FwkManager {
         $this->em->flush();
         goto checkConfig;
       }
-    }catch(Exception $e){
-      if(!ENV_DEV){
+    } catch (Exception $e) {
+      if (!ENV_DEV) {
         $this->bigError = true;
         $this->error500Controller();
         die();
-      }elseif(ENV_DEV && !ENV_LOCALHOST && !PRE_PROD_ALLOW_HELP){
+      } elseif (ENV_DEV && !ENV_LOCALHOST && !PRE_PROD_ALLOW_HELP) {
         echo '
         <strong style="color: red;">DATABASE CONNECTION FAILED.</strong>
         ';
         die();
-      }else{
+      } else {
         $db = true;
-        if(preg_match('#Unknown database#', $e->getMessage()))
+        if (preg_match('#Unknown database#', $e->getMessage()))
           $db = false;
         echo '
         <strong style="color: red; font-size: 20px;">DATABASE CONNECTION FAILED.</strong>';
 
 
         echo '<br/><br/><strong>Status Error :</strong>
-              <i>'.$e->getMessage().'</i><br/><br/><br/>';
+              <i>' . $e->getMessage() . '</i><br/><br/><br/>';
 
-        echo'
+        echo '
         - First installation ? Check the manual (<a target="_blank" href="https://github.com/Argetloum/ArgetFwk/blob/master/README.md">Readme.md</a>) !<br/><br/>
         - If not, go to the app/config.php and check the database config !<br/><br/>
-        - Then, '.(!$db ? 'create your database "'.PDO_DATABASE_NAME.'" and go': 'Go').' to <a href="'.SITE_URL_BASE.'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
+        - Then, ' . (!$db ? 'create your database "' . PDO_DATABASE_NAME . '" and go' : 'Go') . ' to <a href="' . SITE_URL_BASE . 'apps/console" target="_blank" style="color: blue; text-decoration: none;">this link !</a> (Login and password are stored in the config file)
         ';
 
         die();
@@ -347,4 +335,5 @@ class ControllerManager extends FwkManager {
   }
 
 }
+
 ?>

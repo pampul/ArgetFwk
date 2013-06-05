@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class InheritanceType implements Annotation
-{
-    /** @var string */
-    public $value;
+final class InheritanceType implements Annotation {
+  /** @var string */
+  public $value;
 }

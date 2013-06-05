@@ -32,37 +32,31 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class QuantifiedExpression extends Node
-{
-    public $type;
-    public $subselect;
+class QuantifiedExpression extends Node {
+  public $type;
+  public $subselect;
 
-    public function __construct($subselect)
-    {
-        $this->subselect = $subselect;
-    }
+  public function __construct($subselect) {
+    $this->subselect = $subselect;
+  }
 
-    public function isAll()
-    {
-        return strtoupper($this->type) == 'ALL';
-    }
+  public function isAll() {
+    return strtoupper($this->type) == 'ALL';
+  }
 
-    public function isAny()
-    {
-        return strtoupper($this->type) == 'ANY';
-    }
+  public function isAny() {
+    return strtoupper($this->type) == 'ANY';
+  }
 
-    public function isSome()
-    {
-        return strtoupper($this->type) == 'SOME';
-    }
+  public function isSome() {
+    return strtoupper($this->type) == 'SOME';
+  }
 
-    /**
-     * @override
-     */
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkQuantifiedExpression($this);
-    }
+  /**
+   * @override
+   */
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkQuantifiedExpression($this);
+  }
 }
 

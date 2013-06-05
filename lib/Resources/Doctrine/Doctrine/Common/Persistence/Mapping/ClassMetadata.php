@@ -28,138 +28,137 @@ namespace Doctrine\Common\Persistence\Mapping;
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  * @author  Jonathan Wage <jonwage@gmail.com>
  */
-interface ClassMetadata
-{
-    /**
-     * Get fully-qualified class name of this persistent class.
-     *
-     * @return string
-     */
-    function getName();
+interface ClassMetadata {
+  /**
+   * Get fully-qualified class name of this persistent class.
+   *
+   * @return string
+   */
+  function getName();
 
-    /**
-     * Gets the mapped identifier field name.
-     *
-     * The returned structure is an array of the identifier field names.
-     *
-     * @return array
-     */
-    function getIdentifier();
+  /**
+   * Gets the mapped identifier field name.
+   *
+   * The returned structure is an array of the identifier field names.
+   *
+   * @return array
+   */
+  function getIdentifier();
 
-    /**
-     * Gets the ReflectionClass instance for this mapped class.
-     *
-     * @return ReflectionClass
-     */
-    function getReflectionClass();
+  /**
+   * Gets the ReflectionClass instance for this mapped class.
+   *
+   * @return ReflectionClass
+   */
+  function getReflectionClass();
 
-    /**
-     * Checks if the given field name is a mapped identifier for this class.
-     *
-     * @param string $fieldName
-     * @return boolean
-     */
-    function isIdentifier($fieldName);
+  /**
+   * Checks if the given field name is a mapped identifier for this class.
+   *
+   * @param string $fieldName
+   * @return boolean
+   */
+  function isIdentifier($fieldName);
 
-    /**
-     * Checks if the given field is a mapped property for this class.
-     *
-     * @param string $fieldName
-     * @return boolean
-     */
-    function hasField($fieldName);
+  /**
+   * Checks if the given field is a mapped property for this class.
+   *
+   * @param string $fieldName
+   * @return boolean
+   */
+  function hasField($fieldName);
 
-    /**
-     * Checks if the given field is a mapped association for this class.
-     *
-     * @param string $fieldName
-     * @return boolean
-     */
-    function hasAssociation($fieldName);
+  /**
+   * Checks if the given field is a mapped association for this class.
+   *
+   * @param string $fieldName
+   * @return boolean
+   */
+  function hasAssociation($fieldName);
 
-    /**
-     * Checks if the given field is a mapped single valued association for this class.
-     *
-     * @param string $fieldName
-     * @return boolean
-     */
-    function isSingleValuedAssociation($fieldName);
+  /**
+   * Checks if the given field is a mapped single valued association for this class.
+   *
+   * @param string $fieldName
+   * @return boolean
+   */
+  function isSingleValuedAssociation($fieldName);
 
-    /**
-     * Checks if the given field is a mapped collection valued association for this class.
-     *
-     * @param string $fieldName
-     * @return boolean
-     */
-    function isCollectionValuedAssociation($fieldName);
+  /**
+   * Checks if the given field is a mapped collection valued association for this class.
+   *
+   * @param string $fieldName
+   * @return boolean
+   */
+  function isCollectionValuedAssociation($fieldName);
 
-    /**
-     * A numerically indexed list of field names of this persistent class.
-     *
-     * This array includes identifier fields if present on this class.
-     *
-     * @return array
-     */
-    function getFieldNames();
+  /**
+   * A numerically indexed list of field names of this persistent class.
+   *
+   * This array includes identifier fields if present on this class.
+   *
+   * @return array
+   */
+  function getFieldNames();
 
-    /**
-     * Returns an array of identifier field names numerically indexed.
-     *
-     * @return array
-     */
-    function getIdentifierFieldNames();
+  /**
+   * Returns an array of identifier field names numerically indexed.
+   *
+   * @return array
+   */
+  function getIdentifierFieldNames();
 
-    /**
-     * A numerically indexed list of association names of this persistent class.
-     *
-     * This array includes identifier associations if present on this class.
-     *
-     * @return array
-     */
-    function getAssociationNames();
+  /**
+   * A numerically indexed list of association names of this persistent class.
+   *
+   * This array includes identifier associations if present on this class.
+   *
+   * @return array
+   */
+  function getAssociationNames();
 
-    /**
-     * Returns a type name of this field.
-     *
-     * This type names can be implementation specific but should at least include the php types:
-     * integer, string, boolean, float/double, datetime.
-     *
-     * @param string $fieldName
-     * @return string
-     */
-    function getTypeOfField($fieldName);
+  /**
+   * Returns a type name of this field.
+   *
+   * This type names can be implementation specific but should at least include the php types:
+   * integer, string, boolean, float/double, datetime.
+   *
+   * @param string $fieldName
+   * @return string
+   */
+  function getTypeOfField($fieldName);
 
-    /**
-     * Returns the target class name of the given association.
-     *
-     * @param string $assocName
-     * @return string
-     */
-    function getAssociationTargetClass($assocName);
+  /**
+   * Returns the target class name of the given association.
+   *
+   * @param string $assocName
+   * @return string
+   */
+  function getAssociationTargetClass($assocName);
 
-    /**
-     * Checks if the association is the inverse side of a bidirectional association
-     *
-     * @param string $assocName
-     * @return boolean
-     */
-    function isAssociationInverseSide($assocName);
+  /**
+   * Checks if the association is the inverse side of a bidirectional association
+   *
+   * @param string $assocName
+   * @return boolean
+   */
+  function isAssociationInverseSide($assocName);
 
-    /**
-     * Returns the target field of the owning side of the association
-     *
-     * @param string $assocName
-     * @return string
-     */
-    function getAssociationMappedByTargetField($assocName);
+  /**
+   * Returns the target field of the owning side of the association
+   *
+   * @param string $assocName
+   * @return string
+   */
+  function getAssociationMappedByTargetField($assocName);
 
-    /**
-     * Return the identifier of this object as an array with field name as key.
-     *
-     * Has to return an empty array if no identifier isset.
-     *
-     * @param object $object
-     * @return array
-     */
-    function getIdentifierValues($object);
+  /**
+   * Return the identifier of this object as an array with field name as key.
+   *
+   * Has to return an empty array if no identifier isset.
+   *
+   * @param object $object
+   * @return array
+   */
+  function getIdentifierValues($object);
 }

@@ -30,19 +30,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class SimpleWhenClause extends Node
-{
-    public $caseScalarExpression = null;
-    public $thenScalarExpression = null;
+class SimpleWhenClause extends Node {
+  public $caseScalarExpression = null;
+  public $thenScalarExpression = null;
 
-    public function __construct($caseScalarExpression, $thenScalarExpression)
-    {
-        $this->caseScalarExpression = $caseScalarExpression;
-        $this->thenScalarExpression = $thenScalarExpression;
-    }
+  public function __construct($caseScalarExpression, $thenScalarExpression) {
+    $this->caseScalarExpression = $caseScalarExpression;
+    $this->thenScalarExpression = $thenScalarExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkWhenClauseExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkWhenClauseExpression($this);
+  }
 }

@@ -9,37 +9,38 @@ use Doctrine\ORM\EntityManager;
  */
 class SecuredClass {
 
-    /**
-     * EntityManager permettant les interactions Entity-BDD
-     * 
-     * @var EntityManager $em 
-     */
-    protected $em;
+  /**
+   * EntityManager permettant les interactions Entity-BDD
+   *
+   * @var EntityManager $em
+   */
+  protected $em;
 
-    /**
-     *
-     * @var int $microtimeStart
-     */
-    protected $microtimeStart;
+  /**
+   *
+   * @var int $microtimeStart
+   */
+  protected $microtimeStart;
 
-    /**
-     * 
-     * @param EntityManager $em
-     */
-    public function __construct(EntityManager $em) {
-        $this->em = $em;
-        $this->microtimeStart = microtime(true);
-    }
+  /**
+   *
+   * @param EntityManager $em
+   */
+  public function __construct(EntityManager $em) {
+    $this->em             = $em;
+    $this->microtimeStart = microtime(true);
+  }
 
-    /**
-     * 
-     * @return int
-     */
-    protected function getLoadingTime() {
+  /**
+   *
+   * @return int
+   */
+  protected function getLoadingTime() {
 
-        $result = microtime(true) - $this->microtimeStart;
-        return number_format($result, 3);
-    }
+    $result = microtime(true) - $this->microtimeStart;
+
+    return number_format($result, 3);
+  }
 
 }
 

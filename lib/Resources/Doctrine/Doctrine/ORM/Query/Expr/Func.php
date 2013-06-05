@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\Expr;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Func
-{
-    private $_name;
-    private $_arguments;
+class Func {
+  private $_name;
+  private $_arguments;
 
-    public function __construct($name, $arguments)
-    {
-        $this->_name = $name;
-        $this->_arguments = (array) $arguments;
-    }
+  public function __construct($name, $arguments) {
+    $this->_name      = $name;
+    $this->_arguments = (array)$arguments;
+  }
 
-    public function __toString()
-    {
-        return $this->_name . '(' . implode(', ', $this->_arguments) . ')';
-    }
+  public function __toString() {
+    return $this->_name . '(' . implode(', ', $this->_arguments) . ')';
+  }
 }

@@ -21,11 +21,7 @@
 
 namespace Doctrine\ORM\Tools\Console\Command\SchemaTool;
 
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console\Input\InputInterface,
-    Symfony\Component\Console\Output\OutputInterface,
-    Doctrine\ORM\Tools\SchemaTool;
+use Symfony\Component\Console\Input\InputArgument, Symfony\Component\Console\Input\InputOption, Symfony\Component\Console\Input\InputInterface, Symfony\Component\Console\Output\OutputInterface, Doctrine\ORM\Tools\SchemaTool;
 
 /**
  * Command to create the database schema for a set of classes based on their mappings.
@@ -39,41 +35,26 @@ use Symfony\Component\Console\Input\InputArgument,
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class CreateCommand extends AbstractCommand
-{
-    /**
-     * @see Console\Command\Command
-     */
-    protected function configure()
-    {
-        $this
-        ->setName('orm:schema-tool:create')
-        ->setDescription(
-            'Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output.'
-        )
-        ->setDefinition(array(
-            new InputOption(
-                'dump-sql', null, InputOption::VALUE_NONE,
-                'Instead of try to apply generated SQLs into EntityManager Storage Connection, output them.'
-            )
-        ))
-        ->setHelp(<<<EOT
+class CreateCommand extends AbstractCommand {
+  /**
+   * @see Console\Command\Command
+   */
+  protected function configure() {
+    $this->setName('orm:schema-tool:create')->setDescription('Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output.')->setDefinition(array(new InputOption('dump-sql', null, InputOption::VALUE_NONE, 'Instead of try to apply generated SQLs into EntityManager Storage Connection, output them.')))->setHelp(<<<EOT
 Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output.
-EOT
-        );
-    }
+EOT);
+  }
 
-    protected function executeSchemaCommand(InputInterface $input, OutputInterface $output, SchemaTool $schemaTool, array $metadatas)
-    {
-        $output->write('ATTENTION: This operation should not be executed in a production environment.' . PHP_EOL . PHP_EOL);
+  protected function executeSchemaCommand(InputInterface $input, OutputInterface $output, SchemaTool $schemaTool, array $metadatas) {
+    $output->write('ATTENTION: This operation should not be executed in a production environment.' . PHP_EOL . PHP_EOL);
 
-        if ($input->getOption('dump-sql') === true) {
-            $sqls = $schemaTool->getCreateSchemaSql($metadatas);
-            $output->write(implode(';' . PHP_EOL, $sqls) . PHP_EOL);
-        } else {
-            $output->write('Creating database schema...' . PHP_EOL);
-            $schemaTool->createSchema($metadatas);
-            $output->write('Database schema created successfully!' . PHP_EOL);
-        }
+    if ($input->getOption('dump-sql') === true) {
+      $sqls = $schemaTool->getCreateSchemaSql($metadatas);
+      $output->write(implode(';' . PHP_EOL, $sqls) . PHP_EOL);
+    } else {
+      $output->write('Creating database schema...' . PHP_EOL);
+      $schemaTool->createSchema($metadatas);
+      $output->write('Database schema created successfully!' . PHP_EOL);
     }
+  }
 }

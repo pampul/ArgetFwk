@@ -32,55 +32,52 @@ use Doctrine\ORM\EntityManager;
  * @author      Roman Borschel <roman@code-factory.de>
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class OnFlushEventArgs extends \Doctrine\Common\EventArgs
-{
-    /**
-     * @var Doctirne\ORM\EntityManager
-     */
-    private $em;
+class OnFlushEventArgs extends \Doctrine\Common\EventArgs {
+  /**
+   * @var Doctirne\ORM\EntityManager
+   */
+  private $em;
 
-    //private $entitiesToPersist = array();
-    //private $entitiesToRemove = array();
+  //private $entitiesToPersist = array();
+  //private $entitiesToRemove = array();
 
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\ORM\EntityManager $em
-     */
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
+  /**
+   * Constructor.
+   *
+   * @param \Doctrine\ORM\EntityManager $em
+   */
+  public function __construct(EntityManager $em) {
+    $this->em = $em;
+  }
 
-    /**
-     * Retrieve associated EntityManager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+  /**
+   * Retrieve associated EntityManager.
+   *
+   * @return \Doctrine\ORM\EntityManager
+   */
+  public function getEntityManager() {
+    return $this->em;
+  }
 
-    /*
-    public function addEntityToPersist($entity)
-    {
+  /*
+  public function addEntityToPersist($entity)
+  {
 
-    }
+  }
 
-    public function addEntityToRemove($entity)
-    {
+  public function addEntityToRemove($entity)
+  {
 
-    }
+  }
 
-    public function addEntityToUpdate($entity)
-    {
+  public function addEntityToUpdate($entity)
+  {
 
-    }
+  }
 
-    public function getEntitiesToPersist()
-    {
-        return $this->_entitiesToPersist;
-    }
-    */
+  public function getEntitiesToPersist()
+  {
+      return $this->_entitiesToPersist;
+  }
+  */
 }

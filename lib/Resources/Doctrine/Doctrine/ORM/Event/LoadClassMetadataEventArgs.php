@@ -29,48 +29,44 @@ use Doctrine\ORM\EntityManager;
  * @author Jonathan H. Wage <jonwage@gmail.com>
  * @since  2.0
  */
-class LoadClassMetadataEventArgs extends EventArgs
-{
-    /**
-     * @var \Doctrine\ORM\Mapping\ClassMetadata
-     */
-    private $classMetadata;
+class LoadClassMetadataEventArgs extends EventArgs {
+  /**
+   * @var \Doctrine\ORM\Mapping\ClassMetadata
+   */
+  private $classMetadata;
 
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
+  /**
+   * @var \Doctrine\ORM\EntityManager
+   */
+  private $em;
 
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $classMetadata
-     * @param \Doctrine\ORM\EntityManager $em
-     */
-    public function __construct(ClassMetadataInfo $classMetadata, EntityManager $em)
-    {
-        $this->classMetadata = $classMetadata;
-        $this->em            = $em;
-    }
+  /**
+   * Constructor.
+   *
+   * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $classMetadata
+   * @param \Doctrine\ORM\EntityManager             $em
+   */
+  public function __construct(ClassMetadataInfo $classMetadata, EntityManager $em) {
+    $this->classMetadata = $classMetadata;
+    $this->em            = $em;
+  }
 
-    /**
-     * Retrieve associated ClassMetadata.
-     *
-     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
-     */
-    public function getClassMetadata()
-    {
-        return $this->classMetadata;
-    }
+  /**
+   * Retrieve associated ClassMetadata.
+   *
+   * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+   */
+  public function getClassMetadata() {
+    return $this->classMetadata;
+  }
 
-    /**
-     * Retrieve associated EntityManager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+  /**
+   * Retrieve associated EntityManager.
+   *
+   * @return \Doctrine\ORM\EntityManager
+   */
+  public function getEntityManager() {
+    return $this->em;
+  }
 }
 

@@ -27,72 +27,65 @@ namespace Doctrine\DBAL\Schema;
  * @since   2.0
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class SchemaConfig
-{
-    /**
-     * @var bool
-     */
-    protected $_hasExplicitForeignKeyIndexes = false;
+class SchemaConfig {
+  /**
+   * @var bool
+   */
+  protected $_hasExplicitForeignKeyIndexes = false;
 
-    /**
-     * @var int
-     */
-    protected $_maxIdentifierLength = 63;
+  /**
+   * @var int
+   */
+  protected $_maxIdentifierLength = 63;
 
-    /**
-     * @var string
-     */
-    protected $_name;
+  /**
+   * @var string
+   */
+  protected $_name;
 
-    /**
-     * @return bool
-     */
-    public function hasExplicitForeignKeyIndexes()
-    {
-        return $this->_hasExplicitForeignKeyIndexes;
-    }
+  /**
+   * @return bool
+   */
+  public function hasExplicitForeignKeyIndexes() {
+    return $this->_hasExplicitForeignKeyIndexes;
+  }
 
-    /**
-     * @param bool $flag
-     */
-    public function setExplicitForeignKeyIndexes($flag)
-    {
-        $this->_hasExplicitForeignKeyIndexes = (bool)$flag;
-    }
+  /**
+   * @param bool $flag
+   */
+  public function setExplicitForeignKeyIndexes($flag) {
+    $this->_hasExplicitForeignKeyIndexes = (bool)$flag;
+  }
 
-    /**
-     * @param int $length
-     */
-    public function setMaxIdentifierLength($length)
-    {
-        $this->_maxIdentifierLength = (int)$length;
-    }
+  /**
+   * @param int $length
+   */
+  public function setMaxIdentifierLength($length) {
+    $this->_maxIdentifierLength = (int)$length;
+  }
 
-    /**
-     * @return int
-     */
-    public function getMaxIdentifierLength()
-    {
-        return $this->_maxIdentifierLength;
-    }
+  /**
+   * @return int
+   */
+  public function getMaxIdentifierLength() {
+    return $this->_maxIdentifierLength;
+  }
 
-    /**
-     * Get default namespace of schema objects.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
+  /**
+   * Get default namespace of schema objects.
+   *
+   * @return string
+   */
+  public function getName() {
+    return $this->_name;
+  }
 
-    /**
-     * set default namespace name of schema objects.
-     *
-     * @param _name the value to set.
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-    }
+  /**
+   * set default namespace name of schema objects.
+   *
+   * @param _name the value to set.
+   */
+  public function setName($name) {
+    $this->_name = $name;
+  }
 }

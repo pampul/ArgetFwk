@@ -67,8 +67,8 @@ class Ticket {
     return $this->typeTicket;
   }
 
-  public function getTypeTicketPerso(){
-    switch(strtolower($this->typeTicket)){
+  public function getTypeTicketPerso() {
+    switch (strtolower($this->typeTicket)) {
 
       case 'erreur critique':
         $typeTicket = '<i class="icon-color icon-critical-error"></i> Erreur Critique';
@@ -124,7 +124,7 @@ class Ticket {
     return $this->texte;
   }
 
-  public function getTexteHtml(){
+  public function getTexteHtml() {
     return nl2br($this->texte);
   }
 

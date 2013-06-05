@@ -35,267 +35,234 @@ use ReflectionProperty;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class AnnotationReader implements Reader
-{
-    /**
-     * Global map for imports.
-     *
-     * @var array
-     */
-    private static $globalImports = array(
-        'ignoreannotation' => 'Doctrine\Common\Annotations\Annotation\IgnoreAnnotation',
-    );
+final class AnnotationReader implements Reader {
+  /**
+   * Global map for imports.
+   *
+   * @var array
+   */
+  private static $globalImports = array('ignoreannotation' => 'Doctrine\Common\Annotations\Annotation\IgnoreAnnotation',);
 
-    /**
-     * A list with annotations that are not causing exceptions when not resolved to an annotation class.
-     *
-     * The names are case sensitive.
-     *
-     * @var array
-     */
-    private static $globalIgnoredNames = array(
-        'access'=> true, 'author'=> true, 'copyright'=> true, 'deprecated'=> true,
-        'example'=> true, 'ignore'=> true, 'internal'=> true, 'link'=> true, 'see'=> true,
-        'since'=> true, 'tutorial'=> true, 'version'=> true, 'package'=> true,
-        'subpackage'=> true, 'name'=> true, 'global'=> true, 'param'=> true,
-        'return'=> true, 'staticvar'=> true, 'category'=> true, 'staticVar'=> true,
-        'static'=> true, 'var'=> true, 'throws'=> true, 'inheritdoc'=> true,
-        'inheritDoc'=> true, 'license'=> true, 'todo'=> true, 'deprecated'=> true,
-        'deprec'=> true, 'author'=> true, 'property' => true, 'method' => true,
-        'abstract'=> true, 'exception'=> true, 'magic' => true, 'api' => true,
-        'final'=> true, 'filesource'=> true, 'throw' => true, 'uses' => true,
-        'usedby'=> true, 'private' => true, 'Annotation' => true, 'override' => true,
-        'codeCoverageIgnore' => true, 'codeCoverageIgnoreStart' => true, 'codeCoverageIgnoreEnd' => true,
-        'Required' => true, 'Attribute' => true, 'Attributes' => true,
-        'Target' => true, 'SuppressWarnings' => true,
-    );
+  /**
+   * A list with annotations that are not causing exceptions when not resolved to an annotation class.
+   *
+   * The names are case sensitive.
+   *
+   * @var array
+   */
+  private static $globalIgnoredNames = array('access' => true, 'author' => true, 'copyright' => true, 'deprecated' => true, 'example' => true, 'ignore' => true, 'internal' => true, 'link' => true, 'see' => true, 'since' => true, 'tutorial' => true, 'version' => true, 'package' => true, 'subpackage' => true, 'name' => true, 'global' => true, 'param' => true, 'return' => true, 'staticvar' => true, 'category' => true, 'staticVar' => true, 'static' => true, 'var' => true, 'throws' => true, 'inheritdoc' => true, 'inheritDoc' => true, 'license' => true, 'todo' => true, 'deprecated' => true, 'deprec' => true, 'author' => true, 'property' => true, 'method' => true, 'abstract' => true, 'exception' => true, 'magic' => true, 'api' => true, 'final' => true, 'filesource' => true, 'throw' => true, 'uses' => true, 'usedby' => true, 'private' => true, 'Annotation' => true, 'override' => true, 'codeCoverageIgnore' => true, 'codeCoverageIgnoreStart' => true, 'codeCoverageIgnoreEnd' => true, 'Required' => true, 'Attribute' => true, 'Attributes' => true, 'Target' => true, 'SuppressWarnings' => true,);
 
-    /**
-     * Add a new annotation to the globally ignored annotation names with regard to exception handling.
-     *
-     * @param string $name
-     */
-    static public function addGlobalIgnoredName($name)
-    {
-        self::$globalIgnoredNames[$name] = true;
+  /**
+   * Add a new annotation to the globally ignored annotation names with regard to exception handling.
+   *
+   * @param string $name
+   */
+  static public function addGlobalIgnoredName($name) {
+    self::$globalIgnoredNames[$name] = true;
+  }
+
+  /**
+   * Annotations Parser
+   *
+   * @var Doctrine\Common\Annotations\DocParser
+   */
+  private $parser;
+
+  /**
+   * Annotations Parser used to collect parsing metadata
+   *
+   * @var Doctrine\Common\Annotations\DocParser
+   */
+  private $preParser;
+
+  /**
+   * PHP Parser used to collect imports.
+   *
+   * @var Doctrine\Common\Annotations\PhpParser
+   */
+  private $phpParser;
+
+  /**
+   * In-memory cache mechanism to store imported annotations per class.
+   *
+   * @var array
+   */
+  private $imports = array();
+
+  /**
+   * In-memory cache mechanism to store ignored annotations per class.
+   *
+   * @var array
+   */
+  private $ignoredAnnotationNames = array();
+
+  /**
+   * Constructor.
+   *
+   * Initializes a new AnnotationReader.
+   */
+  public function __construct() {
+    AnnotationRegistry::registerFile(__DIR__ . '/Annotation/IgnoreAnnotation.php');
+
+    $this->parser = new DocParser;
+
+    $this->preParser = new DocParser;
+    $this->preParser->setImports(self::$globalImports);
+    $this->preParser->setIgnoreNotImportedAnnotations(true);
+
+    $this->phpParser = new PhpParser;
+  }
+
+  /**
+   * Gets the annotations applied to a class.
+   *
+   * @param ReflectionClass $class The ReflectionClass of the class from which
+   *                               the class annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getClassAnnotations(ReflectionClass $class) {
+    $this->parser->setTarget(Target::TARGET_CLASS);
+    $this->parser->setImports($this->getImports($class));
+    $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
+
+    return $this->parser->parse($class->getDocComment(), 'class ' . $class->getName());
+  }
+
+  /**
+   * Gets a class annotation.
+   *
+   * @param ReflectionClass $class          The ReflectionClass of the class from which
+   *                                        the class annotations should be read.
+   * @param string          $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getClassAnnotation(ReflectionClass $class, $annotationName) {
+    $annotations = $this->getClassAnnotations($class);
+
+    foreach ($annotations as $annotation) {
+      if ($annotation instanceof $annotationName) {
+        return $annotation;
+      }
     }
 
-    /**
-     * Annotations Parser
-     *
-     * @var Doctrine\Common\Annotations\DocParser
-     */
-    private $parser;
+    return null;
+  }
 
-    /**
-     * Annotations Parser used to collect parsing metadata
-     *
-     * @var Doctrine\Common\Annotations\DocParser
-     */
-    private $preParser;
+  /**
+   * Gets the annotations applied to a property.
+   *
+   * @param ReflectionProperty $property The ReflectionProperty of the property
+   *                                     from which the annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getPropertyAnnotations(ReflectionProperty $property) {
+    $class   = $property->getDeclaringClass();
+    $context = 'property ' . $class->getName() . "::\$" . $property->getName();
+    $this->parser->setTarget(Target::TARGET_PROPERTY);
+    $this->parser->setImports($this->getImports($class));
+    $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
 
-    /**
-     * PHP Parser used to collect imports.
-     *
-     * @var Doctrine\Common\Annotations\PhpParser
-     */
-    private $phpParser;
+    return $this->parser->parse($property->getDocComment(), $context);
+  }
 
-    /**
-     * In-memory cache mechanism to store imported annotations per class.
-     *
-     * @var array
-     */
-    private $imports = array();
+  /**
+   * Gets a property annotation.
+   *
+   * @param ReflectionProperty $property
+   * @param string             $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getPropertyAnnotation(ReflectionProperty $property, $annotationName) {
+    $annotations = $this->getPropertyAnnotations($property);
 
-    /**
-     * In-memory cache mechanism to store ignored annotations per class.
-     *
-     * @var array
-     */
-    private $ignoredAnnotationNames = array();
-
-    /**
-     * Constructor.
-     *
-     * Initializes a new AnnotationReader.
-     */
-    public function __construct()
-    {
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/IgnoreAnnotation.php');
-
-        $this->parser = new DocParser;
-
-        $this->preParser = new DocParser;
-        $this->preParser->setImports(self::$globalImports);
-        $this->preParser->setIgnoreNotImportedAnnotations(true);
-
-        $this->phpParser = new PhpParser;
+    foreach ($annotations as $annotation) {
+      if ($annotation instanceof $annotationName) {
+        return $annotation;
+      }
     }
 
-    /**
-     * Gets the annotations applied to a class.
-     *
-     * @param ReflectionClass $class The ReflectionClass of the class from which
-     *                               the class annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getClassAnnotations(ReflectionClass $class)
-    {
-        $this->parser->setTarget(Target::TARGET_CLASS);
-        $this->parser->setImports($this->getImports($class));
-        $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
+    return null;
+  }
 
-        return $this->parser->parse($class->getDocComment(), 'class ' . $class->getName());
+  /**
+   * Gets the annotations applied to a method.
+   *
+   * @param ReflectionMethod $property The ReflectionMethod of the method from which
+   *                                   the annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getMethodAnnotations(ReflectionMethod $method) {
+    $class   = $method->getDeclaringClass();
+    $context = 'method ' . $class->getName() . '::' . $method->getName() . '()';
+    $this->parser->setTarget(Target::TARGET_METHOD);
+    $this->parser->setImports($this->getImports($class));
+    $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
+
+    return $this->parser->parse($method->getDocComment(), $context);
+  }
+
+  /**
+   * Gets a method annotation.
+   *
+   * @param ReflectionMethod $method
+   * @param string           $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getMethodAnnotation(ReflectionMethod $method, $annotationName) {
+    $annotations = $this->getMethodAnnotations($method);
+
+    foreach ($annotations as $annotation) {
+      if ($annotation instanceof $annotationName) {
+        return $annotation;
+      }
     }
 
-    /**
-     * Gets a class annotation.
-     *
-     * @param ReflectionClass $class The ReflectionClass of the class from which
-     *                               the class annotations should be read.
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getClassAnnotation(ReflectionClass $class, $annotationName)
-    {
-        $annotations = $this->getClassAnnotations($class);
+    return null;
+  }
 
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof $annotationName) {
-                return $annotation;
-            }
+  /**
+   * Returns the ignored annotations for the given class.
+   *
+   * @param ReflectionClass $class
+   * @return array
+   */
+  private function getIgnoredAnnotationNames(ReflectionClass $class) {
+    if (isset($this->ignoredAnnotationNames[$name = $class->getName()])) {
+      return $this->ignoredAnnotationNames[$name];
+    }
+    $this->collectParsingMetadata($class);
+
+    return $this->ignoredAnnotationNames[$name];
+  }
+
+  private function getImports(ReflectionClass $class) {
+    if (isset($this->imports[$name = $class->getName()])) {
+      return $this->imports[$name];
+    }
+    $this->collectParsingMetadata($class);
+
+    return $this->imports[$name];
+  }
+
+  /**
+   * Collects parsing metadata for a given class
+   *
+   * @param ReflectionClass $class
+   */
+  private function collectParsingMetadata(ReflectionClass $class) {
+    $ignoredAnnotationNames = self::$globalIgnoredNames;
+
+    $annotations = $this->preParser->parse($class->getDocComment(), 'class ' . $class->name);
+    foreach ($annotations as $annotation) {
+      if ($annotation instanceof IgnoreAnnotation) {
+        foreach ($annotation->names AS $annot) {
+          $ignoredAnnotationNames[$annot] = true;
         }
-
-        return null;
+      }
     }
 
-    /**
-     * Gets the annotations applied to a property.
-     *
-     * @param ReflectionProperty $property The ReflectionProperty of the property
-     *                                     from which the annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getPropertyAnnotations(ReflectionProperty $property)
-    {
-        $class = $property->getDeclaringClass();
-        $context = 'property ' . $class->getName() . "::\$" . $property->getName();
-        $this->parser->setTarget(Target::TARGET_PROPERTY);
-        $this->parser->setImports($this->getImports($class));
-        $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
-
-        return $this->parser->parse($property->getDocComment(), $context);
-    }
-
-    /**
-     * Gets a property annotation.
-     *
-     * @param ReflectionProperty $property
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getPropertyAnnotation(ReflectionProperty $property, $annotationName)
-    {
-        $annotations = $this->getPropertyAnnotations($property);
-
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof $annotationName) {
-                return $annotation;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets the annotations applied to a method.
-     *
-     * @param ReflectionMethod $property The ReflectionMethod of the method from which
-     *                                   the annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getMethodAnnotations(ReflectionMethod $method)
-    {
-        $class = $method->getDeclaringClass();
-        $context = 'method ' . $class->getName() . '::' . $method->getName() . '()';
-        $this->parser->setTarget(Target::TARGET_METHOD);
-        $this->parser->setImports($this->getImports($class));
-        $this->parser->setIgnoredAnnotationNames($this->getIgnoredAnnotationNames($class));
-
-        return $this->parser->parse($method->getDocComment(), $context);
-    }
-
-    /**
-     * Gets a method annotation.
-     *
-     * @param ReflectionMethod $method
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getMethodAnnotation(ReflectionMethod $method, $annotationName)
-    {
-        $annotations = $this->getMethodAnnotations($method);
-
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof $annotationName) {
-                return $annotation;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns the ignored annotations for the given class.
-     *
-     * @param ReflectionClass $class
-     * @return array
-     */
-    private function getIgnoredAnnotationNames(ReflectionClass $class)
-    {
-        if (isset($this->ignoredAnnotationNames[$name = $class->getName()])) {
-            return $this->ignoredAnnotationNames[$name];
-        }
-        $this->collectParsingMetadata($class);
-
-        return $this->ignoredAnnotationNames[$name];
-    }
-
-    private function getImports(ReflectionClass $class)
-    {
-        if (isset($this->imports[$name = $class->getName()])) {
-            return $this->imports[$name];
-        }
-        $this->collectParsingMetadata($class);
-
-        return $this->imports[$name];
-    }
-
-    /**
-     * Collects parsing metadata for a given class
-     *
-     * @param ReflectionClass $class
-     */
-    private function collectParsingMetadata(ReflectionClass $class)
-    {
-        $ignoredAnnotationNames = self::$globalIgnoredNames;
-
-        $annotations = $this->preParser->parse($class->getDocComment(), 'class '.$class->name);
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof IgnoreAnnotation) {
-                foreach ($annotation->names AS $annot) {
-                    $ignoredAnnotationNames[$annot] = true;
-                }
-            }
-        }
-
-        $name = $class->getName();
-        $this->imports[$name] = array_merge(
-            self::$globalImports,
-            $this->phpParser->parseClass($class),
-            array('__NAMESPACE__' => $class->getNamespaceName())
-        );
-        $this->ignoredAnnotationNames[$name] = $ignoredAnnotationNames;
-    }
+    $name                                = $class->getName();
+    $this->imports[$name]                = array_merge(self::$globalImports, $this->phpParser->parseClass($class), array('__NAMESPACE__' => $class->getNamespaceName()));
+    $this->ignoredAnnotationNames[$name] = $ignoredAnnotationNames;
+  }
 }

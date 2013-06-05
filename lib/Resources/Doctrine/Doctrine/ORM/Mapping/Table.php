@@ -23,14 +23,13 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class Table implements Annotation
-{
-    /** @var string */
-    public $name;
-    /** @var string */
-    public $schema;
-    /** @var array<\Doctrine\ORM\Mapping\Index> */
-    public $indexes;
-    /** @var array<\Doctrine\ORM\Mapping\UniqueConstraint> */
-    public $uniqueConstraints;
+final class Table implements Annotation {
+  /** @var string */
+  public $name;
+  /** @var string */
+  public $schema;
+  /** @var array<\Doctrine\ORM\Mapping\Index> */
+  public $indexes;
+  /** @var array<\Doctrine\ORM\Mapping\UniqueConstraint> */
+  public $uniqueConstraints;
 }

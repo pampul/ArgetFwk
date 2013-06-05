@@ -18,11 +18,12 @@ class BlogPostRepository extends EntityRepository {
 
   /**
    * Retourne l'élément du tableau nécessaire à l'affichage du statut
+   *
    * @param \Resources\Entities\BlogPost $objBlogPost
    * @return string
    */
-  public function getStatut(\Resources\Entities\BlogPost $objBlogPost){
-    switch($objBlogPost->getStatut()){
+  public function getStatut(\Resources\Entities\BlogPost $objBlogPost) {
+    switch ($objBlogPost->getStatut()) {
 
       case 'draft':
         return '
@@ -51,26 +52,28 @@ class BlogPostRepository extends EntityRepository {
 
   /**
    * Retourne l'URL
+   *
    * @param \Resources\Entities\BlogPost $objBlogPost
    * @return string
    */
-  public function getUrl(\Resources\Entities\BlogPost $objBlogPost){
+  public function getUrl(\Resources\Entities\BlogPost $objBlogPost) {
     return '
                     <td data-id="' . $objBlogPost->getId() . '">
-                        <span style="color:#9b060c;">'.$objBlogPost->getSeoUrl().'</span>
+                        <span style="color:#9b060c;">' . $objBlogPost->getSeoUrl() . '</span>
                     </td>';
 
   }
 
   /**
    * Retourne l'URL
+   *
    * @param \Resources\Entities\BlogPost $objBlogPost
    * @return string
    */
-  public function getDate(\Resources\Entities\BlogPost $objBlogPost){
+  public function getDate(\Resources\Entities\BlogPost $objBlogPost) {
     return '
                     <td data-id="' . $objBlogPost->getId() . '">
-                        '.$objBlogPost->getDateAdd().'
+                        ' . $objBlogPost->getDateAdd() . '
                     </td>';
 
   }

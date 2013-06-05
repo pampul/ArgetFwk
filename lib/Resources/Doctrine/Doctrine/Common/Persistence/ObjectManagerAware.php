@@ -37,13 +37,12 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-interface ObjectManagerAware
-{
-    /**
-     * Injects responsible ObjectManager and the ClassMetadata into this persistent object.
-     *
-     * @param ObjectManager $objectManager
-     * @param ClassMetadata $classMetadata
-     */
-    public function injectObjectManager(ObjectManager $objectManager, ClassMetadata $classMetadata);
+interface ObjectManagerAware {
+  /**
+   * Injects responsible ObjectManager and the ClassMetadata into this persistent object.
+   *
+   * @param ObjectManager $objectManager
+   * @param ClassMetadata $classMetadata
+   */
+  public function injectObjectManager(ObjectManager $objectManager, ClassMetadata $classMetadata);
 }

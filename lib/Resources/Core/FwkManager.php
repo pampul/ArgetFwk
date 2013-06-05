@@ -9,6 +9,7 @@ class FwkManager {
 
   /**
    * Administrateur connecté actuellement
+   *
    * @var Resources\Entities\Admin
    */
   protected $objAdmin;

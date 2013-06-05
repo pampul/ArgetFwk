@@ -29,17 +29,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class FromClause extends Node
-{
-    public $identificationVariableDeclarations = array();
+class FromClause extends Node {
+  public $identificationVariableDeclarations = array();
 
-    public function __construct(array $identificationVariableDeclarations)
-    {
-        $this->identificationVariableDeclarations = $identificationVariableDeclarations;
-    }
+  public function __construct(array $identificationVariableDeclarations) {
+    $this->identificationVariableDeclarations = $identificationVariableDeclarations;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkFromClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkFromClause($this);
+  }
 }

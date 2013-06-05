@@ -15,12 +15,11 @@
  * @subpackage Events
  * @author     Chris Corbyn
  */
-interface Swift_Events_CommandListener extends Swift_Events_EventListener
-{
-    /**
-     * Invoked immediately following a command being sent.
-     *
-     * @param Swift_Events_CommandEvent $evt
-     */
-    public function commandSent(Swift_Events_CommandEvent $evt);
+interface Swift_Events_CommandListener extends Swift_Events_EventListener {
+  /**
+   * Invoked immediately following a command being sent.
+   *
+   * @param Swift_Events_CommandEvent $evt
+   */
+  public function commandSent(Swift_Events_CommandEvent $evt);
 }

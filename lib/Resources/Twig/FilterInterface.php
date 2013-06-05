@@ -15,26 +15,25 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-interface Twig_FilterInterface
-{
-    /**
-     * Compiles a filter.
-     *
-     * @return string The PHP code for the filter
-     */
-    function compile();
+interface Twig_FilterInterface {
+  /**
+   * Compiles a filter.
+   *
+   * @return string The PHP code for the filter
+   */
+  function compile();
 
-    function needsEnvironment();
+  function needsEnvironment();
 
-    function needsContext();
+  function needsContext();
 
-    function getSafe(Twig_Node $filterArgs);
+  function getSafe(Twig_Node $filterArgs);
 
-    function getPreservesSafety();
+  function getPreservesSafety();
 
-    function getPreEscape();
+  function getPreEscape();
 
-    function setArguments($arguments);
+  function setArguments($arguments);
 
-    function getArguments();
+  function getArguments();
 }

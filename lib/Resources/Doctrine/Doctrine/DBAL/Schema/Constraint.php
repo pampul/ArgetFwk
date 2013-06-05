@@ -30,9 +30,8 @@ namespace Doctrine\DBAL\Schema;
  * @version $Revision$
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-interface Constraint
-{
-    public function getName();
+interface Constraint {
+  public function getName();
 
-    public function getColumns();
+  public function getColumns();
 }

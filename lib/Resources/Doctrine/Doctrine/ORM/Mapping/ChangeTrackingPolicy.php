@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class ChangeTrackingPolicy implements Annotation
-{
-    /** @var string */
-    public $value;
+final class ChangeTrackingPolicy implements Annotation {
+  /** @var string */
+  public $value;
 }

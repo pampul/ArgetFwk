@@ -15,16 +15,15 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-interface Twig_NodeInterface extends Countable, IteratorAggregate
-{
-    /**
-     * Compiles the node to PHP.
-     *
-     * @param Twig_Compiler A Twig_Compiler instance
-     */
-    function compile(Twig_Compiler $compiler);
+interface Twig_NodeInterface extends Countable, IteratorAggregate {
+  /**
+   * Compiles the node to PHP.
+   *
+   * @param Twig_Compiler A Twig_Compiler instance
+   */
+  function compile(Twig_Compiler $compiler);
 
-    function getLine();
+  function getLine();
 
-    function getNodeTag();
+  function getNodeTag();
 }

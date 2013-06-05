@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class JoinAssociationPathExpression extends Node
-{
-    public $identificationVariable;
-    public $associationField;
+class JoinAssociationPathExpression extends Node {
+  public $identificationVariable;
+  public $associationField;
 
-    public function __construct($identificationVariable, $associationField)
-    {
-        $this->identificationVariable = $identificationVariable;
-        $this->associationField = $associationField;
-    }
+  public function __construct($identificationVariable, $associationField) {
+    $this->identificationVariable = $identificationVariable;
+    $this->associationField       = $associationField;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkJoinPathExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkJoinPathExpression($this);
+  }
 }

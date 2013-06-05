@@ -18,98 +18,93 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DialogHelper extends Helper
-{
-    /**
-     * Asks a question to the user.
-     *
-     * @param OutputInterface $output
-     * @param string|array    $question The question to ask
-     * @param string          $default  The default answer if none is given by the user
-     *
-     * @return string The user answer
-     */
-    public function ask(OutputInterface $output, $question, $default = null)
-    {
-        // @codeCoverageIgnoreStart
-        $output->write($question);
+class DialogHelper extends Helper {
+  /**
+   * Asks a question to the user.
+   *
+   * @param OutputInterface $output
+   * @param string|array    $question The question to ask
+   * @param string          $default  The default answer if none is given by the user
+   *
+   * @return string The user answer
+   */
+  public function ask(OutputInterface $output, $question, $default = null) {
+    // @codeCoverageIgnoreStart
+    $output->write($question);
 
-        $ret = trim(fgets(STDIN));
+    $ret = trim(fgets(STDIN));
 
-        return $ret ? $ret : $default;
-        // @codeCoverageIgnoreEnd
+    return $ret ? $ret : $default;
+    // @codeCoverageIgnoreEnd
+  }
+
+  /**
+   * Asks a confirmation to the user.
+   *
+   * The question will be asked until the user answer by nothing, yes, or no.
+   *
+   * @param OutputInterface $output
+   * @param string|array    $question The question to ask
+   * @param Boolean         $default  The default answer if the user enters nothing
+   *
+   * @return Boolean true if the user has confirmed, false otherwise
+   */
+  public function askConfirmation(OutputInterface $output, $question, $default = true) {
+    // @codeCoverageIgnoreStart
+    $answer = 'z';
+    while ($answer && !in_array(strtolower($answer[0]), array('y', 'n'))) {
+      $answer = $this->ask($output, $question);
     }
 
-    /**
-     * Asks a confirmation to the user.
-     *
-     * The question will be asked until the user answer by nothing, yes, or no.
-     *
-     * @param OutputInterface $output
-     * @param string|array    $question The question to ask
-     * @param Boolean         $default  The default answer if the user enters nothing
-     *
-     * @return Boolean true if the user has confirmed, false otherwise
-     */
-    public function askConfirmation(OutputInterface $output, $question, $default = true)
-    {
-        // @codeCoverageIgnoreStart
-        $answer = 'z';
-        while ($answer && !in_array(strtolower($answer[0]), array('y', 'n'))) {
-            $answer = $this->ask($output, $question);
-        }
-
-        if (false === $default) {
-            return $answer && 'y' == strtolower($answer[0]);
-        }
-
-        return !$answer || 'y' == strtolower($answer[0]);
-        // @codeCoverageIgnoreEnd
+    if (false === $default) {
+      return $answer && 'y' == strtolower($answer[0]);
     }
 
-    /**
-     * Asks for a value and validates the response.
-     *
-     * The validator receives the data to validate. It must return the
-     * validated data when the data is valid and throw an exception
-     * otherwise.
-     *
-     * @param OutputInterface $output
-     * @param string|array    $question
-     * @param callback        $validator A PHP callback
-     * @param integer         $attempts Max number of times to ask before giving up (false by default, which means infinite)
-     * @param string          $default  The default answer if none is given by the user
-     *
-     * @return mixed
-     *
-     * @throws \Exception When any of the validator returns an error
-     */
-    public function askAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $default = null)
-    {
-        // @codeCoverageIgnoreStart
-        $error = null;
-        while (false === $attempts || $attempts--) {
-            if (null !== $error) {
-                $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
-            }
+    return !$answer || 'y' == strtolower($answer[0]);
+    // @codeCoverageIgnoreEnd
+  }
 
-            $value = $this->ask($output, $question, $default);
+  /**
+   * Asks for a value and validates the response.
+   *
+   * The validator receives the data to validate. It must return the
+   * validated data when the data is valid and throw an exception
+   * otherwise.
+   *
+   * @param OutputInterface $output
+   * @param string|array    $question
+   * @param callback        $validator A PHP callback
+   * @param integer         $attempts  Max number of times to ask before giving up (false by default, which means infinite)
+   * @param string          $default   The default answer if none is given by the user
+   *
+   * @return mixed
+   *
+   * @throws \Exception When any of the validator returns an error
+   */
+  public function askAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $default = null) {
+    // @codeCoverageIgnoreStart
+    $error = null;
+    while (false === $attempts || $attempts--) {
+      if (null !== $error) {
+        $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+      }
 
-            try {
-                return call_user_func($validator, $value);
-            } catch (\Exception $error) {
-            }
-        }
+      $value = $this->ask($output, $question, $default);
 
-        throw $error;
-        // @codeCoverageIgnoreEnd
+      try {
+        return call_user_func($validator, $value);
+      } catch (\Exception $error) {
+      }
     }
 
-    /**
-     * Returns the helper's canonical name
-     */
-    public function getName()
-    {
-        return 'dialog';
-    }
+    throw $error;
+    // @codeCoverageIgnoreEnd
+  }
+
+  /**
+   * Returns the helper's canonical name
+   */
+  public function getName() {
+    return 'dialog';
+  }
 }

@@ -32,21 +32,18 @@ use Doctrine\ORM\Query\AST\Node;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-abstract class FunctionNode extends Node
-{
-    public $name;
+abstract class FunctionNode extends Node {
+  public $name;
 
-    public function __construct($name)
-    {
-        $this->name = $name;
-    }
+  public function __construct($name) {
+    $this->name = $name;
+  }
 
-    abstract public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker);
+  abstract public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker);
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkFunction($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkFunction($this);
+  }
 
-    abstract public function parse(\Doctrine\ORM\Query\Parser $parser);
+  abstract public function parse(\Doctrine\ORM\Query\Parser $parser);
 }

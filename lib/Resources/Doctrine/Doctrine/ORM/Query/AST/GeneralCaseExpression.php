@@ -30,19 +30,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class GeneralCaseExpression extends Node
-{
-    public $whenClauses = array();
-    public $elseScalarExpression = null;
+class GeneralCaseExpression extends Node {
+  public $whenClauses = array();
+  public $elseScalarExpression = null;
 
-    public function __construct(array $whenClauses, $elseScalarExpression)
-    {
-        $this->whenClauses = $whenClauses;
-        $this->elseScalarExpression = $elseScalarExpression;
-    }
+  public function __construct(array $whenClauses, $elseScalarExpression) {
+    $this->whenClauses          = $whenClauses;
+    $this->elseScalarExpression = $elseScalarExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkGeneralCaseExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkGeneralCaseExpression($this);
+  }
 }

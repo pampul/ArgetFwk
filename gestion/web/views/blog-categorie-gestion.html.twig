@@ -1,17 +1,19 @@
-<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm" data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
+<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm"
+      data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
 
-    <div class="control-group">
-        <label class="control-label">Nom :</label>
-        <div class="controls">
-            <input type="text" name="nom" placeholder="Nom…" value="{{ objCategory.nom }}" data-verif="true">
-        </div>
-    </div>
-   
-    <input type="hidden" name="idItem" value="{{ objCategory.id }}">
+  <div class="control-group">
+    <label class="control-label">Nom :</label>
 
-    <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Valider</button>  
-        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+    <div class="controls">
+      <input type="text" name="nom" placeholder="Nom…" value="{{ objCategory.nom }}" data-verif="true">
     </div>
+  </div>
+
+  <input type="hidden" name="idItem" value="{{ objCategory.id }}">
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Valider</button>
+    <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+  </div>
 
 </form>

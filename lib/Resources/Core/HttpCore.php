@@ -1,24 +1,22 @@
 <?php
 
-class HttpCore{
+class HttpCore {
 
   /**
    * @var Translation
    */
   public static $translation;
 
-  public static function initialize(){
+  public static function initialize() {
     /**
      * Constantes de recuperation en HTTP
      */
     if (self::isGet('pattern'))
-      define('GET_PATTERN', self::get('pattern'));
-    else
+      define('GET_PATTERN', self::get('pattern')); else
       define('GET_PATTERN', null);
 
     if (self::isGet('pattern'))
-      define('GET_CONTENT', self::get('content'));
-    else
+      define('GET_CONTENT', self::get('content')); else
       define('GET_CONTENT', 'home');
 
 
@@ -33,7 +31,7 @@ class HttpCore{
     /**
      * On appelle le fichier de langues
      */
-    require_once PATH_TO_IMPORTANT_FILES.'lib/Resources/Core/Translation.php';
+    require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/Translation.php';
     Translation::initialize($lang);
 
     /**
@@ -79,59 +77,59 @@ class HttpCore{
   /**
    * Is Get Http méthod
    */
-  public static function isGet($str){
-    if(isset($_GET[$str]))
-      return true;
-    else
+  public static function isGet($str) {
+    if (isset($_GET[$str]))
+      return true; else
       return false;
   }
 
   /**
    * Is Post Http méthod
    */
-  public static function isPost($str){
-    if(isset($_POST[$str]))
-      return true;
-    else
+  public static function isPost($str) {
+    if (isset($_POST[$str]))
+      return true; else
       return false;
   }
 
   /**
    * Get Http méthod
+   *
    * @return string
    */
-  public static function get($str){
-    if(isset($_GET[$str]))
-      return $_GET[$str];
-    else
+  public static function get($str) {
+    if (isset($_GET[$str]))
+      return $_GET[$str]; else
       return false;
   }
 
   /**
    * Post Http méthod
+   *
    * @return string
    */
-  public static function post($str){
-    if(isset($_POST[$str]))
-      return $_POST[$str];
-    else
+  public static function post($str) {
+    if (isset($_POST[$str]))
+      return $_POST[$str]; else
       return false;
   }
 
   /**
    * Check if we are in local files
+   *
    * @return int
    */
-  public static function isLocalhost(){
+  public static function isLocalhost() {
     return preg_match("#(localhost)|(192\.168)#", $_SERVER['HTTP_HOST']);
   }
 
   /**
    * Check if the str in url exist
+   *
    * @param $str
    * @return boolean
    */
-  public static function isPreprodUrl($str){
+  public static function isPreprodUrl($str) {
     return preg_match("#$str#", $_SERVER['HTTP_HOST']);
   }
 
@@ -141,16 +139,15 @@ class HttpCore{
    *
    * @return string The schem and HTTP host
    */
-  public static function getSchemeAndHttpHost()
-  {
+  public static function getSchemeAndHttpHost() {
     if (self::isLocalhost())
-      return self::getScheme().self::getHttpHost().'/'.self::getLocalhostUrl().'/';
-    else
-      return self::getScheme().self::getHttpHost().'/';
+      return self::getScheme() . self::getHttpHost() . '/' . self::getLocalhostUrl() . '/'; else
+      return self::getScheme() . self::getHttpHost() . '/';
   }
 
-  public static function getLocalhostUrl(){
+  public static function getLocalhostUrl() {
     $arrayExploded = explode('/', $_SERVER['PHP_SELF']);
+
     return (isset($arrayExploded[1]) ? $arrayExploded[1] : '');
   }
 
@@ -159,8 +156,7 @@ class HttpCore{
    *
    * @return string
    */
-  public static function getHost()
-  {
+  public static function getHost() {
     if ($host = self::getForwardedHost()) {
       $elements = explode(',', $host);
 
@@ -195,8 +191,7 @@ class HttpCore{
    *
    * @api
    */
-  public static function getHttpHost()
-  {
+  public static function getHttpHost() {
     $scheme = self::getScheme();
     $port   = self::getPort();
 
@@ -204,7 +199,7 @@ class HttpCore{
       return self::getHost();
     }
 
-    return self::getHost().':'.$port;
+    return self::getHost() . ':' . $port;
   }
 
 
@@ -213,9 +208,8 @@ class HttpCore{
    *
    * @return string
    */
-  public static function getScheme()
-  {
-    return self::isSecure().'://';
+  public static function getScheme() {
+    return self::isSecure() . '://';
   }
 
   /**
@@ -223,16 +217,13 @@ class HttpCore{
    *
    * @return String
    */
-  public static function isSecure()
-  {
+  public static function isSecure() {
     return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
   }
 
-  public static function getPort(){
+  public static function getPort() {
     return $_SERVER['SERVER_PORT'];
   }
-
-
 
 
 }

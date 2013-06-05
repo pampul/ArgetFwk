@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class HasLifecycleCallbacks implements Annotation
-{
+final class HasLifecycleCallbacks implements Annotation {
 }

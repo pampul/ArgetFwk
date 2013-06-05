@@ -1,66 +1,66 @@
 {% if objTicket.statut == 'ouvert' %}
 
-<br/><br/>
+  <br/><br/>
 
-<hr/>
+  <hr/>
 
-<div class="row">
+  <div class="row">
 
     <div class="span2 hidden-phone">
 
-        <div class="avatar-user-mini pull-right">
+      <div class="avatar-user-mini pull-right">
 
-            <div class="avatar-user-container-mini">
+        <div class="avatar-user-container-mini">
 
-                                                {% if objAdmin.avatar is null %}
+          {% if objAdmin.avatar is null %}
 
-                <img src="web/img/default.png" alt="avatar default" />
+            <img src="web/img/default.png" alt="avatar default"/>
 
-                                                {% else %}
+          {% else %}
 
-                <img src="web/uploads/{{ objAdmin.avatar }}" alt="Avatar utilisateur" />
+            <img src="web/uploads/{{ objAdmin.avatar }}" alt="Avatar utilisateur"/>
 
-                                                {% endif %}
-
-            </div>
+          {% endif %}
 
         </div>
+
+      </div>
 
     </div>
 
     <div class="span8 tickets-text">
 
-        <div class="text-wrapper">
+      <div class="text-wrapper">
 
-            <div class="text-container">
+        <div class="text-container">
 
-                <div class="text-title">
-                    <strong style="font-size: 18px;"><i>Ecrire une réponse : </i></strong>
-                </div>
+          <div class="text-title">
+            <strong style="font-size: 18px;"><i>Ecrire une réponse : </i></strong>
+          </div>
 
-                <div class="text-content">
-                    <form method="POST" class="form-horizontal" id="addAnswer" name="addAnswer">
+          <div class="text-content">
+            <form method="POST" class="form-horizontal" id="addAnswer" name="addAnswer">
 
-                        <textarea name="texte" rows="4" style="width: 80%;" required="required" id="texteValue"></textarea>
+              <textarea name="texte" rows="4" style="width: 80%;" required="required" id="texteValue"></textarea>
 
-                        <input type="hidden" name="idAdmin" id="idAdmin" value="{{ objAdmin.id }}">
-                        <input type="hidden" name="idTicket" value="{{ objTicket.id }}">
+              <input type="hidden" name="idAdmin" id="idAdmin" value="{{ objAdmin.id }}">
+              <input type="hidden" name="idTicket" value="{{ objTicket.id }}">
 
-                        <br/><br/>
-                        
-                        <div>
-                            <button class="btn sendAnswerItem" id="sendAnswerAndClose">Répondre & Fermer le ticket</button>
-                            <button class="btn btn-success sendAnswerItem" id="sendAnswer">Répondre</button>
-                        </div>
-                    </form>
-                </div>
+              <br/><br/>
 
-            </div>
+              <div>
+                <button class="btn sendAnswerItem" id="sendAnswerAndClose">Répondre & Fermer le ticket</button>
+                <button class="btn btn-success sendAnswerItem" id="sendAnswer">Répondre</button>
+              </div>
+            </form>
+          </div>
 
         </div>
 
+      </div>
+
     </div>
 
-</div>
+  </div>
 
 {% endif %}

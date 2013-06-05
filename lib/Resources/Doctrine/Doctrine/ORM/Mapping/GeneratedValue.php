@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class GeneratedValue implements Annotation
-{
-     /** @var string */
-    public $strategy = 'AUTO';
+final class GeneratedValue implements Annotation {
+  /** @var string */
+  public $strategy = 'AUTO';
 }

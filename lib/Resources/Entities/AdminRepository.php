@@ -4,7 +4,7 @@ namespace Resources\Entities;
 
 use Doctrine\ORM\EntityRepository;
 
-class AdminRepository extends EntityRepository{
+class AdminRepository extends EntityRepository {
 
   /**
    * Génération de td pour l'affichage d'univers dans d'autres classes

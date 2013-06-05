@@ -1,68 +1,79 @@
-<form class="form-horizontal" method="POST" id="editAddForm" name="editAddForm" data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
+<form class="form-horizontal" method="POST" id="editAddForm" name="editAddForm"
+      data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
 
-    <div class="row">
-        <div class="span4 control-group">
-            <label class="control-label width-75">Nom : </label>
-            <div class="controls">
-                <input type="text" data-verification='true' data-preg="" name="nom" placeholder="Nom…" value="{{ objAdmin.nom }}">
-            </div>
-        </div>
-        <div class="span4 control-group">
-            <label class="control-label width-75">Prénom : </label>
-            <div class="controls margin-85">
-                <input type="text" name="prenom" placeholder="Prenom…" value="{{ objAdmin.prenom }}">
-            </div>
-        </div>
+  <div class="row">
+    <div class="span4 control-group">
+      <label class="control-label width-75">Nom : </label>
+
+      <div class="controls">
+        <input type="text" data-verification='true' data-preg="" name="nom" placeholder="Nom…"
+               value="{{ objAdmin.nom }}">
+      </div>
     </div>
+    <div class="span4 control-group">
+      <label class="control-label width-75">Prénom : </label>
 
-    <div class="control-group">
-        <label class="control-label">Pseudo : </label>
-        <div class="controls">
-            <input type="text" name="pseudo" placeholder="Pseudo…" value="{{ objAdmin.pseudo }}">
-        </div>
+      <div class="controls margin-85">
+        <input type="text" name="prenom" placeholder="Prenom…" value="{{ objAdmin.prenom }}">
+      </div>
     </div>
+  </div>
 
-    <br/>
+  <div class="control-group">
+    <label class="control-label">Pseudo : </label>
 
-    <div class="control-group">
-        <label class="control-label">Email : </label>
-        <div class="controls">
-            <input type="text" name="email" placeholder="Email…" value="{{ objAdmin.email }}">
-        </div>
+    <div class="controls">
+      <input type="text" name="pseudo" placeholder="Pseudo…" value="{{ objAdmin.pseudo }}">
     </div>
+  </div>
 
-    <div class="control-group">
-        <label class="control-label">Mot de passe : </label>
-        <div class="controls">
-            <input type="password" name="password" placeholder="Mot de passe…" value="{% if objAdmin.password is defined %}password{% endif %}">
-        </div>
+  <br/>
+
+  <div class="control-group">
+    <label class="control-label">Email : </label>
+
+    <div class="controls">
+      <input type="text" name="email" placeholder="Email…" value="{{ objAdmin.email }}">
     </div>
+  </div>
 
-    <hr/>
+  <div class="control-group">
+    <label class="control-label">Mot de passe : </label>
 
-    <div class="control-group">
-        <label class="control-label">Fonction : </label>
-        <div class="controls">
-            <input type="text" name="fonction" placeholder="Fonction…" value="{{ objAdmin.fonction }}">
-        </div>
+    <div class="controls">
+      <input type="password" name="password" placeholder="Mot de passe…"
+             value="{% if objAdmin.password is defined %}password{% endif %}">
     </div>
+  </div>
 
-    <div class="control-group">
-        <label class="control-label">Privilège</label>
-        <div class="controls">
-            <select name="privilege">
-                {% for privilege in colPrivilege %}
-                    <option value="{{ privilege.id }}" {% if privilege.id == objAdmin.privilege.id %} selected="SELECTED" {% endif %}>{{ privilege.nom }}</option>
-                {% endfor %}
-                </select>
-            </div>
-        </div>
+  <hr/>
 
-        <input type="hidden" name="idItem" value="{{ objAdmin.id }}">
+  <div class="control-group">
+    <label class="control-label">Fonction : </label>
 
-        <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Valider</button>  
-            <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
-        </div>
+    <div class="controls">
+      <input type="text" name="fonction" placeholder="Fonction…" value="{{ objAdmin.fonction }}">
+    </div>
+  </div>
 
-    </form>
+  <div class="control-group">
+    <label class="control-label">Privilège</label>
+
+    <div class="controls">
+      <select name="privilege">
+        {% for privilege in colPrivilege %}
+          <option
+              value="{{ privilege.id }}" {% if privilege.id == objAdmin.privilege.id %} selected="SELECTED" {% endif %}>{{ privilege.nom }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <input type="hidden" name="idItem" value="{{ objAdmin.id }}">
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Valider</button>
+    <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+  </div>
+
+</form>

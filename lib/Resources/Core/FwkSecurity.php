@@ -9,7 +9,8 @@ class FwkSecurity extends FwkManager {
 
   /**
    * Variable à définir pour crypter en MD5 avec un prefix
-   * @var string  $cryptMd5
+   *
+   * @var string $cryptMd5
    */
   private static $ninjaString = 'nInJa_s@Lt_Pwd-StriNg';
 
@@ -17,27 +18,30 @@ class FwkSecurity extends FwkManager {
 
   /**
    * Directory des fichiers de login
-   * @var string  $logsConnectDir
+   *
+   * @var string $logsConnectDir
    */
   private static $logsConnectDir = '../logs/login/';
 
   /**
    * Nombre de tentatives de connection maximum
+   *
    * @var integer $nbrConnectionTry
    */
   private static $nbrConnectionTry = 5;
 
   /**
    * Nombre de secondes d'attente
-   * @var integer  $nbrOfWaitingSecond
+   *
+   * @var integer $nbrOfWaitingSecond
    */
   private static $nbrOfWaitingSecond = 90;
 
   /**
    * Securisation de mot de passe
    *
-   * @param string $password
-   * @param string $encryptMethod
+   * @param string  $password
+   * @param string  $encryptMethod
    * @param integer $rounds
    * @return string
    */
@@ -46,7 +50,8 @@ class FwkSecurity extends FwkManager {
     $password = trim($password);
 
     $cryptedPwd = '';
-    if(is_null($encryptMethod)) $encryptMethod = PASSWORD_METHOD;
+    if (is_null($encryptMethod))
+      $encryptMethod = PASSWORD_METHOD;
     switch ($encryptMethod) {
 
       case 'SHA512':
@@ -54,12 +59,12 @@ class FwkSecurity extends FwkManager {
         break;
 
       case 'BLOWFISH+':
-        $salt = '';
+        $salt      = '';
         $saltChars = array_merge(range('A', 'Z'), range('a', 'z'), range(0, 9));
         for ($i = 0; $i < 22; $i++) {
           $salt .= $saltChars[array_rand($saltChars)];
         }
-        $finalSalt = sprintf('$2a$%02d$', $rounds) . $salt;
+        $finalSalt  = sprintf('$2a$%02d$', $rounds) . $salt;
         $cryptedPwd = crypt($password, $finalSalt);
         break;
 
@@ -76,12 +81,12 @@ class FwkSecurity extends FwkManager {
    *
    * @param string $pwdEntered
    * @param string $pwdHashed
-   * @param array $arrayParams
+   * @param array  $arrayParams
    * @return boolean
    */
   public static function comparePassword($pwdEntered, $pwdHashed, $arrayParams = array()) {
 
-    if (LOGIN_PROTECT){
+    if (LOGIN_PROTECT) {
       $result = self::multiLoginProtect($arrayParams);
       if ($result !== true)
         return $result;
@@ -114,8 +119,8 @@ class FwkSecurity extends FwkManager {
   /**
    * Vérifie le nombre de connexions en fonction d'un timestamp
    *
-   * @param array $arrayParams tableau contenant le login par exemple
-   * @param string $pathLogs chemin des logs (facultatif)
+   * @param array  $arrayParams tableau contenant le login par exemple
+   * @param string $pathLogs    chemin des logs (facultatif)
    * @return boolean
    */
   public static function multiLoginProtect($arrayParams, $pathLogs = null) {
@@ -126,15 +131,14 @@ class FwkSecurity extends FwkManager {
       if (isset($arrayParams['dir']))
         $dir = $arrayParams['dir'];
 
-      if(is_null($pathLogs))
-        $fullDir = $dir . self::$logsConnectDir . date('Y-m-d') . '_' . $arrayParams['login'] . '.log';
-      else
+      if (is_null($pathLogs))
+        $fullDir = $dir . self::$logsConnectDir . date('Y-m-d') . '_' . $arrayParams['login'] . '.log'; else
         $fullDir = $dir . $pathLogs . date('Y-m-d') . '_' . $arrayParams['login'] . '.log';
 
       if (file_exists($fullDir)) {
-        $fOpen = file($fullDir);
+        $fOpen    = file($fullDir);
         $lastLine = $fOpen[count($fOpen) - 1];
-      }else
+      } else
         $lastLine = '';
       $file = fopen($fullDir, 'a+');
       if ($lastLine != '' && $lastLine != null) {
@@ -147,36 +151,42 @@ class FwkSecurity extends FwkManager {
         if (preg_match('#([0-9]+)\s--\s([0-9:]+)\s--\s([-_a-zA-Z0-9 \.@]+)\s--\s([0-9]+)#', $lastLine, $matches)) {
 
           $secondPassed = time() - $matches[1];
-          if(isset($arrayParams['seconds'])) self::$nbrOfWaitingSecond = $arrayParams['seconds'];
+          if (isset($arrayParams['seconds']))
+            self::$nbrOfWaitingSecond = $arrayParams['seconds'];
           if ($secondPassed > self::$nbrOfWaitingSecond) {
             $message = PHP_EOL . time() . ' -- ' . date('H:i') . ' -- ' . $arrayParams['login'] . ' -- 1 | ' . $_SERVER['REMOTE_ADDR'];
             fwrite($file, $message);
             fclose($file);
+
             return true;
           } else {
             $nbrOfTry = $matches[4];
-            if(isset($arrayParams['try'])) self::$nbrConnectionTry = $arrayParams['try'];
+            if (isset($arrayParams['try']))
+              self::$nbrConnectionTry = $arrayParams['try'];
             if ($nbrOfTry >= self::$nbrConnectionTry) {
-              $message = PHP_EOL . PHP_EOL . '      ------ ATTENTE NECESSAIRE ------' . PHP_EOL . $matches[1] . ' -- ' . date('H:i') . ' -- '. $arrayParams['login'] . ' -- ' . $nbrOfTry . ' | ' . $_SERVER['REMOTE_ADDR'];
+              $message = PHP_EOL . PHP_EOL . '      ------ ATTENTE NECESSAIRE ------' . PHP_EOL . $matches[1] . ' -- ' . date('H:i') . ' -- ' . $arrayParams['login'] . ' -- ' . $nbrOfTry . ' | ' . $_SERVER['REMOTE_ADDR'];
               fwrite($file, $message);
               fclose($file);
+
               return self::$nbrOfWaitingSecond - $secondPassed;
             }
             $nbrOfTry++;
-            $message = PHP_EOL . $matches[1] . ' -- ' . date('H:i') . ' -- '. $arrayParams['login'] . ' -- ' . $nbrOfTry . ' | ' . $_SERVER['REMOTE_ADDR'];
+            $message = PHP_EOL . $matches[1] . ' -- ' . date('H:i') . ' -- ' . $arrayParams['login'] . ' -- ' . $nbrOfTry . ' | ' . $_SERVER['REMOTE_ADDR'];
             fwrite($file, $message);
             fclose($file);
+
             return true;
           }
-        }else
+        } else
           return self::$nbrOfWaitingSecond;
-      }else {
-        $message = PHP_EOL . time() . ' -- ' . date('H:i') . ' -- '. $arrayParams['login'] . ' -- 1' . ' | ' . $_SERVER['REMOTE_ADDR'];
+      } else {
+        $message = PHP_EOL . time() . ' -- ' . date('H:i') . ' -- ' . $arrayParams['login'] . ' -- 1' . ' | ' . $_SERVER['REMOTE_ADDR'];
         fwrite($file, $message);
         fclose($file);
+
         return true;
       }
-    }else
+    } else
       return true;
   }
 
@@ -185,7 +195,7 @@ class FwkSecurity extends FwkManager {
    *
    * @return string
    */
-  public static function generateToken(){
+  public static function generateToken() {
 
     return strtoupper(sha1(crypt(time(), '$6$rounds=' . 4991 . '$' . self::$shortNinjaString)) . md5(self::$ninjaString));
 

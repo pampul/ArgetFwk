@@ -32,23 +32,20 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class CurrentTimestampFunction extends FunctionNode
-{
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        return $sqlWalker->getConnection()->getDatabasePlatform()->getCurrentTimestampSQL();
-    }
+class CurrentTimestampFunction extends FunctionNode {
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    return $sqlWalker->getConnection()->getDatabasePlatform()->getCurrentTimestampSQL();
+  }
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_IDENTIFIER);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }

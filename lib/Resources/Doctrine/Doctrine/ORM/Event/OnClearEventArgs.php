@@ -28,57 +28,52 @@ namespace Doctrine\ORM\Event;
  * @author      Roman Borschel <roman@code-factory.de>
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class OnClearEventArgs extends \Doctrine\Common\EventArgs
-{
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
+class OnClearEventArgs extends \Doctrine\Common\EventArgs {
+  /**
+   * @var \Doctrine\ORM\EntityManager
+   */
+  private $em;
 
-    /**
-     * @var string
-     */
-    private $entityClass;
+  /**
+   * @var string
+   */
+  private $entityClass;
 
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\ORM\EntityManager $em
-     * @param string $entityClass Optional entity class
-     */
-    public function __construct($em, $entityClass = null)
-    {
-        $this->em          = $em;
-        $this->entityClass = $entityClass;
-    }
+  /**
+   * Constructor.
+   *
+   * @param \Doctrine\ORM\EntityManager $em
+   * @param string                      $entityClass Optional entity class
+   */
+  public function __construct($em, $entityClass = null) {
+    $this->em          = $em;
+    $this->entityClass = $entityClass;
+  }
 
-    /**
-     * Retrieve associated EntityManager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+  /**
+   * Retrieve associated EntityManager.
+   *
+   * @return \Doctrine\ORM\EntityManager
+   */
+  public function getEntityManager() {
+    return $this->em;
+  }
 
-    /**
-     * Name of the entity class that is cleared, or empty if all are cleared.
-     *
-     * @return string
-     */
-    public function getEntityClass()
-    {
-        return $this->entityClass;
-    }
+  /**
+   * Name of the entity class that is cleared, or empty if all are cleared.
+   *
+   * @return string
+   */
+  public function getEntityClass() {
+    return $this->entityClass;
+  }
 
-    /**
-     * Check if event clears all entities.
-     *
-     * @return bool
-     */
-    public function clearsAllEntities()
-    {
-        return ($this->entityClass === null);
-    }
+  /**
+   * Check if event clears all entities.
+   *
+   * @return bool
+   */
+  public function clearsAllEntities() {
+    return ($this->entityClass === null);
+  }
 }

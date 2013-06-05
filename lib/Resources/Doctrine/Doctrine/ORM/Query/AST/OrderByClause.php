@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class OrderByClause extends Node
-{
-    public $orderByItems = array();
+class OrderByClause extends Node {
+  public $orderByItems = array();
 
-    public function __construct(array $orderByItems)
-    {
-        $this->orderByItems = $orderByItems;
-    }
+  public function __construct(array $orderByItems) {
+    $this->orderByItems = $orderByItems;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkOrderByClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkOrderByClause($this);
+  }
 }

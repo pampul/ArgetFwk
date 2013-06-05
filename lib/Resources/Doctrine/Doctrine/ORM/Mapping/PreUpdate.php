@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("METHOD")
  */
-final class PreUpdate implements Annotation
-{
+final class PreUpdate implements Annotation {
 }

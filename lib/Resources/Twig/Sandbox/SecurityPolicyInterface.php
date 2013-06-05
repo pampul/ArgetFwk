@@ -15,11 +15,10 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-interface Twig_Sandbox_SecurityPolicyInterface
-{
-    function checkSecurity($tags, $filters, $functions);
+interface Twig_Sandbox_SecurityPolicyInterface {
+  function checkSecurity($tags, $filters, $functions);
 
-    function checkMethodAllowed($obj, $method);
+  function checkMethodAllowed($obj, $method);
 
-    function checkPropertyAllowed($obj, $method);
+  function checkPropertyAllowed($obj, $method);
 }

@@ -23,10 +23,9 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("ANNOTATION")
  */
-final class Index implements Annotation
-{
-    /** @var string */
-    public $name;
-    /** @var array<string> */
-    public $columns;
+final class Index implements Annotation {
+  /** @var string */
+  public $name;
+  /** @var array<string> */
+  public $columns;
 }

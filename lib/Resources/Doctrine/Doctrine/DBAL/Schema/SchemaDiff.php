@@ -24,153 +24,145 @@ use \Doctrine\DBAL\Platforms\AbstractPlatform;
 /**
  * Schema Diff
  *
- * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @link    www.doctrine-project.org
+ * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link      www.doctrine-project.org
  * @copyright Copyright (C) 2005-2009 eZ Systems AS. All rights reserved.
- * @license http://ez.no/licenses/new_bsd New BSD License
- * @since   2.0
- * @version $Revision$
- * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @license   http://ez.no/licenses/new_bsd New BSD License
+ * @since     2.0
+ * @version   $Revision$
+ * @author    Benjamin Eberlei <kontakt@beberlei.de>
  */
-class SchemaDiff
-{
-    /**
-     * All added tables
-     *
-     * @var array(string=>ezcDbSchemaTable)
-     */
-    public $newTables = array();
+class SchemaDiff {
+  /**
+   * All added tables
+   *
+   * @var array(string=>ezcDbSchemaTable)
+   */
+  public $newTables = array();
 
-    /**
-     * All changed tables
-     *
-     * @var array(string=>ezcDbSchemaTableDiff)
-     */
-    public $changedTables = array();
+  /**
+   * All changed tables
+   *
+   * @var array(string=>ezcDbSchemaTableDiff)
+   */
+  public $changedTables = array();
 
-    /**
-     * All removed tables
-     *
-     * @var array(string=>Table)
-     */
-    public $removedTables = array();
+  /**
+   * All removed tables
+   *
+   * @var array(string=>Table)
+   */
+  public $removedTables = array();
 
-    /**
-     * @var array
-     */
-    public $newSequences = array();
+  /**
+   * @var array
+   */
+  public $newSequences = array();
 
-    /**
-     * @var array
-     */
-    public $changedSequences = array();
+  /**
+   * @var array
+   */
+  public $changedSequences = array();
 
-    /**
-     * @var array
-     */
-    public $removedSequences = array();
+  /**
+   * @var array
+   */
+  public $removedSequences = array();
 
-    /**
-     * @var array
-     */
-    public $orphanedForeignKeys = array();
+  /**
+   * @var array
+   */
+  public $orphanedForeignKeys = array();
 
-    /**
-     * Constructs an SchemaDiff object.
-     *
-     * @param array(string=>Table)      $newTables
-     * @param array(string=>TableDiff)  $changedTables
-     * @param array(string=>bool)       $removedTables
-     */
-    public function __construct($newTables = array(), $changedTables = array(), $removedTables = array())
-    {
-        $this->newTables = $newTables;
-        $this->changedTables = $changedTables;
-        $this->removedTables = $removedTables;
+  /**
+   * Constructs an SchemaDiff object.
+   *
+   * @param array(string=>Table)     $newTables
+   * @param array(string=>TableDiff) $changedTables
+   * @param array(string=>bool)      $removedTables
+   */
+  public function __construct($newTables = array(), $changedTables = array(), $removedTables = array()) {
+    $this->newTables     = $newTables;
+    $this->changedTables = $changedTables;
+    $this->removedTables = $removedTables;
+  }
+
+  /**
+   * The to save sql mode ensures that the following things don't happen:
+   *
+   * 1. Tables are deleted
+   * 2. Sequences are deleted
+   * 3. Foreign Keys which reference tables that would otherwise be deleted.
+   *
+   * This way it is ensured that assets are deleted which might not be relevant to the metadata schema at all.
+   *
+   * @param AbstractPlatform $platform
+   * @return array
+   */
+  public function toSaveSql(AbstractPlatform $platform) {
+    return $this->_toSql($platform, true);
+  }
+
+  /**
+   * @param AbstractPlatform $platform
+   * @return array
+   */
+  public function toSql(AbstractPlatform $platform) {
+    return $this->_toSql($platform, false);
+  }
+
+  /**
+   * @param AbstractPlatform $platform
+   * @param bool             $saveMode
+   * @return array
+   */
+  protected function _toSql(AbstractPlatform $platform, $saveMode = false) {
+    $sql = array();
+
+    if ($platform->supportsForeignKeyConstraints() && $saveMode == false) {
+      foreach ($this->orphanedForeignKeys AS $orphanedForeignKey) {
+        $sql[] = $platform->getDropForeignKeySQL($orphanedForeignKey, $orphanedForeignKey->getLocalTableName());
+      }
     }
 
-    /**
-     * The to save sql mode ensures that the following things don't happen:
-     *
-     * 1. Tables are deleted
-     * 2. Sequences are deleted
-     * 3. Foreign Keys which reference tables that would otherwise be deleted.
-     *
-     * This way it is ensured that assets are deleted which might not be relevant to the metadata schema at all.
-     *
-     * @param AbstractPlatform $platform
-     * @return array
-     */
-    public function toSaveSql(AbstractPlatform $platform)
-    {
-        return $this->_toSql($platform, true);
+    if ($platform->supportsSequences() == true) {
+      foreach ($this->changedSequences AS $sequence) {
+        $sql[] = $platform->getAlterSequenceSQL($sequence);
+      }
+
+      if ($saveMode === false) {
+        foreach ($this->removedSequences AS $sequence) {
+          $sql[] = $platform->getDropSequenceSQL($sequence);
+        }
+      }
+
+      foreach ($this->newSequences AS $sequence) {
+        $sql[] = $platform->getCreateSequenceSQL($sequence);
+      }
     }
 
-    /**
-     * @param AbstractPlatform $platform
-     * @return array
-     */
-    public function toSql(AbstractPlatform $platform)
-    {
-        return $this->_toSql($platform, false);
+    $foreignKeySql = array();
+    foreach ($this->newTables AS $table) {
+      $sql = array_merge($sql, $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES));
+
+      if ($platform->supportsForeignKeyConstraints()) {
+        foreach ($table->getForeignKeys() AS $foreignKey) {
+          $foreignKeySql[] = $platform->getCreateForeignKeySQL($foreignKey, $table);
+        }
+      }
+    }
+    $sql = array_merge($sql, $foreignKeySql);
+
+    if ($saveMode === false) {
+      foreach ($this->removedTables AS $table) {
+        $sql[] = $platform->getDropTableSQL($table);
+      }
     }
 
-    /**
-     * @param AbstractPlatform $platform
-     * @param bool $saveMode
-     * @return array
-     */
-    protected function _toSql(AbstractPlatform $platform, $saveMode = false)
-    {
-        $sql = array();
-
-        if ($platform->supportsForeignKeyConstraints() && $saveMode == false) {
-            foreach ($this->orphanedForeignKeys AS $orphanedForeignKey) {
-                $sql[] = $platform->getDropForeignKeySQL($orphanedForeignKey, $orphanedForeignKey->getLocalTableName());
-            }
-        }
-
-        if ($platform->supportsSequences() == true) {
-            foreach ($this->changedSequences AS $sequence) {
-                $sql[] = $platform->getAlterSequenceSQL($sequence);
-            }
-
-            if ($saveMode === false) {
-                foreach ($this->removedSequences AS $sequence) {
-                    $sql[] = $platform->getDropSequenceSQL($sequence);
-                }
-            }
-
-            foreach ($this->newSequences AS $sequence) {
-                $sql[] = $platform->getCreateSequenceSQL($sequence);
-            }
-        }
-
-        $foreignKeySql = array();
-        foreach ($this->newTables AS $table) {
-            $sql = array_merge(
-                $sql,
-                $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES)
-            );
-
-            if ($platform->supportsForeignKeyConstraints()) {
-                foreach ($table->getForeignKeys() AS $foreignKey) {
-                    $foreignKeySql[] = $platform->getCreateForeignKeySQL($foreignKey, $table);
-                }
-            }
-        }
-        $sql = array_merge($sql, $foreignKeySql);
-
-        if ($saveMode === false) {
-            foreach ($this->removedTables AS $table) {
-                $sql[] = $platform->getDropTableSQL($table);
-            }
-        }
-
-        foreach ($this->changedTables AS $tableDiff) {
-            $sql = array_merge($sql, $platform->getAlterTableSQL($tableDiff));
-        }
-
-        return $sql;
+    foreach ($this->changedTables AS $tableDiff) {
+      $sql = array_merge($sql, $platform->getAlterTableSQL($tableDiff));
     }
+
+    return $sql;
+  }
 }

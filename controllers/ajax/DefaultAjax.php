@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * Controller par defaut
  * Le controller doit absolument heriter de AjaxManager
  */

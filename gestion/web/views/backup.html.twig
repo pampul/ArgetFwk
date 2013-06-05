@@ -18,8 +18,8 @@
 
 {# Contenu de la page #}
 {% block content %}
-<br/>
-<div class="hero-unit">
+  <br/>
+  <div class="hero-unit">
     <h4 class="fwk-title">Backup de la base de données</h4>
     <hr/>
 
@@ -29,14 +29,14 @@
     Commande exécutée : {{ query }}<br/>
     {% if env_localhost %}
 
-    <br/>
-    <strong>ATTENTION</strong> : Votre environnement est en localhost.<br/>
-    Il se peut que le dump n'ai pas fonctionné.
+      <br/>
+      <strong>ATTENTION</strong> : Votre environnement est en localhost.<br/>
+      Il se peut que le dump n'ai pas fonctionné.
 
     {% endif %}
     <br/><br/>
     <a href="{{ link }}" title="Téléchargez le fichier" target="_blank">Téléchargez le fichier construit.</a>
-</div>
+  </div>
 
 {% endblock %}
 

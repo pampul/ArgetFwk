@@ -33,10 +33,8 @@ namespace Doctrine\ORM\Tools;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class EntityRepositoryGenerator
-{
-    protected static $_template =
-'<?php
+class EntityRepositoryGenerator {
+  protected static $_template = '<?php
 
 namespace <namespace>;
 
@@ -52,32 +50,27 @@ class <className> extends EntityRepository
 {
 }';
 
-    public function generateEntityRepositoryClass($fullClassName)
-    {
-        $namespace = substr($fullClassName, 0, strrpos($fullClassName, '\\'));
-        $className = substr($fullClassName, strrpos($fullClassName, '\\') + 1, strlen($fullClassName));
+  public function generateEntityRepositoryClass($fullClassName) {
+    $namespace = substr($fullClassName, 0, strrpos($fullClassName, '\\'));
+    $className = substr($fullClassName, strrpos($fullClassName, '\\') + 1, strlen($fullClassName));
 
-        $variables = array(
-            '<namespace>' => $namespace,
-            '<className>' => $className
-        );
-        return str_replace(array_keys($variables), array_values($variables), self::$_template);
+    $variables = array('<namespace>' => $namespace, '<className>' => $className);
+
+    return str_replace(array_keys($variables), array_values($variables), self::$_template);
+  }
+
+  public function writeEntityRepositoryClass($fullClassName, $outputDirectory) {
+    $code = $this->generateEntityRepositoryClass($fullClassName);
+
+    $path = $outputDirectory . DIRECTORY_SEPARATOR . str_replace('\\', \DIRECTORY_SEPARATOR, $fullClassName) . '.php';
+    $dir  = dirname($path);
+
+    if (!is_dir($dir)) {
+      mkdir($dir, 0777, true);
     }
 
-    public function writeEntityRepositoryClass($fullClassName, $outputDirectory)
-    {
-        $code = $this->generateEntityRepositoryClass($fullClassName);
-
-        $path = $outputDirectory . DIRECTORY_SEPARATOR
-              . str_replace('\\', \DIRECTORY_SEPARATOR, $fullClassName) . '.php';
-        $dir = dirname($path);
-
-        if ( ! is_dir($dir)) {
-            mkdir($dir, 0777, true);
-        }
-
-        if ( ! file_exists($path)) {
-            file_put_contents($path, $code);
-        }
+    if (!file_exists($path)) {
+      file_put_contents($path, $code);
     }
+  }
 }

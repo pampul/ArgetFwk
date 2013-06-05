@@ -32,37 +32,31 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class ModFunction extends FunctionNode
-{
-    public $firstSimpleArithmeticExpression;
-    public $secondSimpleArithmeticExpression;
+class ModFunction extends FunctionNode {
+  public $firstSimpleArithmeticExpression;
+  public $secondSimpleArithmeticExpression;
 
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        return $sqlWalker->getConnection()->getDatabasePlatform()->getModExpression(
-               $sqlWalker->walkSimpleArithmeticExpression($this->firstSimpleArithmeticExpression),
-               $sqlWalker->walkSimpleArithmeticExpression($this->secondSimpleArithmeticExpression)
-        );
-    }
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    return $sqlWalker->getConnection()->getDatabasePlatform()->getModExpression($sqlWalker->walkSimpleArithmeticExpression($this->firstSimpleArithmeticExpression), $sqlWalker->walkSimpleArithmeticExpression($this->secondSimpleArithmeticExpression));
+  }
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_MOD);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_MOD);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->firstSimpleArithmeticExpression = $parser->SimpleArithmeticExpression();
+    $this->firstSimpleArithmeticExpression = $parser->SimpleArithmeticExpression();
 
-        $parser->match(Lexer::T_COMMA);
+    $parser->match(Lexer::T_COMMA);
 
-        $this->secondSimpleArithmeticExpression = $parser->SimpleArithmeticExpression();
+    $this->secondSimpleArithmeticExpression = $parser->SimpleArithmeticExpression();
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }
 

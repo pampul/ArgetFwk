@@ -70,11 +70,11 @@
 {# Importation du JS #}
 {% block jsinclude %}
   <script>
-    $('#selectDir').live('change', function(){
+    $('#selectDir').live('change', function () {
 
       var dirVal = $(this).val();
 
-      $('#logsList').fadeOut(250, function(){
+      $('#logsList').fadeOut(250, function () {
 
         var objAjax = new AjaxLib();
         objAjax.setController('dashboard');
@@ -90,11 +90,11 @@
 
     });
 
-    $('#goBack').live('click', function(){
+    $('#goBack').live('click', function () {
 
       var dirVal = $(this).attr('data-prevdir');
 
-      $('#logsList').fadeOut(250, function(){
+      $('#logsList').fadeOut(250, function () {
 
         var objAjax = new AjaxLib();
         objAjax.setController('dashboard');
@@ -109,12 +109,12 @@
 
     });
 
-    $('.goToLogFile').live('click', function(){
+    $('.goToLogFile').live('click', function () {
 
       var dirVal = $('#selectDir').val();
       var fileVal = $(this).html();
 
-      $('#logsList').fadeOut(250, function(){
+      $('#logsList').fadeOut(250, function () {
 
         var objAjax = new AjaxLib();
         objAjax.setController('dashboard');
@@ -129,12 +129,12 @@
 
     });
 
-    $('#refresh').live('click', function(){
+    $('#refresh').live('click', function () {
 
       var dirVal = $(this).attr('data-dir');
       var fileVal = $(this).attr('data-file');
 
-      $('#logsList').fadeOut(250, function(){
+      $('#logsList').fadeOut(250, function () {
 
         var objAjax = new AjaxLib();
         objAjax.setController('dashboard');

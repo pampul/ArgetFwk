@@ -28,31 +28,28 @@ namespace Doctrine\DBAL\Schema;
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision$
- * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class ColumnDiff
-{
-    public $oldColumnName;
+class ColumnDiff {
+  public $oldColumnName;
 
-    /**
-     * @var Column
-     */
-    public $column;
+  /**
+   * @var Column
+   */
+  public $column;
 
-    /**
-     * @var array
-     */
-    public $changedProperties = array();
+  /**
+   * @var array
+   */
+  public $changedProperties = array();
 
-    public function __construct($oldColumnName, Column $column, array $changedProperties = array())
-    {
-        $this->oldColumnName = $oldColumnName;
-        $this->column = $column;
-        $this->changedProperties = $changedProperties;
-    }
+  public function __construct($oldColumnName, Column $column, array $changedProperties = array()) {
+    $this->oldColumnName     = $oldColumnName;
+    $this->column            = $column;
+    $this->changedProperties = $changedProperties;
+  }
 
-    public function hasChanged($propertyName)
-    {
-        return in_array($propertyName, $this->changedProperties);
-    }
+  public function hasChanged($propertyName) {
+    return in_array($propertyName, $this->changedProperties);
+  }
 }

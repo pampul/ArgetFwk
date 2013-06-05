@@ -30,28 +30,25 @@ use Doctrine\DBAL\Connection;
  * @author Roman Borschel <roman@code-factory.org>
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class ScalarHydrator extends AbstractHydrator
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function hydrateAllData()
-    {
-        $result = array();
-        $cache  = array();
+class ScalarHydrator extends AbstractHydrator {
+  /**
+   * {@inheritdoc}
+   */
+  protected function hydrateAllData() {
+    $result = array();
+    $cache  = array();
 
-        while ($data = $this->_stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $this->hydrateRowData($data, $cache, $result);
-        }
-
-        return $result;
+    while ($data = $this->_stmt->fetch(\PDO::FETCH_ASSOC)) {
+      $this->hydrateRowData($data, $cache, $result);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function hydrateRowData(array $data, array &$cache, array &$result)
-    {
-        $result[] = $this->gatherScalarRowData($data, $cache);
-    }
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function hydrateRowData(array $data, array &$cache, array &$result) {
+    $result[] = $this->gatherScalarRowData($data, $cache);
+  }
 }

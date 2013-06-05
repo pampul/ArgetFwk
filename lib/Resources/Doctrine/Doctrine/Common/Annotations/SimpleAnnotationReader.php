@@ -31,122 +31,113 @@ use Doctrine\Common\Annotations\Annotation\Target;
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
-class SimpleAnnotationReader implements Reader
-{
-    /**
-     * @var DocParser
-     */
-    private $parser;
+class SimpleAnnotationReader implements Reader {
+  /**
+   * @var DocParser
+   */
+  private $parser;
 
-    /**
-     * Constructor.
-     *
-     * Initializes a new SimpleAnnotationReader.
-     */
-    public function __construct()
-    {
-        $this->parser = new DocParser();
-        $this->parser->setIgnoreNotImportedAnnotations(true);
+  /**
+   * Constructor.
+   *
+   * Initializes a new SimpleAnnotationReader.
+   */
+  public function __construct() {
+    $this->parser = new DocParser();
+    $this->parser->setIgnoreNotImportedAnnotations(true);
+  }
+
+  /**
+   * Adds a namespace in which we will look for annotations.
+   *
+   * @param string $namespace
+   */
+  public function addNamespace($namespace) {
+    $this->parser->addNamespace($namespace);
+  }
+
+  /**
+   * Gets the annotations applied to a class.
+   *
+   * @param ReflectionClass $class The ReflectionClass of the class from which
+   *                               the class annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getClassAnnotations(\ReflectionClass $class) {
+    return $this->parser->parse($class->getDocComment(), 'class ' . $class->getName());
+  }
+
+  /**
+   * Gets the annotations applied to a method.
+   *
+   * @param ReflectionMethod $property The ReflectionMethod of the method from which
+   *                                   the annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getMethodAnnotations(\ReflectionMethod $method) {
+    return $this->parser->parse($method->getDocComment(), 'method ' . $method->getDeclaringClass()->name . '::' . $method->getName() . '()');
+  }
+
+  /**
+   * Gets the annotations applied to a property.
+   *
+   * @param ReflectionProperty $property The ReflectionProperty of the property
+   *                                     from which the annotations should be read.
+   * @return array An array of Annotations.
+   */
+  public function getPropertyAnnotations(\ReflectionProperty $property) {
+    return $this->parser->parse($property->getDocComment(), 'property ' . $property->getDeclaringClass()->name . '::$' . $property->getName());
+  }
+
+  /**
+   * Gets a class annotation.
+   *
+   * @param ReflectionClass $class          The ReflectionClass of the class from which
+   *                                        the class annotations should be read.
+   * @param string          $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getClassAnnotation(\ReflectionClass $class, $annotationName) {
+    foreach ($this->getClassAnnotations($class) as $annot) {
+      if ($annot instanceof $annotationName) {
+        return $annot;
+      }
     }
 
-    /**
-     * Adds a namespace in which we will look for annotations.
-     *
-     * @param string $namespace
-     */
-    public function addNamespace($namespace)
-    {
-        $this->parser->addNamespace($namespace);
+    return null;
+  }
+
+  /**
+   * Gets a method annotation.
+   *
+   * @param ReflectionMethod $method
+   * @param string           $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getMethodAnnotation(\ReflectionMethod $method, $annotationName) {
+    foreach ($this->getMethodAnnotations($method) as $annot) {
+      if ($annot instanceof $annotationName) {
+        return $annot;
+      }
     }
 
-    /**
-     * Gets the annotations applied to a class.
-     *
-     * @param ReflectionClass $class The ReflectionClass of the class from which
-     *                               the class annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getClassAnnotations(\ReflectionClass $class)
-    {
-        return $this->parser->parse($class->getDocComment(), 'class '.$class->getName());
+    return null;
+  }
+
+  /**
+   * Gets a property annotation.
+   *
+   * @param ReflectionProperty $property
+   * @param string             $annotationName The name of the annotation.
+   * @return The Annotation or NULL, if the requested annotation does not exist.
+   */
+  public function getPropertyAnnotation(\ReflectionProperty $property, $annotationName) {
+    foreach ($this->getPropertyAnnotations($property) as $annot) {
+      if ($annot instanceof $annotationName) {
+        return $annot;
+      }
     }
 
-     /**
-     * Gets the annotations applied to a method.
-     *
-     * @param ReflectionMethod $property The ReflectionMethod of the method from which
-     *                                   the annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getMethodAnnotations(\ReflectionMethod $method)
-    {
-        return $this->parser->parse($method->getDocComment(), 'method '.$method->getDeclaringClass()->name.'::'.$method->getName().'()');
-    }
-
-    /**
-     * Gets the annotations applied to a property.
-     *
-     * @param ReflectionProperty $property The ReflectionProperty of the property
-     *                                     from which the annotations should be read.
-     * @return array An array of Annotations.
-     */
-    public function getPropertyAnnotations(\ReflectionProperty $property)
-    {
-        return $this->parser->parse($property->getDocComment(), 'property '.$property->getDeclaringClass()->name.'::$'.$property->getName());
-    }
-
-    /**
-     * Gets a class annotation.
-     *
-     * @param ReflectionClass $class The ReflectionClass of the class from which
-     *                               the class annotations should be read.
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getClassAnnotation(\ReflectionClass $class, $annotationName)
-    {
-        foreach ($this->getClassAnnotations($class) as $annot) {
-            if ($annot instanceof $annotationName) {
-                return $annot;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets a method annotation.
-     *
-     * @param ReflectionMethod $method
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getMethodAnnotation(\ReflectionMethod $method, $annotationName)
-    {
-        foreach ($this->getMethodAnnotations($method) as $annot) {
-            if ($annot instanceof $annotationName) {
-                return $annot;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets a property annotation.
-     *
-     * @param ReflectionProperty $property
-     * @param string $annotationName The name of the annotation.
-     * @return The Annotation or NULL, if the requested annotation does not exist.
-     */
-    public function getPropertyAnnotation(\ReflectionProperty $property, $annotationName)
-    {
-        foreach ($this->getPropertyAnnotations($property) as $annot) {
-            if ($annot instanceof $annotationName) {
-                return $annot;
-            }
-        }
-
-        return null;
-    }
+    return null;
+  }
 }

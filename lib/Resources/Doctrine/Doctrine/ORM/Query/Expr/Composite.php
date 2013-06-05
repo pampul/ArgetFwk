@@ -32,37 +32,34 @@ namespace Doctrine\ORM\Query\Expr;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Composite extends Base
-{
-    public function __toString()
-    {
-        if ($this->count() === 1) {
-            return (string) $this->_parts[0];
-        }
-
-        $components = array();
-
-        foreach ($this->_parts as $part) {
-            $components[] = $this->processQueryPart($part);
-        }
-
-        return implode($this->_separator, $components);
+class Composite extends Base {
+  public function __toString() {
+    if ($this->count() === 1) {
+      return (string)$this->_parts[0];
     }
 
+    $components = array();
 
-    private function processQueryPart($part)
-    {
-        $queryPart = (string) $part;
-
-        if (is_object($part) && $part instanceof self && $part->count() > 1) {
-            return $this->_preSeparator . $queryPart . $this->_postSeparator;
-        }
-
-        // Fixes DDC-1237: User may have added a where item containing nested expression (with "OR" or "AND")
-        if (stripos($queryPart, ' OR ') !== false || stripos($queryPart, ' AND ') !== false) {
-            return $this->_preSeparator . $queryPart . $this->_postSeparator;
-        }
-
-        return $queryPart;
+    foreach ($this->_parts as $part) {
+      $components[] = $this->processQueryPart($part);
     }
+
+    return implode($this->_separator, $components);
+  }
+
+
+  private function processQueryPart($part) {
+    $queryPart = (string)$part;
+
+    if (is_object($part) && $part instanceof self && $part->count() > 1) {
+      return $this->_preSeparator . $queryPart . $this->_postSeparator;
+    }
+
+    // Fixes DDC-1237: User may have added a where item containing nested expression (with "OR" or "AND")
+    if (stripos($queryPart, ' OR ') !== false || stripos($queryPart, ' AND ') !== false) {
+      return $this->_preSeparator . $queryPart . $this->_postSeparator;
+    }
+
+    return $queryPart;
+  }
 }

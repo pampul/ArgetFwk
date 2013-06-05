@@ -28,124 +28,120 @@ use Doctrine\ORM\UnitOfWork;
  * Use this logger to dump the identity map during the onFlush event. This is useful for debugging
  * weird UnitOfWork behavior with complex operations.
  */
-class DebugUnitOfWorkListener
-{
-    private $file;
-    private $context;
+class DebugUnitOfWorkListener {
+  private $file;
+  private $context;
 
-    /**
-     * Pass a stream and contet information for the debugging session.
-     *
-     * The stream can be php://output to print to the screen.
-     *
-     * @param string $file
-     * @param string $context
-     */
-    public function __construct($file = 'php://output', $context = '')
-    {
-        $this->file = $file;
-        $this->context = $context;
+  /**
+   * Pass a stream and contet information for the debugging session.
+   *
+   * The stream can be php://output to print to the screen.
+   *
+   * @param string $file
+   * @param string $context
+   */
+  public function __construct($file = 'php://output', $context = '') {
+    $this->file    = $file;
+    $this->context = $context;
+  }
+
+  public function onFlush(OnFlushEventArgs $args) {
+    $this->dumpIdentityMap($args->getEntityManager());
+  }
+
+  /**
+   * Dump the contents of the identity map into a stream.
+   *
+   * @param EntityManager $em
+   * @return void
+   */
+  public function dumpIdentityMap(EntityManager $em) {
+    $uow         = $em->getUnitOfWork();
+    $identityMap = $uow->getIdentityMap();
+
+    $fh = fopen($this->file, "x+");
+    if (count($identityMap) == 0) {
+      fwrite($fh, "Flush Operation [" . $this->context . "] - Empty identity map.\n");
+
+      return;
     }
 
-    public function onFlush(OnFlushEventArgs $args)
-    {
-        $this->dumpIdentityMap($args->getEntityManager());
-    }
+    fwrite($fh, "Flush Operation [" . $this->context . "] - Dumping identity map:\n");
+    foreach ($identityMap AS $className => $map) {
+      fwrite($fh, "Class: " . $className . "\n");
+      foreach ($map AS $idHash => $entity) {
+        fwrite($fh, " Entity: " . $this->getIdString($entity, $uow) . " " . spl_object_hash($entity) . "\n");
+        fwrite($fh, "  Associations:\n");
 
-    /**
-     * Dump the contents of the identity map into a stream.
-     *
-     * @param EntityManager $em
-     * @return void
-     */
-    public function dumpIdentityMap(EntityManager $em)
-    {
-        $uow = $em->getUnitOfWork();
-        $identityMap = $uow->getIdentityMap();
+        $cm = $em->getClassMetadata($className);
+        foreach ($cm->associationMappings AS $field => $assoc) {
+          fwrite($fh, "   " . $field . " ");
+          $value = $cm->reflFields[$field]->getValue($entity);
 
-        $fh = fopen($this->file, "x+");
-        if (count($identityMap) == 0) {
-            fwrite($fh, "Flush Operation [".$this->context."] - Empty identity map.\n");
-            return;
-        }
+          if ($assoc['type'] & ClassMetadata::TO_ONE) {
+            if ($value === null) {
+              fwrite($fh, " NULL\n");
+            } else {
+              if ($value instanceof Proxy && !$value->__isInitialized__) {
+                fwrite($fh, "[PROXY] ");
+              }
 
-        fwrite($fh, "Flush Operation [".$this->context."] - Dumping identity map:\n");
-        foreach ($identityMap AS $className => $map) {
-            fwrite($fh, "Class: ". $className . "\n");
-            foreach ($map AS $idHash => $entity) {
-                fwrite($fh, " Entity: " . $this->getIdString($entity, $uow) . " " . spl_object_hash($entity)."\n");
-                fwrite($fh, "  Associations:\n");
-
-                $cm = $em->getClassMetadata($className);
-                foreach ($cm->associationMappings AS $field => $assoc) {
-                    fwrite($fh, "   " . $field . " ");
-                    $value = $cm->reflFields[$field]->getValue($entity);
-
-                    if ($assoc['type'] & ClassMetadata::TO_ONE) {
-                        if ($value === null) {
-                            fwrite($fh, " NULL\n");
-                        } else {
-                            if ($value instanceof Proxy && !$value->__isInitialized__) {
-                                fwrite($fh, "[PROXY] ");
-                            }
-
-                            fwrite($fh, $this->getIdString($value, $uow) . " " . spl_object_hash($value) . "\n");
-                        }
-                    } else {
-                        $initialized = !($value instanceof PersistentCollection) || $value->isInitialized();
-                        if ($value === null) {
-                            fwrite($fh, " NULL\n");
-                        } else if ($initialized) {
-                            fwrite($fh, "[INITIALIZED] " . $this->getType($value). " " . count($value) . " elements\n");
-                            foreach ($value AS $obj) {
-                                fwrite($fh, "    " . $this->getIdString($obj, $uow) . " " . spl_object_hash($obj)."\n");
-                            }
-                        } else {
-                            fwrite($fh, "[PROXY] " . $this->getType($value) . " unknown element size\n");
-                            foreach ($value->unwrap() AS $obj) {
-                                fwrite($fh, "    " . $this->getIdString($obj, $uow) . " " . spl_object_hash($obj)."\n");
-                            }
-                        }
-                    }
-                }
+              fwrite($fh, $this->getIdString($value, $uow) . " " . spl_object_hash($value) . "\n");
             }
-        }
-        fclose($fh);
-    }
-
-    private function getType($var)
-    {
-        if (is_object($var)) {
-            $refl = new \ReflectionObject($var);
-            return $refl->getShortname();
-        } else {
-            return gettype($var);
-        }
-    }
-
-    private function getIdString($entity, $uow)
-    {
-        if ($uow->isInIdentityMap($entity)) {
-            $ids = $uow->getEntityIdentifier($entity);
-            $idstring = "";
-            foreach ($ids AS $k => $v) {
-                $idstring .= $k."=".$v;
+          } else {
+            $initialized = !($value instanceof PersistentCollection) || $value->isInitialized();
+            if ($value === null) {
+              fwrite($fh, " NULL\n");
+            } else if ($initialized) {
+              fwrite($fh, "[INITIALIZED] " . $this->getType($value) . " " . count($value) . " elements\n");
+              foreach ($value AS $obj) {
+                fwrite($fh, "    " . $this->getIdString($obj, $uow) . " " . spl_object_hash($obj) . "\n");
+              }
+            } else {
+              fwrite($fh, "[PROXY] " . $this->getType($value) . " unknown element size\n");
+              foreach ($value->unwrap() AS $obj) {
+                fwrite($fh, "    " . $this->getIdString($obj, $uow) . " " . spl_object_hash($obj) . "\n");
+              }
             }
-        } else {
-            $idstring = "NEWOBJECT ";
+          }
         }
-
-        $state = $uow->getEntityState($entity);
-        if ($state == UnitOfWork::STATE_NEW) {
-            $idstring .= " [NEW]";
-        } else if ($state == UnitOfWork::STATE_REMOVED) {
-            $idstring .= " [REMOVED]";
-        } else if ($state == UnitOfWork::STATE_MANAGED) {
-            $idstring .= " [MANAGED]";
-        } else if ($state == UnitOfwork::STATE_DETACHED) {
-            $idstring .= " [DETACHED]";
-        }
-
-        return $idstring;
+      }
     }
+    fclose($fh);
+  }
+
+  private function getType($var) {
+    if (is_object($var)) {
+      $refl = new \ReflectionObject($var);
+
+      return $refl->getShortname();
+    } else {
+      return gettype($var);
+    }
+  }
+
+  private function getIdString($entity, $uow) {
+    if ($uow->isInIdentityMap($entity)) {
+      $ids      = $uow->getEntityIdentifier($entity);
+      $idstring = "";
+      foreach ($ids AS $k => $v) {
+        $idstring .= $k . "=" . $v;
+      }
+    } else {
+      $idstring = "NEWOBJECT ";
+    }
+
+    $state = $uow->getEntityState($entity);
+    if ($state == UnitOfWork::STATE_NEW) {
+      $idstring .= " [NEW]";
+    } else if ($state == UnitOfWork::STATE_REMOVED) {
+      $idstring .= " [REMOVED]";
+    } else if ($state == UnitOfWork::STATE_MANAGED) {
+      $idstring .= " [MANAGED]";
+    } else if ($state == UnitOfwork::STATE_DETACHED) {
+      $idstring .= " [DETACHED]";
+    }
+
+    return $idstring;
+  }
 }

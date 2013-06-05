@@ -19,8 +19,7 @@
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Connection,
-    Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Connection, Doctrine\DBAL\Schema\Column;
 
 /**
  * Event Arguments used when the portable column definition is generated inside Doctrine\DBAL\Schema\AbstractSchemaManager.
@@ -30,108 +29,99 @@ use Doctrine\DBAL\Connection,
  * @since       2.2
  * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
-class SchemaColumnDefinitionEventArgs extends SchemaEventArgs
-{
-    /**
-     * @var \Doctrine\DBAL\Schema\Column
-     */
-    private $_column = null;
+class SchemaColumnDefinitionEventArgs extends SchemaEventArgs {
+  /**
+   * @var \Doctrine\DBAL\Schema\Column
+   */
+  private $_column = null;
 
-    /**
-     * Raw column data as fetched from the database
-     *
-     * @var array
-     */
-    private $_tableColumn = null;
+  /**
+   * Raw column data as fetched from the database
+   *
+   * @var array
+   */
+  private $_tableColumn = null;
 
-    /**
-     * @var string
-     */
-    private $_table = null;
+  /**
+   * @var string
+   */
+  private $_table = null;
 
-    /**
-     * @var string
-     */
-    private $_database = null;
+  /**
+   * @var string
+   */
+  private $_database = null;
 
-    /**
-     * @var \Doctrine\DBAL\Connection
-     */
-    private $_connection = null;
+  /**
+   * @var \Doctrine\DBAL\Connection
+   */
+  private $_connection = null;
 
-    /**
-     * @param array  $tableColumn
-     * @param string $table
-     * @param string $database
-     * @param \Doctrine\DBAL\Connection $conn
-     */
-    public function __construct(array $tableColumn, $table, $database, Connection $connection)
-    {
-        $this->_tableColumn = $tableColumn;
-        $this->_table       = $table;
-        $this->_database    = $database;
-        $this->_connection  = $connection;
-    }
+  /**
+   * @param array                     $tableColumn
+   * @param string                    $table
+   * @param string                    $database
+   * @param \Doctrine\DBAL\Connection $conn
+   */
+  public function __construct(array $tableColumn, $table, $database, Connection $connection) {
+    $this->_tableColumn = $tableColumn;
+    $this->_table       = $table;
+    $this->_database    = $database;
+    $this->_connection  = $connection;
+  }
 
-    /**
-     * Allows to clear the column which means the column will be excluded from
-     * tables column list.
-     *
-     * @param null|\Doctrine\DBAL\Schema\Column $column
-     * @return SchemaColumnDefinitionEventArgs
-     */
-    public function setColumn(Column $column = null)
-    {
-        $this->_column = $column;
+  /**
+   * Allows to clear the column which means the column will be excluded from
+   * tables column list.
+   *
+   * @param null|\Doctrine\DBAL\Schema\Column $column
+   * @return SchemaColumnDefinitionEventArgs
+   */
+  public function setColumn(Column $column = null) {
+    $this->_column = $column;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @return \Doctrine\DBAL\Schema\Column
-     */
-    public function getColumn()
-    {
-        return $this->_column;
-    }
+  /**
+   * @return \Doctrine\DBAL\Schema\Column
+   */
+  public function getColumn() {
+    return $this->_column;
+  }
 
-    /**
-     * @return array
-     */
-    public function getTableColumn()
-    {
-        return $this->_tableColumn;
-    }
+  /**
+   * @return array
+   */
+  public function getTableColumn() {
+    return $this->_tableColumn;
+  }
 
-    /**
-     * @return string
-     */
-    public function getTable()
-    {
-        return $this->_table;
-    }
+  /**
+   * @return string
+   */
+  public function getTable() {
+    return $this->_table;
+  }
 
-    /**
-     * @return string
-     */
-    public function getDatabase()
-    {
-        return $this->_database;
-    }
+  /**
+   * @return string
+   */
+  public function getDatabase() {
+    return $this->_database;
+  }
 
-    /**
-     * @return \Doctrine\DBAL\Connection
-     */
-    public function getConnection()
-    {
-        return $this->_connection;
-    }
+  /**
+   * @return \Doctrine\DBAL\Connection
+   */
+  public function getConnection() {
+    return $this->_connection;
+  }
 
-    /**
-     * @return \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    public function getDatabasePlatform()
-    {
-        return $this->_connection->getDatabasePlatform();
-    }
+  /**
+   * @return \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  public function getDatabasePlatform() {
+    return $this->_connection->getDatabasePlatform();
+  }
 }

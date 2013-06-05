@@ -32,28 +32,23 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class OrderByItem extends Node
-{
-    public $expression;
-    public $type;
+class OrderByItem extends Node {
+  public $expression;
+  public $type;
 
-    public function __construct($expression)
-    {
-        $this->expression = $expression;
-    }
+  public function __construct($expression) {
+    $this->expression = $expression;
+  }
 
-    public function isAsc()
-    {
-        return strtoupper($this->type) == 'ASC';
-    }
+  public function isAsc() {
+    return strtoupper($this->type) == 'ASC';
+  }
 
-    public function isDesc()
-    {
-        return strtoupper($this->type) == 'DESC';
-    }
+  public function isDesc() {
+    return strtoupper($this->type) == 'DESC';
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkOrderByItem($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkOrderByItem($this);
+  }
 }

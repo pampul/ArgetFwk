@@ -30,18 +30,15 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class CoalesceExpression extends Node
-{
-    public $scalarExpressions = array();
+class CoalesceExpression extends Node {
+  public $scalarExpressions = array();
 
 
-    public function __construct(array $scalarExpressions)
-    {
-        $this->scalarExpressions  = $scalarExpressions;
-    }
+  public function __construct(array $scalarExpressions) {
+    $this->scalarExpressions = $scalarExpressions;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkCoalesceExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkCoalesceExpression($this);
+  }
 }

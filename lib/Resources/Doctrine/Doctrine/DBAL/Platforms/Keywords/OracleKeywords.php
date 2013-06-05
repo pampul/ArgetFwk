@@ -23,134 +23,18 @@ namespace Doctrine\DBAL\Platforms\Keywords;
 /**
  * Oracle Keywordlist
  *
- * @license  BSD http://www.opensource.org/licenses/bsd-license.php
+ * @license     BSD http://www.opensource.org/licenses/bsd-license.php
  * @link        www.doctrine-project.com
  * @since       2.0
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  * @author      David Coallier <davidc@php.net>
  */
-class OracleKeywords extends KeywordList
-{
-    public function getName()
-    {
-        return 'Oracle';
-    }
+class OracleKeywords extends KeywordList {
+  public function getName() {
+    return 'Oracle';
+  }
 
-    protected function getKeywords()
-    {
-        return array(
-            'ACCESS',
-            'ELSE',
-            'MODIFY',
-            'START',
-            'ADD',
-            'EXCLUSIVE',
-            'NOAUDIT',
-            'SELECT',
-            'ALL',
-            'EXISTS',
-            'NOCOMPRESS',
-            'SESSION',
-            'ALTER',
-            'FILE',
-            'NOT',
-            'SET',
-            'AND',
-            'FLOAT',
-            'NOTFOUND ',
-            'SHARE',
-            'ANY',
-            'FOR',
-            'NOWAIT',
-            'SIZE',
-            'ARRAYLEN',
-            'FROM',
-            'NULL',
-            'SMALLINT',
-            'AS',
-            'GRANT',
-            'NUMBER',
-            'SQLBUF',
-            'ASC',
-            'GROUP',
-            'OF',
-            'SUCCESSFUL',
-            'AUDIT',
-            'HAVING',
-            'OFFLINE ',
-            'SYNONYM',
-            'BETWEEN',
-            'IDENTIFIED',
-            'ON',
-            'SYSDATE',
-            'BY',
-            'IMMEDIATE',
-            'ONLINE',
-            'TABLE',
-            'CHAR',
-            'IN',
-            'OPTION',
-            'THEN',
-            'CHECK',
-            'INCREMENT',
-            'OR',
-            'TO',
-            'CLUSTER',
-            'INDEX',
-            'ORDER',
-            'TRIGGER',
-            'COLUMN',
-            'INITIAL',
-            'PCTFREE',
-            'UID',
-            'COMMENT',
-            'INSERT',
-            'PRIOR',
-            'UNION',
-            'COMPRESS',
-            'INTEGER',
-            'PRIVILEGES',
-            'UNIQUE',
-            'CONNECT',
-            'INTERSECT',
-            'PUBLIC',
-            'UPDATE',
-            'CREATE',
-            'INTO',
-            'RAW',
-            'USER',
-            'CURRENT',
-            'IS',
-            'RENAME',
-            'VALIDATE',
-            'DATE',
-            'LEVEL',
-            'RESOURCE',
-            'VALUES',
-            'DECIMAL',
-            'LIKE',
-            'REVOKE',
-            'VARCHAR',
-            'DEFAULT',
-            'LOCK',
-            'ROW',
-            'VARCHAR2',
-            'DELETE',
-            'LONG',
-            'ROWID',
-            'VIEW',
-            'DESC',
-            'MAXEXTENTS',
-            'ROWLABEL',
-            'WHENEVER',
-            'DISTINCT',
-            'MINUS',
-            'ROWNUM',
-            'WHERE',
-            'DROP',
-            'MODE',
-            'ROWS',
-            'WITH',
-        );
-    }
+  protected function getKeywords() {
+    return array('ACCESS', 'ELSE', 'MODIFY', 'START', 'ADD', 'EXCLUSIVE', 'NOAUDIT', 'SELECT', 'ALL', 'EXISTS', 'NOCOMPRESS', 'SESSION', 'ALTER', 'FILE', 'NOT', 'SET', 'AND', 'FLOAT', 'NOTFOUND ', 'SHARE', 'ANY', 'FOR', 'NOWAIT', 'SIZE', 'ARRAYLEN', 'FROM', 'NULL', 'SMALLINT', 'AS', 'GRANT', 'NUMBER', 'SQLBUF', 'ASC', 'GROUP', 'OF', 'SUCCESSFUL', 'AUDIT', 'HAVING', 'OFFLINE ', 'SYNONYM', 'BETWEEN', 'IDENTIFIED', 'ON', 'SYSDATE', 'BY', 'IMMEDIATE', 'ONLINE', 'TABLE', 'CHAR', 'IN', 'OPTION', 'THEN', 'CHECK', 'INCREMENT', 'OR', 'TO', 'CLUSTER', 'INDEX', 'ORDER', 'TRIGGER', 'COLUMN', 'INITIAL', 'PCTFREE', 'UID', 'COMMENT', 'INSERT', 'PRIOR', 'UNION', 'COMPRESS', 'INTEGER', 'PRIVILEGES', 'UNIQUE', 'CONNECT', 'INTERSECT', 'PUBLIC', 'UPDATE', 'CREATE', 'INTO', 'RAW', 'USER', 'CURRENT', 'IS', 'RENAME', 'VALIDATE', 'DATE', 'LEVEL', 'RESOURCE', 'VALUES', 'DECIMAL', 'LIKE', 'REVOKE', 'VARCHAR', 'DEFAULT', 'LOCK', 'ROW', 'VARCHAR2', 'DELETE', 'LONG', 'ROWID', 'VIEW', 'DESC', 'MAXEXTENTS', 'ROWLABEL', 'WHENEVER', 'DISTINCT', 'MINUS', 'ROWNUM', 'WHERE', 'DROP', 'MODE', 'ROWS', 'WITH',);
+  }
 }

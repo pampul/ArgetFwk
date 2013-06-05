@@ -15,6 +15,7 @@ section,
 summary {
   display: block;
 }
+
 /**
  * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
@@ -25,6 +26,7 @@ video {
   *display: inline;
   *zoom: 1;
 }
+
 /**
  * Prevent modern browsers from displaying `audio` without controls.
  * Remove excess height in iOS 5 devices.
@@ -33,6 +35,7 @@ audio:not([controls]) {
   display: none;
   height: 0;
 }
+
 /**
  * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
  * Known issue: no IE 6 support.
@@ -40,6 +43,7 @@ audio:not([controls]) {
 [hidden] {
   display: none;
 }
+
 /* ==========================================================================
    Base
    ========================================================================== */
@@ -58,6 +62,7 @@ html {
   /* 2 */
 
 }
+
 /**
  * Address `font-family` inconsistency between `textarea` and other form
  * elements.
@@ -69,12 +74,14 @@ select,
 textarea {
   font-family: sans-serif;
 }
+
 /**
  * Address margins handled incorrectly in IE 6/7.
  */
 body {
   margin: 0;
 }
+
 /* ==========================================================================
    Links
    ========================================================================== */
@@ -84,6 +91,7 @@ body {
 a:focus {
   outline: thin dotted;
 }
+
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */
@@ -91,6 +99,7 @@ a:active,
 a:hover {
   outline: 0;
 }
+
 /* ==========================================================================
    Typography
    ========================================================================== */
@@ -103,32 +112,39 @@ h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
+
 h2 {
   font-size: 1.5em;
   margin: 0.83em 0;
 }
+
 h3 {
   font-size: 1.17em;
   margin: 1em 0;
 }
+
 h4 {
   font-size: 1em;
   margin: 1.33em 0;
 }
+
 h5 {
   font-size: 0.83em;
   margin: 1.67em 0;
 }
+
 h6 {
   font-size: 0.67em;
   margin: 2.33em 0;
 }
+
 /**
  * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
  */
 abbr[title] {
   border-bottom: 1px dotted;
 }
+
 /**
  * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
  */
@@ -136,15 +152,18 @@ b,
 strong {
   font-weight: bold;
 }
+
 blockquote {
   margin: 1em 40px;
 }
+
 /**
  * Address styling not present in Safari 5 and Chrome.
  */
 dfn {
   font-style: italic;
 }
+
 /**
  * Address differences between Firefox and other browsers.
  * Known issue: no IE 6/7 normalization.
@@ -154,6 +173,7 @@ hr {
   box-sizing: content-box;
   height: 0;
 }
+
 /**
  * Address styling not present in IE 6/7/8/9.
  */
@@ -161,6 +181,7 @@ mark {
   background: #ff0;
   color: #000;
 }
+
 /**
  * Address margins set differently in IE 6/7.
  */
@@ -168,6 +189,7 @@ p,
 pre {
   margin: 1em 0;
 }
+
 /**
  * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
@@ -179,6 +201,7 @@ samp {
   _font-family: 'courier new', monospace;
   font-size: 1em;
 }
+
 /**
  * Improve readability of pre-formatted text in all browsers.
  */
@@ -187,12 +210,14 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
 /**
  * Address CSS quotes not supported in IE 6/7.
  */
 q {
   quotes: none;
 }
+
 /**
  * Address `quotes` property not supported in Safari 4.
  */
@@ -201,12 +226,14 @@ q:after {
   content: '';
   content: none;
 }
+
 /**
  * Address inconsistent and variable font size in all browsers.
  */
 small {
   font-size: 80%;
 }
+
 /**
  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
  */
@@ -217,12 +244,15 @@ sup {
   position: relative;
   vertical-align: baseline;
 }
+
 sup {
   top: -0.5em;
 }
+
 sub {
   bottom: -0.25em;
 }
+
 /* ==========================================================================
    Lists
    ========================================================================== */
@@ -235,9 +265,11 @@ ol,
 ul {
   margin: 1em 0;
 }
+
 dd {
   margin: 0 0 0 40px;
 }
+
 /**
  * Address paddings set differently in IE 6/7.
  */
@@ -246,6 +278,7 @@ ol,
 ul {
   padding: 0 0 0 40px;
 }
+
 /**
  * Correct list images handled incorrectly in IE 7.
  */
@@ -254,6 +287,7 @@ nav ol {
   list-style: none;
   list-style-image: none;
 }
+
 /* ==========================================================================
    Embedded content
    ========================================================================== */
@@ -269,12 +303,14 @@ img {
   /* 2 */
 
 }
+
 /**
  * Correct overflow displayed oddly in IE 9.
  */
 svg:not(:root) {
   overflow: hidden;
 }
+
 /* ==========================================================================
    Figures
    ========================================================================== */
@@ -284,6 +320,7 @@ svg:not(:root) {
 figure {
   margin: 0;
 }
+
 /* ==========================================================================
    Forms
    ========================================================================== */
@@ -293,6 +330,7 @@ figure {
 form {
   margin: 0;
 }
+
 /**
  * Define consistent border, margin, and padding.
  */
@@ -301,6 +339,7 @@ fieldset {
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
+
 /**
  * 1. Correct color not being inherited in IE 6/7/8/9.
  * 2. Correct text not wrapping in Firefox 3.
@@ -318,6 +357,7 @@ legend {
   /* 3 */
 
 }
+
 /**
  * 1. Correct font size not being inherited in all browsers.
  * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
@@ -339,6 +379,7 @@ textarea {
   /* 3 */
 
 }
+
 /**
  * Address Firefox 3+ setting `line-height` on `input` using `!important` in
  * the UA stylesheet.
@@ -347,6 +388,7 @@ button,
 input {
   line-height: normal;
 }
+
 /**
  * Address inconsistent `text-transform` inheritance for `button` and `select`.
  * All other form control elements do not inherit `text-transform` values.
@@ -357,6 +399,7 @@ button,
 select {
   text-transform: none;
 }
+
 /**
  * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
  *    and `video` controls.
@@ -380,6 +423,7 @@ input[type="submit"] {
   /* 4 */
 
 }
+
 /**
  * Re-set default cursor for disabled elements.
  */
@@ -387,6 +431,7 @@ button[disabled],
 html input[disabled] {
   cursor: default;
 }
+
 /**
  * 1. Address box sizing set to content-box in IE 8/9.
  * 2. Remove excess padding in IE 8/9.
@@ -406,6 +451,7 @@ input[type="radio"] {
   /* 3 */
 
 }
+
 /**
  * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
@@ -421,6 +467,7 @@ input[type="search"] {
 
   box-sizing: content-box;
 }
+
 /**
  * Remove inner padding and search cancel button in Safari 5 and Chrome
  * on OS X.
@@ -429,6 +476,7 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
+
 /**
  * Remove inner padding and border in Firefox 3+.
  */
@@ -437,6 +485,7 @@ input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+
 /**
  * 1. Remove default vertical scrollbar in IE 6/7/8/9.
  * 2. Improve readability and alignment in all browsers.
@@ -449,6 +498,7 @@ textarea {
   /* 2 */
 
 }
+
 /* ==========================================================================
    Tables
    ========================================================================== */
@@ -459,6 +509,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -469,9 +520,11 @@ select,
 textarea {
   color: #222;
 }
+
 body {
   line-height: 1.4;
 }
+
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection rule sets have to be separate.
@@ -481,10 +534,12 @@ body {
   background: #b3d4fc;
   text-shadow: none;
 }
+
 ::selection {
   background: #b3d4fc;
   text-shadow: none;
 }
+
 /*
  * A better looking default horizontal rule
  */
@@ -496,12 +551,14 @@ hr {
   margin: 1em 0;
   padding: 0;
 }
+
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
  */
 img {
   vertical-align: middle;
 }
+
 /*
  * Remove default fieldset styles.
  */
@@ -510,12 +567,14 @@ fieldset {
   margin: 0;
   padding: 0;
 }
+
 /*
  * Allow only vertical resizing of textareas.
  */
 textarea {
   resize: vertical;
 }
+
 /* ==========================================================================
    Chrome Frame prompt
    ========================================================================== */
@@ -525,28 +584,34 @@ textarea {
   color: #000;
   padding: 0.2em 0;
 }
+
 /* ==========================================================================
    Usefull classes
    ========================================================================== */
 .clear {
   clear: both;
 }
+
 #main {
   min-height: 200px;
 }
+
 .separator {
   margin: 0 3px 0 5px;
   font-weight: bold;
   color: #999;
 }
+
 .span4padding {
   padding-left: 6%;
   padding-right: 6%;
   padding-top: 2%;
 }
+
 .hand {
   cursor: pointer !important;
 }
+
 .custom-divider,
 .main-divider {
   clear: both;
@@ -560,6 +625,7 @@ textarea {
   background-image: -ms-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
   background-image: -o-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
 }
+
 .messageBox {
   z-index: 2000;
   display: none;
@@ -582,6 +648,7 @@ textarea {
   -o-transition: opacity 0.3s linear, top 0.3s ease-out;
   transition: opacity 0.3s linear, top 0.3s ease-out;
 }
+
 .widget-content {
   padding: 20px 15px 15px;
   background: white;
@@ -590,6 +657,7 @@ textarea {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
+
 .widget-box {
   background: none repeat scroll 0 0 #F9F9F9;
   border-top: 1px solid #CDCDCD;
@@ -600,9 +668,11 @@ textarea {
   margin-bottom: 16px;
   position: relative;
 }
+
 .noclear {
   clear: none;
 }
+
 .widget-box-title {
   background-color: #EFEFEF;
   background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#fdfdfd), to(#eaeaea));
@@ -615,12 +685,14 @@ textarea {
   border-bottom: 1px solid #CDCDCD;
   height: 36px;
 }
+
 .widget-box-title span.icon {
   border-right: 1px solid #CDCDCD;
   padding: 9px 10px 7px 11px;
   float: left;
   opacity: .7;
 }
+
 .widget-box-title h5 {
   color: #666;
   text-shadow: 0 1px 0 white;
@@ -631,24 +703,30 @@ textarea {
   line-height: 12px;
   margin: 0;
 }
+
 .widget-box-content {
   padding: 12px 15px;
   border-bottom: 1px solid #CDCDCD;
   background: #fff;
 }
+
 .nopadding {
-  padding: 0!important;
+  padding: 0 !important;
 }
+
 .nomargin {
-  margin: 0!important;
+  margin: 0 !important;
 }
+
 .nobackground {
   background: none;
 }
+
 .navbar .brand {
   padding: 5px 10px 5px;
   color: #9fe0fc;
 }
+
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -660,6 +738,7 @@ textarea {
   background: #fff;
   border: 1px solid #d7d7d7;
 }
+
 /**
 * Footer
 */
@@ -667,6 +746,7 @@ textarea {
   margin-top: 20px;
   text-align: center;
 }
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -681,12 +761,14 @@ textarea {
 
   *text-indent: -9999px;
 }
+
 .ir:before {
   content: "";
   display: block;
   width: 0;
   height: 150%;
 }
+
 /*
  * Hide from both screenreaders and browsers: h5bp.com/u
  */
@@ -694,6 +776,7 @@ textarea {
   display: none !important;
   visibility: hidden;
 }
+
 /*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  */
@@ -707,6 +790,7 @@ textarea {
   position: absolute;
   width: 1px;
 }
+
 /*
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
@@ -720,12 +804,14 @@ textarea {
   position: static;
   width: auto;
 }
+
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
 .invisible {
   visibility: hidden;
 }
+
 /*
  * Clearfix: contain floats
  *
@@ -746,9 +832,11 @@ textarea {
   /* 2 */
 
 }
+
 .clearfix:after {
   clear: both;
 }
+
 /*
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
@@ -756,6 +844,7 @@ textarea {
 .clearfix {
   *zoom: 1;
 }
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
@@ -764,9 +853,11 @@ textarea {
 @media only screen and (min-width: 35em) {
   /* Style adjustments for viewports that meet the condition */
 }
+
 @media print, (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
   /* Style adjustments for high resolution devices */
 }
+
 /* ==========================================================================
    Print styles.
    Inlined to avoid required HTTP connection: h5bp.com/r
@@ -776,20 +867,24 @@ textarea {
     background: transparent !important;
     color: #000 !important;
     /* Black prints faster: h5bp.com/s */
-  
+
     box-shadow: none !important;
     text-shadow: none !important;
   }
+
   a,
   a:visited {
     text-decoration: underline;
   }
+
   a[href]:after {
     content: " (" attr(href) ")";
   }
+
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
+
   /*
      * Don't show links for images, or javascript/internal links
      */
@@ -798,32 +893,39 @@ textarea {
   a[href^="#"]:after {
     content: "";
   }
+
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
+
   thead {
     display: table-header-group;
     /* h5bp.com/t */
-  
+
   }
+
   tr,
   img {
     page-break-inside: avoid;
   }
+
   img {
     max-width: 100% !important;
   }
-  @page  {
+
+  @page {
     margin: 0.5cm;
   }
+
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3;
   }
+
   h2,
   h3 {
     page-break-after: avoid;

@@ -17,8 +17,8 @@ $uploadManager->setValidFormats('jpg,jpeg,png,gif');
 $arrayResult = $uploadManager->upload($_FILES['file']);
 
 if (isset($arrayResult['error'])) {
-    echo '<span style="color: red;">Erreur lors de l\'upload : ' . $arrayResult['error'] . '</span>';
+  echo '<span style="color: red;">Erreur lors de l\'upload : ' . $arrayResult['error'] . '</span>';
 } else {
-    echo '<img src="' . SITE_URL_BASE . 'gestion/web/uploads/images/' . $arrayResult['success'] . '" alt="image" />';
+  echo '<img src="' . SITE_URL_BASE . 'gestion/web/uploads/images/' . $arrayResult['success'] . '" alt="image" />';
 }
 ?>

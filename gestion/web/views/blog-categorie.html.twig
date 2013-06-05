@@ -20,37 +20,38 @@
 {# Contenu de la page #}
 {% block content %}
 
-<div class="row">
+  <div class="row">
 
     <br/><br/><br/><br/>
 
 
     <div class="span12">
 
-        <div class="widget-content">
-            
-            <a class="btn btn-primary addEditItem pull-right" id="addItem" data-width="850px" title="Ajouter" href="dashboard/blog-categorie-gestion">
-                <i class="icon icon-plus-sign icon-white"></i> Ajouter une categorie
-            </a>
+      <div class="widget-content">
 
-            <h4 class="fwk-title">
-                <a title="Rafraîchir la page" class="hand refresh-page" href="{{ constant('SITE_CURRENT_URI') }}">
-                    <i class="icon-refresh" style="margin-top: 6px;"></i>
-                </a>
-             Gestion des catégories
-            </h4>
-            
-            <hr/>
+        <a class="btn btn-primary addEditItem pull-right" id="addItem" data-width="850px" title="Ajouter"
+           href="dashboard/blog-categorie-gestion">
+          <i class="icon icon-plus-sign icon-white"></i> Ajouter une categorie
+        </a>
 
-            <br/>
+        <h4 class="fwk-title">
+          <a title="Rafraîchir la page" class="hand refresh-page" href="{{ constant('SITE_CURRENT_URI') }}">
+            <i class="icon-refresh" style="margin-top: 6px;"></i>
+          </a>
+          Gestion des catégories
+        </h4>
 
-            {{ tableFwk.show| raw }}
-            
-            <br/><br/>
+        <hr/>
 
-        </div>
+        <br/>
+
+        {{ tableFwk.show| raw }}
+
+        <br/><br/>
+
+      </div>
     </div>
-</div>
+  </div>
 
 
 {% endblock %}

@@ -15,6 +15,5 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Node_Body extends Twig_Node
-{
+class Twig_Node_Body extends Twig_Node {
 }

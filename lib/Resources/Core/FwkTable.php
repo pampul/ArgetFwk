@@ -96,7 +96,7 @@ class FwkTable extends FwkManager {
   /**
    * Saut de ligne en CSV
    *
-   * @var string  $jumpLine
+   * @var string $jumpLine
    */
   private static $jumpLine = "\n";
 
@@ -152,32 +152,32 @@ class FwkTable extends FwkManager {
   /**
    * Constructeur de la classe de création de tableaux dynamiques
    *
-   * @param array $arrayContentTable - Ensemble des éléments actifs du tableau
-   * @param array $actionButtons - choix des boutons edition, suppression etc.. | ex : $arrayActionButtons = array('edit' => 'private/admins-edit', 'delete' => 'private/admins-delete');
-   * @param integer $limit - Nombre de lignes à afficher | ex : 10
-   * @param boolean $tsearch - activation de la recherche
-   * @param boolean $tpagination - Activation de la pagination
-   * @param boolean $exportCsv - activation de l'export CSV
-   * @param array $order - Choix de l'ordre de premier affichage | ex : $order = array('orderBy' => 'id', 'orderDir' => 'DESC');
-   * @param string $defineBy - Champ auquel on fait référence pour l'edition/suppression | ex : 'id'
+   * @param array   $arrayContentTable - Ensemble des éléments actifs du tableau
+   * @param array   $actionButtons     - choix des boutons edition, suppression etc.. | ex : $arrayActionButtons = array('edit' => 'private/admins-edit', 'delete' => 'private/admins-delete');
+   * @param integer $limit             - Nombre de lignes à afficher | ex : 10
+   * @param boolean $tsearch           - activation de la recherche
+   * @param boolean $tpagination       - Activation de la pagination
+   * @param boolean $exportCsv         - activation de l'export CSV
+   * @param array   $order             - Choix de l'ordre de premier affichage | ex : $order = array('orderBy' => 'id', 'orderDir' => 'DESC');
+   * @param string  $defineBy          - Champ auquel on fait référence pour l'edition/suppression | ex : 'id'
    */
   public function __construct($arrayContentTable, $actionButtons = array(), $limit = 10, $tsearch = true, $tpagination = true, $exportCsv = true, $order = array('orderBy' => 'id', 'orderDir' => 'DESC'), $defineBy = 'id') {
 
-    $this->em = FwkLoader::getEntityManager();
-    $this->fwkClasses = FwkLoader::getFwkEntitiesLower();
-    $this->className = ucfirst(key($arrayContentTable));
-    $this->thead = '';
-    $this->tbody = '';
-    $this->tsearch = $tsearch;
-    $this->tpagination = $tpagination;
-    $this->tcontent = '';
-    $this->actionButtons = $actionButtons;
-    $this->limit = $limit;
-    $this->exportCsv = $exportCsv;
-    $this->order = $order;
-    $this->defineBy = $defineBy;
-    $this->totalTop = '';
-    $this->totalBottom = '';
+    $this->em                = FwkLoader::getEntityManager();
+    $this->fwkClasses        = FwkLoader::getFwkEntitiesLower();
+    $this->className         = ucfirst(key($arrayContentTable));
+    $this->thead             = '';
+    $this->tbody             = '';
+    $this->tsearch           = $tsearch;
+    $this->tpagination       = $tpagination;
+    $this->tcontent          = '';
+    $this->actionButtons     = $actionButtons;
+    $this->limit             = $limit;
+    $this->exportCsv         = $exportCsv;
+    $this->order             = $order;
+    $this->defineBy          = $defineBy;
+    $this->totalTop          = '';
+    $this->totalBottom       = '';
     $this->arrayContentTable = $arrayContentTable;
     $this->setObjAdmin();
   }
@@ -188,14 +188,13 @@ class FwkTable extends FwkManager {
   public function build() {
 
     $qb = $this->em->createQueryBuilder();
-    $qb->select('count(c)')
-      ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($this->className), 'c');
+    $qb->select('count(c)')->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($this->className), 'c');
 
-    if(isset($_SESSION['poney_search'][strtolower($this->className)]))
+    if (isset($_SESSION['poney_search'][strtolower($this->className)]))
       if ($_SESSION['poney_search'][strtolower($this->className)]['where'] != '')
         $qb->add('where', $_SESSION['poney_search'][strtolower($this->className)]['where']);
 
-    $totalRows = $qb->getQuery()->getSingleScalarResult();
+    $totalRows      = $qb->getQuery()->getSingleScalarResult();
     $this->tcontent = '';
 
     if (isset($this->actionButtons['SortSup']))
@@ -213,7 +212,7 @@ class FwkTable extends FwkManager {
             <br/>
 
 
-            <table class="table table-bordered table-hover" id="dynamic-table" name="' . $this->className . '" data-max-result="'.$this->limit.'" data-nbrsaved="' . (isset($_SESSION['poney_search'][strtolower($this->className)]) ? $_SESSION['poney_search'][strtolower($this->className)]['results']['max_result'] : $this->limit) . '" data-select-selected="'.$this->checkSelectSelected().'" data-orderby="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['sort']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'] : '') . '" data-orderdir="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['order']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['order'] : '') . '" data-property="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property']) ? $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'] : '') . '">
+            <table class="table table-bordered table-hover" id="dynamic-table" name="' . $this->className . '" data-max-result="' . $this->limit . '" data-nbrsaved="' . (isset($_SESSION['poney_search'][strtolower($this->className)]) ? $_SESSION['poney_search'][strtolower($this->className)]['results']['max_result'] : $this->limit) . '" data-select-selected="' . $this->checkSelectSelected() . '" data-orderby="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['sort']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'] : '') . '" data-orderdir="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['order']['order']) ? $_SESSION['poney_search'][strtolower($this->className)]['order']['order'] : '') . '" data-property="' . (isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property']) ? $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'] : '') . '">
 
         ';
     $this->tcontent .= $this->thead;
@@ -264,8 +263,7 @@ class FwkTable extends FwkManager {
     $cols = '';
     foreach (current($this->arrayContentTable) as $key => $value) {
       if (!is_array($value))
-        $cols .= $key . '=>' . $value . '\o/';
-      else
+        $cols .= $key . '=>' . $value . '\o/'; else
         $cols .= $key . '=>(' . $value['class'] . ';' . $value['getter'] . ';' . $value['method'] . ';' . $value['sort'] . ')\o/';
     }
 
@@ -314,8 +312,7 @@ class FwkTable extends FwkManager {
   public function buildBody($colObject = null, $pagination = false, $nbrExisting = null) {
 
     if ($pagination == false)
-      $lastTr = '<tr id="last-tr" data-order-by="' . $this->order['orderBy'] . '" data-order-dir="' . $this->order['orderDir'] . '" data-max-result="' . $this->limit . '" />';
-    else
+      $lastTr = '<tr id="last-tr" data-order-by="' . $this->order['orderBy'] . '" data-order-dir="' . $this->order['orderDir'] . '" data-max-result="' . $this->limit . '" />'; else
       $lastTr = '';
 
     foreach ($this->arrayContentTable as $class => $value) {
@@ -324,30 +321,26 @@ class FwkTable extends FwkManager {
       if (!is_array($colObject)) {
 
         $qb = $this->em->createQueryBuilder();
-        $qb->select('c')
-          ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
+        $qb->select('c')->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
 
-        if(!isset($_SESSION['poney_search'][strtolower($this->className)])){
-          $qb->orderBy('c.' . $this->order['orderBy'], strtoupper($this->order['orderDir']))
-            ->setFirstResult(0)
-            ->setMaxResults($this->limit);
-        }else{
+        if (!isset($_SESSION['poney_search'][strtolower($this->className)])) {
+          $qb->orderBy('c.' . $this->order['orderBy'], strtoupper($this->order['orderDir']))->setFirstResult(0)->setMaxResults($this->limit);
+        } else {
           // Il y a un join
-          if(isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'])){
+          if (isset($_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'])) {
             $qb->join('c.' . $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'], 'q');
 
             if ($_SESSION['poney_search'][strtolower($this->className)]['where'] != '')
               $qb->add('where', $_SESSION['poney_search'][strtolower($this->className)]['where']);
 
             $qb->orderBy('q.' . $_SESSION['poney_search'][strtolower($this->className)]['join']['data_property'], strtoupper($_SESSION['poney_search'][strtolower($this->className)]['order']['order']));
-          }else{
+          } else {
             if ($_SESSION['poney_search'][strtolower($this->className)]['where'] != '')
               $qb->add('where', $_SESSION['poney_search'][strtolower($this->className)]['where']);
 
             $qb->orderBy('c.' . $_SESSION['poney_search'][strtolower($this->className)]['order']['sort'], strtoupper($_SESSION['poney_search'][strtolower($this->className)]['order']['order']));
           }
-          $qb->setFirstResult($_SESSION['poney_search'][strtolower($this->className)]['results']['first_result'])
-            ->setMaxResults($_SESSION['poney_search'][strtolower($this->className)]['results']['max_result']);
+          $qb->setFirstResult($_SESSION['poney_search'][strtolower($this->className)]['results']['first_result'])->setMaxResults($_SESSION['poney_search'][strtolower($this->className)]['results']['max_result']);
         }
         $colObject = $qb->getQuery()->getResult();
       }
@@ -356,6 +349,7 @@ class FwkTable extends FwkManager {
 
       if (sizeof($colObject) === 0) {
         $this->tbody = $lastTr;
+
         return '';
       }
 
@@ -363,8 +357,7 @@ class FwkTable extends FwkManager {
 
         $methodToUse = 'get' . ucfirst($this->defineBy);
         if (method_exists($objUnique, $methodToUse))
-          $valueSent = $objUnique->$methodToUse();
-        else
+          $valueSent = $objUnique->$methodToUse(); else
           $valueSent = null;
 
         $this->tbody .= '
@@ -378,47 +371,35 @@ class FwkTable extends FwkManager {
           if (!is_array($oneMethod)) {
 
             $savedMethod = $oneMethod;
-            $oneMethod = 'get' . ucfirst($oneMethod);
-            if ($savedMethod != 'id' && isset($this->actionButtons['edit']) &&
-              (
-                (isset($this->actionButtons['edit']['level']) &&
-                  ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['edit']['level'] || $this->actionButtons['edit']['level'] == 'false')
-                ) || !isset($this->actionButtons['edit']['level'])
-              )
+            $oneMethod   = 'get' . ucfirst($oneMethod);
+            if ($savedMethod != 'id' && isset($this->actionButtons['edit']) && ((isset($this->actionButtons['edit']['level']) && ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['edit']['level'] || $this->actionButtons['edit']['level'] == 'false')) || !isset($this->actionButtons['edit']['level']))
             )
-              $classActive = 'class="modify-item"';
-            else
+              $classActive = 'class="modify-item"'; else
               $classActive = '';
 
             $this->tbody .= '
                     <td ' . $classActive . ' data-edit="false" data-class="' . $class . '" data-method="' . $savedMethod . '" ' . (method_exists($objUnique, 'getId') ? 'data-id="' . $objUnique->getId() . '"' : '') . '">
                         ' . $objUnique->$oneMethod() . '
                     </td>';
-          }else {
+          } else {
             $getter = 'get' . ucfirst($oneMethod['getter']);
             if (strtolower($class) == strtolower($oneMethod['class']))
-              $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique);
-            else {
+              $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique); else {
               if (is_object($objUnique->$getter()))
-                $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter());
-              else
+                $this->tbody .= $this->em->getRepository((in_array(strtolower($oneMethod['class']), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($oneMethod['class']))->$oneMethod['method']($objUnique->$getter()); else
                 $this->tbody .= '<td>-</td>';
             }
           }
         }
 
-        $this->tbody .=
-          '<td>' .
-            $this->showButtons($valueSent, $class)
-            . '</td>';
+        $this->tbody .= '<td>' . $this->showButtons($valueSent, $class) . '</td>';
 
         $this->tbody .= '
                 </tr>';
       }
     }
 
-    $this->tbody .=
-      $lastTr;
+    $this->tbody .= $lastTr;
   }
 
   /**
@@ -446,8 +427,7 @@ class FwkTable extends FwkManager {
 
         case 'edit' :
           if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
-            $ajaxEdit = 'addEditItem';
-          else
+            $ajaxEdit = 'addEditItem'; else
             $ajaxEdit = '';
 
           if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
@@ -461,8 +441,7 @@ class FwkTable extends FwkManager {
 
         case 'delete' :
           if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
-            $ajaxEdit = 'delete-item';
-          else
+            $ajaxEdit = 'delete-item'; else
             $ajaxEdit = '';
 
           if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
@@ -476,8 +455,7 @@ class FwkTable extends FwkManager {
 
         case 'view' :
           if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
-            $ajaxEdit = 'addEditItem';
-          else
+            $ajaxEdit = 'addEditItem'; else
             $ajaxEdit = '';
 
           if ((isset($arrayVals['level']) && ($arrayVals['level'] == "false" || $this->objAdmin->getPrivilege()->getLevel() >= $arrayVals['level'])) || !isset($arrayVals['level']))
@@ -493,8 +471,7 @@ class FwkTable extends FwkManager {
           if ($oneButton != 'SortSup') {
 
             if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true || $arrayVals['ajax'] === 'true')
-              $ajaxEdit = 'ajaxRefreshWhenClick';
-            else
+              $ajaxEdit = 'ajaxRefreshWhenClick'; else
               $ajaxEdit = '';
 
             $resultButtons .= '
@@ -523,8 +500,7 @@ class FwkTable extends FwkManager {
       return '
             <div id="pagination">
                 <button class="btn sort" id="pagination-button">Afficher plus de résultats</button>
-            </div>';
-    else
+            </div>'; else
       return '
             <div id="pagination">
               <button class="btn sort" id="pagination-button" style="display: none;">Afficher plus de résultats</button>
@@ -544,13 +520,13 @@ class FwkTable extends FwkManager {
 
     $value = '';
 
-    if(isset($_SESSION['poney_search'][strtolower($this->className)]['search_keyword']) && $_SESSION['poney_search'][strtolower($this->className)]['search_keyword'] != null)
+    if (isset($_SESSION['poney_search'][strtolower($this->className)]['search_keyword']) && $_SESSION['poney_search'][strtolower($this->className)]['search_keyword'] != null)
       $value = $_SESSION['poney_search'][strtolower($this->className)]['search_keyword'];
 
     $this->tsearchcontent = '
             <div class="form-search">
                 <div class="input-append">
-                    <input type="search" class="span2 search-query" placeholder="' . $arrayParams['placeholder'] . '" id="search-' . $arrayParams['autocomplete'] . '" title="' . $searchMethods . '" value="'.$value.'">
+                    <input type="search" class="span2 search-query" placeholder="' . $arrayParams['placeholder'] . '" id="search-' . $arrayParams['autocomplete'] . '" title="' . $searchMethods . '" value="' . $value . '">
                     <button type="submit" class="btn sort" id="search">Rechercher</button>
                 </div>
             </div>';
@@ -564,12 +540,7 @@ class FwkTable extends FwkManager {
     $html = '
             <div id="moreItems">';
 
-    if (isset($this->actionButtons['delete']) &&
-      (
-        (isset($this->actionButtons['delete']['level']) &&
-          ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['delete']['level'] || $this->actionButtons['delete']['level'] == 'false')
-        ) || !isset($this->actionButtons['delete']['level'])
-      )
+    if (isset($this->actionButtons['delete']) && ((isset($this->actionButtons['delete']['level']) && ($this->objAdmin->getPrivilege()->getLevel() >= $this->actionButtons['delete']['level'] || $this->actionButtons['delete']['level'] == 'false')) || !isset($this->actionButtons['delete']['level']))
     )
       $html .= '
                 <a id="linkDelete" class="btn btn-small" title="Supprimer les objets sélectionnés">
@@ -598,13 +569,11 @@ class FwkTable extends FwkManager {
     $value = '';
     foreach ($this->actionButtons as $oneButton => $arrayVals) {
       if (!isset($arrayVals['ajax']) || $arrayVals['ajax'] === true)
-        $ajaxEdit = 'true';
-      else
+        $ajaxEdit = 'true'; else
         $ajaxEdit = 'false';
 
       if (isset($arrayVals['level']))
-        $level = trim($arrayVals['level']);
-      else
+        $level = trim($arrayVals['level']); else
         $level = 'false';
 
       if ($oneButton != "SortSup")
@@ -622,8 +591,7 @@ class FwkTable extends FwkManager {
       $sizeOfCol += $nbrExisting;
 
     $qb = $this->em->createQueryBuilder();
-    $qb->select('count(c)')
-      ->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($className), 'c');
+    $qb->select('count(c)')->from((in_array(strtolower($this->className), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($className), 'c');
 
     $totalRows = $qb->getQuery()->getSingleScalarResult();
 
@@ -642,7 +610,7 @@ class FwkTable extends FwkManager {
             ';
 
     $this->totalNumberOfResults = $sizeOfCol;
-    $this->totalNumberOfRows = $totalRows;
+    $this->totalNumberOfRows    = $totalRows;
   }
 
   private function buildExportCsv() {
@@ -664,13 +632,14 @@ class FwkTable extends FwkManager {
   public static function getCsvPath($class) {
 
     $srcFileTmpName = 'web/files/' . date("Y-m-d") . '_export_' . $class;
-    $srcTmp = '';
-    $i = 0;
+    $srcTmp         = '';
+    $i              = 0;
     while (file_exists('../' . $srcFileTmpName . $srcTmp . '.csv')) {
       $i++;
-      $j = sprintf("%03d", $i);
+      $j      = sprintf("%03d", $i);
       $srcTmp = '_' . $j;
     }
+
     return $srcFileTmpName . $srcTmp . '.csv';
   }
 
@@ -735,6 +704,7 @@ class FwkTable extends FwkManager {
 
     $text = utf8_decode($text);
     $text = preg_replace('#(\r\n|\r|\n)#', ' ', $text);
+
     return $text;
   }
 
@@ -762,12 +732,12 @@ class FwkTable extends FwkManager {
     return $html;
   }
 
-  private function checkSelectSelected(){
+  private function checkSelectSelected() {
 
-    if(isset($_SESSION['poney_search'][strtolower($this->className)]['action_sup'])){
+    if (isset($_SESSION['poney_search'][strtolower($this->className)]['action_sup'])) {
       $val = '';
-      foreach($_SESSION['poney_search'][strtolower($this->className)]['action_sup'] as $oneAction){
-        $val .= ';'.$oneAction['method'].'--'.$oneAction['value'];
+      foreach ($_SESSION['poney_search'][strtolower($this->className)]['action_sup'] as $oneAction) {
+        $val .= ';' . $oneAction['method'] . '--' . $oneAction['value'];
       }
 
       return $val;

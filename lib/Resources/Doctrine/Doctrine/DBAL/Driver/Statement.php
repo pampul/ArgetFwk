@@ -33,92 +33,91 @@ use \PDO;
  * @link        www.doctrine-project.org
  * @since       2.0
  */
-interface Statement extends ResultStatement
-{
-    /**
-     * Binds a value to a corresponding named or positional
-     * placeholder in the SQL statement that was used to prepare the statement.
-     *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
-     *                              this will be a parameter name of the form :name. For a prepared statement
-     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
-     *
-     * @param mixed $value          The value to bind to the parameter.
-     * @param integer $type         Explicit data type for the parameter using the PDO::PARAM_* constants.
-     *
-     * @return boolean              Returns TRUE on success or FALSE on failure.
-     */
-    function bindValue($param, $value, $type = null);
+interface Statement extends ResultStatement {
+  /**
+   * Binds a value to a corresponding named or positional
+   * placeholder in the SQL statement that was used to prepare the statement.
+   *
+   * @param mixed   $param          Parameter identifier. For a prepared statement using named placeholders,
+   *                                this will be a parameter name of the form :name. For a prepared statement
+   *                                using question mark placeholders, this will be the 1-indexed position of the parameter
+   *
+   * @param mixed   $value          The value to bind to the parameter.
+   * @param integer $type           Explicit data type for the parameter using the PDO::PARAM_* constants.
+   *
+   * @return boolean              Returns TRUE on success or FALSE on failure.
+   */
+  function bindValue($param, $value, $type = null);
 
-    /**
-     * Binds a PHP variable to a corresponding named or question mark placeholder in the
-     * SQL statement that was use to prepare the statement. Unlike PDOStatement->bindValue(),
-     * the variable is bound as a reference and will only be evaluated at the time
-     * that PDOStatement->execute() is called.
-     *
-     * Most parameters are input parameters, that is, parameters that are
-     * used in a read-only fashion to build up the query. Some drivers support the invocation
-     * of stored procedures that return data as output parameters, and some also as input/output
-     * parameters that both send in data and are updated to receive it.
-     *
-     * @param mixed $param          Parameter identifier. For a prepared statement using named placeholders,
-     *                              this will be a parameter name of the form :name. For a prepared statement
-     *                              using question mark placeholders, this will be the 1-indexed position of the parameter
-     *
-     * @param mixed $variable       Name of the PHP variable to bind to the SQL statement parameter.
-     *
-     * @param integer $type         Explicit data type for the parameter using the PDO::PARAM_* constants. To return
-     *                              an INOUT parameter from a stored procedure, use the bitwise OR operator to set the
-     *                              PDO::PARAM_INPUT_OUTPUT bits for the data_type parameter.
-     * @return boolean              Returns TRUE on success or FALSE on failure.
-     */
-    function bindParam($column, &$variable, $type = null);
+  /**
+   * Binds a PHP variable to a corresponding named or question mark placeholder in the
+   * SQL statement that was use to prepare the statement. Unlike PDOStatement->bindValue(),
+   * the variable is bound as a reference and will only be evaluated at the time
+   * that PDOStatement->execute() is called.
+   *
+   * Most parameters are input parameters, that is, parameters that are
+   * used in a read-only fashion to build up the query. Some drivers support the invocation
+   * of stored procedures that return data as output parameters, and some also as input/output
+   * parameters that both send in data and are updated to receive it.
+   *
+   * @param mixed   $param          Parameter identifier. For a prepared statement using named placeholders,
+   *                                this will be a parameter name of the form :name. For a prepared statement
+   *                                using question mark placeholders, this will be the 1-indexed position of the parameter
+   *
+   * @param mixed   $variable       Name of the PHP variable to bind to the SQL statement parameter.
+   *
+   * @param integer $type           Explicit data type for the parameter using the PDO::PARAM_* constants. To return
+   *                                an INOUT parameter from a stored procedure, use the bitwise OR operator to set the
+   *                                PDO::PARAM_INPUT_OUTPUT bits for the data_type parameter.
+   * @return boolean              Returns TRUE on success or FALSE on failure.
+   */
+  function bindParam($column, &$variable, $type = null);
 
-    /**
-     * errorCode
-     * Fetch the SQLSTATE associated with the last operation on the statement handle
-     *
-     * @see Doctrine_Adapter_Interface::errorCode()
-     * @return string       error code string
-     */
-    function errorCode();
+  /**
+   * errorCode
+   * Fetch the SQLSTATE associated with the last operation on the statement handle
+   *
+   * @see Doctrine_Adapter_Interface::errorCode()
+   * @return string       error code string
+   */
+  function errorCode();
 
-    /**
-     * errorInfo
-     * Fetch extended error information associated with the last operation on the statement handle
-     *
-     * @see Doctrine_Adapter_Interface::errorInfo()
-     * @return array        error info array
-     */
-    function errorInfo();
+  /**
+   * errorInfo
+   * Fetch extended error information associated with the last operation on the statement handle
+   *
+   * @see Doctrine_Adapter_Interface::errorInfo()
+   * @return array        error info array
+   */
+  function errorInfo();
 
-    /**
-     * Executes a prepared statement
-     *
-     * If the prepared statement included parameter markers, you must either:
-     * call PDOStatement->bindParam() to bind PHP variables to the parameter markers:
-     * bound variables pass their value as input and receive the output value,
-     * if any, of their associated parameter markers or pass an array of input-only
-     * parameter values
-     *
-     *
-     * @param array $params             An array of values with as many elements as there are
-     *                                  bound parameters in the SQL statement being executed.
-     * @return boolean                  Returns TRUE on success or FALSE on failure.
-     */
-    function execute($params = null);
+  /**
+   * Executes a prepared statement
+   *
+   * If the prepared statement included parameter markers, you must either:
+   * call PDOStatement->bindParam() to bind PHP variables to the parameter markers:
+   * bound variables pass their value as input and receive the output value,
+   * if any, of their associated parameter markers or pass an array of input-only
+   * parameter values
+   *
+   *
+   * @param array $params             An array of values with as many elements as there are
+   *                                  bound parameters in the SQL statement being executed.
+   * @return boolean                  Returns TRUE on success or FALSE on failure.
+   */
+  function execute($params = null);
 
-    /**
-     * rowCount
-     * rowCount() returns the number of rows affected by the last DELETE, INSERT, or UPDATE statement
-     * executed by the corresponding object.
-     *
-     * If the last SQL statement executed by the associated Statement object was a SELECT statement,
-     * some databases may return the number of rows returned by that statement. However,
-     * this behaviour is not guaranteed for all databases and should not be
-     * relied on for portable applications.
-     *
-     * @return integer                      Returns the number of rows.
-     */
-    function rowCount();
+  /**
+   * rowCount
+   * rowCount() returns the number of rows affected by the last DELETE, INSERT, or UPDATE statement
+   * executed by the corresponding object.
+   *
+   * If the last SQL statement executed by the associated Statement object was a SELECT statement,
+   * some databases may return the number of rows returned by that statement. However,
+   * this behaviour is not guaranteed for all databases and should not be
+   * relied on for portable applications.
+   *
+   * @return integer                      Returns the number of rows.
+   */
+  function rowCount();
 }

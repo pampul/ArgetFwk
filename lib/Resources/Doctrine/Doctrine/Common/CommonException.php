@@ -21,6 +21,7 @@ namespace Doctrine\Common;
 
 /**
  * Base exception class for package Doctrine\Common
+ *
  * @author heinrich
  *
  */

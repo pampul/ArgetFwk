@@ -34,7 +34,8 @@
 
   <br/>
 
-  <h4>Le site est actuellement en : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
+  <h4>Le site est actuellement en
+    : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
 
   <br/>
 
@@ -183,7 +184,8 @@
     <div class="span5">
 
       <strong>
-        {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
+        {{ constant('ADMIN_NOM') }} {{ constant('ADMIN_PRENOM') }} : <a
+            href="mailto:{{ constant('ADMIN_EMAIL') }}">{{ constant('ADMIN_EMAIL') }}</a>
       </strong>
 
     </div>
@@ -201,7 +203,8 @@
     <div class="span5">
 
       <strong>
-        {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
+        {{ constant('CLIENT_NOM') }} {{ constant('CLIENT_PRENOM') }} : <a
+            href="mailto:{{ constant('CLIENT_EMAIL') }}">{{ constant('CLIENT_EMAIL') }}</a>
       </strong>
 
     </div>
@@ -325,7 +328,8 @@
 
   <br/><br/>
 
-  <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder à la configuration générale de PHP et du serveur.</a>
+  <i class="icon icon-wrench"></i> - <a href="private/phpinfo" target="_blank" title="Configuration du serveur">Accéder
+    à la configuration générale de PHP et du serveur.</a>
 
   </div>
 
@@ -342,7 +346,7 @@
 {% block jsinclude %}
   <script>
 
-    $('#modifierAvatar').click(function(){
+    $('#modifierAvatar').click(function () {
       $('#modifierAvatarModal').modal({
 
       });

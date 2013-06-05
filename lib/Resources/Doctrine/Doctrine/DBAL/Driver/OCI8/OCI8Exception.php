@@ -21,10 +21,8 @@
 
 namespace Doctrine\DBAL\Driver\OCI8;
 
-class OCI8Exception extends \Exception
-{
-    static public function fromErrorInfo($error)
-    {
-        return new self($error['message'], $error['code']);
-    }
+class OCI8Exception extends \Exception {
+  static public function fromErrorInfo($error) {
+    return new self($error['message'], $error['code']);
+  }
 }

@@ -30,7 +30,8 @@
       <div class="widget-content">
 
         <h4 class="fwk-title"><i class="icon-cogs"></i> Boite à Outils</h4>
-        <h4>Le site est actuellement en : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
+        <h4>Le site est actuellement en
+          : {% if constant('ENV_DEV') and constant('ENV_LOCALHOST') %} DEV {% elseif constant('ENV_DEV') %} PRE-PROD {% else %} PROD {% endif %}</h4>
         <hr/>
 
         <div class="row-fluid">
@@ -64,7 +65,7 @@
 {% block jsinclude %}
   <script>
 
-    $('#modifierAvatar').click(function(){
+    $('#modifierAvatar').click(function () {
       $('#modifierAvatarModal').modal({
 
       });

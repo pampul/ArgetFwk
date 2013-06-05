@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class NullComparisonExpression extends Node
-{
-    public $not;
-    public $expression;
+class NullComparisonExpression extends Node {
+  public $not;
+  public $expression;
 
-    public function __construct($expression)
-    {
-        $this->expression = $expression;
-    }
+  public function __construct($expression) {
+    $this->expression = $expression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkNullComparisonExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkNullComparisonExpression($this);
+  }
 }
 

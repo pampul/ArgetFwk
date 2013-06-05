@@ -36,6 +36,7 @@ class console extends SecuredClass {
         <section id="main" class="container">
             <br/>
             <div class="hero-unit">';
+
     return $html;
   }
 
@@ -44,6 +45,7 @@ class console extends SecuredClass {
     if (isset($_POST['login'])) {
       if ($_POST['login'] === ADMIN_EMAIL && $_POST['password'] === ADMIN_PASSWORD) {
         $_SESSION['webmaster'] = true;
+
         return '';
       } else {
         return '
@@ -57,12 +59,12 @@ class console extends SecuredClass {
     $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
 
     $entitiesDir = PATH_TO_IMPORTANT_FILES . 'lib/Entities/';
-    $dir = opendir($entitiesDir);
-    $classes = array();
+    $dir         = opendir($entitiesDir);
+    $classes     = array();
 
     while ($file = readdir($dir)) {
       if ($file != '.' && $file != '..' && !is_dir($entitiesDir . $file) && !preg_match('#Repository#', $file)) {
-        $file = preg_replace('#\.php#', '', $file);
+        $file      = preg_replace('#\.php#', '', $file);
         $classes[] = $this->em->getClassMetadata('Entities\\' . $file);
       }
     }
@@ -70,11 +72,11 @@ class console extends SecuredClass {
     closedir($dir);
 
     $entitiesDirFwk = PATH_TO_IMPORTANT_FILES . 'lib/Resources/Entities/';
-    $dir2 = opendir($entitiesDirFwk);
+    $dir2           = opendir($entitiesDirFwk);
 
     while ($file = readdir($dir2)) {
       if ($file != '.' && $file != '..' && !is_dir($entitiesDirFwk . $file) && !preg_match('#Repository#', $file)) {
-        $file = preg_replace('#\.php#', '', $file);
+        $file      = preg_replace('#\.php#', '', $file);
         $classes[] = $this->em->getClassMetadata('Resources\Entities\\' . $file);
       }
     }
@@ -93,41 +95,39 @@ class console extends SecuredClass {
                     <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.</div><br/><br/></pre>';
           break;
         case 'deleteschema':
-          try{
+          try {
             $tool->dropSchema($classes);
             $html .= '
                     <pre><br/><br/><div class="alert alert-info">Schéma supprimé avec succès.</div><br/></pre>';
-          }catch(Exception $e){
-            if(preg_match('#Unknown database#', $e->getMessage()))
+          } catch (Exception $e) {
+            if (preg_match('#Unknown database#', $e->getMessage()))
               $html .= '
-                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
-            else
+                    <pre><br/><div class="alert alert-error">La base de donnée "' . PDO_DATABASE_NAME . '" n\'existe pas.</div></pre>'; else
               $html .= '
-                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>' . $e->getMessage() . '</div></pre>';
           }
           break;
 
         case 'updateschema':
-          try{
+          try {
             $tool->updateSchema($classes);
             $html .= '
                     <pre><br/><br/><div class="alert alert-info">Schéma mis à jour avec succès.</div><br/><br/></pre>';
-          }catch(Exception $e){
-            if(preg_match('#Unknown database#', $e->getMessage()))
+          } catch (Exception $e) {
+            if (preg_match('#Unknown database#', $e->getMessage()))
               $html .= '
-                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
-            else
+                    <pre><br/><div class="alert alert-error">La base de donnée "' . PDO_DATABASE_NAME . '" n\'existe pas.</div></pre>'; else
               $html .= '
-                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>' . $e->getMessage() . '</div></pre>';
           }
 
           break;
 
         case 'createfirstschema':
-          try{
+          try {
             $tool->createSchema($classes);
             $html .= '
-                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : <strong>OK</strong>.<br/>Vous pouvez maintenant <a href="'.SITE_URL.'gestion/"><span style="text-decoration: underline;">vous connecter au back office</span></a> avec vos identifiants</div><br/></pre>';
+                    <pre><br/><br/><div class="alert alert-info">Schéma créé avec succès.<br/>Ajout du premier utilisateur : <strong>OK</strong>.<br/>Vous pouvez maintenant <a href="' . SITE_URL . 'gestion/"><span style="text-decoration: underline;">vous connecter au back office</span></a> avec vos identifiants</div><br/></pre>';
 
             // Creation d'un privilege
             $privilege = new Resources\Entities\Privilege;
@@ -176,16 +176,14 @@ class console extends SecuredClass {
             $this->em->persist($config);
             $this->em->persist($config2);
             $this->em->flush();
-          }catch(Exception $e){
-            if(preg_match('#Unknown database#', $e->getMessage()))
+          } catch (Exception $e) {
+            if (preg_match('#Unknown database#', $e->getMessage()))
               $html .= '
-                    <pre><br/><div class="alert alert-error">La base de donnée "'.PDO_DATABASE_NAME.'" n\'existe pas.</div></pre>';
-            elseif(preg_match('#Base table or view already exists#', $e->getMessage()))
+                    <pre><br/><div class="alert alert-error">La base de donnée "' . PDO_DATABASE_NAME . '" n\'existe pas.</div></pre>'; elseif (preg_match('#Base table or view already exists#', $e->getMessage()))
               $html .= '
-                    <pre><br/><div class="alert alert-error">Le schéma est déjà créé, vous ne pouvez pas répéter cette action.</div></pre>';
-            else
+                    <pre><br/><div class="alert alert-error">Le schéma est déjà créé, vous ne pouvez pas répéter cette action.</div></pre>'; else
               $html .= '
-                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>'.$e->getMessage().'</div></pre>';
+                    <pre><br/><div class="alert alert-error">Une exception est apparue :<br/>' . $e->getMessage() . '</div></pre>';
           }
           break;
       }
@@ -199,10 +197,10 @@ class console extends SecuredClass {
     $html .= '
                     <br/>
 
-                    <!--- <a href="'.SITE_URL.'apps/console/createschema" title="Creer le schema">Générer le schéma</a><br/><br/>-->
-                    - <a href="'.SITE_URL.'apps/console/createfirstschema" title="Creer le schema">Générer le schéma avec un premier enregistrement</a><br/><br/>
-                    - <a href="'.SITE_URL.'apps/console/deleteschema" title="Supprimer le schema" onclick="if(confirm(\'Voulez-vous vraiment supprimer le schema ?\')) return true; else return false;">Supprimer le schéma</a><br/><br/>
-                    - <a href="'.SITE_URL.'apps/console/updateschema" title="Mettre a jour le schema">Mettre a jour le schéma</a><br/>';
+                    <!--- <a href="' . SITE_URL . 'apps/console/createschema" title="Creer le schema">Générer le schéma</a><br/><br/>-->
+                    - <a href="' . SITE_URL . 'apps/console/createfirstschema" title="Creer le schema">Générer le schéma avec un premier enregistrement</a><br/><br/>
+                    - <a href="' . SITE_URL . 'apps/console/deleteschema" title="Supprimer le schema" onclick="if(confirm(\'Voulez-vous vraiment supprimer le schema ?\')) return true; else return false;">Supprimer le schéma</a><br/><br/>
+                    - <a href="' . SITE_URL . 'apps/console/updateschema" title="Mettre a jour le schema">Mettre a jour le schéma</a><br/>';
 
     return $html;
   }

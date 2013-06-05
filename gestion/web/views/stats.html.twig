@@ -53,9 +53,12 @@
 
                 <div class="control-group">
                   <label class="control-label">Du :</label>
+
                   <div class="controls">
-                    <div class="input-append date" id="dpstart" data-date="{{ startDate }}" data-date-format="dd-mm-yyyy">
+                    <div class="input-append date" id="dpstart" data-date="{{ startDate }}"
+                         data-date-format="dd-mm-yyyy">
                       <input class="span2" size="16" name="dateStart" type="text" value="{{ startDate }}" readonly="">
+
                       <div class="add-on" id="oui"><i class="icon-calendar"></i></div>
                     </div>
                   </div>
@@ -63,9 +66,11 @@
 
                 <div class="control-group">
                   <label class="control-label">Au :</label>
+
                   <div class="controls">
                     <div class="input-append date" id="dpend" data-date="{{ endDate }}" data-date-format="dd-mm-yyyy">
                       <input class="span2" size="16" type="text" name="dateEnd" value="{{ endDate }}" readonly="">
+
                       <div class="add-on"><i class="icon-calendar"></i></div>
                     </div>
                   </div>
@@ -73,7 +78,7 @@
 
                 <div class="control-group">
                   <div class="controls">
-                    <input type="submit" class="btn btn-small" value="Valider" />
+                    <input type="submit" class="btn btn-small" value="Valider"/>
                   </div>
                 </div>
 
@@ -307,7 +312,7 @@
   <script>
     var argetFwkUtilsLib = new ArgetFwkUtilsLib();
 
-    $('#dpstart').datepicker().on('changeDate', function(ev){
+    $('#dpstart').datepicker().on('changeDate', function (ev) {
 
       var startValue = $(this).find('input').val();
       arrayStart = startValue.split('-');
@@ -318,12 +323,12 @@
 
       $('#dpstart').datepicker('hide');
 
-      if (startValue.valueOf() > endValue.valueOf()){
+      if (startValue.valueOf() > endValue.valueOf()) {
         $(this).find('input').val($('#dpend').find('input').val());
       }
     });
 
-    $('#dpend').datepicker().on('changeDate', function(ev){
+    $('#dpend').datepicker().on('changeDate', function (ev) {
 
       var endValue = $(this).find('input').val();
       arrayEnd = endValue.split('-');
@@ -334,7 +339,7 @@
 
       $('#dpend').datepicker('hide');
 
-      if (endValue.valueOf() < startValue.valueOf()){
+      if (endValue.valueOf() < startValue.valueOf()) {
         $(this).find('input').val($('#dpstart').find('input').val());
       }
 

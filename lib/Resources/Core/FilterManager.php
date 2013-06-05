@@ -4,6 +4,7 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Classe regroupant les fonctions de bases présentes dans tous les filtres
+ *
  * @author f.mithieux
  */
 class FilterManager extends FwkManager {
@@ -19,17 +20,19 @@ class FilterManager extends FwkManager {
     if (CONFIG_REQUIRE_BDD)
       $this->em = FwkLoader::getEntityManager();
 
-    if($this->checkDBConnection())
+    if ($this->checkDBConnection())
       $this->execute();
   }
 
-  private function checkDBConnection(){
+  private function checkDBConnection() {
 
-    try{
+    try {
       $this->em->getRepository('Resources\Entities\Seo')->findOneBy(array('url' => ''));
+
       return true;
-    }catch(Exception $e){
-      header('Location: '.SITE_URL_BASE);
+    } catch (Exception $e) {
+      header('Location: ' . SITE_URL_BASE);
+
       return false;
     }
 

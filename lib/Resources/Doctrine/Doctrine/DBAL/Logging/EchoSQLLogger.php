@@ -33,29 +33,26 @@ namespace Doctrine\DBAL\Logging;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class EchoSQLLogger implements SQLLogger
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function startQuery($sql, array $params = null, array $types = null)
-    {
-    	echo $sql . PHP_EOL;
+class EchoSQLLogger implements SQLLogger {
+  /**
+   * {@inheritdoc}
+   */
+  public function startQuery($sql, array $params = null, array $types = null) {
+    echo $sql . PHP_EOL;
 
-        if ($params) {
-            var_dump($params);
-    	}
-
-        if ($types) {
-            var_dump($types);
-        }
+    if ($params) {
+      var_dump($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function stopQuery()
-    {
-
+    if ($types) {
+      var_dump($types);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function stopQuery() {
+
+  }
 }

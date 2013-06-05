@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class OrderBy implements Annotation
-{
-    /** @var array<string> */
-    public $value;
+final class OrderBy implements Annotation {
+  /** @var array<string> */
+  public $value;
 }

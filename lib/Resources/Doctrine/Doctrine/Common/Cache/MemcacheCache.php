@@ -34,88 +34,75 @@ use \Memcache;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  David Abdemoulaie <dave@hobodave.com>
  */
-class MemcacheCache extends CacheProvider
-{
-    /**
-     * @var Memcache
-     */
-    private $memcache;
+class MemcacheCache extends CacheProvider {
+  /**
+   * @var Memcache
+   */
+  private $memcache;
 
-    /**
-     * Sets the memcache instance to use.
-     *
-     * @param Memcache $memcache
-     */
-    public function setMemcache(Memcache $memcache)
-    {
-        $this->memcache = $memcache;
+  /**
+   * Sets the memcache instance to use.
+   *
+   * @param Memcache $memcache
+   */
+  public function setMemcache(Memcache $memcache) {
+    $this->memcache = $memcache;
+  }
+
+  /**
+   * Gets the memcache instance used by the cache.
+   *
+   * @return Memcache
+   */
+  public function getMemcache() {
+    return $this->memcache;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFetch($id) {
+    return $this->memcache->get($id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function doContains($id) {
+    return (bool)$this->memcache->get($id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function doSave($id, $data, $lifeTime = 0) {
+    if ($lifeTime > 30 * 24 * 3600) {
+      $lifeTime = time() + $lifeTime;
     }
 
-    /**
-     * Gets the memcache instance used by the cache.
-     *
-     * @return Memcache
-     */
-    public function getMemcache()
-    {
-        return $this->memcache;
-    }
+    return $this->memcache->set($id, $data, 0, (int)$lifeTime);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFetch($id)
-    {
-        return $this->memcache->get($id);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doDelete($id) {
+    return $this->memcache->delete($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doContains($id)
-    {
-        return (bool) $this->memcache->get($id);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFlush() {
+    return $this->memcache->flush();
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doSave($id, $data, $lifeTime = 0)
-    {
-        if ($lifeTime > 30 * 24 * 3600) {
-            $lifeTime = time() + $lifeTime;
-        }
-        return $this->memcache->set($id, $data, 0, (int) $lifeTime);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doGetStats() {
+    $stats = $this->memcache->getStats();
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doDelete($id)
-    {
-        return $this->memcache->delete($id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFlush()
-    {
-        return $this->memcache->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function doGetStats()
-    {
-        $stats = $this->memcache->getStats();
-        return array(
-            Cache::STATS_HITS   => $stats['get_hits'],
-            Cache::STATS_MISSES => $stats['get_misses'],
-            Cache::STATS_UPTIME => $stats['uptime'],
-            Cache::STATS_MEMORY_USAGE       => $stats['bytes'],
-            Cache::STATS_MEMORY_AVAILIABLE  => $stats['limit_maxbytes'],
-        );
-    }
+    return array(Cache::STATS_HITS => $stats['get_hits'], Cache::STATS_MISSES => $stats['get_misses'], Cache::STATS_UPTIME => $stats['uptime'], Cache::STATS_MEMORY_USAGE => $stats['bytes'], Cache::STATS_MEMORY_AVAILIABLE => $stats['limit_maxbytes'],);
+  }
 }

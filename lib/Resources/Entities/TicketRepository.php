@@ -30,7 +30,7 @@ class TicketRepository extends EntityRepository {
    */
   public function getStatut(\Resources\Entities\Ticket $objTicket) {
 
-    switch($objTicket->getStatut()){
+    switch ($objTicket->getStatut()) {
 
       case 'ferme':
         $statut = '<div class="alert alert-error alert-nopadding">fermé</div>';

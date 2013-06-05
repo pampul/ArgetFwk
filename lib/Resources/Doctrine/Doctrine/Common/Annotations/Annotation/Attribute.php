@@ -28,20 +28,19 @@ namespace Doctrine\Common\Annotations\Annotation;
  *
  * @Annotation
  */
-final class Attribute
-{
-    /**
-     * @var string
-     */
-    public $name;
+final class Attribute {
+  /**
+   * @var string
+   */
+  public $name;
 
-    /**
-     * @var string
-     */
-    public $type;
+  /**
+   * @var string
+   */
+  public $type;
 
-    /**
-     * @var boolean
-     */
-    public $required = false;
+  /**
+   * @var boolean
+   */
+  public $required = false;
 }

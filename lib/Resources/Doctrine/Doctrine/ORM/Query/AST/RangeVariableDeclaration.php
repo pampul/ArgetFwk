@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class RangeVariableDeclaration extends Node
-{
-    public $abstractSchemaName;
-    public $aliasIdentificationVariable;
+class RangeVariableDeclaration extends Node {
+  public $abstractSchemaName;
+  public $aliasIdentificationVariable;
 
-    public function __construct($abstractSchemaName, $aliasIdentificationVar)
-    {
-        $this->abstractSchemaName = $abstractSchemaName;
-        $this->aliasIdentificationVariable = $aliasIdentificationVar;
-    }
+  public function __construct($abstractSchemaName, $aliasIdentificationVar) {
+    $this->abstractSchemaName          = $abstractSchemaName;
+    $this->aliasIdentificationVariable = $aliasIdentificationVar;
+  }
 
-    public function dispatch($walker)
-    {
-        return $walker->walkRangeVariableDeclaration($this);
-    }
+  public function dispatch($walker) {
+    return $walker->walkRangeVariableDeclaration($this);
+  }
 }

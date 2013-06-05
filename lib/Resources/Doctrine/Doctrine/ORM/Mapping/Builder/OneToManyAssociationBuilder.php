@@ -28,35 +28,34 @@ namespace Doctrine\ORM\Mapping\Builder;
  * @since       2.0
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class OneToManyAssociationBuilder extends AssociationBuilder
-{
-    /**
-     * @param array $fieldNames
-     * @return OneToManyAssociationBuilder
-     */
-    public function setOrderBy(array $fieldNames)
-    {
-        $this->mapping['orderBy'] = $fieldNames;
-        return $this;
-    }
+class OneToManyAssociationBuilder extends AssociationBuilder {
+  /**
+   * @param array $fieldNames
+   * @return OneToManyAssociationBuilder
+   */
+  public function setOrderBy(array $fieldNames) {
+    $this->mapping['orderBy'] = $fieldNames;
 
-    public function setIndexBy($fieldName)
-    {
-        $this->mapping['indexBy'] = $fieldName;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @return ClassMetadataBuilder
-     */
-    public function build()
-    {
-        $mapping = $this->mapping;
-        if ($this->joinColumns) {
-            $mapping['joinColumns'] = $this->joinColumns;
-        }
-        $cm = $this->builder->getClassMetadata();
-        $cm->mapOneToMany($mapping);
-        return $this->builder;
+  public function setIndexBy($fieldName) {
+    $this->mapping['indexBy'] = $fieldName;
+
+    return $this;
+  }
+
+  /**
+   * @return ClassMetadataBuilder
+   */
+  public function build() {
+    $mapping = $this->mapping;
+    if ($this->joinColumns) {
+      $mapping['joinColumns'] = $this->joinColumns;
     }
+    $cm = $this->builder->getClassMetadata();
+    $cm->mapOneToMany($mapping);
+
+    return $this->builder;
+  }
 }

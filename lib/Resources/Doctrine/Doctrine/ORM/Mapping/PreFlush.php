@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("METHOD")
  */
-final class PreFlush implements Annotation
-{
+final class PreFlush implements Annotation {
 }

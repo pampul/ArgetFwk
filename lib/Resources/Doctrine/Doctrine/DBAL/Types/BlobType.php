@@ -26,42 +26,38 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  *
  * @since 2.2
  */
-class BlobType extends Type
-{
-    /** @override */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getBlobTypeDeclarationSQL($fieldDeclaration);
+class BlobType extends Type {
+  /** @override */
+  public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
+    return $platform->getBlobTypeDeclarationSQL($fieldDeclaration);
+  }
+
+  /**
+   * Converts a value from its database representation to its PHP representation
+   * of this type.
+   *
+   * @param mixed            $value    The value to convert.
+   * @param AbstractPlatform $platform The currently used database platform.
+   * @return mixed The PHP representation of the value.
+   */
+  public function convertToPHPValue($value, AbstractPlatform $platform) {
+    if (null === $value) {
+      return null;
+    }
+    if (is_string($value)) {
+      $value = fopen('data://text/plain;base64,' . base64_encode($value), 'r');
+    } else if (!is_resource($value)) {
+      throw ConversionException::conversionFailed($value, self::BLOB);
     }
 
-    /**
-     * Converts a value from its database representation to its PHP representation
-     * of this type.
-     *
-     * @param mixed $value The value to convert.
-     * @param AbstractPlatform $platform The currently used database platform.
-     * @return mixed The PHP representation of the value.
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        if (null === $value) {
-            return null;
-        }
-        if (is_string($value)) {
-            $value = fopen('data://text/plain;base64,' . base64_encode($value), 'r');
-        } else if ( ! is_resource($value)) {
-            throw ConversionException::conversionFailed($value, self::BLOB);
-        }
-        return $value;
-    }
+    return $value;
+  }
 
-    public function getName()
-    {
-        return Type::BLOB;
-    }
+  public function getName() {
+    return Type::BLOB;
+  }
 
-    public function getBindingType()
-    {
-        return \PDO::PARAM_LOB;
-    }
+  public function getBindingType() {
+    return \PDO::PARAM_LOB;
+  }
 }

@@ -24,46 +24,41 @@ use Doctrine\DBAL\Driver as DriverInterface;
 /**
  * @author Kim Hemsø Rasmussen <kimhemsoe@gmail.com>
  */
-class Driver implements DriverInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
-    {
-        return new MysqliConnection($params, $username, $password, $driverOptions);
-    }
+class Driver implements DriverInterface {
+  /**
+   * {@inheritdoc}
+   */
+  public function connect(array $params, $username = null, $password = null, array $driverOptions = array()) {
+    return new MysqliConnection($params, $username, $password, $driverOptions);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'mysqli';
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function getName() {
+    return 'mysqli';
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
-    {
-        return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function getSchemaManager(\Doctrine\DBAL\Connection $conn) {
+    return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDatabasePlatform()
-    {
-        return new \Doctrine\DBAL\Platforms\MySqlPlatform();
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function getDatabasePlatform() {
+    return new \Doctrine\DBAL\Platforms\MySqlPlatform();
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDatabase(\Doctrine\DBAL\Connection $conn)
-    {
-        $params = $conn->getParams();
-        return $params['dbname'];
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function getDatabase(\Doctrine\DBAL\Connection $conn) {
+    $params = $conn->getParams();
+
+    return $params['dbname'];
+  }
 }

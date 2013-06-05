@@ -32,23 +32,19 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ArithmeticExpression extends Node
-{
-    public $simpleArithmeticExpression;
-    public $subselect;
+class ArithmeticExpression extends Node {
+  public $simpleArithmeticExpression;
+  public $subselect;
 
-    public function isSimpleArithmeticExpression()
-    {
-        return (bool) $this->simpleArithmeticExpression;
-    }
+  public function isSimpleArithmeticExpression() {
+    return (bool)$this->simpleArithmeticExpression;
+  }
 
-    public function isSubselect()
-    {
-        return (bool) $this->subselect;
-    }
+  public function isSubselect() {
+    return (bool)$this->subselect;
+  }
 
-    public function dispatch($walker)
-    {
-        return $walker->walkArithmeticExpression($this);
-    }
+  public function dispatch($walker) {
+    return $walker->walkArithmeticExpression($this);
+  }
 }

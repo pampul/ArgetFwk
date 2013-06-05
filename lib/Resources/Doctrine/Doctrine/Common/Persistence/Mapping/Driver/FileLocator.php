@@ -28,42 +28,41 @@ namespace Doctrine\Common\Persistence\Mapping\Driver;
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface FileLocator
-{
-    /**
-     * Locate mapping file for the given class name.
-     *
-     * @param string $className
-     * @return string
-     */
-    function findMappingFile($className);
+interface FileLocator {
+  /**
+   * Locate mapping file for the given class name.
+   *
+   * @param string $className
+   * @return string
+   */
+  function findMappingFile($className);
 
-    /**
-     * Get all class names that are found with this file locator.
-     *
-     * @param string $globalBasename Passed to allow excluding the basename
-     * @return array
-     */
-    function getAllClassNames($globalBasename);
+  /**
+   * Get all class names that are found with this file locator.
+   *
+   * @param string $globalBasename Passed to allow excluding the basename
+   * @return array
+   */
+  function getAllClassNames($globalBasename);
 
-    /**
-     * Check if a file can be found for this class name.
-     *
-     * @return bool
-     */
-    function fileExists($className);
+  /**
+   * Check if a file can be found for this class name.
+   *
+   * @return bool
+   */
+  function fileExists($className);
 
-    /**
-     * Get all the paths that this file locator looks for mapping files.
-     *
-     * @return array
-     */
-    function getPaths();
+  /**
+   * Get all the paths that this file locator looks for mapping files.
+   *
+   * @return array
+   */
+  function getPaths();
 
-    /**
-     * Get the file extension that mapping files are suffixed with.
-     *
-     * @return string
-     */
-    function getFileExtension();
+  /**
+   * Get the file extension that mapping files are suffixed with.
+   *
+   * @return string
+   */
+  function getFileExtension();
 }

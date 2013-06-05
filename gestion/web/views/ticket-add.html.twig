@@ -1,36 +1,40 @@
-<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm" data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
+<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm"
+      data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
 
-    <div class="control-group">
-        <label class="control-label">Type de ticket :</label>
-        <div class="controls">
-            <select name="typeTicket">
-                <option value="Bug">Bug</option>
-                <option value="Erreur Critique">Erreur Critique</option>
-                <option value="Amelioration">Amélioration</option>
-                <option value="Question">Question</option>
-            </select>
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label">Titre :</label>
-        <div class="controls">
-            <input type="text" name="titre" placeholder="Titre…">
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label">Texte :</label>
-        <div class="controls">
-            <textarea name="texte" rows="8" style="width: 50%;"></textarea>
-        </div>
-    </div>
+  <div class="control-group">
+    <label class="control-label">Type de ticket :</label>
 
-    <input type="hidden" name="idAdmin" value="{{ idAdmin }}">
-
-    <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Valider</button>  
-        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+    <div class="controls">
+      <select name="typeTicket">
+        <option value="Bug">Bug</option>
+        <option value="Erreur Critique">Erreur Critique</option>
+        <option value="Amelioration">Amélioration</option>
+        <option value="Question">Question</option>
+      </select>
     </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Titre :</label>
+
+    <div class="controls">
+      <input type="text" name="titre" placeholder="Titre…">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Texte :</label>
+
+    <div class="controls">
+      <textarea name="texte" rows="8" style="width: 50%;"></textarea>
+    </div>
+  </div>
+
+  <input type="hidden" name="idAdmin" value="{{ idAdmin }}">
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Valider</button>
+    <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+  </div>
 
 </form>

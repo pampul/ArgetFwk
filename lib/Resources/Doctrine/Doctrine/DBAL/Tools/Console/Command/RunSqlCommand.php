@@ -19,9 +19,7 @@
 
 namespace Doctrine\DBAL\Tools\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console;
+use Symfony\Component\Console\Input\InputArgument, Symfony\Component\Console\Input\InputOption, Symfony\Component\Console;
 
 /**
  * Task for executing arbitrary SQL that can come from a file or directly from
@@ -35,53 +33,42 @@ use Symfony\Component\Console\Input\InputArgument,
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class RunSqlCommand extends Console\Command\Command
-{
-    /**
-     * @see Console\Command\Command
-     */
-    protected function configure()
-    {
-        $this
-        ->setName('dbal:run-sql')
-        ->setDescription('Executes arbitrary SQL directly from the command line.')
-        ->setDefinition(array(
-            new InputArgument('sql', InputArgument::REQUIRED, 'The SQL statement to execute.'),
-            new InputOption('depth', null, InputOption::VALUE_REQUIRED, 'Dumping depth of result set.', 7)
-        ))
-        ->setHelp(<<<EOT
+class RunSqlCommand extends Console\Command\Command {
+  /**
+   * @see Console\Command\Command
+   */
+  protected function configure() {
+    $this->setName('dbal:run-sql')->setDescription('Executes arbitrary SQL directly from the command line.')->setDefinition(array(new InputArgument('sql', InputArgument::REQUIRED, 'The SQL statement to execute.'), new InputOption('depth', null, InputOption::VALUE_REQUIRED, 'Dumping depth of result set.', 7)))->setHelp(<<<EOT
 Executes arbitrary SQL directly from the command line.
-EOT
-        );
+EOT);
+  }
+
+  /**
+   * @see Console\Command\Command
+   */
+  protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
+    $conn = $this->getHelper('db')->getConnection();
+
+    if (($sql = $input->getArgument('sql')) === null) {
+      throw new \RuntimeException("Argument 'SQL' is required in order to execute this command correctly.");
     }
 
-    /**
-     * @see Console\Command\Command
-     */
-    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output)
-    {
-        $conn = $this->getHelper('db')->getConnection();
+    $depth = $input->getOption('depth');
 
-        if (($sql = $input->getArgument('sql')) === null) {
-            throw new \RuntimeException("Argument 'SQL' is required in order to execute this command correctly.");
-        }
-
-        $depth = $input->getOption('depth');
-
-        if ( ! is_numeric($depth)) {
-            throw new \LogicException("Option 'depth' must contains an integer value");
-        }
-
-        if (preg_match('/^select/i', $sql)) {
-           $resultSet = $conn->fetchAll($sql);
-        } else {
-            $resultSet = $conn->executeUpdate($sql);
-        }
-
-        ob_start();
-        \Doctrine\Common\Util\Debug::dump($resultSet, (int) $depth);
-        $message = ob_get_clean();
-
-        $output->write($message);
+    if (!is_numeric($depth)) {
+      throw new \LogicException("Option 'depth' must contains an integer value");
     }
+
+    if (preg_match('/^select/i', $sql)) {
+      $resultSet = $conn->fetchAll($sql);
+    } else {
+      $resultSet = $conn->executeUpdate($sql);
+    }
+
+    ob_start();
+    \Doctrine\Common\Util\Debug::dump($resultSet, (int)$depth);
+    $message = ob_get_clean();
+
+    $output->write($message);
+  }
 }

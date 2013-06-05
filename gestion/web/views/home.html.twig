@@ -18,84 +18,85 @@
 
 {# Contenu de la page #}
 {% block content %}
-<div class="hero-unit">
+  <div class="hero-unit">
 
     <h3 class="fwk-title">
-        Espace d'administration
+      Espace d'administration
     </h3>
 
     <small>
-        Bonjour {{ admin.prenom }} {{ admin.nom }}, bienvenue dans votre espace privé.<br/>
-        Grâce à cet outil d'administration, vous pouvez gérer votre site internet, consulter les logs, ainsi que suivre des statistiques sur demande.
+      Bonjour {{ admin.prenom }} {{ admin.nom }}, bienvenue dans votre espace privé.<br/>
+      Grâce à cet outil d'administration, vous pouvez gérer votre site internet, consulter les logs, ainsi que suivre
+      des statistiques sur demande.
     </small>
 
     <br/><br/>
 
     <div class="row-fluid">
-        <div class="span4">
-            <div class="widget-box">
-                <div class="widget-box-content nobackground">
-                    <img src="web/img/new_black.png" style="max-width: 15%;" /><br/>
-                    <a href="#" title="Ajouter un produit">Nouveau produit</a><br/>
-                    <small>
-                        Créez un nouveau produit avec les attributs que vous souhaitez.
-                    </small>
-                </div>
-            </div>
+      <div class="span4">
+        <div class="widget-box">
+          <div class="widget-box-content nobackground">
+            <img src="web/img/new_black.png" style="max-width: 15%;"/><br/>
+            <a href="#" title="Ajouter un produit">Nouveau produit</a><br/>
+            <small>
+              Créez un nouveau produit avec les attributs que vous souhaitez.
+            </small>
+          </div>
         </div>
-        <div class="span4">
-            <div class="widget-box">
-                <div class="widget-box-content nobackground">
-                    <img src="web/img/new_blue.png" style="max-width: 15%;" /><br/>
-                    <a href="#" title="Ajouter un produit">Nouvelle catégorie</a><br/>
-                    <small>
-                        Ajoutez une catégorie afin de mieux organiser vos articles.
-                    </small>
-                </div>
-            </div>
+      </div>
+      <div class="span4">
+        <div class="widget-box">
+          <div class="widget-box-content nobackground">
+            <img src="web/img/new_blue.png" style="max-width: 15%;"/><br/>
+            <a href="#" title="Ajouter un produit">Nouvelle catégorie</a><br/>
+            <small>
+              Ajoutez une catégorie afin de mieux organiser vos articles.
+            </small>
+          </div>
         </div>
-        <div class="span4">
-            <div class="widget-box">
-                <div class="widget-box-content nobackground">
-                    <img src="web/img/new_yellow.png" style="max-width: 15%;" /><br/>
-                    <a href="#" title="Ajouter un produit">Nouvel article</a><br/>
-                    <small>
-                        Ajoutez un nouvel article et placez-le dans la catégorie souhaité.
-                    </small>
-                </div>
-            </div>
+      </div>
+      <div class="span4">
+        <div class="widget-box">
+          <div class="widget-box-content nobackground">
+            <img src="web/img/new_yellow.png" style="max-width: 15%;"/><br/>
+            <a href="#" title="Ajouter un produit">Nouvel article</a><br/>
+            <small>
+              Ajoutez un nouvel article et placez-le dans la catégorie souhaité.
+            </small>
+          </div>
         </div>
+      </div>
     </div>
 
-</div>
+  </div>
 
-<div class="row">
+  <div class="row">
 
     <div class="span6">
-        <div class="widget-box">
-            <div class="widget-box-content">
-                {{ gChartPie.drawHtml|raw }}
-                </div>
-            </div>
+      <div class="widget-box">
+        <div class="widget-box-content">
+          {{ gChartPie.drawHtml|raw }}
         </div>
+      </div>
+    </div>
 
-        <div class="span6">
-            <div class="widget-box">
-                <div class="widget-box-content">
-                {{ gChartLine.drawHtml|raw }}
-                    </div>
-                </div>
-            </div>
-
+    <div class="span6">
+      <div class="widget-box">
+        <div class="widget-box-content">
+          {{ gChartLine.drawHtml|raw }}
         </div>
+      </div>
+    </div>
 
-        <br/>
+  </div>
 
-        <div class="alert alert-info">
-            <a href="dashboard/stats" title="Plus de statistiques">>> Accéder à toutes les statistiques ...</a>
-        </div>
+  <br/>
 
-        <br/><br/>
+  <div class="alert alert-info">
+    <a href="dashboard/stats" title="Plus de statistiques">>> Accéder à toutes les statistiques ...</a>
+  </div>
+
+  <br/><br/>
 
 
 
@@ -105,6 +106,6 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-{{ gChartPie.drawJs|raw }}
-{{ gChartLine.drawJs|raw }}
+  {{ gChartPie.drawJs|raw }}
+  {{ gChartLine.drawJs|raw }}
 {% endblock %}

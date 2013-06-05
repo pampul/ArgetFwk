@@ -23,14 +23,13 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class DiscriminatorColumn implements Annotation
-{
-    /** @var string */
-    public $name;
-    /** @var string */
-    public $type;
-    /** @var integer */
-    public $length;
-    /** @var mixed */
-    public $fieldName; // field name used in non-object hydration (array/scalar)
+final class DiscriminatorColumn implements Annotation {
+  /** @var string */
+  public $name;
+  /** @var string */
+  public $type;
+  /** @var integer */
+  public $length;
+  /** @var mixed */
+  public $fieldName; // field name used in non-object hydration (array/scalar)
 }

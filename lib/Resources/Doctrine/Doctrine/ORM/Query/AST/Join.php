@@ -33,26 +33,23 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Join extends Node
-{
-    const JOIN_TYPE_LEFT = 1;
-    const JOIN_TYPE_LEFTOUTER = 2;
-    const JOIN_TYPE_INNER = 3;
+class Join extends Node {
+  const JOIN_TYPE_LEFT      = 1;
+  const JOIN_TYPE_LEFTOUTER = 2;
+  const JOIN_TYPE_INNER     = 3;
 
-    public $joinType = self::JOIN_TYPE_INNER;
-    public $joinAssociationPathExpression = null;
-    public $aliasIdentificationVariable = null;
-    public $conditionalExpression = null;
+  public $joinType = self::JOIN_TYPE_INNER;
+  public $joinAssociationPathExpression = null;
+  public $aliasIdentificationVariable = null;
+  public $conditionalExpression = null;
 
-    public function __construct($joinType, $joinAssocPathExpr, $aliasIdentVar)
-    {
-        $this->joinType = $joinType;
-        $this->joinAssociationPathExpression = $joinAssocPathExpr;
-        $this->aliasIdentificationVariable = $aliasIdentVar;
-    }
+  public function __construct($joinType, $joinAssocPathExpr, $aliasIdentVar) {
+    $this->joinType                      = $joinType;
+    $this->joinAssociationPathExpression = $joinAssocPathExpr;
+    $this->aliasIdentificationVariable   = $aliasIdentVar;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkJoin($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkJoin($this);
+  }
 }

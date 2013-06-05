@@ -32,187 +32,173 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  * @author  Lukas Kahwe Smith <smith@pooteeweet.org>
  */
-abstract class AbstractManagerRegistry implements ManagerRegistry
-{
-    private $name;
-    private $connections;
-    private $managers;
-    private $defaultConnection;
-    private $defaultManager;
-    private $proxyInterfaceName;
+abstract class AbstractManagerRegistry implements ManagerRegistry {
+  private $name;
+  private $connections;
+  private $managers;
+  private $defaultConnection;
+  private $defaultManager;
+  private $proxyInterfaceName;
 
-    public function __construct($name, array $connections, array $managers, $defaultConnection, $defaultManager, $proxyInterfaceName)
-    {
-        $this->name = $name;
-        $this->connections = $connections;
-        $this->managers = $managers;
-        $this->defaultConnection = $defaultConnection;
-        $this->defaultManager = $defaultManager;
-        $this->proxyInterfaceName = $proxyInterfaceName;
+  public function __construct($name, array $connections, array $managers, $defaultConnection, $defaultManager, $proxyInterfaceName) {
+    $this->name               = $name;
+    $this->connections        = $connections;
+    $this->managers           = $managers;
+    $this->defaultConnection  = $defaultConnection;
+    $this->defaultManager     = $defaultManager;
+    $this->proxyInterfaceName = $proxyInterfaceName;
+  }
+
+  /**
+   * Fetches/creates the given services
+   *
+   * A service in this context is connection or a manager instance
+   *
+   * @param string $name name of the service
+   * @return object instance of the given service
+   */
+  abstract protected function getService($name);
+
+  /**
+   * Resets the given services
+   *
+   * A service in this context is connection or a manager instance
+   *
+   * @param string $name name of the service
+   * @return void
+   */
+  abstract protected function resetService($name);
+
+  /**
+   * Get the name of the registry
+   *
+   * @return string
+   */
+  public function getName() {
+    return $this->name;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getConnection($name = null) {
+    if (null === $name) {
+      $name = $this->defaultConnection;
     }
 
-    /**
-     * Fetches/creates the given services
-     *
-     * A service in this context is connection or a manager instance
-     *
-     * @param string $name name of the service
-     * @return object instance of the given service
-     */
-    abstract protected function getService($name);
-
-    /**
-     * Resets the given services
-     *
-     * A service in this context is connection or a manager instance
-     *
-     * @param string $name name of the service
-     * @return void
-     */
-    abstract protected function resetService($name);
-
-    /**
-     * Get the name of the registry
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
+    if (!isset($this->connections[$name])) {
+      throw new \InvalidArgumentException(sprintf('Doctrine %s Connection named "%s" does not exist.', $this->name, $name));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getConnection($name = null)
-    {
-        if (null === $name) {
-            $name = $this->defaultConnection;
-        }
+    return $this->getService($this->connections[$name]);
+  }
 
-        if (!isset($this->connections[$name])) {
-            throw new \InvalidArgumentException(sprintf('Doctrine %s Connection named "%s" does not exist.', $this->name, $name));
-        }
+  /**
+   * @inheritdoc
+   */
+  public function getConnectionNames() {
+    return $this->connections;
+  }
 
-        return $this->getService($this->connections[$name]);
+  /**
+   * @inheritdoc
+   */
+  public function getConnections() {
+    $connections = array();
+    foreach ($this->connections as $name => $id) {
+      $connections[$name] = $this->getService($id);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getConnectionNames()
-    {
-        return $this->connections;
+    return $connections;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getDefaultConnectionName() {
+    return $this->defaultConnection;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getDefaultManagerName() {
+    return $this->defaultManager;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getManager($name = null) {
+    if (null === $name) {
+      $name = $this->defaultManager;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getConnections()
-    {
-        $connections = array();
-        foreach ($this->connections as $name => $id) {
-            $connections[$name] = $this->getService($id);
-        }
-
-        return $connections;
+    if (!isset($this->managers[$name])) {
+      throw new \InvalidArgumentException(sprintf('Doctrine %s Manager named "%s" does not exist.', $this->name, $name));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultConnectionName()
-    {
-        return $this->defaultConnection;
+    return $this->getService($this->managers[$name]);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getManagerForClass($class) {
+    $proxyClass = new \ReflectionClass($class);
+    if ($proxyClass->implementsInterface($this->proxyInterfaceName)) {
+      $class = $proxyClass->getParentClass()->getName();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultManagerName()
-    {
-        return $this->defaultManager;
+    foreach ($this->managers as $id) {
+      $manager = $this->getService($id);
+
+      if (!$manager->getMetadataFactory()->isTransient($class)) {
+        return $manager;
+      }
+    }
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getManagerNames() {
+    return $this->managers;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getManagers() {
+    $dms = array();
+    foreach ($this->managers as $name => $id) {
+      $dms[$name] = $this->getService($id);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getManager($name = null)
-    {
-        if (null === $name) {
-            $name = $this->defaultManager;
-        }
+    return $dms;
+  }
 
-        if (!isset($this->managers[$name])) {
-            throw new \InvalidArgumentException(sprintf('Doctrine %s Manager named "%s" does not exist.', $this->name, $name));
-        }
+  /**
+   * @inheritdoc
+   */
+  public function getRepository($persistentObjectName, $persistentManagerName = null) {
+    return $this->getManager($persistentManagerName)->getRepository($persistentObjectName);
+  }
 
-        return $this->getService($this->managers[$name]);
+  /**
+   * @inheritdoc
+   */
+  public function resetManager($name = null) {
+    if (null === $name) {
+      $name = $this->defaultManager;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getManagerForClass($class)
-    {
-        $proxyClass = new \ReflectionClass($class);
-        if ($proxyClass->implementsInterface($this->proxyInterfaceName)) {
-            $class = $proxyClass->getParentClass()->getName();
-        }
-
-        foreach ($this->managers as $id) {
-            $manager = $this->getService($id);
-
-            if (!$manager->getMetadataFactory()->isTransient($class)) {
-                return $manager;
-            }
-        }
+    if (!isset($this->managers[$name])) {
+      throw new \InvalidArgumentException(sprintf('Doctrine %s Manager named "%s" does not exist.', $this->name, $name));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getManagerNames()
-    {
-        return $this->managers;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getManagers()
-    {
-        $dms = array();
-        foreach ($this->managers as $name => $id) {
-            $dms[$name] = $this->getService($id);
-        }
-
-        return $dms;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getRepository($persistentObjectName, $persistentManagerName = null)
-    {
-        return $this->getManager($persistentManagerName)->getRepository($persistentObjectName);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function resetManager($name = null)
-    {
-        if (null === $name) {
-            $name = $this->defaultManager;
-        }
-
-        if (!isset($this->managers[$name])) {
-            throw new \InvalidArgumentException(sprintf('Doctrine %s Manager named "%s" does not exist.', $this->name, $name));
-        }
-
-        // force the creation of a new document manager
-        // if the current one is closed
-        $this->resetService($this->managers[$name]);
-    }
+    // force the creation of a new document manager
+    // if the current one is closed
+    $this->resetService($this->managers[$name]);
+  }
 }

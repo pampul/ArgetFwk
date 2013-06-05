@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class DiscriminatorMap implements Annotation
-{
-    /** @var array<string> */
-    public $value;
+final class DiscriminatorMap implements Annotation {
+  /** @var array<string> */
+  public $value;
 }

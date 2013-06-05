@@ -60,7 +60,7 @@ class BlogPostRevision {
     return $this->dateAdd;
   }
 
-  public function getDateAddLitteral(){
+  public function getDateAddLitteral() {
     return \DateUtils::getDateText($this->dateAdd->format('Y-m-d H:i'));
   }
 

@@ -32,30 +32,27 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class SqrtFunction extends FunctionNode
-{
-    public $simpleArithmeticExpression;
+class SqrtFunction extends FunctionNode {
+  public $simpleArithmeticExpression;
 
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        //TODO: Use platform to get SQL
-        return 'SQRT(' . $sqlWalker->walkSimpleArithmeticExpression($this->simpleArithmeticExpression) . ')';
-    }
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    //TODO: Use platform to get SQL
+    return 'SQRT(' . $sqlWalker->walkSimpleArithmeticExpression($this->simpleArithmeticExpression) . ')';
+  }
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_IDENTIFIER);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->simpleArithmeticExpression = $parser->SimpleArithmeticExpression();
+    $this->simpleArithmeticExpression = $parser->SimpleArithmeticExpression();
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }
 

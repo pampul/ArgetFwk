@@ -28,89 +28,73 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Index;
 
-class ReservedKeywordsValidator implements Visitor
-{
-    /**
-     * @var KeywordList[]
-     */
-    private $keywordLists = array();
+class ReservedKeywordsValidator implements Visitor {
+  /**
+   * @var KeywordList[]
+   */
+  private $keywordLists = array();
 
-    /**
-     * @var array
-     */
-    private $violations = array();
+  /**
+   * @var array
+   */
+  private $violations = array();
 
-    public function __construct(array $keywordLists)
-    {
-        $this->keywordLists = $keywordLists;
+  public function __construct(array $keywordLists) {
+    $this->keywordLists = $keywordLists;
+  }
+
+  public function getViolations() {
+    return $this->violations;
+  }
+
+  /**
+   * @param string $word
+   * @return array
+   */
+  private function isReservedWord($word) {
+    if ($word[0] == "`") {
+      $word = str_replace('`', '', $word);
     }
 
-    public function getViolations()
-    {
-        return $this->violations;
+    $keywordLists = array();
+    foreach ($this->keywordLists AS $keywordList) {
+      if ($keywordList->isKeyword($word)) {
+        $keywordLists[] = $keywordList->getName();
+      }
     }
 
-    /**
-     * @param string $word
-     * @return array
-     */
-    private function isReservedWord($word)
-    {
-        if ($word[0] == "`") {
-            $word = str_replace('`', '', $word);
-        }
+    return $keywordLists;
+  }
 
-        $keywordLists = array();
-        foreach ($this->keywordLists AS $keywordList) {
-            if ($keywordList->isKeyword($word)) {
-                $keywordLists[] = $keywordList->getName();
-            }
-        }
-        return $keywordLists;
+  private function addViolation($asset, $violatedPlatforms) {
+    if (!$violatedPlatforms) {
+      return;
     }
 
-    private function addViolation($asset, $violatedPlatforms)
-    {
-        if (!$violatedPlatforms) {
-            return;
-        }
+    $this->violations[] = $asset . ' keyword violations: ' . implode(', ', $violatedPlatforms);
+  }
 
-        $this->violations[] = $asset . ' keyword violations: ' . implode(', ', $violatedPlatforms);
-    }
+  public function acceptColumn(Table $table, Column $column) {
+    $this->addViolation('Table ' . $table->getName() . ' column ' . $column->getName(), $this->isReservedWord($column->getName()));
+  }
 
-    public function acceptColumn(Table $table, Column $column)
-    {
-        $this->addViolation(
-            'Table ' . $table->getName() . ' column ' . $column->getName(),
-            $this->isReservedWord($column->getName())
-        );
-    }
+  public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint) {
 
-    public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
-    {
+  }
 
-    }
+  public function acceptIndex(Table $table, Index $index) {
 
-    public function acceptIndex(Table $table, Index $index)
-    {
+  }
 
-    }
+  public function acceptSchema(Schema $schema) {
 
-    public function acceptSchema(Schema $schema)
-    {
+  }
 
-    }
+  public function acceptSequence(Sequence $sequence) {
 
-    public function acceptSequence(Sequence $sequence)
-    {
+  }
 
-    }
-
-    public function acceptTable(Table $table)
-    {
-        $this->addViolation(
-            'Table ' . $table->getName(),
-            $this->isReservedWord($table->getName())
-        );
-    }
+  public function acceptTable(Table $table) {
+    $this->addViolation('Table ' . $table->getName(), $this->isReservedWord($table->getName()));
+  }
 }

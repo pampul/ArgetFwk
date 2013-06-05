@@ -16,8 +16,8 @@ $uploadManager->setValidFormats('pdf,doc,docx');
 $arrayResult = $uploadManager->upload($_FILES['file']);
 
 if (isset($arrayResult['error'])) {
-    echo '<span style="color: red;">Erreur lors de l\'upload : ' . $arrayResult['error'] . '</span>';
+  echo '<span style="color: red;">Erreur lors de l\'upload : ' . $arrayResult['error'] . '</span>';
 } else {
-    echo '<a href="' . SITE_URL_BASE . 'gestion/web/uploads/files/' . $arrayResult['success'] . '" title="fichier joint">Fichier joint</a>';
+  echo '<a href="' . SITE_URL_BASE . 'gestion/web/uploads/files/' . $arrayResult['success'] . '" title="fichier joint">Fichier joint</a>';
 }
 ?>

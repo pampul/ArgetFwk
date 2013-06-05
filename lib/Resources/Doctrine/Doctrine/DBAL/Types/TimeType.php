@@ -26,43 +26,38 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  *
  * @since 2.0
  */
-class TimeType extends Type
-{
-    public function getName()
-    {
-        return Type::TIME;
+class TimeType extends Type {
+  public function getName() {
+    return Type::TIME;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
+    return $platform->getTimeTypeDeclarationSQL($fieldDeclaration);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    return ($value !== null) ? $value->format($platform->getTimeFormatString()) : null;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function convertToPHPValue($value, AbstractPlatform $platform) {
+    if ($value === null) {
+      return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getTimeTypeDeclarationSQL($fieldDeclaration);
+    $val = \DateTime::createFromFormat($platform->getTimeFormatString(), $value);
+    if (!$val) {
+      throw ConversionException::conversionFailedFormat($value, $this->getName(), $platform->getTimeFormatString());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
-    {
-        return ($value !== null)
-            ? $value->format($platform->getTimeFormatString()) : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        $val = \DateTime::createFromFormat($platform->getTimeFormatString(), $value);
-        if (!$val) {
-            throw ConversionException::conversionFailedFormat($value, $this->getName(), $platform->getTimeFormatString());
-        }
-        return $val;
-    }
+    return $val;
+  }
 }

@@ -32,61 +32,49 @@ namespace Doctrine\Common\Cache;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  David Abdemoulaie <dave@hobodave.com>
  */
-class WincacheCache extends CacheProvider
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFetch($id)
-    {
-        return wincache_ucache_get($id);
-    }
+class WincacheCache extends CacheProvider {
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFetch($id) {
+    return wincache_ucache_get($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doContains($id)
-    {
-        return wincache_ucache_exists($id);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doContains($id) {
+    return wincache_ucache_exists($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doSave($id, $data, $lifeTime = 0)
-    {
-        return (bool) wincache_ucache_set($id, $data, (int) $lifeTime);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doSave($id, $data, $lifeTime = 0) {
+    return (bool)wincache_ucache_set($id, $data, (int)$lifeTime);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doDelete($id)
-    {
-        return wincache_ucache_delete($id);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doDelete($id) {
+    return wincache_ucache_delete($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFlush()
-    {
-        return wincache_ucache_clear();
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFlush() {
+    return wincache_ucache_clear();
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doGetStats()
-    {
-        $info   = wincache_ucache_info();
-        $meminfo= wincache_ucache_meminfo();
-        return array(
-            Cache::STATS_HITS   => $info['total_hit_count'],
-            Cache::STATS_MISSES => $info['total_miss_count'],
-            Cache::STATS_UPTIME => $info['total_cache_uptime'],
-            Cache::STATS_MEMORY_USAGE       => $meminfo['memory_total'],
-            Cache::STATS_MEMORY_AVAILIABLE  => $meminfo['memory_free'],
-        );
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doGetStats() {
+    $info    = wincache_ucache_info();
+    $meminfo = wincache_ucache_meminfo();
+
+    return array(Cache::STATS_HITS => $info['total_hit_count'], Cache::STATS_MISSES => $info['total_miss_count'], Cache::STATS_UPTIME => $info['total_cache_uptime'], Cache::STATS_MEMORY_USAGE => $meminfo['memory_total'], Cache::STATS_MEMORY_AVAILIABLE => $meminfo['memory_free'],);
+  }
 }

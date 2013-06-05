@@ -26,84 +26,79 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  * A ResultSetMappingBuilder uses the EntityManager to automatically populate entity fields
  *
  * @author Michael Ridgway <mcridgway@gmail.com>
- * @since 2.1
+ * @since  2.1
  */
-class ResultSetMappingBuilder extends ResultSetMapping
-{
-    /**
-     * @var EntityManager
-     */
-    private $em;
+class ResultSetMappingBuilder extends ResultSetMapping {
+  /**
+   * @var EntityManager
+   */
+  private $em;
 
-    /**
-     * @param EntityManager
-     */
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
+  /**
+   * @param EntityManager
+   */
+  public function __construct(EntityManager $em) {
+    $this->em = $em;
+  }
+
+  /**
+   * Adds a root entity and all of its fields to the result set.
+   *
+   * @param string $class          The class name of the root entity.
+   * @param string $alias          The unique alias to use for the root entity.
+   * @param array  $renamedColumns Columns that have been renamed (tableColumnName => queryColumnName)
+   */
+  public function addRootEntityFromClassMetadata($class, $alias, $renamedColumns = array()) {
+    $this->addEntityResult($class, $alias);
+    $this->addAllClassFields($class, $alias, $renamedColumns);
+  }
+
+  /**
+   * Adds a joined entity and all of its fields to the result set.
+   *
+   * @param string $class          The class name of the joined entity.
+   * @param string $alias          The unique alias to use for the joined entity.
+   * @param string $parentAlias    The alias of the entity result that is the parent of this joined result.
+   * @param object $relation       The association field that connects the parent entity result with the joined entity result.
+   * @param array  $renamedColumns Columns that have been renamed (tableColumnName => queryColumnName)
+   */
+  public function addJoinedEntityFromClassMetadata($class, $alias, $parentAlias, $relation, $renamedColumns = array()) {
+    $this->addJoinedEntityResult($class, $alias, $parentAlias, $relation);
+    $this->addAllClassFields($class, $alias, $renamedColumns);
+  }
+
+  /**
+   * Adds all fields of the given class to the result set mapping (columns and meta fields)
+   */
+  protected function addAllClassFields($class, $alias, $renamedColumns = array()) {
+    $classMetadata = $this->em->getClassMetadata($class);
+    if ($classMetadata->isInheritanceTypeSingleTable() || $classMetadata->isInheritanceTypeJoined()) {
+      throw new \InvalidArgumentException('ResultSetMapping builder does not currently support inheritance.');
     }
-
-    /**
-     * Adds a root entity and all of its fields to the result set.
-     *
-     * @param string $class The class name of the root entity.
-     * @param string $alias The unique alias to use for the root entity.
-     * @param array $renamedColumns Columns that have been renamed (tableColumnName => queryColumnName)
-     */
-    public function addRootEntityFromClassMetadata($class, $alias, $renamedColumns = array())
-    {
-        $this->addEntityResult($class, $alias);
-        $this->addAllClassFields($class, $alias, $renamedColumns);
+    $platform = $this->em->getConnection()->getDatabasePlatform();
+    foreach ($classMetadata->getColumnNames() AS $columnName) {
+      $propertyName = $classMetadata->getFieldName($columnName);
+      if (isset($renamedColumns[$columnName])) {
+        $columnName = $renamedColumns[$columnName];
+      }
+      $columnName = $platform->getSQLResultCasing($columnName);
+      if (isset($this->fieldMappings[$columnName])) {
+        throw new \InvalidArgumentException("The column '$columnName' conflicts with another column in the mapper.");
+      }
+      $this->addFieldResult($alias, $columnName, $propertyName);
     }
-
-    /**
-     * Adds a joined entity and all of its fields to the result set.
-     *
-     * @param string $class The class name of the joined entity.
-     * @param string $alias The unique alias to use for the joined entity.
-     * @param string $parentAlias The alias of the entity result that is the parent of this joined result.
-     * @param object $relation The association field that connects the parent entity result with the joined entity result.
-     * @param array $renamedColumns Columns that have been renamed (tableColumnName => queryColumnName)
-     */
-    public function addJoinedEntityFromClassMetadata($class, $alias, $parentAlias, $relation, $renamedColumns = array())
-    {
-        $this->addJoinedEntityResult($class, $alias, $parentAlias, $relation);
-        $this->addAllClassFields($class, $alias, $renamedColumns);
-    }
-
-    /**
-     * Adds all fields of the given class to the result set mapping (columns and meta fields)
-     */
-    protected function addAllClassFields($class, $alias, $renamedColumns = array())
-    {
-        $classMetadata = $this->em->getClassMetadata($class);
-        if ($classMetadata->isInheritanceTypeSingleTable() || $classMetadata->isInheritanceTypeJoined()) {
-            throw new \InvalidArgumentException('ResultSetMapping builder does not currently support inheritance.');
+    foreach ($classMetadata->associationMappings AS $associationMapping) {
+      if ($associationMapping['isOwningSide'] && $associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
+        foreach ($associationMapping['joinColumns'] AS $joinColumn) {
+          $columnName        = $joinColumn['name'];
+          $renamedColumnName = isset($renamedColumns[$columnName]) ? $renamedColumns[$columnName] : $columnName;
+          $renamedColumnName = $platform->getSQLResultCasing($renamedColumnName);
+          if (isset($this->metaMappings[$renamedColumnName])) {
+            throw new \InvalidArgumentException("The column '$renamedColumnName' conflicts with another column in the mapper.");
+          }
+          $this->addMetaResult($alias, $renamedColumnName, $columnName);
         }
-        $platform = $this->em->getConnection()->getDatabasePlatform();
-        foreach ($classMetadata->getColumnNames() AS $columnName) {
-            $propertyName = $classMetadata->getFieldName($columnName);
-            if (isset($renamedColumns[$columnName])) {
-                $columnName = $renamedColumns[$columnName];
-            }
-            $columnName = $platform->getSQLResultCasing($columnName);
-            if (isset($this->fieldMappings[$columnName])) {
-                throw new \InvalidArgumentException("The column '$columnName' conflicts with another column in the mapper.");
-            }
-            $this->addFieldResult($alias, $columnName, $propertyName);
-        }
-        foreach ($classMetadata->associationMappings AS $associationMapping) {
-            if ($associationMapping['isOwningSide'] && $associationMapping['type'] & ClassMetadataInfo::TO_ONE) {
-                foreach ($associationMapping['joinColumns'] AS $joinColumn) {
-                    $columnName = $joinColumn['name'];
-                    $renamedColumnName = isset($renamedColumns[$columnName]) ? $renamedColumns[$columnName] : $columnName;
-                    $renamedColumnName = $platform->getSQLResultCasing($renamedColumnName);
-                    if (isset($this->metaMappings[$renamedColumnName])) {
-                        throw new \InvalidArgumentException("The column '$renamedColumnName' conflicts with another column in the mapper.");
-                    }
-                    $this->addMetaResult($alias, $renamedColumnName, $columnName);
-                }
-            }
-        }
+      }
     }
+  }
 }

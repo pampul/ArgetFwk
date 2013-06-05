@@ -32,8 +32,7 @@ namespace Doctrine\ORM\Query\Expr;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class GroupBy extends Base
-{
-    protected $_preSeparator = '';
-    protected $_postSeparator = '';
+class GroupBy extends Base {
+  protected $_preSeparator = '';
+  protected $_postSeparator = '';
 }

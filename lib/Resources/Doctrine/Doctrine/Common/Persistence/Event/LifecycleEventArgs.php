@@ -31,47 +31,43 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author Roman Borschel <roman@code-factory.de>
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class LifecycleEventArgs extends EventArgs
-{
-    /**
-     * @var ObjectManager
-     */
-    private $objectManager;
+class LifecycleEventArgs extends EventArgs {
+  /**
+   * @var ObjectManager
+   */
+  private $objectManager;
 
-    /**
-     * @var object
-     */
-    private $entity;
+  /**
+   * @var object
+   */
+  private $entity;
 
-    /**
-     * Constructor
-     *
-     * @param object $entity
-     * @param ObjectManager $objectManager
-     */
-    public function __construct($entity, ObjectManager $objectManager)
-    {
-        $this->entity = $entity;
-        $this->objectManager = $objectManager;
-    }
+  /**
+   * Constructor
+   *
+   * @param object        $entity
+   * @param ObjectManager $objectManager
+   */
+  public function __construct($entity, ObjectManager $objectManager) {
+    $this->entity        = $entity;
+    $this->objectManager = $objectManager;
+  }
 
-    /**
-     * Retireve associated Entity.
-     *
-     * @return object
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
+  /**
+   * Retireve associated Entity.
+   *
+   * @return object
+   */
+  public function getEntity() {
+    return $this->entity;
+  }
 
-    /**
-     * Retrieve associated ObjectManager.
-     *
-     * @return ObjectManager
-     */
-    public function getObjectManager()
-    {
-        return $this->objectManager;
-    }
+  /**
+   * Retrieve associated ObjectManager.
+   *
+   * @return ObjectManager
+   */
+  public function getObjectManager() {
+    return $this->objectManager;
+  }
 }

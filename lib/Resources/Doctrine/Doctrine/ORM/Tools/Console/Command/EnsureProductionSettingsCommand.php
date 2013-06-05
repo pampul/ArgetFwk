@@ -21,9 +21,7 @@
 
 namespace Doctrine\ORM\Tools\Console\Command;
 
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console;
+use Symfony\Component\Console\Input\InputArgument, Symfony\Component\Console\Input\InputOption, Symfony\Component\Console;
 
 /**
  * Command to ensure that Doctrine is properly configured for a production environment.
@@ -37,49 +35,36 @@ use Symfony\Component\Console\Input\InputArgument,
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class EnsureProductionSettingsCommand extends Console\Command\Command
-{
-    /**
-     * @see Console\Command\Command
-     */
-    protected function configure()
-    {
-        $this
-        ->setName('orm:ensure-production-settings')
-        ->setDescription('Verify that Doctrine is properly configured for a production environment.')
-        ->setDefinition(array(
-            new InputOption(
-                'complete', null, InputOption::VALUE_NONE,
-                'Flag to also inspect database connection existance.'
-            )
-        ))
-        ->setHelp(<<<EOT
+class EnsureProductionSettingsCommand extends Console\Command\Command {
+  /**
+   * @see Console\Command\Command
+   */
+  protected function configure() {
+    $this->setName('orm:ensure-production-settings')->setDescription('Verify that Doctrine is properly configured for a production environment.')->setDefinition(array(new InputOption('complete', null, InputOption::VALUE_NONE, 'Flag to also inspect database connection existance.')))->setHelp(<<<EOT
 Verify that Doctrine is properly configured for a production environment.
-EOT
-        );
+EOT);
+  }
+
+  /**
+   * @see Console\Command\Command
+   */
+  protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
+    $em = $this->getHelper('em')->getEntityManager();
+
+    $error = false;
+    try {
+      $em->getConfiguration()->ensureProductionSettings();
+
+      if ($input->getOption('complete') !== null) {
+        $em->getConnection()->connect();
+      }
+    } catch (\Exception $e) {
+      $error = true;
+      $output->writeln('<error>' . $e->getMessage() . '</error>');
     }
 
-    /**
-     * @see Console\Command\Command
-     */
-    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output)
-    {
-        $em = $this->getHelper('em')->getEntityManager();
-
-        $error = false;
-        try {
-            $em->getConfiguration()->ensureProductionSettings();
-
-            if ($input->getOption('complete') !== null) {
-                $em->getConnection()->connect();
-            }
-        } catch (\Exception $e) {
-            $error = true;
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
-        }
-
-        if ($error === false) {
-            $output->write('<info>Environment is correctly configured for production.</info>' . PHP_EOL);
-        }
+    if ($error === false) {
+      $output->write('<info>Environment is correctly configured for production.</info>' . PHP_EOL);
     }
+  }
 }

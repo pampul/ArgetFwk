@@ -34,42 +34,40 @@ use Doctrine\DBAL\Schema\Table;
  * @version     $Revision$
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class GenerateSchemaTableEventArgs extends \Doctrine\Common\EventArgs
-{
-    private $_classMetadata = null;
-    private $_schema = null;
-    private $_classTable = null;
+class GenerateSchemaTableEventArgs extends \Doctrine\Common\EventArgs {
+  private $_classMetadata = null;
+  private $_schema = null;
+  private $_classTable = null;
 
-    /**
-     * @param ClassMetadata $classMetadata
-     * @param Schema $schema
-     * @param Table $classTable
-     */
-    public function __construct(ClassMetadata $classMetadata, Schema $schema, Table $classTable)
-    {
-        $this->_classMetadata = $classMetadata;
-        $this->_schema = $schema;
-        $this->_classTable = $classTable;
-    }
+  /**
+   * @param ClassMetadata $classMetadata
+   * @param Schema        $schema
+   * @param Table         $classTable
+   */
+  public function __construct(ClassMetadata $classMetadata, Schema $schema, Table $classTable) {
+    $this->_classMetadata = $classMetadata;
+    $this->_schema        = $schema;
+    $this->_classTable    = $classTable;
+  }
 
-    /**
-     * @return ClassMetadata
-     */
-    public function getClassMetadata() {
-        return $this->_classMetadata;
-    }
+  /**
+   * @return ClassMetadata
+   */
+  public function getClassMetadata() {
+    return $this->_classMetadata;
+  }
 
-    /**
-     * @return Schema
-     */
-    public function getSchema() {
-        return $this->_schema;
-    }
+  /**
+   * @return Schema
+   */
+  public function getSchema() {
+    return $this->_schema;
+  }
 
-    /**
-     * @return Table
-     */
-    public function getClassTable() {
-        return $this->_classTable;
-    }
+  /**
+   * @return Table
+   */
+  public function getClassTable() {
+    return $this->_classTable;
+  }
 }

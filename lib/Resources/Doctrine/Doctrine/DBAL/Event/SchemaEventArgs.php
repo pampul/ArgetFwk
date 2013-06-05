@@ -29,28 +29,25 @@ use Doctrine\Common\EventArgs;
  * @since       2.2
  * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
-class SchemaEventArgs extends EventArgs
-{
-    /**
-     * @var boolean
-     */
-    private $_preventDefault = false;
+class SchemaEventArgs extends EventArgs {
+  /**
+   * @var boolean
+   */
+  private $_preventDefault = false;
 
-    /**
-     * @return \Doctrine\DBAL\Event\SchemaEventArgs
-     */
-    public function preventDefault()
-    {
-        $this->_preventDefault = true;
+  /**
+   * @return \Doctrine\DBAL\Event\SchemaEventArgs
+   */
+  public function preventDefault() {
+    $this->_preventDefault = true;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @return boolean
-     */
-    public function isDefaultPrevented()
-    {
-        return $this->_preventDefault;
-    }
+  /**
+   * @return boolean
+   */
+  public function isDefaultPrevented() {
+    return $this->_preventDefault;
+  }
 }

@@ -33,20 +33,17 @@ namespace Doctrine\DBAL\Platforms;
  *   {@link http://www.sql-server-helper.com/faq/sql-server-2005-varchar-max-p01.aspx}
  *   for more information.
  */
-class SQLServer2005Platform extends SQLServerPlatform
-{
-    /**
-     * @override
-     */
-    public function supportsLimitOffset()
-    {
-        return true;
-    }
-	
-    /** @override */
-    public function getClobTypeDeclarationSQL(array $field)
-    {
-        return 'VARCHAR(MAX)';
-    }
+class SQLServer2005Platform extends SQLServerPlatform {
+  /**
+   * @override
+   */
+  public function supportsLimitOffset() {
+    return true;
+  }
+
+  /** @override */
+  public function getClobTypeDeclarationSQL(array $field) {
+    return 'VARCHAR(MAX)';
+  }
 }
 

@@ -18,18 +18,15 @@ class AuthController extends ControllerManager {
 
     if (isset($_POST['login']) && isset($_POST['password'])) {
 
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-        array('email' => $_POST['login'])
-      );
+      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $_POST['login']));
 
       if ($objAdmin instanceof Admin) {
         if (FwkSecurity::comparePassword($_POST['password'], $objAdmin->getPassword())) {
-          $_SESSION['admin']['id'] = $objAdmin->getId();
-          $_SESSION['admin']['name'] = $objAdmin->getPrenom() . ' ' . $objAdmin->getNom();
+          $_SESSION['admin']['id']    = $objAdmin->getId();
+          $_SESSION['admin']['name']  = $objAdmin->getPrenom() . ' ' . $objAdmin->getNom();
           $_SESSION['admin']['email'] = $objAdmin->getEmail();
           if (isset($_SESSION['site_request_uri']))
-            header('Location: ' . $_SESSION['site_request_uri']);
-          else
+            header('Location: ' . $_SESSION['site_request_uri']); else
             header('Location: ' . SITE_URL . 'back-office/home');
         }
       }
@@ -52,9 +49,7 @@ class AuthController extends ControllerManager {
 
     if (isset($_POST['login'])) {
 
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-        array('email' => $_POST['login'])
-      );
+      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $_POST['login']));
 
       if ($objAdmin instanceof Admin) {
         $result = FwkSecurity::multiLoginProtect(array());
@@ -87,7 +82,7 @@ class AuthController extends ControllerManager {
                         ";
 
           $message = Swift_Message::newInstance();
-          $mailer = Swift_MailTransport::newInstance();
+          $mailer  = Swift_MailTransport::newInstance();
           $message->setSubject('Réinitialisation de votre mot de passe');
           $message->setFrom(array(CLIENT_EMAIL => SITE_NOM));
           $message->setTo(array(CLIENT_EMAIL, $objAdmin->getEmail() => $objAdmin->getNom() . ' ' . $objAdmin->getPrenom()));
@@ -102,9 +97,7 @@ class AuthController extends ControllerManager {
       }
     }
 
-    $this->renderView('views/forget-password.html.twig', array(
-      'displayPopup' => $val
-    ));
+    $this->renderView('views/forget-password.html.twig', array('displayPopup' => $val));
   }
 
   protected function changePasswordController() {
@@ -118,9 +111,7 @@ class AuthController extends ControllerManager {
     }
 
     if (isset($login)) {
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-        array('email' => $login, 'token' => $token)
-      );
+      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $login, 'token' => $token));
 
       if ($objAdmin instanceof Admin) {
 
@@ -151,15 +142,9 @@ class AuthController extends ControllerManager {
         }
 
 
-        $this->renderView('views/change-password.html.twig', array(
-          'email' => $login,
-          'token' => $token,
-          'formValid' => $formValid
-        ));
+        $this->renderView('views/change-password.html.twig', array('email' => $login, 'token' => $token, 'formValid' => $formValid));
       } else {
-        $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-          array('email' => $login)
-        );
+        $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $login));
 
         if ($objAdmin instanceof Admin) {
 
@@ -168,14 +153,13 @@ class AuthController extends ControllerManager {
           $this->em->persist($objAdmin);
           $this->em->flush();
           $this->error404Controller();
-        }
-        else
+        } else
           $this->error404Controller();
       }
-    }
-    else
+    } else
       $this->error404Controller();
   }
 
 }
+
 ?>

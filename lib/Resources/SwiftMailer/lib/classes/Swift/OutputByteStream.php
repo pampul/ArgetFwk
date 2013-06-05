@@ -18,31 +18,30 @@
  * @subpackage ByteStream
  * @author     Chris Corbyn
  */
-interface Swift_OutputByteStream
-{
-    /**
-     * Reads $length bytes from the stream into a string and moves the pointer
-     * through the stream by $length.
-     *
-     * If less bytes exist than are requested the remaining bytes are given instead.
-     * If no bytes are remaining at all, boolean false is returned.
-     *
-     * @param integer $length
-     *
-     * @return string|boolean
-     *
-     * @throws Swift_IoException
-     */
-    public function read($length);
+interface Swift_OutputByteStream {
+  /**
+   * Reads $length bytes from the stream into a string and moves the pointer
+   * through the stream by $length.
+   *
+   * If less bytes exist than are requested the remaining bytes are given instead.
+   * If no bytes are remaining at all, boolean false is returned.
+   *
+   * @param integer $length
+   *
+   * @return string|boolean
+   *
+   * @throws Swift_IoException
+   */
+  public function read($length);
 
-    /**
-     * Move the internal read pointer to $byteOffset in the stream.
-     *
-     * @param integer $byteOffset
-     *
-     * @return boolean
-     *
-     * @throws Swift_IoException
-     */
-    public function setReadPointer($byteOffset);
+  /**
+   * Move the internal read pointer to $byteOffset in the stream.
+   *
+   * @param integer $byteOffset
+   *
+   * @return boolean
+   *
+   * @throws Swift_IoException
+   */
+  public function setReadPointer($byteOffset);
 }

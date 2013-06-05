@@ -32,36 +32,31 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class ConcatFunction extends FunctionNode
-{
-    public $firstStringPrimary;
-    public $secondStringPriamry;
+class ConcatFunction extends FunctionNode {
+  public $firstStringPrimary;
+  public $secondStringPriamry;
 
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        $platform = $sqlWalker->getConnection()->getDatabasePlatform();
-        return $platform->getConcatExpression(
-            $sqlWalker->walkStringPrimary($this->firstStringPrimary),
-            $sqlWalker->walkStringPrimary($this->secondStringPrimary)
-        );
-    }
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    $platform = $sqlWalker->getConnection()->getDatabasePlatform();
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+    return $platform->getConcatExpression($sqlWalker->walkStringPrimary($this->firstStringPrimary), $sqlWalker->walkStringPrimary($this->secondStringPrimary));
+  }
 
-        $this->firstStringPrimary = $parser->StringPrimary();
-        $parser->match(Lexer::T_COMMA);
-        $this->secondStringPrimary = $parser->StringPrimary();
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_IDENTIFIER);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+    $this->firstStringPrimary = $parser->StringPrimary();
+    $parser->match(Lexer::T_COMMA);
+    $this->secondStringPrimary = $parser->StringPrimary();
+
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }
 

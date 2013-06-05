@@ -31,10 +31,8 @@ namespace Doctrine\ORM;
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class PessimisticLockException extends ORMException
-{
-    public static function lockFailed()
-    {
-        return new self("The pessimistic lock failed.");
-    }
+class PessimisticLockException extends ORMException {
+  public static function lockFailed() {
+    return new self("The pessimistic lock failed.");
+  }
 }

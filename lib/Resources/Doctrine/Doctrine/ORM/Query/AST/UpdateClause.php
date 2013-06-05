@@ -32,21 +32,18 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class UpdateClause extends Node
-{
-    public $abstractSchemaName;
-    public $aliasIdentificationVariable;
-    public $updateItems = array();
+class UpdateClause extends Node {
+  public $abstractSchemaName;
+  public $aliasIdentificationVariable;
+  public $updateItems = array();
 
-    public function __construct($abstractSchemaName, array $updateItems)
-    {
-        $this->abstractSchemaName = $abstractSchemaName;
-        $this->updateItems = $updateItems;
-    }
+  public function __construct($abstractSchemaName, array $updateItems) {
+    $this->abstractSchemaName = $abstractSchemaName;
+    $this->updateItems        = $updateItems;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkUpdateClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkUpdateClause($this);
+  }
 }
 

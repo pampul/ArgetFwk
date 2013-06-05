@@ -7,19 +7,19 @@
  */
 class batch extends SecuredClass {
 
-    public function execute() {
+  public function execute() {
 
-        $this->startLog();
-        /*
-         * Code right here
-         */
-        
-        
-    }
+    $this->startLog();
+    /*
+     * Code right here
+     */
 
-    private function startLog() {
 
-        $message = '
+  }
+
+  private function startLog() {
+
+    $message = '
     
 
 --------------------------------------------------
@@ -28,8 +28,9 @@ class batch extends SecuredClass {
 
 ';
 
-        FwkLog::add($message, PATH_TO_IMPORTANT_FILES . 'logs/', 'batch/');
-    }
+    FwkLog::add($message, PATH_TO_IMPORTANT_FILES . 'logs/', 'batch/');
+  }
 
 }
+
 ?>

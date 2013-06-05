@@ -1,11 +1,17 @@
 @import "lesshat.less";
 
-@w3c: true; // Unprefixed W3C syntax
-@webkit: true; // Chrome 7+, Safari 5+, iOS5, Android
-@moz: true; //  Firefox 4+
-@opera: true; // Opera 10.5+
-@ms: true;  // IE 10+
-@oldWebkit: true; // iOS4, Safari 4, Chrome < 6.
+@w3c: true;
+// Unprefixed W3C syntax
+@webkit: true;
+// Chrome 7+, Safari 5+, iOS5, Android
+@moz: true;
+//  Firefox 4+
+@opera: true;
+// Opera 10.5+
+@ms: true;
+// IE 10+
+@oldWebkit: true;
+// iOS4, Safari 4, Chrome < 6.
 /**
  * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
@@ -445,7 +451,7 @@ input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button; /* 2 */
   cursor: pointer; /* 3 */
-  *overflow: visible;  /* 4 */
+  *overflow: visible; /* 4 */
 }
 
 /**
@@ -610,38 +616,35 @@ textarea {
   padding: 0.2em 0;
 }
 
-
 /* ==========================================================================
    Usefull classes
    ========================================================================== */
 
-
-.clear{
-  clear:both;
+.clear {
+  clear: both;
 }
 
-#main{
+#main {
 
   min-height: 200px;
 
 }
 
-.separator{
+.separator {
   margin: 0 3px 0 5px;
   font-weight: bold;
   color: #999;
 }
 
-.span4padding{
+.span4padding {
   padding-left: 6%;
   padding-right: 6%;
   padding-top: 2%;
 }
 
-.hand{
+.hand {
   cursor: pointer !important;
 }
-
 
 .custom-divider, .main-divider {
   clear: both;
@@ -650,17 +653,16 @@ textarea {
   border: 0;
   height: 1px;
   z-index: 9999;
-  background-image: -webkit-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
-  background-image: -moz-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
-  background-image: -ms-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
-  background-image: -o-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
+  background-image: -webkit-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
+  background-image: -moz-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
+  background-image: -ms-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
+  background-image: -o-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
 }
 
-
-.messageBox{
+.messageBox {
 
   z-index: 2000;
-  display : none;
+  display: none;
   max-width: 200px;
   padding: 3px 8px;
   color: #fff;
@@ -675,15 +677,14 @@ textarea {
   position: fixed;
   top: 35%;
   left: 50%;
-  -webkit-transition: opacity .3s linear,top .3s ease-out;
-  -moz-transition: opacity .3s linear,top .3s ease-out;
-  -o-transition: opacity .3s linear,top .3s ease-out;
-  transition: opacity .3s linear,top .3s ease-out;
+  -webkit-transition: opacity .3s linear, top .3s ease-out;
+  -moz-transition: opacity .3s linear, top .3s ease-out;
+  -o-transition: opacity .3s linear, top .3s ease-out;
+  transition: opacity .3s linear, top .3s ease-out;
 
 }
 
-
-.widget-content{
+.widget-content {
   padding: 20px 15px 15px;
   background: white;
   border: 1px solid #D5D5D5;
@@ -692,7 +693,7 @@ textarea {
   border-radius: 5px;
 }
 
-.widget-box{
+.widget-box {
   background: none repeat scroll 0 0 #F9F9F9;
   border-top: 1px solid #CDCDCD;
   border-left: 1px solid #CDCDCD;
@@ -703,11 +704,11 @@ textarea {
   position: relative;
 }
 
-.noclear{
+.noclear {
   clear: none;
 }
 
-.widget-box-title{
+.widget-box-title {
   background-color: #EFEFEF;
   background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#FDFDFD), to(#EAEAEA));
   background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
@@ -715,12 +716,12 @@ textarea {
   background-image: -ms-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
   background-image: -o-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
   background-image: -linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#eaeaea',GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd', endColorstr='#eaeaea', GradientType=0);
   border-bottom: 1px solid #CDCDCD;
   height: 36px;
 }
 
-.widget-box-title span.icon{
+.widget-box-title span.icon {
   border-right: 1px solid #CDCDCD;
   padding: 9px 10px 7px 11px;
   float: left;
@@ -738,46 +739,37 @@ textarea {
   margin: 0;
 }
 
-.widget-box-content{
+.widget-box-content {
   padding: 12px 15px;
   border-bottom: 1px solid #CDCDCD;
   background: #fff;
 }
 
-.nopadding{
-  padding: 0!important;
+.nopadding {
+  padding: 0 !important;
 }
 
-.nomargin{
-  margin: 0!important;
+.nomargin {
+  margin: 0 !important;
 }
 
-.nobackground{
+.nobackground {
   background: none;
 }
 
-.navbar .brand{
+.navbar .brand {
   padding: 5px 10px 5px;
 }
+
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
-
-
-
-
-
-
-
-
-
 
 /**
 * Main content
 */
 
-#main-content{
+#main-content {
 
   margin-top: 50px;
   background: #fff;
@@ -785,31 +777,14 @@ textarea {
 
 }
 
-
 /**
 * Footer
 */
 
-#footer{
+#footer {
   margin-top: 20px;
   text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ==========================================================================
    Helper classes

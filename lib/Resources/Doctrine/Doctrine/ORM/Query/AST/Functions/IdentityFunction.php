@@ -30,39 +30,36 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class IdentityFunction extends FunctionNode
-{
-    public $pathExpression;
+class IdentityFunction extends FunctionNode {
+  public $pathExpression;
 
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        $platform   = $sqlWalker->getConnection()->getDatabasePlatform();
-        $dqlAlias   = $this->pathExpression->identificationVariable;
-        $assocField = $this->pathExpression->field;
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    $platform   = $sqlWalker->getConnection()->getDatabasePlatform();
+    $dqlAlias   = $this->pathExpression->identificationVariable;
+    $assocField = $this->pathExpression->field;
 
-        $qComp = $sqlWalker->getQueryComponent($dqlAlias);
-        $class = $qComp['metadata'];
-        $assoc = $class->associationMappings[$assocField];
+    $qComp = $sqlWalker->getQueryComponent($dqlAlias);
+    $class = $qComp['metadata'];
+    $assoc = $class->associationMappings[$assocField];
 
-        $tableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $dqlAlias);
+    $tableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $dqlAlias);
 
-        return $tableAlias . '.' . reset($assoc['targetToSourceKeyColumns']);;
-    }
+    return $tableAlias . '.' . reset($assoc['targetToSourceKeyColumns']);;
+  }
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_IDENTIFIER);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->pathExpression = $parser->SingleValuedAssociationPathExpression();
+    $this->pathExpression = $parser->SingleValuedAssociationPathExpression();
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }
 

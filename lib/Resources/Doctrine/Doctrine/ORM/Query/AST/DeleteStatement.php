@@ -32,18 +32,15 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class DeleteStatement extends Node
-{
-    public $deleteClause;
-    public $whereClause;
+class DeleteStatement extends Node {
+  public $deleteClause;
+  public $whereClause;
 
-    public function __construct($deleteClause)
-    {
-        $this->deleteClause = $deleteClause;
-    }
+  public function __construct($deleteClause) {
+    $this->deleteClause = $deleteClause;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkDeleteStatement($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkDeleteStatement($this);
+  }
 }

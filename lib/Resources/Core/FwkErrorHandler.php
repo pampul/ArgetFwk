@@ -13,7 +13,7 @@
  *
  * @author f.mithieux
  */
-class FwkErrorHandler extends FwkManager{
+class FwkErrorHandler extends FwkManager {
 
   /**
    * Objet FwkLog
@@ -27,28 +27,13 @@ class FwkErrorHandler extends FwkManager{
    *
    * @var array
    */
-  public static $errorTypeStrings = array(
-    E_NOTICE => 'Notice',
-    E_WARNING => 'Warning',
-    E_ERROR => 'Error',
-    E_PARSE => 'Parsing Error',
-    E_CORE_ERROR => 'Core Error',
-    E_CORE_WARNING => 'Core Warning',
-    E_COMPILE_ERROR => 'Compile Error',
-    E_COMPILE_WARNING => 'Compile Warning',
-    E_USER_NOTICE => 'User Notice',
-    E_USER_WARNING => 'User Warning',
-    E_USER_ERROR => 'User Error',
-    E_STRICT => 'Strict Notice',
-    E_RECOVERABLE_ERROR => 'Recoverable Error',
-    E_DEPRECATED => 'Deprecated Warning'
-  );
+  public static $errorTypeStrings = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error', E_PARSE => 'Parsing Error', E_CORE_ERROR => 'Core Error', E_CORE_WARNING => 'Core Warning', E_COMPILE_ERROR => 'Compile Error', E_COMPILE_WARNING => 'Compile Warning', E_USER_NOTICE => 'User Notice', E_USER_WARNING => 'User Warning', E_USER_ERROR => 'User Error', E_STRICT => 'Strict Notice', E_RECOVERABLE_ERROR => 'Recoverable Error', E_DEPRECATED => 'Deprecated Warning');
 
   /**
    * Execute appliquera le handler à la classe courante sur `__CLASS__::handler`.
    *
    * @param boolean $logsEnabled
-   * @param string $pathToLogs
+   * @param string  $pathToLogs
    */
   public static function execute($path = 'logs/errors/php-errors-logs.txt') {
 
@@ -64,9 +49,9 @@ class FwkErrorHandler extends FwkManager{
    *
    * @param integer $code
    *  Le code d'erreur : une constante PHP
-   * @param string $message
+   * @param string  $message
    *  Le message d'erreur qui va être écrit dans les logs
-   * @param string $file
+   * @param string  $file
    *  Laisser à null : le fichier où se trouve l'erreur
    * @param integer $line
    *  La ligne où se trouve l'erreur
@@ -76,11 +61,7 @@ class FwkErrorHandler extends FwkManager{
     // Only log if the error won't be raised to an exception and the error is not `E_STRICT`
     if (ERROR_LOGS_ENABLED && !in_array($code, array(E_STRICT))) {
       self::$FwkLog->createLog();
-      self::$FwkLog->pushToLog(
-        sprintf(
-          '%s %s - %s%s%s', __CLASS__, $code, $message, ($file ? " in file $file" : null), ($line ? " on line $line" : null)
-        ), $code, true
-      );
+      self::$FwkLog->pushToLog(sprintf('%s %s - %s%s%s', __CLASS__, $code, $message, ($file ? " in file $file" : null), ($line ? " on line $line" : null)), $code, true);
     }
 
     if (ENV_DEV)
@@ -130,10 +111,7 @@ class FwkErrorHandler extends FwkManager{
 
       // Gestion des exceptions dans un fichier de log
       if (ERROR_LOGS_ENABLED) {
-        self::$FwkLog->pushToLog(sprintf(
-            '%s %s - %s%s%s', $class, $e->getCode(), $e->getMessage(), ($e->getFile() ? " in file " . $e->getFile() : null), ($e->getLine() ? " on line " . $e->getLine() : null)
-          ), $e->getCode(), true
-        );
+        self::$FwkLog->pushToLog(sprintf('%s %s - %s%s%s', $class, $e->getCode(), $e->getMessage(), ($e->getFile() ? " in file " . $e->getFile() : null), ($e->getLine() ? " on line " . $e->getLine() : null)), $e->getCode(), true);
       }
 
       $output = call_user_func(array($class, 'render'), $e);
@@ -142,7 +120,6 @@ class FwkErrorHandler extends FwkManager{
         header('Content-Type: text/html; charset=utf-8');
         header(sprintf('Content-Length: %d', strlen($output)));
       }
-
 
 
       echo $output;
@@ -198,20 +175,16 @@ class FwkErrorHandler extends FwkManager{
    */
   public static function render(Exception $e) {
 
-    $lines = NULL;
+    $lines = null;
 
     foreach (self::__nearByLines($e->getLine(), $e->getFile()) as $line => $string) {
-      $lines .= sprintf(
-        '<li%s><strong>%d</strong> <code>%s</code></li>', (($line + 1) == $e->getLine() ? ' class="error" style="background: #ff7676; font-weight: bold;"' : NULL), ++$line, str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', htmlspecialchars($string))
-      );
+      $lines .= sprintf('<li%s><strong>%d</strong> <code>%s</code></li>', (($line + 1) == $e->getLine() ? ' class="error" style="background: #ff7676; font-weight: bold;"' : null), ++$line, str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', htmlspecialchars($string)));
     }
 
-    $trace = NULL;
+    $trace = null;
 
     foreach ($e->getTrace() as $t) {
-      $trace .= sprintf(
-        '<li><code><em>[%s:%d]</em></code></li><li><code>&#160;&#160;&#160;&#160;%s%s%s();</code></li>', (isset($t['file']) ? $t['file'] : NULL), (isset($t['line']) ? $t['line'] : NULL), (isset($t['class']) ? $t['class'] : NULL), (isset($t['type']) ? $t['type'] : NULL), $t['function']
-      );
+      $trace .= sprintf('<li><code><em>[%s:%d]</em></code></li><li><code>&#160;&#160;&#160;&#160;%s%s%s();</code></li>', (isset($t['file']) ? $t['file'] : null), (isset($t['line']) ? $t['line'] : null), (isset($t['class']) ? $t['class'] : null), (isset($t['type']) ? $t['type'] : null), $t['function']);
     }
 
     $html = "<html>
@@ -231,8 +204,7 @@ class FwkErrorHandler extends FwkManager{
 
     $html .= '<div class="alert alert-info"><small><strong>[ ' . $e->getMessage() . ' ]</strong> a la ligne <strong>' . $e->getLine() . '</strong> du fichier <strong>' . $e->getFile() . '</strong></small></div><br/><br/><br/><br/><br/><br/>' . $lines . '<br/><br/>' . $trace;
 
-    $html .= sprintf('', ($e instanceof ErrorException ? FwkErrorHandler::$errorTypeStrings[$e->getSeverity()] : 'Fatal Error'), $e->getMessage(), $e->getFile(), $e->getLine(), $lines, $trace
-    );
+    $html .= sprintf('', ($e instanceof ErrorException ? FwkErrorHandler::$errorTypeStrings[$e->getSeverity()] : 'Fatal Error'), $e->getMessage(), $e->getFile(), $e->getLine(), $lines, $trace);
 
     $html .= "          </i></pre>
                             
@@ -252,7 +224,7 @@ class FwkErrorHandler extends FwkManager{
    *
    * @param integer $line
    *  La ligne où l'erreur apparaît
-   * @param string $file
+   * @param string  $file
    *  Le fichier où se trouve l'erreur
    * @param integer $window
    *  Le nombre de lignes à afficher
@@ -272,7 +244,7 @@ class FwkErrorHandler extends FwkManager{
   private static function sendMailToAdmin($html) {
 
     $message = Swift_Message::newInstance();
-    $mailer = Swift_MailTransport::newInstance();
+    $mailer  = Swift_MailTransport::newInstance();
     $message->setSubject('Erreur sur le site web : ' . SITE_NOM);
     $message->setFrom(array('postmaster@' . strtolower(SITE_NOM) . '.com' => 'postmaster@' . strtolower(SITE_NOM)));
     $message->setTo(array(ADMIN_EMAIL => ADMIN_PRENOM . ' ' . ADMIN_NOM));

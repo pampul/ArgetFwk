@@ -20,15 +20,13 @@ namespace Symfony\Component\Console\Output;
  *
  * @api
  */
-class NullOutput extends Output
-{
-    /**
-     * Writes a message to the output.
-     *
-     * @param string $message A message to write to the output
-     * @param Boolean $newline Whether to add a newline or not
-     */
-    public function doWrite($message, $newline)
-    {
-    }
+class NullOutput extends Output {
+  /**
+   * Writes a message to the output.
+   *
+   * @param string  $message A message to write to the output
+   * @param Boolean $newline Whether to add a newline or not
+   */
+  public function doWrite($message, $newline) {
+  }
 }

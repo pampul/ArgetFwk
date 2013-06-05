@@ -21,8 +21,7 @@
 
 namespace Doctrine\ORM\Event;
 
-use Doctrine\Common\EventArgs,
-    Doctrine\ORM\EntityManager;
+use Doctrine\Common\EventArgs, Doctrine\ORM\EntityManager;
 
 /**
  * Class that holds event arguments for a preInsert/preUpdate event.
@@ -32,100 +31,88 @@ use Doctrine\Common\EventArgs,
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @since  2.0
  */
-class PreUpdateEventArgs extends LifecycleEventArgs
-{
-    /**
-     * @var array
-     */
-    private $entityChangeSet;
+class PreUpdateEventArgs extends LifecycleEventArgs {
+  /**
+   * @var array
+   */
+  private $entityChangeSet;
 
-    /**
-     * Constructor.
-     *
-     * @param object $entity
-     * @param \Doctrine\ORM\EntityManager $em
-     * @param array $changeSet
-     */
-    public function __construct($entity, EntityManager $em, array &$changeSet)
-    {
-        parent::__construct($entity, $em);
+  /**
+   * Constructor.
+   *
+   * @param object                      $entity
+   * @param \Doctrine\ORM\EntityManager $em
+   * @param array                       $changeSet
+   */
+  public function __construct($entity, EntityManager $em, array &$changeSet) {
+    parent::__construct($entity, $em);
 
-        $this->entityChangeSet = &$changeSet;
+    $this->entityChangeSet = & $changeSet;
+  }
+
+  /**
+   * Retrieve entity changeset.
+   *
+   * @return array
+   */
+  public function getEntityChangeSet() {
+    return $this->entityChangeSet;
+  }
+
+  /**
+   * Check if field has a changeset.
+   *
+   * @return boolean
+   */
+  public function hasChangedField($field) {
+    return isset($this->entityChangeSet[$field]);
+  }
+
+  /**
+   * Get the old value of the changeset of the changed field.
+   *
+   * @param  string $field
+   * @return mixed
+   */
+  public function getOldValue($field) {
+    $this->assertValidField($field);
+
+    return $this->entityChangeSet[$field][0];
+  }
+
+  /**
+   * Get the new value of the changeset of the changed field.
+   *
+   * @param  string $field
+   * @return mixed
+   */
+  public function getNewValue($field) {
+    $this->assertValidField($field);
+
+    return $this->entityChangeSet[$field][1];
+  }
+
+  /**
+   * Set the new value of this field.
+   *
+   * @param string $field
+   * @param mixed  $value
+   */
+  public function setNewValue($field, $value) {
+    $this->assertValidField($field);
+
+    $this->entityChangeSet[$field][1] = $value;
+  }
+
+  /**
+   * Assert the field exists in changeset.
+   *
+   * @param string $field
+   */
+  private function assertValidField($field) {
+    if (!isset($this->entityChangeSet[$field])) {
+      throw new \InvalidArgumentException(sprintf('Field "%s" is not a valid field of the entity "%s" in PreUpdateEventArgs.', $field, get_class($this->getEntity())));
     }
-
-    /**
-     * Retrieve entity changeset.
-     *
-     * @return array
-     */
-    public function getEntityChangeSet()
-    {
-        return $this->entityChangeSet;
-    }
-
-    /**
-     * Check if field has a changeset.
-     *
-     * @return boolean
-     */
-    public function hasChangedField($field)
-    {
-        return isset($this->entityChangeSet[$field]);
-    }
-
-    /**
-     * Get the old value of the changeset of the changed field.
-     *
-     * @param  string $field
-     * @return mixed
-     */
-    public function getOldValue($field)
-    {
-    	$this->assertValidField($field);
-
-        return $this->entityChangeSet[$field][0];
-    }
-
-    /**
-     * Get the new value of the changeset of the changed field.
-     *
-     * @param  string $field
-     * @return mixed
-     */
-    public function getNewValue($field)
-    {
-        $this->assertValidField($field);
-
-        return $this->entityChangeSet[$field][1];
-    }
-
-    /**
-     * Set the new value of this field.
-     *
-     * @param string $field
-     * @param mixed $value
-     */
-    public function setNewValue($field, $value)
-    {
-        $this->assertValidField($field);
-
-        $this->entityChangeSet[$field][1] = $value;
-    }
-
-    /**
-     * Assert the field exists in changeset.
-     *
-     * @param string $field
-     */
-    private function assertValidField($field)
-    {
-    	if ( ! isset($this->entityChangeSet[$field])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Field "%s" is not a valid field of the entity "%s" in PreUpdateEventArgs.',
-                $field,
-                get_class($this->getEntity())
-            ));
-        }
-    }
+  }
 }
 

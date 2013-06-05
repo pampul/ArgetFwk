@@ -33,22 +33,21 @@ namespace Doctrine\DBAL\Logging;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-interface SQLLogger
-{
-    /**
-     * Logs a SQL statement somewhere.
-     *
-     * @param string $sql The SQL to be executed.
-     * @param array $params The SQL parameters.
-     * @param array $types The SQL parameter types.
-     * @return void
-     */
-    public function startQuery($sql, array $params = null, array $types = null);
+interface SQLLogger {
+  /**
+   * Logs a SQL statement somewhere.
+   *
+   * @param string $sql    The SQL to be executed.
+   * @param array  $params The SQL parameters.
+   * @param array  $types  The SQL parameter types.
+   * @return void
+   */
+  public function startQuery($sql, array $params = null, array $types = null);
 
-    /**
-     * Mark the last started query as stopped. This can be used for timing of queries.
-     *
-     * @return void
-     */
-    public function stopQuery();
+  /**
+   * Mark the last started query as stopped. This can be used for timing of queries.
+   *
+   * @return void
+   */
+  public function stopQuery();
 }

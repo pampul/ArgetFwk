@@ -31,47 +31,43 @@ use Doctrine\ORM\EntityManager;
  * @author Roman Borschel <roman@code-factory.de>
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class LifecycleEventArgs extends EventArgs
-{
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
+class LifecycleEventArgs extends EventArgs {
+  /**
+   * @var \Doctrine\ORM\EntityManager
+   */
+  private $em;
 
-    /**
-     * @var object
-     */
-    private $entity;
+  /**
+   * @var object
+   */
+  private $entity;
 
-    /**
-     * Constructor
-     *
-     * @param object $entity
-     * @param \Doctrine\ORM\EntityManager $em
-     */
-    public function __construct($entity, EntityManager $em)
-    {
-        $this->entity = $entity;
-        $this->em     = $em;
-    }
+  /**
+   * Constructor
+   *
+   * @param object                      $entity
+   * @param \Doctrine\ORM\EntityManager $em
+   */
+  public function __construct($entity, EntityManager $em) {
+    $this->entity = $entity;
+    $this->em     = $em;
+  }
 
-    /**
-     * Retireve associated Entity.
-     *
-     * @return object
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
+  /**
+   * Retireve associated Entity.
+   *
+   * @return object
+   */
+  public function getEntity() {
+    return $this->entity;
+  }
 
-    /**
-     * Retrieve associated EntityManager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+  /**
+   * Retrieve associated EntityManager.
+   *
+   * @return \Doctrine\ORM\EntityManager
+   */
+  public function getEntityManager() {
+    return $this->em;
+  }
 }

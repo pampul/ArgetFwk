@@ -32,30 +32,27 @@ use Doctrine\Common\EventArgs;
  * @since       2.0
  * @author      Daniel Freudenberger <df@rebuy.de>
  */
-class PostFlushEventArgs extends EventArgs
-{
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
+class PostFlushEventArgs extends EventArgs {
+  /**
+   * @var \Doctrine\ORM\EntityManager
+   */
+  private $em;
 
-    /**
-     * Constructor.
-     *
-     * @param \Doctrine\ORM\EntityManager $em
-     */
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
+  /**
+   * Constructor.
+   *
+   * @param \Doctrine\ORM\EntityManager $em
+   */
+  public function __construct(EntityManager $em) {
+    $this->em = $em;
+  }
 
-    /**
-     * Retrieve associated EntityManager.
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public function getEntityManager()
-    {
-        return $this->em;
-    }
+  /**
+   * Retrieve associated EntityManager.
+   *
+   * @return \Doctrine\ORM\EntityManager
+   */
+  public function getEntityManager() {
+    return $this->em;
+  }
 }

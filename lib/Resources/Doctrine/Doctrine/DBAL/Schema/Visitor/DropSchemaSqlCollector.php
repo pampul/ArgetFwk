@@ -21,14 +21,7 @@
 
 namespace Doctrine\DBAL\Schema\Visitor;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform,
-    Doctrine\DBAL\Schema\Table,
-    Doctrine\DBAL\Schema\Schema,
-    Doctrine\DBAL\Schema\Column,
-    Doctrine\DBAL\Schema\ForeignKeyConstraint,
-    Doctrine\DBAL\Schema\Constraint,
-    Doctrine\DBAL\Schema\Sequence,
-    Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Platforms\AbstractPlatform, Doctrine\DBAL\Schema\Table, Doctrine\DBAL\Schema\Schema, Doctrine\DBAL\Schema\Column, Doctrine\DBAL\Schema\ForeignKeyConstraint, Doctrine\DBAL\Schema\Constraint, Doctrine\DBAL\Schema\Sequence, Doctrine\DBAL\Schema\Index;
 
 /**
  * Gather SQL statements that allow to completly drop the current schema.
@@ -38,122 +31,112 @@ use Doctrine\DBAL\Platforms\AbstractPlatform,
  * @since   2.0
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class DropSchemaSqlCollector implements Visitor
-{
-    /**
-     * @var \SplObjectStorage
-     */
-    private $constraints;
+class DropSchemaSqlCollector implements Visitor {
+  /**
+   * @var \SplObjectStorage
+   */
+  private $constraints;
 
-    /**
-     * @var \SplObjectStorage
-     */
-    private $sequences;
+  /**
+   * @var \SplObjectStorage
+   */
+  private $sequences;
 
-    /**
-     * @var \SplObjectStorage
-     */
-    private $tables;
+  /**
+   * @var \SplObjectStorage
+   */
+  private $tables;
 
-    /**
-     *
-     * @var \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    private $platform;
+  /**
+   *
+   * @var \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  private $platform;
 
-    /**
-     * @param AbstractPlatform $platform
-     */
-    public function __construct(AbstractPlatform $platform)
-    {
-        $this->platform = $platform;
-        $this->clearQueries();
+  /**
+   * @param AbstractPlatform $platform
+   */
+  public function __construct(AbstractPlatform $platform) {
+    $this->platform = $platform;
+    $this->clearQueries();
+  }
+
+  /**
+   * @param Schema $schema
+   */
+  public function acceptSchema(Schema $schema) {
+
+  }
+
+  /**
+   * @param Table $table
+   */
+  public function acceptTable(Table $table) {
+    $this->tables->attach($table);
+  }
+
+  /**
+   * @param Column $column
+   */
+  public function acceptColumn(Table $table, Column $column) {
+
+  }
+
+  /**
+   * @param Table                $localTable
+   * @param ForeignKeyConstraint $fkConstraint
+   */
+  public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint) {
+    if (strlen($fkConstraint->getName()) == 0) {
+      throw SchemaException::namedForeignKeyRequired($localTable, $fkConstraint);
     }
 
-    /**
-     * @param Schema $schema
-     */
-    public function acceptSchema(Schema $schema)
-    {
+    $this->constraints->attach($fkConstraint);
+    $this->constraints[$fkConstraint] = $localTable;
+  }
 
+  /**
+   * @param Table $table
+   * @param Index $index
+   */
+  public function acceptIndex(Table $table, Index $index) {
+
+  }
+
+  /**
+   * @param Sequence $sequence
+   */
+  public function acceptSequence(Sequence $sequence) {
+    $this->sequences->attach($sequence);
+  }
+
+  /**
+   * @return void
+   */
+  public function clearQueries() {
+    $this->constraints = new \SplObjectStorage();
+    $this->sequences   = new \SplObjectStorage();
+    $this->tables      = new \SplObjectStorage();
+  }
+
+  /**
+   * @return array
+   */
+  public function getQueries() {
+    $sql = array();
+    foreach ($this->constraints AS $fkConstraint) {
+      $localTable = $this->constraints[$fkConstraint];
+      $sql[]      = $this->platform->getDropForeignKeySQL($fkConstraint, $localTable);
     }
 
-    /**
-     * @param Table $table
-     */
-    public function acceptTable(Table $table)
-    {
-        $this->tables->attach($table);
+    foreach ($this->sequences AS $sequence) {
+      $sql[] = $this->platform->getDropSequenceSQL($sequence);
     }
 
-    /**
-     * @param Column $column
-     */
-    public function acceptColumn(Table $table, Column $column)
-    {
-
+    foreach ($this->tables AS $table) {
+      $sql[] = $this->platform->getDropTableSQL($table);
     }
 
-    /**
-     * @param Table $localTable
-     * @param ForeignKeyConstraint $fkConstraint
-     */
-    public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
-    {
-        if (strlen($fkConstraint->getName()) == 0) {
-            throw SchemaException::namedForeignKeyRequired($localTable, $fkConstraint);
-        }
-
-        $this->constraints->attach($fkConstraint);
-        $this->constraints[$fkConstraint] = $localTable;
-    }
-
-    /**
-     * @param Table $table
-     * @param Index $index
-     */
-    public function acceptIndex(Table $table, Index $index)
-    {
-
-    }
-
-    /**
-     * @param Sequence $sequence
-     */
-    public function acceptSequence(Sequence $sequence)
-    {
-        $this->sequences->attach($sequence);
-    }
-
-    /**
-     * @return void
-     */
-    public function clearQueries()
-    {
-        $this->constraints = new \SplObjectStorage();
-        $this->sequences = new \SplObjectStorage();
-        $this->tables = new \SplObjectStorage();
-    }
-
-    /**
-     * @return array
-     */
-    public function getQueries()
-    {
-        $sql = array();
-        foreach ($this->constraints AS $fkConstraint) {
-            $localTable = $this->constraints[$fkConstraint];
-            $sql[] = $this->platform->getDropForeignKeySQL($fkConstraint, $localTable);
-        }
-
-        foreach ($this->sequences AS $sequence) {
-            $sql[] = $this->platform->getDropSequenceSQL($sequence);
-        }
-
-        foreach ($this->tables AS $table) {
-            $sql[] = $this->platform->getDropTableSQL($table);
-        }
-
-        return $sql;
-    }
+    return $sql;
+  }
 }

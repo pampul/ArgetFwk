@@ -33,18 +33,15 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class SimpleSelectExpression extends Node
-{
-    public $expression;
-    public $fieldIdentificationVariable;
+class SimpleSelectExpression extends Node {
+  public $expression;
+  public $fieldIdentificationVariable;
 
-    public function __construct($expression)
-    {
-        $this->expression = $expression;
-    }
+  public function __construct($expression) {
+    $this->expression = $expression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkSimpleSelectExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkSimpleSelectExpression($this);
+  }
 }

@@ -24,34 +24,30 @@ namespace Doctrine\DBAL\Types;
  *
  * @since 2.0
  */
-class ObjectType extends Type
-{
-    public function getSQLDeclaration(array $fieldDeclaration, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
-    {
-        return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+class ObjectType extends Type {
+  public function getSQLDeclaration(array $fieldDeclaration, \Doctrine\DBAL\Platforms\AbstractPlatform $platform) {
+    return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
+  }
+
+  public function convertToDatabaseValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform) {
+    return serialize($value);
+  }
+
+  public function convertToPHPValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform) {
+    if ($value === null) {
+      return null;
     }
 
-    public function convertToDatabaseValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
-    {
-        return serialize($value);
+    $value = (is_resource($value)) ? stream_get_contents($value) : $value;
+    $val   = unserialize($value);
+    if ($val === false && $value !== 'b:0;') {
+      throw ConversionException::conversionFailed($value, $this->getName());
     }
 
-    public function convertToPHPValue($value, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
-    {
-        if ($value === null) {
-            return null;
-        }
+    return $val;
+  }
 
-        $value = (is_resource($value)) ? stream_get_contents($value) : $value;
-        $val = unserialize($value);
-        if ($val === false && $value !== 'b:0;') {
-            throw ConversionException::conversionFailed($value, $this->getName());
-        }
-        return $val;
-    }
-
-    public function getName()
-    {
-        return Type::OBJECT;
-    }
+  public function getName() {
+    return Type::OBJECT;
+  }
 }

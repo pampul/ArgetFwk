@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class IndexBy extends Node
-{
-    public $simpleStateFieldPathExpression = null;
+class IndexBy extends Node {
+  public $simpleStateFieldPathExpression = null;
 
-    public function __construct($simpleStateFieldPathExpression)
-    {
-        $this->simpleStateFieldPathExpression = $simpleStateFieldPathExpression;
-    }
+  public function __construct($simpleStateFieldPathExpression) {
+    $this->simpleStateFieldPathExpression = $simpleStateFieldPathExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkIndexBy($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkIndexBy($this);
+  }
 }

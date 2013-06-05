@@ -15,22 +15,21 @@
  * @subpackage Mime
  * @author     Chris Corbyn
  */
-interface Swift_Mime_ParameterizedHeader extends Swift_Mime_Header
-{
-    /**
-     * Set the value of $parameter.
-     *
-     * @param string $parameter
-     * @param string $value
-     */
-    public function setParameter($parameter, $value);
+interface Swift_Mime_ParameterizedHeader extends Swift_Mime_Header {
+  /**
+   * Set the value of $parameter.
+   *
+   * @param string $parameter
+   * @param string $value
+   */
+  public function setParameter($parameter, $value);
 
-    /**
-     * Get the value of $parameter.
-     *
-     * @param string $parameter
-     *
-     * @return string
-     */
-    public function getParameter($parameter);
+  /**
+   * Get the value of $parameter.
+   *
+   * @param string $parameter
+   *
+   * @return string
+   */
+  public function getParameter($parameter);
 }

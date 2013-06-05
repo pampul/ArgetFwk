@@ -7,8 +7,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * @Entity(repositoryClass="Resources\Entities\ConfigRepository") @Table(name="config")
  */
-class Config
-{
+class Config {
 
   /**
    * @Id @Column(type="integer")
@@ -26,13 +25,11 @@ class Config
    */
   private $value;
 
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
   }
 
@@ -53,9 +50,7 @@ class Config
   }
 
 
-
-  public function __toString()
-  {
+  public function __toString() {
     return $this->name;
   }
 

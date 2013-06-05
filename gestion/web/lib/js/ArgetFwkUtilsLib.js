@@ -3,8 +3,7 @@
  *
  * @author f.mithieux
  */
-function ArgetFwkUtilsLib()
-{
+function ArgetFwkUtilsLib() {
 
   var pagination = $('#dynamic-table').attr('data-nbrsaved') / $('#dynamic-table').attr('data-max-result') - 1;
   var maxResults = $('#last-tr').attr('data-max-result');
@@ -16,11 +15,11 @@ function ArgetFwkUtilsLib()
   var dataProperty = '';
 
 
-  this.trim = function(str) {
+  this.trim = function (str) {
     return str.replace(/^\s+/g, '').replace(/\s+$/g, '');
   }
 
-  this.getBytesWithUnit = function(bytes) {
+  this.getBytesWithUnit = function (bytes) {
     if (isNaN(bytes)) {
       return;
     }
@@ -39,8 +38,8 @@ function ArgetFwkUtilsLib()
     return bytes + units[i];
   };
 
-  this.modifyInfoInactiv = function() {
-    $('.value').each(function() {
+  this.modifyInfoInactiv = function () {
+    $('.value').each(function () {
       if ($(this).attr('data-modify-type') !== 'password') {
         if ($(this).children('input')) {
           var parent = $(this).parent('div');
@@ -59,7 +58,7 @@ function ArgetFwkUtilsLib()
     });
   }
 
-  this.inputsActive = function(elem) {
+  this.inputsActive = function (elem) {
 
     if (elem.attr('data-method') !== 'id') {
 
@@ -84,7 +83,7 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.modifInfoValidation = function(target) {
+  this.modifInfoValidation = function (target) {
 
     if (target.attr('id') === 'modif-input') {
       var newValue = target.val();
@@ -110,7 +109,7 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.inputsValidation = function(target) {
+  this.inputsValidation = function (target) {
 
     if (target.attr('id') === 'modifyInput') {
       var newValue = target.val();
@@ -136,9 +135,9 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.inputsUnselect = function() {
+  this.inputsUnselect = function () {
 
-    $('.modify-item').each(function() {
+    $('.modify-item').each(function () {
 
       if ($(this).attr('data-edit') === 'true') {
         var valueInput = $(this).children('input').attr('data-value');
@@ -151,7 +150,7 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.waitToPlayJs = function(check, onComplete, delay, timeout) {
+  this.waitToPlayJs = function (check, onComplete, delay, timeout) {
     // Si check return true, on execute le onComplete()
     if (check()) {
       onComplete();
@@ -160,7 +159,7 @@ function ArgetFwkUtilsLib()
     if (!delay)
       delay = 100;
     var timeoutPointer;
-    var intervalPointer = setInterval(function() {
+    var intervalPointer = setInterval(function () {
       if (!check())
         return; // On recommence un tour si check return false
       // Si tout est bon, on clearInterval et execute onComplete()
@@ -171,20 +170,20 @@ function ArgetFwkUtilsLib()
     }, delay);
     // On annule si le timeout est dépassé
     if (timeout)
-      timeoutPointer = setTimeout(function() {
+      timeoutPointer = setTimeout(function () {
         clearInterval(intervalPointer);
       }, timeout);
   }
 
-  this.waitDelayAndPlayJs = function(onComplete, delay) {
+  this.waitDelayAndPlayJs = function (onComplete, delay) {
 
-    setTimeout(function() {
+    setTimeout(function () {
       onComplete();
     }, delay);
 
   }
 
-  this.messageBox = function(boxChoice, content, time) {
+  this.messageBox = function (boxChoice, content, time) {
 
     if (!time)
       time = 10;
@@ -195,14 +194,14 @@ function ArgetFwkUtilsLib()
 
     $(boxChoice).fadeIn('fast');
 
-    this.waitDelayAndPlayJs(function() {
+    this.waitDelayAndPlayJs(function () {
       $(boxChoice).fadeOut('normal');
     }, time);
 
 
   }
 
-  this.refreshContent = function(elem, arrayParams) {
+  this.refreshContent = function (elem, arrayParams) {
 
     if (arrayParams["csv"]) {
       var paramCsv = 'true';
@@ -212,7 +211,7 @@ function ArgetFwkUtilsLib()
       var paramIds = '';
     }
 
-    if($('.search-query').length > 0){
+    if ($('.search-query').length > 0) {
       search = $('.search-query').val();
       methods = $('.search-query').attr('title');
     }
@@ -226,10 +225,10 @@ function ArgetFwkUtilsLib()
       $('#dynamic-table').attr('data-orderby', orderBy);
       orderDir = elem.attr('name');
       $('#dynamic-table').attr('data-orderdir', orderDir);
-      if (elem.attr('data-property')){
+      if (elem.attr('data-property')) {
         dataProperty = elem.attr('data-property');
         $('#dynamic-table').attr('data-property', dataProperty);
-      }else{
+      } else {
         dataProperty = '';
         $('#dynamic-table').attr('data-property', dataProperty);
       }
@@ -264,20 +263,20 @@ function ArgetFwkUtilsLib()
       $('#dynamic-table').attr('data-orderby', orderBy);
       orderDir = $('#last-tr').attr('data-order-dir');
       $('#dynamic-table').attr('data-orderdir', orderDir);
-      $('.sortSelect').each(function() {
+      $('.sortSelect').each(function () {
         $(this).val('');
       });
     }
 
     var selectsVals = '';
-    $('.sortSelect').each(function() {
+    $('.sortSelect').each(function () {
       selectsVals += 'class==' + $(this).attr('data-class') + '__method==' + $(this).attr('data-method') + '__value==' + $(this).val() + '||';
     });
 
     var objAjax = new AjaxLib();
     objAjax.setController('table');
     objAjax.setMethod('refreshBody');
-    objAjax.setDataString('&class=' + className + '&sort=' + $('#dynamic-table').attr('data-orderby') + '&order=' + $('#dynamic-table').attr('data-orderdir') + '&columns=' + columns + '&pagination=' + pagination + '&search=' + $('.search-query').val() + '&maxResult=' + maxResults + '&nbrSaved=' + $('#dynamic-table').attr('data-nbrsaved') + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + $('#dynamic-table').attr('data-property') + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds + '&removeCriteria='+removeCriteria+'&selectsVals=' + selectsVals);
+    objAjax.setDataString('&class=' + className + '&sort=' + $('#dynamic-table').attr('data-orderby') + '&order=' + $('#dynamic-table').attr('data-orderdir') + '&columns=' + columns + '&pagination=' + pagination + '&search=' + $('.search-query').val() + '&maxResult=' + maxResults + '&nbrSaved=' + $('#dynamic-table').attr('data-nbrsaved') + '&sendPagination=' + sendPagination + '&methods=' + methods + '&actionButtons=' + $('#actionButton').val() + '&nbrExisting=' + $('#total-top').html() + '&data_property=' + $('#dynamic-table').attr('data-property') + '&paramCsv=' + paramCsv + '&paramIds=' + paramIds + '&removeCriteria=' + removeCriteria + '&selectsVals=' + selectsVals);
     if (!arrayParams["csv"]) {
       objAjax.setDataType("xml");
       objAjax.setAsyncValue(true);
@@ -293,10 +292,10 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.checkChecked = function() {
+  this.checkChecked = function () {
 
     var numberOfChecked = 0;
-    $('td.checkItemTd input').each(function() {
+    $('td.checkItemTd input').each(function () {
       if ($(this).attr('checked') === 'checked') {
         $(this).parent('span').parent('div').parent('td').parent('tr').attr('class', 'checkedTr');
         numberOfChecked++;
@@ -320,7 +319,7 @@ function ArgetFwkUtilsLib()
     }
   }
 
-  this.checkPagination = function() {
+  this.checkPagination = function () {
 
     var nbrSaved = parseInt($('#dynamic-table').attr('data-nbrsaved'));
 
@@ -336,7 +335,7 @@ function ArgetFwkUtilsLib()
   }
 
 
-  this.checkInputs = function(elem, expreg, type, ajax, repository, method, datalength) {
+  this.checkInputs = function (elem, expreg, type, ajax, repository, method, datalength) {
 
     if (ajax !== '' && repository !== '' && method !== '') {
       var objAjax = new AjaxLib();
@@ -417,7 +416,7 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.refreshReponses = function(idTicket) {
+  this.refreshReponses = function (idTicket) {
 
     var objAjax = new AjaxLib();
     objAjax.setController('dashboard');
@@ -430,18 +429,18 @@ function ArgetFwkUtilsLib()
 
   }
 
-  this.nl2br = function(str) {
+  this.nl2br = function (str) {
 
     var breakTag = '<br/>';
 
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
   }
 
-  this.br2nl = function(str) {
+  this.br2nl = function (str) {
     return str.replace(/<br>|<br\/>|<br \/>/g, '\r');
   }
 
-  this.trim = function(str) {
+  this.trim = function (str) {
     return str.replace(/^\s+/g, '').replace(/\s+$/g, '');
   }
 

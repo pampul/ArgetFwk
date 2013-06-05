@@ -31,33 +31,29 @@ use Doctrine\Common\EventSubscriber;
  * @since       2.2
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class SQLSessionInit implements EventSubscriber
-{
-    /**
-     * @var string
-     */
-    protected $sql;
+class SQLSessionInit implements EventSubscriber {
+  /**
+   * @var string
+   */
+  protected $sql;
 
-    /**
-     * @param string $sql
-     */
-    public function __construct($sql)
-    {
-        $this->sql = $sql;
-    }
+  /**
+   * @param string $sql
+   */
+  public function __construct($sql) {
+    $this->sql = $sql;
+  }
 
-    /**
-     * @param ConnectionEventArgs $args
-     * @return void
-     */
-    public function postConnect(ConnectionEventArgs $args)
-    {
-        $conn = $args->getConnection();
-        $conn->exec($this->sql);
-    }
+  /**
+   * @param ConnectionEventArgs $args
+   * @return void
+   */
+  public function postConnect(ConnectionEventArgs $args) {
+    $conn = $args->getConnection();
+    $conn->exec($this->sql);
+  }
 
-    public function getSubscribedEvents()
-    {
-        return array(Events::postConnect);
-    }
+  public function getSubscribedEvents() {
+    return array(Events::postConnect);
+  }
 }

@@ -33,48 +33,45 @@ namespace Doctrine\ORM\Tools\Console;
  * @author      Jonathan Wage <jonwage@gmail.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class MetadataFilter extends \FilterIterator implements \Countable
-{
-    /**
-     * Filter Metadatas by one or more filter options.
-     *
-     * @param array $metadatas
-     * @param array|string $filter
-     * @return array
-     */
-    static public function filter(array $metadatas, $filter)
-    {
-        $metadatas = new MetadataFilter(new \ArrayIterator($metadatas), $filter);
-        return iterator_to_array($metadatas);
+class MetadataFilter extends \FilterIterator implements \Countable {
+  /**
+   * Filter Metadatas by one or more filter options.
+   *
+   * @param array        $metadatas
+   * @param array|string $filter
+   * @return array
+   */
+  static public function filter(array $metadatas, $filter) {
+    $metadatas = new MetadataFilter(new \ArrayIterator($metadatas), $filter);
+
+    return iterator_to_array($metadatas);
+  }
+
+  private $_filter = array();
+
+  public function __construct(\ArrayIterator $metadata, $filter) {
+    $this->_filter = (array)$filter;
+    parent::__construct($metadata);
+  }
+
+  public function accept() {
+    if (count($this->_filter) == 0) {
+      return true;
     }
 
-    private $_filter = array();
+    $it       = $this->getInnerIterator();
+    $metadata = $it->current();
 
-    public function __construct(\ArrayIterator $metadata, $filter)
-    {
-        $this->_filter = (array)$filter;
-        parent::__construct($metadata);
+    foreach ($this->_filter AS $filter) {
+      if (strpos($metadata->name, $filter) !== false) {
+        return true;
+      }
     }
 
-    public function accept()
-    {
-        if (count($this->_filter) == 0) {
-            return true;
-        }
+    return false;
+  }
 
-        $it = $this->getInnerIterator();
-        $metadata = $it->current();
-
-        foreach ($this->_filter AS $filter) {
-            if (strpos($metadata->name, $filter) !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function count()
-    {
-        return count($this->getInnerIterator());
-    }
+  public function count() {
+    return count($this->getInnerIterator());
+  }
 }

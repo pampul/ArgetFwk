@@ -28,84 +28,65 @@ namespace Doctrine\Common\Annotations;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class AnnotationException extends \Exception
-{
-    /**
-     * Creates a new AnnotationException describing a Syntax error.
-     *
-     * @param string $message Exception message
-     * @return AnnotationException
-     */
-    public static function syntaxError($message)
-    {
-        return new self('[Syntax Error] ' . $message);
-    }
+class AnnotationException extends \Exception {
+  /**
+   * Creates a new AnnotationException describing a Syntax error.
+   *
+   * @param string $message Exception message
+   * @return AnnotationException
+   */
+  public static function syntaxError($message) {
+    return new self('[Syntax Error] ' . $message);
+  }
 
-    /**
-     * Creates a new AnnotationException describing a Semantical error.
-     *
-     * @param string $message Exception message
-     * @return AnnotationException
-     */
-    public static function semanticalError($message)
-    {
-        return new self('[Semantical Error] ' . $message);
-    }
+  /**
+   * Creates a new AnnotationException describing a Semantical error.
+   *
+   * @param string $message Exception message
+   * @return AnnotationException
+   */
+  public static function semanticalError($message) {
+    return new self('[Semantical Error] ' . $message);
+  }
 
-    /**
-     * Creates a new AnnotationException describing an error which occurred during
-     * the creation of the annotation.
-     *
-     * @since 2.2
-     * @param string $message
-     * @return AnnotationException
-     */
-    public static function creationError($message)
-    {
-        return new self('[Creation Error] ' . $message);
-    }
+  /**
+   * Creates a new AnnotationException describing an error which occurred during
+   * the creation of the annotation.
+   *
+   * @since 2.2
+   * @param string $message
+   * @return AnnotationException
+   */
+  public static function creationError($message) {
+    return new self('[Creation Error] ' . $message);
+  }
 
-    /**
-     * Creates a new AnnotationException describing an type error of an attribute.
-     *
-     * @since 2.2
-     * @param string $attributeName
-     * @param string $annotationName
-     * @param string $context
-     * @param string $expected
-     * @param mixed $actual
-     * @return AnnotationException
-     */
-    public static function typeError($attributeName, $annotationName, $context, $expected, $actual)
-    {
-        return new self(sprintf(
-            '[Type Error] Attribute "%s" of @%s declared on %s expects %s, but got %s.',
-            $attributeName,
-            $annotationName,
-            $context,
-            $expected,
-            is_object($actual) ? 'an instance of '.get_class($actual) : gettype($actual)
-        ));
-    }
+  /**
+   * Creates a new AnnotationException describing an type error of an attribute.
+   *
+   * @since 2.2
+   * @param string $attributeName
+   * @param string $annotationName
+   * @param string $context
+   * @param string $expected
+   * @param mixed  $actual
+   * @return AnnotationException
+   */
+  public static function typeError($attributeName, $annotationName, $context, $expected, $actual) {
+    return new self(sprintf('[Type Error] Attribute "%s" of @%s declared on %s expects %s, but got %s.', $attributeName, $annotationName, $context, $expected, is_object($actual) ? 'an instance of ' . get_class($actual) : gettype($actual)));
+  }
 
-    /**
-     * Creates a new AnnotationException describing an required error of an attribute.
-     *
-     * @since 2.2
-     * @param string $attributeName
-     * @param string $annotationName
-     * @param string $context
-     * @param string $expected
-     * @return AnnotationException
-     */
-    public static function requiredError($attributeName, $annotationName, $context, $expected)
-    {
-        return new self(sprintf(
-            '[Type Error] Attribute "%s" of @%s declared on %s expects %s. This value should not be null.',
-            $attributeName,
-            $annotationName,
-            $context,
-            $expected
-        ));
-    }
+  /**
+   * Creates a new AnnotationException describing an required error of an attribute.
+   *
+   * @since 2.2
+   * @param string $attributeName
+   * @param string $annotationName
+   * @param string $context
+   * @param string $expected
+   * @return AnnotationException
+   */
+  public static function requiredError($attributeName, $annotationName, $context, $expected) {
+    return new self(sprintf('[Type Error] Attribute "%s" of @%s declared on %s expects %s. This value should not be null.', $attributeName, $annotationName, $context, $expected));
+  }
 }

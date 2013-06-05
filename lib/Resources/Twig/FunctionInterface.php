@@ -16,22 +16,21 @@
  * @package    twig
  * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>
  */
-interface Twig_FunctionInterface
-{
-    /**
-     * Compiles a function.
-     *
-     * @return string The PHP code for the function
-     */
-    function compile();
+interface Twig_FunctionInterface {
+  /**
+   * Compiles a function.
+   *
+   * @return string The PHP code for the function
+   */
+  function compile();
 
-    function needsEnvironment();
+  function needsEnvironment();
 
-    function needsContext();
+  function needsContext();
 
-    function getSafe(Twig_Node $filterArgs);
+  function getSafe(Twig_Node $filterArgs);
 
-    function setArguments($arguments);
+  function setArguments($arguments);
 
-    function getArguments();
+  function getArguments();
 }

@@ -8,9 +8,11 @@
       </a>
       <ul class="nav secondary-nav">
         <li class="dropdown-custom">
-          <a class="brand dropdown-toggle-custom" href="{{ constant('SITE_URL') }}" id="brandTitle">{{ constant('SITE_NOM') }}</a>
+          <a class="brand dropdown-toggle-custom" href="{{ constant('SITE_URL') }}"
+             id="brandTitle">{{ constant('SITE_NOM') }}</a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ constant('SITE_URL_BASE') }}" target="_blank" title="Voir le site"><i class="icon-eye-open"></i> Voir le site</a></li>
+            <li><a href="{{ constant('SITE_URL_BASE') }}" target="_blank" title="Voir le site"><i
+                    class="icon-eye-open"></i> Voir le site</a></li>
           </ul>
         </li>
       </ul>
@@ -20,7 +22,9 @@
           <li class="active"><a href="{{ constant('SITE_URL') }}"><i class="icon-home"></i> Accueil</a></li>
 
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% if admin.privilege.level > 8 %}Gestion des pages & SEO  {% else %}Gestion des pages{% endif %}<b class=caret></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown"
+               href="#">{% if admin.privilege.level > 8 %}Gestion des pages & SEO  {% else %}Gestion des pages{% endif %}
+              <b class=caret></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               {% if admin.privilege.level > 8 %}
                 <li><a href="dashboard/seo">T&D pages statiques</a></li>
@@ -36,7 +40,8 @@
 
           <li class="dropdown">
 
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-user"></i> Admin  <b class=caret></b></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-white icon-user"></i> Admin <b
+                  class=caret></b></a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
               <li><a href="dashboard/infos"><i class="icon-user"></i> Mes informations</a></li>
               <li><a href="dashboard/stats"><i class="icon-signal"></i> Statistiques</a></li>
@@ -58,7 +63,8 @@
           </li>
 
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
+      <!--/.nav-collapse -->
     </div>
   </div>
 </div>

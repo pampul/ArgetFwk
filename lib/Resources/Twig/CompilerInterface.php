@@ -15,21 +15,20 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-interface Twig_CompilerInterface
-{
-    /**
-     * Compiles a node.
-     *
-     * @param Twig_NodeInterface $node The node to compile
-     *
-     * @return Twig_CompilerInterface The current compiler instance
-     */
-    function compile(Twig_NodeInterface $node);
+interface Twig_CompilerInterface {
+  /**
+   * Compiles a node.
+   *
+   * @param Twig_NodeInterface $node The node to compile
+   *
+   * @return Twig_CompilerInterface The current compiler instance
+   */
+  function compile(Twig_NodeInterface $node);
 
-    /**
-     * Gets the current PHP code after compilation.
-     *
-     * @return string The PHP code
-     */
-    function getSource();
+  /**
+   * Gets the current PHP code after compilation.
+   *
+   * @return string The PHP code
+   */
+  function getSource();
 }

@@ -19,11 +19,10 @@ class AuthGestionFilter extends FilterManager {
       if (!preg_match('#auth/login#', SITE_CURRENT_URI))
         $_SESSION['site_request_uri'] = SITE_CURRENT_URI;
       header('Location: ' . SITE_URL . 'auth/login');
-    }elseif (isset($_SESSION['admin']['email']) && !in_array(GET_CONTENT, $this->acceptedContent)) {
+    } elseif (isset($_SESSION['admin']['email']) && !in_array(GET_CONTENT, $this->acceptedContent)) {
       $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('id' => $_SESSION['admin']['id'], 'email' => $_SESSION['admin']['email']));
       if (is_object($objAdmin))
-        $this->checkPrivilegeFilter($objAdmin);
-      else {
+        $this->checkPrivilegeFilter($objAdmin); else {
         session_destroy();
         header('Location: ' . SITE_URL . 'auth/login');
       }

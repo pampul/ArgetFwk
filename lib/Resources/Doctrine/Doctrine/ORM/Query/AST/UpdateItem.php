@@ -34,20 +34,17 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class UpdateItem extends Node
-{
-    public $pathExpression;
-    public $newValue;
+class UpdateItem extends Node {
+  public $pathExpression;
+  public $newValue;
 
-    public function __construct($pathExpression, $newValue)
-    {
-        $this->pathExpression = $pathExpression;
-        $this->newValue = $newValue;
-    }
+  public function __construct($pathExpression, $newValue) {
+    $this->pathExpression = $pathExpression;
+    $this->newValue       = $newValue;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkUpdateItem($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkUpdateItem($this);
+  }
 }
 

@@ -33,13 +33,12 @@ namespace Doctrine\Common;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-interface NotifyPropertyChanged
-{
-    /**
-     * Adds a listener that wants to be notified about property changes.
-     *
-     * @param PropertyChangedListener $listener
-     */
-    function addPropertyChangedListener(PropertyChangedListener $listener);
+interface NotifyPropertyChanged {
+  /**
+   * Adds a listener that wants to be notified about property changes.
+   *
+   * @param PropertyChangedListener $listener
+   */
+  function addPropertyChangedListener(PropertyChangedListener $listener);
 }
 

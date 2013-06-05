@@ -20,112 +20,117 @@
 {# Contenu de la page #}
 {% block content %}
 
-<div class="row">
+  <div class="row">
 
     <br/><br/><br/>
 
 
     <div class="span12">
 
-        <div class="widget-content">
+      <div class="widget-content">
 
-            <a class="hand" id="goBack" href="dashboard/tickets"><i class="icon-arrow-left"></i> Page précédente</a>
+        <a class="hand" id="goBack" href="dashboard/tickets"><i class="icon-arrow-left"></i> Page précédente</a>
 
-            <br/><br/>
+        <br/><br/>
 
-            <h4 class="fwk-title" data-id="{{ objTicket.id }}" id="idTicketH4">{{ objTicket.titre }}</h4>
+        <h4 class="fwk-title" data-id="{{ objTicket.id }}" id="idTicketH4">{{ objTicket.titre }}</h4>
 
-            <strong style="display: inline-block; width: 150px;">Date : </strong>{{ objTicket.date }}
-            <br/>
-            <strong style="display: inline-block; width: 150px;">Statut : </strong>
-                {% if objTicket.statut == 'ferme' %}
-            <div class="alert alert-error alert-nopadding alert-mini">fermé</div>
+        <strong style="display: inline-block; width: 150px;">Date : </strong>{{ objTicket.date }}
+        <br/>
+        <strong style="display: inline-block; width: 150px;">Statut : </strong>
+        {% if objTicket.statut == 'ferme' %}
+          <div class="alert alert-error alert-nopadding alert-mini">fermé</div>
+        {% else %}
+          <div class="alert alert-success alert-nopadding alert-mini">ouvert</div>
+        {% endif %}
+        {% if (objAdmin.id == objTicketOwner.id or objAdmin.privilege.level > 8) %}
+          <button class="btn btn-small" id="modifierStatut" data-id="{{ objTicket.id }}"
+                  data-statut="{{ objTicket.statut }}"><i class="icon-refresh"></i> Modifier
+          </button>
+        {% endif %}
+        <br/>
+        <strong style="display: inline-block; width: 150px;">Type de ticket
+          : </strong>{{ objTicket.typeTicketPerso|raw }}
+        <hr/>
+
+        <br/>
+
+        <div class="row">
+
+          <div class="span2 hidden-phone">
+
+            <div class="avatar-user-mini pull-right">
+
+              <div class="avatar-user-container-mini">
+
+                {% if objTicketOwner.avatar is null %}
+
+                  <img src="web/img/default.png" alt="avatar default"/>
+
                 {% else %}
-            <div class="alert alert-success alert-nopadding alert-mini">ouvert</div>
+
+                  <img src="web/uploads/{{ objTicketOwner.avatar }}" alt="Avatar utilisateur"/>
+
                 {% endif %}
-            {% if (objAdmin.id == objTicketOwner.id or objAdmin.privilege.level > 8) %}
-            <button class="btn btn-small" id="modifierStatut" data-id="{{ objTicket.id }}" data-statut="{{ objTicket.statut }}"><i class="icon-refresh"></i> Modifier</button>
-            {% endif %}
-            <br/>
-            <strong style="display: inline-block; width: 150px;">Type de ticket : </strong>{{ objTicket.typeTicketPerso|raw }}
-            <hr/>
 
-            <br/>
-
-            <div class="row">
-
-                <div class="span2 hidden-phone">
-
-                    <div class="avatar-user-mini pull-right">
-
-                        <div class="avatar-user-container-mini">
-
-                                                {% if objTicketOwner.avatar is null %}
-
-                            <img src="web/img/default.png" alt="avatar default" />
-
-                                                {% else %}
-
-                            <img src="web/uploads/{{ objTicketOwner.avatar }}" alt="Avatar utilisateur" />
-
-                                                {% endif %}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="span8 tickets-text">
-
-                    <div class="text-wrapper">
-
-                        <div class="text-container">
-
-                            <div class="pull-right text-edit-button">
-                                {% if objAdmin.id == objTicketOwner.id %}
-                                    <button class="btn btn-small editItem" data-id="{{ objTicket.id }}">Editer le ticket</button>
-                                {% endif %}
-                                </div>
-
-                                <div class="text-title">
-                                    <strong>{{ objTicketOwner.prenom }} {{ objTicketOwner.nom }}</strong> a ouvert ce ticket le {{ objTicket.date }}
-                                    <br/>
-                                    <strong style="font-size: 18px;">{{ objTicket.titre }}</strong>
-                                </div>
-
-                                <div class="text-content">
-                            {{ objTicket.texteHtml|raw }}
-
-
-                                    </div>
-
-                                    <div id="updateTicket" class="updateDiv">
-                                        <button class="btn cancelItem">Annuler</button>
-                                        <button class="btn pull-right sendUpdateItem" data-class="ticket" data-id="{{ objTicket.id }}">Mettre à jour</button>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div id="listing-rep">
-                        {% include 'views/ticket-reponse-listing.html.twig' %}
-                        </div>
-
-                        <br/><br/>
-
-                {% include 'views/ticket-reponse.html.twig' %}
-
-
-
-                    </div>
-                </div>
+              </div>
 
             </div>
+
+          </div>
+
+          <div class="span8 tickets-text">
+
+            <div class="text-wrapper">
+
+              <div class="text-container">
+
+                <div class="pull-right text-edit-button">
+                  {% if objAdmin.id == objTicketOwner.id %}
+                    <button class="btn btn-small editItem" data-id="{{ objTicket.id }}">Editer le ticket</button>
+                  {% endif %}
+                </div>
+
+                <div class="text-title">
+                  <strong>{{ objTicketOwner.prenom }} {{ objTicketOwner.nom }}</strong> a ouvert ce ticket
+                  le {{ objTicket.date }}
+                  <br/>
+                  <strong style="font-size: 18px;">{{ objTicket.titre }}</strong>
+                </div>
+
+                <div class="text-content">
+                  {{ objTicket.texteHtml|raw }}
+
+
+                </div>
+
+                <div id="updateTicket" class="updateDiv">
+                  <button class="btn cancelItem">Annuler</button>
+                  <button class="btn pull-right sendUpdateItem" data-class="ticket" data-id="{{ objTicket.id }}">Mettre
+                    à jour
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div id="listing-rep">
+          {% include 'views/ticket-reponse-listing.html.twig' %}
+        </div>
+
+        <br/><br/>
+
+        {% include 'views/ticket-reponse.html.twig' %}
+
+
+      </div>
+    </div>
+
+  </div>
 
 {% endblock %}
 
@@ -133,99 +138,99 @@
 
 {# Importation du JS #}
 {% block jsinclude %}
-            <script>
-    
-                $(function(){
-                
-                    var argetFwkUtilsLib = new ArgetFwkUtilsLib();
-        
-                    $('.editItem').live('click', function(){
-                    
-                        var elem = $(this).parent().next('div').next('div');
-                        var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.br2nl(elem.html()));
-                    
-                        elem.html('<textarea name="texte" rows="4" style="width: 100%;" id="textareaTicketValue">' + textContent + '</textarea>')
-                    
-                        elem.next('div').show();
-                    
-                    });
-            
-                    $('.cancelItem').live('click', function(){
-                        var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.nl2br($(this).parent().prev().children().val()));
-                        $(this).parent().prev('div').html(textContent);
-                        $(this).parent().hide();
-                    });
-            
-                    $('.sendUpdateItem').live('click', function(){
-                    
-                        var textContent = $(this).parent().prev().children().val();
-                        var classval = $(this).attr('data-class');
-                        var idProduct = $(this).attr('data-id');
-                    
-                        var objAjax = new AjaxLib();
-                        objAjax.setController('table');
-                        objAjax.setMethod('modifyLine');
-                        objAjax.setDataString('&class=' + classval + '&idProduct='+idProduct+'&newMethod=texte&newValue=' + textContent);
-                        returnValue = objAjax.execute();
+  <script>
 
-                        if (returnValue === 'done.') {
-                            var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.nl2br($('#textareaTicketValue').val()));
-                            $(this).parent().prev('div').html(textContent);
-                            $(this).parent().hide();
-                            this.messageBox('#messageBox', 'Votre modification a été prise en compte.');
-                        } else {
-                            this.messageBox('#messageBox', 'Problème lors de la mise à jour ...', 2000);
-                        }
-                    
-                    });
-            
-                    $('.deleteItem').live('click', function(){
-                        $('#confirmBox').modal({backdrop: false});
-                        $('#confirmTrue').attr('href', $(this).attr('href'));
-                        $('#confirmTrue').attr('data-id', $(this).attr('data-id'));
-                        $('#confirmTrue').attr('data-class', $(this).attr('data-class'));
-                        $('#confirmTrue').attr('data-refresh', 'refreshreponses');
-                        $('#confirmTrue').attr('data-idticket', $('#idTicketH4').attr('data-id'));
-                    });
-                
-                    $('.sendAnswerItem').click(function(e){
-                        
-                        e.preventDefault();
-                        
-                        if($(this).attr('id') === 'sendAnswerAndClose') var closeTicket = 'oui';
-                        else var closeTicket = 'non';
-                        
-                        var objAjax = new AjaxLib();
-                        objAjax.setController('dashboard');
-                        objAjax.setMethod('addAnswer');
-                        objAjax.setAsyncValue(false);
-                        objAjax.setDataString('&idTicket=' + $('#idTicketH4').attr('data-id') + '&open=' + closeTicket + '&idAdmin=' + $('#idAdmin').val() + '&texte=' + $('#texteValue').val());
-                        var result = objAjax.execute();
-                        
-                        $('#listing-rep').html(result);
-                        
-                        $('#texteValue').val('');
-                        
-                        if(closeTicket === 'oui'){
-                            window.location.reload();
-                        }
-                        
-                    });
-                
-                    $('#modifierStatut').click(function(){
-                        
-                        var objAjax = new AjaxLib();
-                        objAjax.setController('dashboard');
-                        objAjax.setMethod('changeStatut');
-                        objAjax.setAsyncValue(false);
-                        objAjax.setDataString('&idTicket=' + $(this).attr('data-id') + '&statut=' + $(this).attr('data-statut'));
-                        objAjax.execute();
-                        
-                        window.location.reload();
-                        
-                    });
-        
-                });
-    
-                </script>
+    $(function () {
+
+      var argetFwkUtilsLib = new ArgetFwkUtilsLib();
+
+      $('.editItem').live('click', function () {
+
+        var elem = $(this).parent().next('div').next('div');
+        var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.br2nl(elem.html()));
+
+        elem.html('<textarea name="texte" rows="4" style="width: 100%;" id="textareaTicketValue">' + textContent + '</textarea>')
+
+        elem.next('div').show();
+
+      });
+
+      $('.cancelItem').live('click', function () {
+        var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.nl2br($(this).parent().prev().children().val()));
+        $(this).parent().prev('div').html(textContent);
+        $(this).parent().hide();
+      });
+
+      $('.sendUpdateItem').live('click', function () {
+
+        var textContent = $(this).parent().prev().children().val();
+        var classval = $(this).attr('data-class');
+        var idProduct = $(this).attr('data-id');
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('table');
+        objAjax.setMethod('modifyLine');
+        objAjax.setDataString('&class=' + classval + '&idProduct=' + idProduct + '&newMethod=texte&newValue=' + textContent);
+        returnValue = objAjax.execute();
+
+        if (returnValue === 'done.') {
+          var textContent = argetFwkUtilsLib.trim(argetFwkUtilsLib.nl2br($('#textareaTicketValue').val()));
+          $(this).parent().prev('div').html(textContent);
+          $(this).parent().hide();
+          this.messageBox('#messageBox', 'Votre modification a été prise en compte.');
+        } else {
+          this.messageBox('#messageBox', 'Problème lors de la mise à jour ...', 2000);
+        }
+
+      });
+
+      $('.deleteItem').live('click', function () {
+        $('#confirmBox').modal({backdrop: false});
+        $('#confirmTrue').attr('href', $(this).attr('href'));
+        $('#confirmTrue').attr('data-id', $(this).attr('data-id'));
+        $('#confirmTrue').attr('data-class', $(this).attr('data-class'));
+        $('#confirmTrue').attr('data-refresh', 'refreshreponses');
+        $('#confirmTrue').attr('data-idticket', $('#idTicketH4').attr('data-id'));
+      });
+
+      $('.sendAnswerItem').click(function (e) {
+
+        e.preventDefault();
+
+        if ($(this).attr('id') === 'sendAnswerAndClose') var closeTicket = 'oui';
+        else var closeTicket = 'non';
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('addAnswer');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&idTicket=' + $('#idTicketH4').attr('data-id') + '&open=' + closeTicket + '&idAdmin=' + $('#idAdmin').val() + '&texte=' + $('#texteValue').val());
+        var result = objAjax.execute();
+
+        $('#listing-rep').html(result);
+
+        $('#texteValue').val('');
+
+        if (closeTicket === 'oui') {
+          window.location.reload();
+        }
+
+      });
+
+      $('#modifierStatut').click(function () {
+
+        var objAjax = new AjaxLib();
+        objAjax.setController('dashboard');
+        objAjax.setMethod('changeStatut');
+        objAjax.setAsyncValue(false);
+        objAjax.setDataString('&idTicket=' + $(this).attr('data-id') + '&statut=' + $(this).attr('data-statut'));
+        objAjax.execute();
+
+        window.location.reload();
+
+      });
+
+    });
+
+  </script>
 {% endblock %}

@@ -1,39 +1,45 @@
-<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm" data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
+<form method="POST" class="form-horizontal" id="editAddForm" name="editAddForm"
+      data-method="{{ constant('GET_METHOD') }}" data-controller="{{ constant('GET_CONTROLLER') }}">
 
-    <div class="control-group">
-        <label class="control-label" style="width: 300px;">URL : {{ constant('SITE_URL_BASE') }}</label>
-        <div class="controls">
-            <input type="text" name="url" placeholder="Url…" value="{{ objSeo.url }}">
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label" style="width: 300px;">Titre : (max. 90 caractères)</label>
-        <div class="controls">
-            <input type="text" name="seoTitle" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="90" data-verif="true">
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label" style="width: 300px;">H1 : (max. 90 caractères)</label>
-        <div class="controls">
-            <input type="text" name="seoH1" placeholder="H1…" value="{{ objSeo.h1 }}" maxlength="90" data-verif="true">
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label" style="width: 300px;">Description : (max. 180 caractères)</label>
-        <div class="controls">
-            <textarea name="seoDescription" placeholder="Description…" maxlength="180">{{ objSeo.description }}</textarea>
-        </div>
-    </div>
+  <div class="control-group">
+    <label class="control-label" style="width: 300px;">URL : {{ constant('SITE_URL_BASE') }}</label>
 
-    <input type="hidden" name="idItem" value="{{ objSeo.id }}">
-
-    <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Valider</button>  
-        <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+    <div class="controls">
+      <input type="text" name="url" placeholder="Url…" value="{{ objSeo.url }}">
     </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" style="width: 300px;">Titre : (max. 90 caractères)</label>
+
+    <div class="controls">
+      <input type="text" name="seoTitle" placeholder="Titre…" value="{{ objSeo.titre }}" maxlength="90"
+             data-verif="true">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" style="width: 300px;">H1 : (max. 90 caractères)</label>
+
+    <div class="controls">
+      <input type="text" name="seoH1" placeholder="H1…" value="{{ objSeo.h1 }}" maxlength="90" data-verif="true">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" style="width: 300px;">Description : (max. 180 caractères)</label>
+
+    <div class="controls">
+      <textarea name="seoDescription" placeholder="Description…" maxlength="180">{{ objSeo.description }}</textarea>
+    </div>
+  </div>
+
+  <input type="hidden" name="idItem" value="{{ objSeo.id }}">
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Valider</button>
+    <a href="#" class="btn" id="confirmFalse" data-dismiss="modal" aria-hidden="true">Annuler</a>
+  </div>
 
 </form>
 

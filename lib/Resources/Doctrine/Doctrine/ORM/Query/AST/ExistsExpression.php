@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ExistsExpression extends Node
-{
-    public $not;
-    public $subselect;
+class ExistsExpression extends Node {
+  public $not;
+  public $subselect;
 
-    public function __construct($subselect)
-    {
-        $this->subselect = $subselect;
-    }
+  public function __construct($subselect) {
+    $this->subselect = $subselect;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkExistsExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkExistsExpression($this);
+  }
 }
 

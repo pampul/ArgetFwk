@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class GroupByClause extends Node
-{
-    public $groupByItems = array();
+class GroupByClause extends Node {
+  public $groupByItems = array();
 
-    public function __construct(array $groupByItems)
-    {
-        $this->groupByItems = $groupByItems;
-    }
+  public function __construct(array $groupByItems) {
+    $this->groupByItems = $groupByItems;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkGroupByClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkGroupByClause($this);
+  }
 }

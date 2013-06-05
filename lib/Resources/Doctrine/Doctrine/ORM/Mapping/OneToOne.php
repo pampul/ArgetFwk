@@ -23,18 +23,17 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class OneToOne implements Annotation
-{
-    /** @var string */
-    public $targetEntity;
-    /** @var string */
-    public $mappedBy;
-    /** @var string */
-    public $inversedBy;
-    /** @var array<string> */
-    public $cascade;
-    /** @var string */
-    public $fetch = 'LAZY';
-    /** @var boolean */
-    public $orphanRemoval = false;
+final class OneToOne implements Annotation {
+  /** @var string */
+  public $targetEntity;
+  /** @var string */
+  public $mappedBy;
+  /** @var string */
+  public $inversedBy;
+  /** @var array<string> */
+  public $cascade;
+  /** @var string */
+  public $fetch = 'LAZY';
+  /** @var boolean */
+  public $orphanRemoval = false;
 }

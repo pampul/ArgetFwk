@@ -15,6 +15,5 @@
  * @subpackage Events
  * @author     Chris Corbyn
  */
-interface Swift_Events_EventListener
-{
+interface Swift_Events_EventListener {
 }

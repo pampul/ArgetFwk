@@ -30,20 +30,17 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class NullIfExpression extends Node
-{
-    public $firstExpression;
+class NullIfExpression extends Node {
+  public $firstExpression;
 
-    public $secondExpression;
+  public $secondExpression;
 
-    public function __construct($firstExpression, $secondExpression)
-    {
-        $this->firstExpression  = $firstExpression;
-        $this->secondExpression = $secondExpression;
-    }
+  public function __construct($firstExpression, $secondExpression) {
+    $this->firstExpression  = $firstExpression;
+    $this->secondExpression = $secondExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkNullIfExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkNullIfExpression($this);
+  }
 }

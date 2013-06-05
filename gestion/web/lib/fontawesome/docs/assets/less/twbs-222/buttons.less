@@ -2,7 +2,6 @@
 // Buttons
 // --------------------------------------------------
 
-
 // Base styles
 // --------------------------------------------------
 
@@ -60,8 +59,6 @@
 
 }
 
-
-
 // Button Sizes
 // --------------------------------------------------
 
@@ -71,6 +68,7 @@
   font-size: @fontSizeLarge;
   .border-radius(@borderRadiusLarge);
 }
+
 .btn-large [class^="icon-"],
 .btn-large [class*=" icon-"] {
   margin-top: 4px;
@@ -82,10 +80,12 @@
   font-size: @fontSizeSmall;
   .border-radius(@borderRadiusSmall);
 }
+
 .btn-small [class^="icon-"],
 .btn-small [class*=" icon-"] {
   margin-top: 0;
 }
+
 .btn-mini [class^="icon-"],
 .btn-mini [class*=" icon-"] {
   margin-top: -1px;
@@ -97,7 +97,6 @@
   font-size: @fontSizeMini;
   .border-radius(@borderRadiusSmall);
 }
-
 
 // Block button
 // -------------------------
@@ -124,8 +123,6 @@ input[type="button"] {
   }
 }
 
-
-
 // Alternate buttons
 // --------------------------------------------------
 
@@ -136,7 +133,7 @@ input[type="button"] {
 .btn-success.active,
 .btn-info.active,
 .btn-inverse.active {
-  color: rgba(255,255,255,.75);
+  color: rgba(255, 255, 255, .75);
 }
 
 // Set the backgrounds
@@ -144,32 +141,37 @@ input[type="button"] {
 .btn {
   // reset here as of 2.0.3 due to Recess property order
   border-color: #c5c5c5;
-  border-color: rgba(0,0,0,.15) rgba(0,0,0,.15) rgba(0,0,0,.25);
+  border-color: rgba(0, 0, 0, .15) rgba(0, 0, 0, .15) rgba(0, 0, 0, .25);
 }
+
 .btn-primary {
   .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
 }
+
 // Warning appears are orange
 .btn-warning {
   .buttonBackground(@btnWarningBackground, @btnWarningBackgroundHighlight);
 }
+
 // Danger and error appear as red
 .btn-danger {
   .buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
+
 // Success appears as green
 .btn-success {
   .buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
 }
+
 // Info appears as a neutral blue
 .btn-info {
   .buttonBackground(@btnInfoBackground, @btnInfoBackgroundHighlight);
 }
+
 // Inverse appears as dark gray
 .btn-inverse {
   .buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
 }
-
 
 // Cross-browser Jank
 // --------------------------------------------------
@@ -201,7 +203,6 @@ input[type="submit"].btn {
   }
 }
 
-
 // Link buttons
 // --------------------------------------------------
 
@@ -213,17 +214,20 @@ input[type="submit"].btn {
   background-image: none;
   .box-shadow(none);
 }
+
 .btn-link {
   border-color: transparent;
   cursor: pointer;
   color: @linkColor;
   .border-radius(0);
 }
+
 .btn-link:hover {
   color: @linkColorHover;
   text-decoration: underline;
   background-color: transparent;
 }
+
 .btn-link[disabled]:hover {
   color: @grayDark;
   text-decoration: none;

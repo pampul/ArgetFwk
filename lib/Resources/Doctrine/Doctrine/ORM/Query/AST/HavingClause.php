@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class HavingClause extends Node
-{
-    public $conditionalExpression;
+class HavingClause extends Node {
+  public $conditionalExpression;
 
-    public function __construct($conditionalExpression)
-    {
-        $this->conditionalExpression = $conditionalExpression;
-    }
+  public function __construct($conditionalExpression) {
+    $this->conditionalExpression = $conditionalExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkHavingClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkHavingClause($this);
+  }
 }

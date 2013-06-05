@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class JoinVariableDeclaration extends Node
-{
-    public $join = null;
-    public $indexBy = null;
+class JoinVariableDeclaration extends Node {
+  public $join = null;
+  public $indexBy = null;
 
-    public function __construct($join, $indexBy)
-    {
-        $this->join = $join;
-        $this->indexBy = $indexBy;
-    }
+  public function __construct($join, $indexBy) {
+    $this->join    = $join;
+    $this->indexBy = $indexBy;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkJoinVariableDeclaration($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkJoinVariableDeclaration($this);
+  }
 }

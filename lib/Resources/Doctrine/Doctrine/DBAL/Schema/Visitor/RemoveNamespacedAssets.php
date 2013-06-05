@@ -19,14 +19,7 @@
 
 namespace Doctrine\DBAL\Schema\Visitor;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform,
-    Doctrine\DBAL\Schema\Table,
-    Doctrine\DBAL\Schema\Schema,
-    Doctrine\DBAL\Schema\Column,
-    Doctrine\DBAL\Schema\ForeignKeyConstraint,
-    Doctrine\DBAL\Schema\Constraint,
-    Doctrine\DBAL\Schema\Sequence,
-    Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Platforms\AbstractPlatform, Doctrine\DBAL\Schema\Table, Doctrine\DBAL\Schema\Schema, Doctrine\DBAL\Schema\Column, Doctrine\DBAL\Schema\ForeignKeyConstraint, Doctrine\DBAL\Schema\Constraint, Doctrine\DBAL\Schema\Sequence, Doctrine\DBAL\Schema\Index;
 
 /**
  * Remove assets from a schema that are not in the default namespace.
@@ -40,74 +33,69 @@ use Doctrine\DBAL\Platforms\AbstractPlatform,
  * and removes them from the SChema instance.
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
- * @since 2.2
+ * @since  2.2
  */
-class RemoveNamespacedAssets implements Visitor
-{
-    /**
-     * @var Schema
-     */
-    private $schema;
+class RemoveNamespacedAssets implements Visitor {
+  /**
+   * @var Schema
+   */
+  private $schema;
 
-    /**
-     * @param Schema $schema
-     */
-    public function acceptSchema(Schema $schema)
-    {
-        $this->schema = $schema;
+  /**
+   * @param Schema $schema
+   */
+  public function acceptSchema(Schema $schema) {
+    $this->schema = $schema;
+  }
+
+  /**
+   * @param Table $table
+   */
+  public function acceptTable(Table $table) {
+    if (!$table->isInDefaultNamespace($this->schema->getName())) {
+      $this->schema->dropTable($table->getName());
+    }
+  }
+
+  /**
+   * @param Sequence $sequence
+   */
+  public function acceptSequence(Sequence $sequence) {
+    if (!$sequence->isInDefaultNamespace($this->schema->getName())) {
+      $this->schema->dropSequence($sequence->getName());
+    }
+  }
+
+  /**
+   * @param Column $column
+   */
+  public function acceptColumn(Table $table, Column $column) {
+  }
+
+  /**
+   * @param Table                $localTable
+   * @param ForeignKeyConstraint $fkConstraint
+   */
+  public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint) {
+    // The table may already be deleted in a previous
+    // RemoveNamespacedAssets#acceptTable call. Removing Foreign keys that
+    // point to nowhere.
+    if (!$this->schema->hasTable($fkConstraint->getForeignTableName())) {
+      $localTable->removeForeignKey($fkConstraint->getName());
+
+      return;
     }
 
-    /**
-     * @param Table $table
-     */
-    public function acceptTable(Table $table)
-    {
-        if ( ! $table->isInDefaultNamespace($this->schema->getName()) ) {
-            $this->schema->dropTable($table->getName());
-        }
+    $foreignTable = $this->schema->getTable($fkConstraint->getForeignTableName());
+    if (!$foreignTable->isInDefaultNamespace($this->schema->getName())) {
+      $localTable->removeForeignKey($fkConstraint->getName());
     }
-    /**
-     * @param Sequence $sequence
-     */
-    public function acceptSequence(Sequence $sequence)
-    {
-        if ( ! $sequence->isInDefaultNamespace($this->schema->getName()) ) {
-            $this->schema->dropSequence($sequence->getName());
-        }
-    }
+  }
 
-    /**
-     * @param Column $column
-     */
-    public function acceptColumn(Table $table, Column $column)
-    {
-    }
-
-    /**
-     * @param Table $localTable
-     * @param ForeignKeyConstraint $fkConstraint
-     */
-    public function acceptForeignKey(Table $localTable, ForeignKeyConstraint $fkConstraint)
-    {
-        // The table may already be deleted in a previous
-        // RemoveNamespacedAssets#acceptTable call. Removing Foreign keys that
-        // point to nowhere.
-        if ( ! $this->schema->hasTable($fkConstraint->getForeignTableName())) {
-            $localTable->removeForeignKey($fkConstraint->getName());
-            return;
-        }
-
-        $foreignTable = $this->schema->getTable($fkConstraint->getForeignTableName());
-        if ( ! $foreignTable->isInDefaultNamespace($this->schema->getName()) ) {
-            $localTable->removeForeignKey($fkConstraint->getName());
-        }
-    }
-
-    /**
-     * @param Table $table
-     * @param Index $index
-     */
-    public function acceptIndex(Table $table, Index $index)
-    {
-    }
+  /**
+   * @param Table $table
+   * @param Index $index
+   */
+  public function acceptIndex(Table $table, Index $index) {
+  }
 }

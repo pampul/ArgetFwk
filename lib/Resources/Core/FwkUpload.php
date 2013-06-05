@@ -55,15 +55,10 @@ class FwkUpload extends FwkManager {
   /**
    * @var array
    */
-  private $mimeTypeBlackList= array(
-    # HTML may contain cookie-stealing JavaScript and web bugs
-    'text/html', 'text/javascript', 'text/x-javascript',  'application/x-shellscript',
-    # PHP scripts may execute arbitrary code on the server
-    'application/x-php', 'text/x-php', 'text/x-php',
-    # Other types that may be interpreted by some servers
-    'text/x-python', 'text/x-perl', 'text/x-bash', 'text/x-sh', 'text/x-csh',
-    'text/x-c++', 'text/x-c',
-    # Windows metafile, client-side vulnerability on some systems
+  private $mimeTypeBlackList = array(# HTML may contain cookie-stealing JavaScript and web bugs
+    'text/html', 'text/javascript', 'text/x-javascript', 'application/x-shellscript', # PHP scripts may execute arbitrary code on the server
+    'application/x-php', 'text/x-php', 'text/x-php', # Other types that may be interpreted by some servers
+    'text/x-python', 'text/x-perl', 'text/x-bash', 'text/x-sh', 'text/x-csh', 'text/x-c++', 'text/x-c',# Windows metafile, client-side vulnerability on some systems
     # 'application/x-msmetafile',
     # A ZIP file may be a valid Java archive containing an applet which exploits the
     # same-origin policy to steal cookies
@@ -90,7 +85,7 @@ class FwkUpload extends FwkManager {
    * @param string $formats ex : 'jpg,jpeg,gif'
    */
   public function setValidFormats($formats) {
-    $formats = preg_replace('#\s#', '', trim($formats));
+    $formats            = preg_replace('#\s#', '', trim($formats));
     $this->validFormats = explode(',', $formats);
   }
 
@@ -105,6 +100,7 @@ class FwkUpload extends FwkManager {
 
   /**
    * Redimmensionner l'image
+   *
    * @param boolean $bool
    */
   public function setRedimensionner($bool) {
@@ -124,12 +120,12 @@ class FwkUpload extends FwkManager {
     if (!strlen($this->file['name']))
       return array('error' => 'Fichier vide.');
 
-    $arrayFileName = explode(".", $this->file['name']);
-    $this->fileExt = array_pop($arrayFileName);
+    $arrayFileName  = explode(".", $this->file['name']);
+    $this->fileExt  = array_pop($arrayFileName);
     $this->fileName = implode('.', $arrayFileName);
     $this->fileSize = $this->file['size'];
 
-    if($this->checkMimeType()){
+    if ($this->checkMimeType()) {
 
       if (in_array($this->fileExt, $this->validFormats)) {
         if ($this->fileSize < $this->maxSize) {
@@ -148,22 +144,19 @@ class FwkUpload extends FwkManager {
                 return $this->uploadImage();
                 break;
             }
-          }
-          else
+          } else
             return array('error' => 'Chemin incorrect. (' . $this->pathUploads . ')');
-        }
-        else
+        } else
           return array('error' => 'Fichier trop volumineux. (' . $this->fileSize . 'o)');
-      }
-      else
+      } else
         return array('error' => 'Format ".' . $this->fileExt . '" invalide.');
-    }
-    else
+    } else
       return array('error' => 'Type MIME invalide : Le type de fichier est incorrect.');
   }
 
   /**
    * Upload d'une image
+   *
    * @return array
    */
   private function uploadImage() {
@@ -172,11 +165,13 @@ class FwkUpload extends FwkManager {
       // On redimensionne l'image et on retourne son nom
       // Not set yet
     }
+
     return $this->uploadOver();
   }
 
   /**
    * Upload d'un fichier
+   *
    * @return array
    */
   private function uploadFile() {
@@ -185,13 +180,13 @@ class FwkUpload extends FwkManager {
 
   /**
    * Fin de l'upload du fichier
+   *
    * @return array
    */
   private function uploadOver() {
     $this->fileName = FwkUtils::checkFileName($this->pathUploads, FwkUtils::urlAlize($this->fileName), $this->fileExt);
     if (move_uploaded_file($this->file['tmp_name'], $this->pathUploads . $this->fileName . '.' . $this->fileExt))
-      return array('success' => $this->fileName . '.' . $this->fileExt);
-    else
+      return array('success' => $this->fileName . '.' . $this->fileExt); else
       return array('error' => 'Upload error.');
   }
 
@@ -200,7 +195,7 @@ class FwkUpload extends FwkManager {
    *
    * @return bool
    */
-  private function checkMimeType(){
+  private function checkMimeType() {
 
     $finfo = new finfo(FILEINFO_MIME);
 

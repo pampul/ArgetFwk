@@ -31,393 +31,359 @@ use Doctrine\DBAL\Schema\Visitor\Visitor;
  * @version $Revision$
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class Column extends AbstractAsset
-{
-    /**
-     * @var \Doctrine\DBAL\Types\Type
-     */
-    protected $_type;
+class Column extends AbstractAsset {
+  /**
+   * @var \Doctrine\DBAL\Types\Type
+   */
+  protected $_type;
 
-    /**
-     * @var int
-     */
-    protected $_length = null;
+  /**
+   * @var int
+   */
+  protected $_length = null;
 
-    /**
-     * @var int
-     */
-    protected $_precision = 10;
+  /**
+   * @var int
+   */
+  protected $_precision = 10;
 
-    /**
-     * @var int
-     */
-    protected $_scale = 0;
+  /**
+   * @var int
+   */
+  protected $_scale = 0;
 
-    /**
-     * @var bool
-     */
-    protected $_unsigned = false;
+  /**
+   * @var bool
+   */
+  protected $_unsigned = false;
 
-    /**
-     * @var bool
-     */
-    protected $_fixed = false;
+  /**
+   * @var bool
+   */
+  protected $_fixed = false;
 
-    /**
-     * @var bool
-     */
-    protected $_notnull = true;
+  /**
+   * @var bool
+   */
+  protected $_notnull = true;
 
-    /**
-     * @var string
-     */
-    protected $_default = null;
+  /**
+   * @var string
+   */
+  protected $_default = null;
 
-    /**
-     * @var bool
-     */
-    protected $_autoincrement = false;
+  /**
+   * @var bool
+   */
+  protected $_autoincrement = false;
 
-    /**
-     * @var array
-     */
-    protected $_platformOptions = array();
+  /**
+   * @var array
+   */
+  protected $_platformOptions = array();
 
-    /**
-     * @var string
-     */
-    protected $_columnDefinition = null;
+  /**
+   * @var string
+   */
+  protected $_columnDefinition = null;
 
-    /**
-     * @var string
-     */
-    protected $_comment = null;
+  /**
+   * @var string
+   */
+  protected $_comment = null;
 
-    /**
-     * @var array
-     */
-    protected $_customSchemaOptions = array();
+  /**
+   * @var array
+   */
+  protected $_customSchemaOptions = array();
 
-    /**
-     * Create a new Column
-     *
-     * @param string $columnName
-     * @param Doctrine\DBAL\Types\Type $type
-     * @param int $length
-     * @param bool $notNull
-     * @param mixed $default
-     * @param bool $unsigned
-     * @param bool $fixed
-     * @param int $precision
-     * @param int $scale
-     * @param array $platformOptions
-     */
-    public function __construct($columnName, Type $type, array $options=array())
-    {
-        $this->_setName($columnName);
-        $this->setType($type);
-        $this->setOptions($options);
+  /**
+   * Create a new Column
+   *
+   * @param string                   $columnName
+   * @param Doctrine\DBAL\Types\Type $type
+   * @param int                      $length
+   * @param bool                     $notNull
+   * @param mixed                    $default
+   * @param bool                     $unsigned
+   * @param bool                     $fixed
+   * @param int                      $precision
+   * @param int                      $scale
+   * @param array                    $platformOptions
+   */
+  public function __construct($columnName, Type $type, array $options = array()) {
+    $this->_setName($columnName);
+    $this->setType($type);
+    $this->setOptions($options);
+  }
+
+  /**
+   * @param array $options
+   * @return Column
+   */
+  public function setOptions(array $options) {
+    foreach ($options AS $name => $value) {
+      $method = "set" . $name;
+      if (method_exists($this, $method)) {
+        $this->$method($value);
+      }
     }
 
-    /**
-     * @param array $options
-     * @return Column
-     */
-    public function setOptions(array $options)
-    {
-        foreach ($options AS $name => $value) {
-            $method = "set".$name;
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-        return $this;
+    return $this;
+  }
+
+  /**
+   * @param Type $type
+   * @return Column
+   */
+  public function setType(Type $type) {
+    $this->_type = $type;
+
+    return $this;
+  }
+
+  /**
+   * @param int $length
+   * @return Column
+   */
+  public function setLength($length) {
+    if ($length !== null) {
+      $this->_length = (int)$length;
+    } else {
+      $this->_length = null;
     }
 
-    /**
-     * @param Type $type
-     * @return Column
-     */
-    public function setType(Type $type)
-    {
-        $this->_type = $type;
-        return $this;
+    return $this;
+  }
+
+  /**
+   * @param int $precision
+   * @return Column
+   */
+  public function setPrecision($precision) {
+    if (!is_numeric($precision)) {
+      $precision = 10; // defaults to 10 when no valid precision is given.
     }
 
-    /**
-     * @param int $length
-     * @return Column
-     */
-    public function setLength($length)
-    {
-        if($length !== null) {
-            $this->_length = (int)$length;
-        } else {
-            $this->_length = null;
-        }
-        return $this;
+    $this->_precision = (int)$precision;
+
+    return $this;
+  }
+
+  /**
+   * @param  int $scale
+   * @return Column
+   */
+  public function setScale($scale) {
+    if (!is_numeric($scale)) {
+      $scale = 0;
     }
 
-    /**
-     * @param int $precision
-     * @return Column
-     */
-    public function setPrecision($precision)
-    {
-        if (!is_numeric($precision)) {
-            $precision = 10; // defaults to 10 when no valid precision is given.
-        }
+    $this->_scale = (int)$scale;
 
-        $this->_precision = (int)$precision;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @param  int $scale
-     * @return Column
-     */
-    public function setScale($scale)
-    {
-        if (!is_numeric($scale)) {
-            $scale = 0;
-        }
+  /**
+   *
+   * @param  bool $unsigned
+   * @return Column
+   */
+  public function setUnsigned($unsigned) {
+    $this->_unsigned = (bool)$unsigned;
 
-        $this->_scale = (int)$scale;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     *
-     * @param  bool $unsigned
-     * @return Column
-     */
-    public function setUnsigned($unsigned)
-    {
-        $this->_unsigned = (bool)$unsigned;
-        return $this;
-    }
+  /**
+   *
+   * @param  bool $fixed
+   * @return Column
+   */
+  public function setFixed($fixed) {
+    $this->_fixed = (bool)$fixed;
 
-    /**
-     *
-     * @param  bool $fixed
-     * @return Column
-     */
-    public function setFixed($fixed)
-    {
-        $this->_fixed = (bool)$fixed;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @param  bool $notnull
-     * @return Column
-     */
-    public function setNotnull($notnull)
-    {
-        $this->_notnull = (bool)$notnull;
-        return $this;
-    }
+  /**
+   * @param  bool $notnull
+   * @return Column
+   */
+  public function setNotnull($notnull) {
+    $this->_notnull = (bool)$notnull;
 
-    /**
-     *
-     * @param  mixed $default
-     * @return Column
-     */
-    public function setDefault($default)
-    {
-        $this->_default = $default;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     *
-     * @param array $platformOptions
-     * @return Column
-     */
-    public function setPlatformOptions(array $platformOptions)
-    {
-        $this->_platformOptions = $platformOptions;
-        return $this;
-    }
+  /**
+   *
+   * @param  mixed $default
+   * @return Column
+   */
+  public function setDefault($default) {
+    $this->_default = $default;
 
-    /**
-     *
-     * @param  string $name
-     * @param  mixed $value
-     * @return Column
-     */
-    public function setPlatformOption($name, $value)
-    {
-        $this->_platformOptions[$name] = $value;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     *
-     * @param  string
-     * @return Column
-     */
-    public function setColumnDefinition($value)
-    {
-        $this->_columnDefinition = $value;
-        return $this;
-    }
+  /**
+   *
+   * @param array $platformOptions
+   * @return Column
+   */
+  public function setPlatformOptions(array $platformOptions) {
+    $this->_platformOptions = $platformOptions;
 
-    public function getType()
-    {
-        return $this->_type;
-    }
+    return $this;
+  }
 
-    public function getLength()
-    {
-        return $this->_length;
-    }
+  /**
+   *
+   * @param  string $name
+   * @param  mixed  $value
+   * @return Column
+   */
+  public function setPlatformOption($name, $value) {
+    $this->_platformOptions[$name] = $value;
 
-    public function getPrecision()
-    {
-        return $this->_precision;
-    }
+    return $this;
+  }
 
-    public function getScale()
-    {
-        return $this->_scale;
-    }
+  /**
+   *
+   * @param  string
+   * @return Column
+   */
+  public function setColumnDefinition($value) {
+    $this->_columnDefinition = $value;
 
-    public function getUnsigned()
-    {
-        return $this->_unsigned;
-    }
+    return $this;
+  }
 
-    public function getFixed()
-    {
-        return $this->_fixed;
-    }
+  public function getType() {
+    return $this->_type;
+  }
 
-    public function getNotnull()
-    {
-        return $this->_notnull;
-    }
+  public function getLength() {
+    return $this->_length;
+  }
 
-    public function getDefault()
-    {
-        return $this->_default;
-    }
+  public function getPrecision() {
+    return $this->_precision;
+  }
 
-    public function getPlatformOptions()
-    {
-        return $this->_platformOptions;
-    }
+  public function getScale() {
+    return $this->_scale;
+  }
 
-    public function hasPlatformOption($name)
-    {
-        return isset($this->_platformOptions[$name]);
-    }
+  public function getUnsigned() {
+    return $this->_unsigned;
+  }
 
-    public function getPlatformOption($name)
-    {
-        return $this->_platformOptions[$name];
-    }
+  public function getFixed() {
+    return $this->_fixed;
+  }
 
-    public function getColumnDefinition()
-    {
-        return $this->_columnDefinition;
-    }
+  public function getNotnull() {
+    return $this->_notnull;
+  }
 
-    public function getAutoincrement()
-    {
-        return $this->_autoincrement;
-    }
+  public function getDefault() {
+    return $this->_default;
+  }
 
-    public function setAutoincrement($flag)
-    {
-        $this->_autoincrement = $flag;
-        return $this;
-    }
+  public function getPlatformOptions() {
+    return $this->_platformOptions;
+  }
 
-    public function setComment($comment)
-    {
-        $this->_comment = $comment;
-        return $this;
-    }
+  public function hasPlatformOption($name) {
+    return isset($this->_platformOptions[$name]);
+  }
 
-    public function getComment()
-    {
-        return $this->_comment;
-    }
+  public function getPlatformOption($name) {
+    return $this->_platformOptions[$name];
+  }
 
-    /**
-     * @param  string $name
-     * @param  mixed $value
-     * @return Column
-     */
-    public function setCustomSchemaOption($name, $value)
-    {
-        $this->_customSchemaOptions[$name] = $value;
-        return $this;
-    }
+  public function getColumnDefinition() {
+    return $this->_columnDefinition;
+  }
 
-    /**
-     * @param  string $name
-     * @return boolean
-     */
-    public function hasCustomSchemaOption($name)
-    {
-        return isset($this->_customSchemaOptions[$name]);
-    }
+  public function getAutoincrement() {
+    return $this->_autoincrement;
+  }
 
-    /**
-     * @param  string $name
-     * @return mixed
-     */
-    public function getCustomSchemaOption($name)
-    {
-        return $this->_customSchemaOptions[$name];
-    }
+  public function setAutoincrement($flag) {
+    $this->_autoincrement = $flag;
 
-    /**
-     * @param array $customSchemaOptions
-     * @return Column
-     */
-    public function setCustomSchemaOptions(array $customSchemaOptions)
-    {
-        $this->_customSchemaOptions = $customSchemaOptions;
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * @return array
-     */
-    public function getCustomSchemaOptions()
-    {
-        return $this->_customSchemaOptions;
-    }
+  public function setComment($comment) {
+    $this->_comment = $comment;
 
-    /**
-     * @param Visitor $visitor
-     */
-    public function visit(\Doctrine\DBAL\Schema\Visitor $visitor)
-    {
-        $visitor->accept($this);
-    }
+    return $this;
+  }
 
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_merge(array(
-            'name'          => $this->_name,
-            'type'          => $this->_type,
-            'default'       => $this->_default,
-            'notnull'       => $this->_notnull,
-            'length'        => $this->_length,
-            'precision'     => $this->_precision,
-            'scale'         => $this->_scale,
-            'fixed'         => $this->_fixed,
-            'unsigned'      => $this->_unsigned,
-            'autoincrement' => $this->_autoincrement,
-            'columnDefinition' => $this->_columnDefinition,
-            'comment' => $this->_comment,
-        ), $this->_platformOptions, $this->_customSchemaOptions);
-    }
+  public function getComment() {
+    return $this->_comment;
+  }
+
+  /**
+   * @param  string $name
+   * @param  mixed  $value
+   * @return Column
+   */
+  public function setCustomSchemaOption($name, $value) {
+    $this->_customSchemaOptions[$name] = $value;
+
+    return $this;
+  }
+
+  /**
+   * @param  string $name
+   * @return boolean
+   */
+  public function hasCustomSchemaOption($name) {
+    return isset($this->_customSchemaOptions[$name]);
+  }
+
+  /**
+   * @param  string $name
+   * @return mixed
+   */
+  public function getCustomSchemaOption($name) {
+    return $this->_customSchemaOptions[$name];
+  }
+
+  /**
+   * @param array $customSchemaOptions
+   * @return Column
+   */
+  public function setCustomSchemaOptions(array $customSchemaOptions) {
+    $this->_customSchemaOptions = $customSchemaOptions;
+
+    return $this;
+  }
+
+  /**
+   * @return array
+   */
+  public function getCustomSchemaOptions() {
+    return $this->_customSchemaOptions;
+  }
+
+  /**
+   * @param Visitor $visitor
+   */
+  public function visit(\Doctrine\DBAL\Schema\Visitor $visitor) {
+    $visitor->accept($this);
+  }
+
+  /**
+   * @return array
+   */
+  public function toArray() {
+    return array_merge(array('name' => $this->_name, 'type' => $this->_type, 'default' => $this->_default, 'notnull' => $this->_notnull, 'length' => $this->_length, 'precision' => $this->_precision, 'scale' => $this->_scale, 'fixed' => $this->_fixed, 'unsigned' => $this->_unsigned, 'autoincrement' => $this->_autoincrement, 'columnDefinition' => $this->_columnDefinition, 'comment' => $this->_comment,), $this->_platformOptions, $this->_customSchemaOptions);
+  }
 }

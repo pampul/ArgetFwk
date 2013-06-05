@@ -19,10 +19,7 @@
 
 namespace Doctrine\ORM\Tools\Console\Command\ClearCache;
 
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console,
-    Doctrine\Common\Cache;
+use Symfony\Component\Console\Input\InputArgument, Symfony\Component\Console\Input\InputOption, Symfony\Component\Console, Doctrine\Common\Cache;
 
 /**
  * Command to clear the query cache of the various cache drivers.
@@ -35,25 +32,15 @@ use Symfony\Component\Console\Input\InputArgument,
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class QueryCommand extends Console\Command\Command
-{
-    /**
-     * @see Console\Command\Command
-     */
-    protected function configure()
-    {
-        $this
-        ->setName('orm:clear-cache:query')
-        ->setDescription('Clear all query cache of the various cache drivers.')
-        ->setDefinition(array(
-            new InputOption(
-                'flush', null, InputOption::VALUE_NONE,
-                'If defined, cache entries will be flushed instead of deleted/invalidated.'
-            )
-        ));
+class QueryCommand extends Console\Command\Command {
+  /**
+   * @see Console\Command\Command
+   */
+  protected function configure() {
+    $this->setName('orm:clear-cache:query')->setDescription('Clear all query cache of the various cache drivers.')->setDefinition(array(new InputOption('flush', null, InputOption::VALUE_NONE, 'If defined, cache entries will be flushed instead of deleted/invalidated.')));
 
-        $fullName = $this->getName();
-        $this->setHelp(<<<EOT
+    $fullName = $this->getName();
+    $this->setHelp(<<<EOT
 The <info>$fullName</info> command is meant to clear the query cache of associated Entity Manager.
 It is possible to invalidate all cache entries at once - called delete -, or flushes the cache provider
 instance completely.
@@ -69,36 +56,34 @@ Alternatively, if you want to flush the cache provider using this command:
 
 Finally, be aware that if <info>--flush</info> option is passed, not all cache providers are able to flush entries,
 because of a limitation of its execution nature.
-EOT
-        );
+EOT);
+  }
+
+  /**
+   * @see Console\Command\Command
+   */
+  protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output) {
+    $em          = $this->getHelper('em')->getEntityManager();
+    $cacheDriver = $em->getConfiguration()->getQueryCacheImpl();
+
+    if (!$cacheDriver) {
+      throw new \InvalidArgumentException('No Query cache driver is configured on given EntityManager.');
     }
 
-    /**
-     * @see Console\Command\Command
-     */
-    protected function execute(Console\Input\InputInterface $input, Console\Output\OutputInterface $output)
-    {
-        $em = $this->getHelper('em')->getEntityManager();
-        $cacheDriver = $em->getConfiguration()->getQueryCacheImpl();
-
-        if ( ! $cacheDriver) {
-            throw new \InvalidArgumentException('No Query cache driver is configured on given EntityManager.');
-        }
-
-        if ($cacheDriver instanceof Cache\ApcCache) {
-            throw new \LogicException("Cannot clear APC Cache from Console, its shared in the Webserver memory and not accessible from the CLI.");
-        }
-
-        $output->write('Clearing ALL Query cache entries' . PHP_EOL);
-
-        $result  = $cacheDriver->deleteAll();
-        $message = ($result) ? 'Successfully deleted cache entries.' : 'No cache entries were deleted.';
-
-        if (true === $input->getOption('flush')) {
-            $result  = $cacheDriver->flushAll();
-            $message = ($result) ? 'Successfully flushed cache entries.' : $message;
-        }
-
-        $output->write($message . PHP_EOL);
+    if ($cacheDriver instanceof Cache\ApcCache) {
+      throw new \LogicException("Cannot clear APC Cache from Console, its shared in the Webserver memory and not accessible from the CLI.");
     }
+
+    $output->write('Clearing ALL Query cache entries' . PHP_EOL);
+
+    $result  = $cacheDriver->deleteAll();
+    $message = ($result) ? 'Successfully deleted cache entries.' : 'No cache entries were deleted.';
+
+    if (true === $input->getOption('flush')) {
+      $result  = $cacheDriver->flushAll();
+      $message = ($result) ? 'Successfully flushed cache entries.' : $message;
+    }
+
+    $output->write($message . PHP_EOL);
+  }
 }

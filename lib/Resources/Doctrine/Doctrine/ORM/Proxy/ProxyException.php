@@ -32,20 +32,16 @@ namespace Doctrine\ORM\Proxy;
  */
 class ProxyException extends \Doctrine\ORM\ORMException {
 
-    public static function proxyDirectoryRequired() {
-        return new self("You must configure a proxy directory. See docs for details");
-    }
+  public static function proxyDirectoryRequired() {
+    return new self("You must configure a proxy directory. See docs for details");
+  }
 
-    public static function proxyNamespaceRequired() {
-        return new self("You must configure a proxy namespace. See docs for details");
-    }
+  public static function proxyNamespaceRequired() {
+    return new self("You must configure a proxy namespace. See docs for details");
+  }
 
-    public static function notProxyClass($className, $proxyNamespace)
-    {
-        return new self(sprintf(
-            "The class %s is not part of the proxy namespace %s",
-            $className, $proxyNamespace
-        ));
-    }
+  public static function notProxyClass($className, $proxyNamespace) {
+    return new self(sprintf("The class %s is not part of the proxy namespace %s", $className, $proxyNamespace));
+  }
 
 }

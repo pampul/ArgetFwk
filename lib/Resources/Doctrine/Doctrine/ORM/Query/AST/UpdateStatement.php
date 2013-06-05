@@ -32,18 +32,15 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class UpdateStatement extends Node
-{
-    public $updateClause;
-    public $whereClause;
+class UpdateStatement extends Node {
+  public $updateClause;
+  public $whereClause;
 
-    public function __construct($updateClause)
-    {
-        $this->updateClause = $updateClause;
-    }
+  public function __construct($updateClause) {
+    $this->updateClause = $updateClause;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkUpdateStatement($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkUpdateStatement($this);
+  }
 }

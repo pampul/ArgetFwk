@@ -1,8 +1,6 @@
 <?php
 
-use Doctrine\Common\ClassLoader,
-  Doctrine\ORM\Configuration,
-  Doctrine\ORM\EntityManager;
+use Doctrine\Common\ClassLoader, Doctrine\ORM\Configuration, Doctrine\ORM\EntityManager;
 
 /**
  * Classe de lancement / récuperation des fichiers necessaires au FrameWork
@@ -45,14 +43,7 @@ class FwkLoader {
     $tablePrefix = new \DoctrineExtensions\TablePrefix(PDO_PREFIX);
     $evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
-    $dbParams = array(
-      'host' => PDO_HOST,
-      'driver' => PDO_DRIVER,
-      'port' => PDO_PORT,
-      'dbname' => PDO_DATABASE_NAME,
-      'user' => PDO_USER,
-      'password' => PDO_PASSWORD,
-    );
+    $dbParams = array('host' => PDO_HOST, 'driver' => PDO_DRIVER, 'port' => PDO_PORT, 'dbname' => PDO_DATABASE_NAME, 'user' => PDO_USER, 'password' => PDO_PASSWORD,);
 
     return EntityManager::create($dbParams, $config, $evm);
   }
@@ -67,11 +58,11 @@ class FwkLoader {
     $arrayClasses = array();
 
     $entitiesDirFwk = PATH_TO_IMPORTANT_FILES . 'lib/Resources/Entities/';
-    $dir2 = opendir($entitiesDirFwk);
+    $dir2           = opendir($entitiesDirFwk);
 
     while ($file = readdir($dir2)) {
       if ($file != '.' && $file != '..' && !is_dir($entitiesDirFwk . $file) && !preg_match('#Repository#', $file)) {
-        $file = preg_replace('#\.php#', '', $file);
+        $file           = preg_replace('#\.php#', '', $file);
         $arrayClasses[] = $file;
       }
     }
@@ -91,11 +82,11 @@ class FwkLoader {
     $arrayClasses = array();
 
     $entitiesDirFwk = PATH_TO_IMPORTANT_FILES . 'lib/Resources/Entities/';
-    $dir2 = opendir($entitiesDirFwk);
+    $dir2           = opendir($entitiesDirFwk);
 
     while ($file = readdir($dir2)) {
       if ($file != '.' && $file != '..' && !is_dir($entitiesDirFwk . $file) && !preg_match('#Repository#', $file)) {
-        $file = preg_replace('#\.php#', '', $file);
+        $file           = preg_replace('#\.php#', '', $file);
         $arrayClasses[] = strtolower($file);
       }
     }
@@ -117,22 +108,16 @@ class FwkLoader {
     Twig_Autoloader::register();
 
     if (BACKOFFICE_ACTIVE === 'gestion/')
-      $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/';
-    else
+      $viewDirectory = PATH_TO_BACKOFFICE_FILES . 'web/'; else
       $viewDirectory = PATH_TO_IMPORTANT_FILES . 'web/';
 
     // Dossier contenant les templates
     $loader = new Twig_Loader_Filesystem($viewDirectory);
     unset($viewDirectory);
 
-    if(BACKOFFICE_ACTIVE != 'gestion/')
-      return new Twig_Environment($loader, array(
-        'cache' => (TWIG_CACHE_ACTIVE ? PATH_TO_IMPORTANT_FILES.self::$twigCachePath : false)
-      ));
-    else
-      return new Twig_Environment($loader, array(
-        'cache' => false
-      ));
+    if (BACKOFFICE_ACTIVE != 'gestion/')
+      return new Twig_Environment($loader, array('cache' => (TWIG_CACHE_ACTIVE ? PATH_TO_IMPORTANT_FILES . self::$twigCachePath : false))); else
+      return new Twig_Environment($loader, array('cache' => false));
   }
 
   /**

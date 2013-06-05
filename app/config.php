@@ -17,7 +17,6 @@ define('REFRESH_AUTO_BO', true);
 define('PRE_PROD_ALLOW_HELP', true);
 
 
-
 // Constantes relatives à la societe
 define('SOCIETE_NOM', 'ArgetFwk');
 define('SITE_NOM', 'ArgetFwk');

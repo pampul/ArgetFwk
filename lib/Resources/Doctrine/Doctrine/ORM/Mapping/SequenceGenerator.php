@@ -23,12 +23,11 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class SequenceGenerator implements Annotation
-{
-    /** @var string */
-    public $sequenceName;
-    /** @var integer */
-    public $allocationSize = 1;
-    /** @var integer */
-    public $initialValue = 1;
+final class SequenceGenerator implements Annotation {
+  /** @var string */
+  public $sequenceName;
+  /** @var integer */
+  public $allocationSize = 1;
+  /** @var integer */
+  public $initialValue = 1;
 }

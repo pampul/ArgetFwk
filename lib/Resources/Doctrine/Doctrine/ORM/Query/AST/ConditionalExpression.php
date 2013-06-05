@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ConditionalExpression extends Node
-{
-    public $conditionalTerms = array();
+class ConditionalExpression extends Node {
+  public $conditionalTerms = array();
 
-    public function __construct(array $conditionalTerms)
-    {
-        $this->conditionalTerms = $conditionalTerms;
-    }
+  public function __construct(array $conditionalTerms) {
+    $this->conditionalTerms = $conditionalTerms;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkConditionalExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkConditionalExpression($this);
+  }
 }

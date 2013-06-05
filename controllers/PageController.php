@@ -5,8 +5,7 @@
  *
  * @author Flo
  */
-class PageController extends ControllerManager
-{
+class PageController extends ControllerManager {
 
   private $parameters;
 
@@ -14,8 +13,7 @@ class PageController extends ControllerManager
    *
    * @param string $template
    */
-  public function __construct($template)
-  {
+  public function __construct($template) {
     $this->twig = FwkLoader::getTwigEnvironement();
     if (CONFIG_REQUIRE_BDD)
       $this->em = FwkLoader::getEntityManager();
@@ -23,8 +21,7 @@ class PageController extends ControllerManager
 
     $methodName = $template . 'Template';
     if (method_exists($this, $methodName))
-      $this->$methodName();
-    else
+      $this->$methodName(); else
       $this->defaultTemplate();
   }
 
@@ -32,18 +29,15 @@ class PageController extends ControllerManager
    *
    * @param array $parameters
    */
-  private function setParameters($parameters)
-  {
+  private function setParameters($parameters) {
     $this->parameters = $parameters;
   }
 
-  public function getParameters()
-  {
+  public function getParameters() {
     return $this->parameters;
   }
 
-  private function defaultTemplate()
-  {
+  private function defaultTemplate() {
     $parameters = array();
 
 

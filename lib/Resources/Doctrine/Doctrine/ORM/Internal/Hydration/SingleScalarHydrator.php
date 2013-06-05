@@ -19,9 +19,7 @@
 
 namespace Doctrine\ORM\Internal\Hydration;
 
-use Doctrine\DBAL\Connection,
-    Doctrine\ORM\NoResultException,
-    Doctrine\ORM\NonUniqueResultException;
+use Doctrine\DBAL\Connection, Doctrine\ORM\NoResultException, Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Hydrator that hydrates a single scalar value from the result set.
@@ -30,27 +28,25 @@ use Doctrine\DBAL\Connection,
  * @author Roman Borschel <roman@code-factory.org>
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
-class SingleScalarHydrator extends AbstractHydrator
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function hydrateAllData()
-    {
-        $data    = $this->_stmt->fetchAll(\PDO::FETCH_ASSOC);
-        $numRows = count($data);
+class SingleScalarHydrator extends AbstractHydrator {
+  /**
+   * {@inheritdoc}
+   */
+  protected function hydrateAllData() {
+    $data    = $this->_stmt->fetchAll(\PDO::FETCH_ASSOC);
+    $numRows = count($data);
 
-        if ($numRows === 0) {
-            throw new NoResultException();
-        }
-
-        if ($numRows > 1 || count($data[key($data)]) > 1) {
-            throw new NonUniqueResultException();
-        }
-
-        $cache  = array();
-        $result = $this->gatherScalarRowData($data[key($data)], $cache);
-
-        return array_shift($result);
+    if ($numRows === 0) {
+      throw new NoResultException();
     }
+
+    if ($numRows > 1 || count($data[key($data)]) > 1) {
+      throw new NonUniqueResultException();
+    }
+
+    $cache  = array();
+    $result = $this->gatherScalarRowData($data[key($data)], $cache);
+
+    return array_shift($result);
+  }
 }

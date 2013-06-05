@@ -29,7 +29,8 @@
 
       <div class="widget-content">
 
-        <h4 class="fwk-title"><i class="icon-cogs"></i> Mettre votre site {% if configWorkshop.value == 0 %}en travaux{% else %}en production{% endif %}</h4>
+        <h4 class="fwk-title"><i class="icon-cogs"></i> Mettre votre
+          site {% if configWorkshop.value == 0 %}en travaux{% else %}en production{% endif %}</h4>
 
         <hr/>
 
@@ -38,8 +39,10 @@
           {% if configWorkshop.value == 0 %}
 
             <div class="alert alert-danger">
-              <strong>ATTENTION</strong> : Rentrez les bonnes adresses IPs afin de pouvoir modifier cette valeur par la suite !<br/><br/>
-              Dans le cas où vous n'arrivez pas à accéder à votre site après cette modification, vous pouvez modifier ces données directement dans la base de données.<br/>
+              <strong>ATTENTION</strong> : Rentrez les bonnes adresses IPs afin de pouvoir modifier cette valeur par la
+              suite !<br/><br/>
+              Dans le cas où vous n'arrivez pas à accéder à votre site après cette modification, vous pouvez modifier
+              ces données directement dans la base de données.<br/>
               Les champs sont "SITE_CONSTRUCTION" et "SITE_CONSTRUCTION_IP_SAFE" de la table "config".
             </div>
             <h3>Adresses IPs permises durant la mise en travaux :</h3>
@@ -47,12 +50,14 @@
             <form method="post">
 
               <i>Séparez directement les adresses IPs par des virgules.</i><br/>
-              <strong>Adresses IPs : </strong><input type="text" maxlength="250" name="ipValues" placeholder="127.0.0.1,192.168.1.10" required="required">
+              <strong>Adresses IPs : </strong><input type="text" maxlength="250" name="ipValues"
+                                                     placeholder="127.0.0.1,192.168.1.10" required="required">
 
               <br/>
               <br/>
 
-              <button type="submit" class="btn btn-danger"><i class="icon-warning-sign"></i> Valider la mise en travaux</button>
+              <button type="submit" class="btn btn-danger"><i class="icon-warning-sign"></i> Valider la mise en travaux
+              </button>
 
             </form>
 
@@ -63,9 +68,10 @@
             </div>
 
             <form method="post">
-              <input type="hidden" name="activate" value="1" />
+              <input type="hidden" name="activate" value="1"/>
 
-              <button type="submit" class="btn btn-info"><i class="icon-info-sign"></i> Valider la mise en production</button>
+              <button type="submit" class="btn btn-info"><i class="icon-info-sign"></i> Valider la mise en production
+              </button>
             </form>
 
           {% endif %}
@@ -82,7 +88,8 @@
 
   {% if change %}
 
-    <div class="modal hide fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal hide fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">Information</h3>

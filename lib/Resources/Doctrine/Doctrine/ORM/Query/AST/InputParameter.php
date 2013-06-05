@@ -32,27 +32,24 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class InputParameter extends Node
-{
-    public $isNamed;
-    public $name;
+class InputParameter extends Node {
+  public $isNamed;
+  public $name;
 
-    /**
-     * @param string $value
-     */
-    public function __construct($value)
-    {
-        if (strlen($value) == 1) {
-            throw \Doctrine\ORM\Query\QueryException::invalidParameterFormat($value);
-        }
-
-        $param = substr($value, 1);
-        $this->isNamed = ! is_numeric($param);
-        $this->name = $param;
+  /**
+   * @param string $value
+   */
+  public function __construct($value) {
+    if (strlen($value) == 1) {
+      throw \Doctrine\ORM\Query\QueryException::invalidParameterFormat($value);
     }
 
-    public function dispatch($walker)
-    {
-        return $walker->walkInputParameter($this);
-    }
+    $param         = substr($value, 1);
+    $this->isNamed = !is_numeric($param);
+    $this->name    = $param;
+  }
+
+  public function dispatch($walker) {
+    return $walker->walkInputParameter($this);
+  }
 }

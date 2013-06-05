@@ -32,22 +32,19 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class LikeExpression extends Node
-{
-    public $not;
-    public $stringExpression;
-    public $stringPattern;
-    public $escapeChar;
+class LikeExpression extends Node {
+  public $not;
+  public $stringExpression;
+  public $stringPattern;
+  public $escapeChar;
 
-    public function __construct($stringExpression, $stringPattern, $escapeChar = null)
-    {
-        $this->stringExpression = $stringExpression;
-        $this->stringPattern = $stringPattern;
-        $this->escapeChar = $escapeChar;
-    }
+  public function __construct($stringExpression, $stringPattern, $escapeChar = null) {
+    $this->stringExpression = $stringExpression;
+    $this->stringPattern    = $stringPattern;
+    $this->escapeChar       = $escapeChar;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkLikeExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkLikeExpression($this);
+  }
 }

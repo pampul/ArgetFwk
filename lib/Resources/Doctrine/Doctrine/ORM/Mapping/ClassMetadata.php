@@ -37,8 +37,7 @@ use ReflectionClass, ReflectionProperty;
  *
  * @author Roman Borschel <roman@code-factory.org>
  * @author Jonathan H. Wage <jonwage@gmail.com>
- * @since 2.0
+ * @since  2.0
  */
-class ClassMetadata extends ClassMetadataInfo
-{
+class ClassMetadata extends ClassMetadataInfo {
 }

@@ -15,12 +15,11 @@
  * @subpackage Plugins
  * @author     Chris Corbyn
  */
-interface Swift_Plugins_Timer
-{
-    /**
-     * Get the current UNIX timestamp.
-     *
-     * @return int
-     */
-    public function getTimestamp();
+interface Swift_Plugins_Timer {
+  /**
+   * Get the current UNIX timestamp.
+   *
+   * @return int
+   */
+  public function getTimestamp();
 }

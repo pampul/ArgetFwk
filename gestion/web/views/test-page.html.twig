@@ -19,59 +19,46 @@
 {# Contenu de la page #}
 {% block content %}
 
-<br/>
-<div class="hero-unit">
+  <br/>
+  <div class="hero-unit">
 
-<h2 class="fwk-title">Ceci est une page de tests</h2>
+    <h2 class="fwk-title">Ceci est une page de tests</h2>
 
-<br/>
+    <br/>
 
-<!---
-
-
-TEST CONTENT
+    <!---
 
 
------>
+    TEST CONTENT
 
 
+    ----->
 
 
+    <form method="POST" enctype="multipart/form-data">
 
 
+      <input type="file" name="myupload">
+
+      <input type="hidden" name="test">
+
+      <br/><br/><br/><br/>
+
+      <button type="submit" class="btn btn-sall">Tester l'upload</button>
+
+    </form>
 
 
-<form method="POST" enctype="multipart/form-data">
+    <!---
 
 
-  <input type="file" name="myupload">
-
-  <input type="hidden" name="test">
-
-  <br/><br/><br/><br/>
-
-  <button type="submit" class="btn btn-sall">Tester l'upload</button>
-
-</form>
+    TEST CONTENT
 
 
+    ----->
 
 
-
-
-
-
-
-<!---
-
-
-TEST CONTENT
-
-
------>
-
-
-</div>
+  </div>
 
 {% endblock %}
 

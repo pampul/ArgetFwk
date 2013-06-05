@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class Version implements Annotation
-{
+final class Version implements Annotation {
 }

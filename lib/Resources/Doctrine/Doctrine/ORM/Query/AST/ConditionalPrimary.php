@@ -32,23 +32,19 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ConditionalPrimary extends Node
-{
-    public $simpleConditionalExpression;
-    public $conditionalExpression;
+class ConditionalPrimary extends Node {
+  public $simpleConditionalExpression;
+  public $conditionalExpression;
 
-    public function isSimpleConditionalExpression()
-    {
-        return (bool) $this->simpleConditionalExpression;
-    }
+  public function isSimpleConditionalExpression() {
+    return (bool)$this->simpleConditionalExpression;
+  }
 
-    public function isConditionalExpression()
-    {
-        return (bool) $this->conditionalExpression;
-    }
+  public function isConditionalExpression() {
+    return (bool)$this->conditionalExpression;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkConditionalPrimary($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkConditionalPrimary($this);
+  }
 }

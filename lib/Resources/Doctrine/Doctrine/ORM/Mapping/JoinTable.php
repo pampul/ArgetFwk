@@ -23,14 +23,13 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class JoinTable implements Annotation
-{
-    /** @var string */
-    public $name;
-    /** @var string */
-    public $schema;
-    /** @var array<\Doctrine\ORM\Mapping\JoinColumn> */
-    public $joinColumns = array();
-    /** @var array<\Doctrine\ORM\Mapping\JoinColumn> */
-    public $inverseJoinColumns = array();
+final class JoinTable implements Annotation {
+  /** @var string */
+  public $name;
+  /** @var string */
+  public $schema;
+  /** @var array<\Doctrine\ORM\Mapping\JoinColumn> */
+  public $joinColumns = array();
+  /** @var array<\Doctrine\ORM\Mapping\JoinColumn> */
+  public $inverseJoinColumns = array();
 }

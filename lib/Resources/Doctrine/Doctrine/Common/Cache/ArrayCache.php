@@ -33,64 +33,57 @@ namespace Doctrine\Common\Cache;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  David Abdemoulaie <dave@hobodave.com>
  */
-class ArrayCache extends CacheProvider
-{
-    /**
-     * @var array $data
-     */
-    private $data = array();
+class ArrayCache extends CacheProvider {
+  /**
+   * @var array $data
+   */
+  private $data = array();
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFetch($id)
-    {
-        return (isset($this->data[$id])) ? $this->data[$id] : false;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFetch($id) {
+    return (isset($this->data[$id])) ? $this->data[$id] : false;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doContains($id)
-    {
-        return isset($this->data[$id]);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doContains($id) {
+    return isset($this->data[$id]);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doSave($id, $data, $lifeTime = 0)
-    {
-        $this->data[$id] = $data;
+  /**
+   * {@inheritdoc}
+   */
+  protected function doSave($id, $data, $lifeTime = 0) {
+    $this->data[$id] = $data;
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doDelete($id)
-    {
-        unset($this->data[$id]);
+  /**
+   * {@inheritdoc}
+   */
+  protected function doDelete($id) {
+    unset($this->data[$id]);
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFlush()
-    {
-        $this->data = array();
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFlush() {
+    $this->data = array();
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doGetStats()
-    {
-        return null;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doGetStats() {
+    return null;
+  }
 }

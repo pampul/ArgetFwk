@@ -28,59 +28,51 @@ namespace Doctrine\ORM\Mapping\Builder;
  * @since       2.0
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class ManyToManyAssociationBuilder extends OneToManyAssociationBuilder
-{
-    private $joinTableName;
+class ManyToManyAssociationBuilder extends OneToManyAssociationBuilder {
+  private $joinTableName;
 
-    private $inverseJoinColumns = array();
+  private $inverseJoinColumns = array();
 
-    public function setJoinTable($name)
-    {
-        $this->joinTableName = $name;
-        return $this;
+  public function setJoinTable($name) {
+    $this->joinTableName = $name;
+
+    return $this;
+  }
+
+  /**
+   * Add Inverse Join Columns
+   *
+   * @param string $columnName
+   * @param string $referencedColumnName
+   * @param bool   $nullable
+   * @param bool   $unique
+   * @param string $onDelete
+   * @param string $columnDef
+   */
+  public function addInverseJoinColumn($columnName, $referencedColumnName, $nullable = true, $unique = false, $onDelete = null, $columnDef = null) {
+    $this->inverseJoinColumns[] = array('name' => $columnName, 'referencedColumnName' => $referencedColumnName, 'nullable' => $nullable, 'unique' => $unique, 'onDelete' => $onDelete, 'columnDefinition' => $columnDef,);
+
+    return $this;
+  }
+
+  /**
+   * @return ClassMetadataBuilder
+   */
+  public function build() {
+    $mapping              = $this->mapping;
+    $mapping['joinTable'] = array();
+    if ($this->joinColumns) {
+      $mapping['joinTable']['joinColumns'] = $this->joinColumns;
     }
-
-    /**
-     * Add Inverse Join Columns
-     *
-     * @param string $columnName
-     * @param string $referencedColumnName
-     * @param bool $nullable
-     * @param bool $unique
-     * @param string $onDelete
-     * @param string $columnDef
-     */
-    public function addInverseJoinColumn($columnName, $referencedColumnName, $nullable = true, $unique = false, $onDelete = null, $columnDef = null)
-    {
-        $this->inverseJoinColumns[] = array(
-            'name' => $columnName,
-            'referencedColumnName' => $referencedColumnName,
-            'nullable' => $nullable,
-            'unique' => $unique,
-            'onDelete' => $onDelete,
-            'columnDefinition' => $columnDef,
-        );
-        return $this;
+    if ($this->inverseJoinColumns) {
+      $mapping['joinTable']['inverseJoinColumns'] = $this->inverseJoinColumns;
     }
-
-    /**
-     * @return ClassMetadataBuilder
-     */
-    public function build()
-    {
-        $mapping = $this->mapping;
-        $mapping['joinTable'] = array();
-        if ($this->joinColumns) {
-            $mapping['joinTable']['joinColumns'] = $this->joinColumns;
-        }
-        if ($this->inverseJoinColumns) {
-            $mapping['joinTable']['inverseJoinColumns'] = $this->inverseJoinColumns;
-        }
-        if ($this->joinTableName) {
-            $mapping['joinTable']['name'] = $this->joinTableName;
-        }
-        $cm = $this->builder->getClassMetadata();
-        $cm->mapManyToMany($mapping);
-        return $this->builder;
+    if ($this->joinTableName) {
+      $mapping['joinTable']['name'] = $this->joinTableName;
     }
+    $cm = $this->builder->getClassMetadata();
+    $cm->mapManyToMany($mapping);
+
+    return $this->builder;
+  }
 }

@@ -15,21 +15,18 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Filter_Method extends Twig_Filter
-{
-    protected $extension;
-    protected $method;
+class Twig_Filter_Method extends Twig_Filter {
+  protected $extension;
+  protected $method;
 
-    public function __construct(Twig_ExtensionInterface $extension, $method, array $options = array())
-    {
-        parent::__construct($options);
+  public function __construct(Twig_ExtensionInterface $extension, $method, array $options = array()) {
+    parent::__construct($options);
 
-        $this->extension = $extension;
-        $this->method = $method;
-    }
+    $this->extension = $extension;
+    $this->method    = $method;
+  }
 
-    public function compile()
-    {
-        return sprintf('$this->env->getExtension(\'%s\')->%s', $this->extension->getName(), $this->method);
-    }
+  public function compile() {
+    return sprintf('$this->env->getExtension(\'%s\')->%s', $this->extension->getName(), $this->method);
+  }
 }

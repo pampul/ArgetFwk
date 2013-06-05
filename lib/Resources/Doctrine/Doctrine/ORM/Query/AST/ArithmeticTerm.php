@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ArithmeticTerm extends Node
-{
-    public $arithmeticFactors;
+class ArithmeticTerm extends Node {
+  public $arithmeticFactors;
 
-    public function __construct(array $arithmeticFactors)
-    {
-        $this->arithmeticFactors = $arithmeticFactors;
-    }
+  public function __construct(array $arithmeticFactors) {
+    $this->arithmeticFactors = $arithmeticFactors;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkArithmeticTerm($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkArithmeticTerm($this);
+  }
 }

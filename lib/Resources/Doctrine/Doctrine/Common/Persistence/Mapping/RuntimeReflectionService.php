@@ -27,76 +27,72 @@ use ReflectionProperty;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class RuntimeReflectionService implements ReflectionService
-{
-    /**
-     * Return an array of the parent classes (not interfaces) for the given class.
-     *
-     * @param string $class
-     * @return array
-     */
-    public function getParentClasses($class)
-    {
-        return class_parents($class);
-    }
+class RuntimeReflectionService implements ReflectionService {
+  /**
+   * Return an array of the parent classes (not interfaces) for the given class.
+   *
+   * @param string $class
+   * @return array
+   */
+  public function getParentClasses($class) {
+    return class_parents($class);
+  }
 
-    /**
-     * Return the shortname of a class.
-     *
-     * @param string $class
-     * @return string
-     */
-    public function getClassShortName($class)
-    {
-        $r = new ReflectionClass($class);
-        return $r->getShortName();
-    }
+  /**
+   * Return the shortname of a class.
+   *
+   * @param string $class
+   * @return string
+   */
+  public function getClassShortName($class) {
+    $r = new ReflectionClass($class);
 
-    /**
-     * @param string $class
-     * @return string
-     */
-    public function getClassNamespace($class)
-    {
-        $r = new ReflectionClass($class);
-        return $r->getNamespaceName();
-    }
+    return $r->getShortName();
+  }
 
-    /**
-     * Return a reflection class instance or null
-     *
-     * @param string $class
-     * @return ReflectionClass|null
-     */
-    public function getClass($class)
-    {
-        return new ReflectionClass($class);
-    }
+  /**
+   * @param string $class
+   * @return string
+   */
+  public function getClassNamespace($class) {
+    $r = new ReflectionClass($class);
 
-    /**
-     * Return an accessible property (setAccessible(true)) or null.
-     *
-     * @param string $class
-     * @param string $property
-     * @return ReflectionProperty|null
-     */
-    public function getAccessibleProperty($class, $property)
-    {
-        $property = new ReflectionProperty($class, $property);
-        $property->setAccessible(true);
-        return $property;
-    }
+    return $r->getNamespaceName();
+  }
 
-    /**
-     * Check if the class have a public method with the given name.
-     *
-     * @param mixed $class
-     * @param mixed $method
-     * @return bool
-     */
-    public function hasPublicMethod($class, $method)
-    {
-        return method_exists($class, $method) && is_callable(array($class, $method));
-    }
+  /**
+   * Return a reflection class instance or null
+   *
+   * @param string $class
+   * @return ReflectionClass|null
+   */
+  public function getClass($class) {
+    return new ReflectionClass($class);
+  }
+
+  /**
+   * Return an accessible property (setAccessible(true)) or null.
+   *
+   * @param string $class
+   * @param string $property
+   * @return ReflectionProperty|null
+   */
+  public function getAccessibleProperty($class, $property) {
+    $property = new ReflectionProperty($class, $property);
+    $property->setAccessible(true);
+
+    return $property;
+  }
+
+  /**
+   * Check if the class have a public method with the given name.
+   *
+   * @param mixed $class
+   * @param mixed $method
+   * @return bool
+   */
+  public function hasPublicMethod($class, $method) {
+    return method_exists($class, $method) && is_callable(array($class, $method));
+  }
 }
 

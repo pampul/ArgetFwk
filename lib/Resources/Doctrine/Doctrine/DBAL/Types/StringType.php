@@ -28,23 +28,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  *
  * @since 2.0
  */
-class StringType extends Type
-{
-    /** @override */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
-    }
+class StringType extends Type {
+  /** @override */
+  public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
+    return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
+  }
 
-    /** @override */
-    public function getDefaultLength(AbstractPlatform $platform)
-    {
-        return $platform->getVarcharDefaultLength();
-    }
+  /** @override */
+  public function getDefaultLength(AbstractPlatform $platform) {
+    return $platform->getVarcharDefaultLength();
+  }
 
-    /** @override */
-    public function getName()
-    {
-        return Type::STRING;
-    }
+  /** @override */
+  public function getName() {
+    return Type::STRING;
+  }
 }

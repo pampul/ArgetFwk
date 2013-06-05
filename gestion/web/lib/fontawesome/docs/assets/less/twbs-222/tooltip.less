@@ -2,7 +2,6 @@
 // Tooltips
 // --------------------------------------------------
 
-
 // Base class
 .tooltip {
   position: absolute;
@@ -12,11 +11,20 @@
   padding: 5px;
   font-size: 11px;
   .opacity(0);
-  &.in     { .opacity(80); }
-  &.top    { margin-top:  -3px; }
-  &.right  { margin-left:  3px; }
-  &.bottom { margin-top:   3px; }
-  &.left   { margin-left: -3px; }
+  &.in { .opacity(80);
+  }
+  &.top {
+    margin-top: -3px;
+  }
+  &.right {
+    margin-left: 3px;
+  }
+  &.bottom {
+    margin-top: 3px;
+  }
+  &.left {
+    margin-left: -3px;
+  }
 }
 
 // Wrapper for the tooltip content
@@ -38,6 +46,7 @@
   border-color: transparent;
   border-style: solid;
 }
+
 .tooltip {
   &.top .tooltip-arrow {
     bottom: 0;

@@ -32,66 +32,53 @@ namespace Doctrine\Common\Cache;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  David Abdemoulaie <dave@hobodave.com>
  */
-class ApcCache extends CacheProvider
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFetch($id)
-    {
-        return apc_fetch($id);
-    }
+class ApcCache extends CacheProvider {
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFetch($id) {
+    return apc_fetch($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doContains($id)
-    {
-        $found = false;
+  /**
+   * {@inheritdoc}
+   */
+  protected function doContains($id) {
+    $found = false;
 
-        apc_fetch($id, $found);
+    apc_fetch($id, $found);
 
-        return $found;
-    }
+    return $found;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doSave($id, $data, $lifeTime = 0)
-    {
-        return (bool) apc_store($id, $data, (int) $lifeTime);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doSave($id, $data, $lifeTime = 0) {
+    return (bool)apc_store($id, $data, (int)$lifeTime);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doDelete($id)
-    {
-        return apc_delete($id);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doDelete($id) {
+    return apc_delete($id);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFlush()
-    {
-        return apc_clear_cache() && apc_clear_cache('user');
-    }
+  /**
+   * {@inheritdoc}
+   */
+  protected function doFlush() {
+    return apc_clear_cache() && apc_clear_cache('user');
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function doGetStats()
-    {
-        $info = apc_cache_info();
-        $sma  = apc_sma_info();
+  /**
+   * {@inheritdoc}
+   */
+  protected function doGetStats() {
+    $info = apc_cache_info();
+    $sma  = apc_sma_info();
 
-        return array(
-            Cache::STATS_HITS              => $info['num_hits'],
-            Cache::STATS_MISSES            => $info['num_misses'],
-            Cache::STATS_UPTIME            => $info['start_time'],
-            Cache::STATS_MEMORY_USAGE      => $info['mem_size'],
-            Cache::STATS_MEMORY_AVAILIABLE => $sma['avail_mem'],
-        );
-    }
+    return array(Cache::STATS_HITS => $info['num_hits'], Cache::STATS_MISSES => $info['num_misses'], Cache::STATS_UPTIME => $info['start_time'], Cache::STATS_MEMORY_USAGE => $info['mem_size'], Cache::STATS_MEMORY_AVAILIABLE => $sma['avail_mem'],);
+  }
 }

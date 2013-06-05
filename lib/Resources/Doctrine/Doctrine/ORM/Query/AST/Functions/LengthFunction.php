@@ -32,31 +32,26 @@ use Doctrine\ORM\Query\Lexer;
  * @author  Roman Borschel <roman@code-factory.org>
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class LengthFunction extends FunctionNode
-{
-    public $stringPrimary;
+class LengthFunction extends FunctionNode {
+  public $stringPrimary;
 
-    /**
-     * @override
-     */
-    public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
-    {
-        return $sqlWalker->getConnection()->getDatabasePlatform()->getLengthExpression(
-               $sqlWalker->walkSimpleArithmeticExpression($this->stringPrimary)
-        );
-    }
+  /**
+   * @override
+   */
+  public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker) {
+    return $sqlWalker->getConnection()->getDatabasePlatform()->getLengthExpression($sqlWalker->walkSimpleArithmeticExpression($this->stringPrimary));
+  }
 
-    /**
-     * @override
-     */
-    public function parse(\Doctrine\ORM\Query\Parser $parser)
-    {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
+  /**
+   * @override
+   */
+  public function parse(\Doctrine\ORM\Query\Parser $parser) {
+    $parser->match(Lexer::T_IDENTIFIER);
+    $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
-        $this->stringPrimary = $parser->StringPrimary();
+    $this->stringPrimary = $parser->StringPrimary();
 
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-    }
+    $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+  }
 }
 

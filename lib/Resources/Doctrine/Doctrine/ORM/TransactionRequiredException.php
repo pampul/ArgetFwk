@@ -31,10 +31,8 @@ namespace Doctrine\ORM;
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class TransactionRequiredException extends ORMException
-{
-    static public function transactionRequired()
-    {
-        return new self('An open transaction is required for this operation.');
-    }
+class TransactionRequiredException extends ORMException {
+  static public function transactionRequired() {
+    return new self('An open transaction is required for this operation.');
+  }
 }

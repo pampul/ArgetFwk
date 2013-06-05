@@ -37,24 +37,23 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  * @author      Jonathan Wage <jonwage@gmail.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class VarDateTimeType extends DateTimeType
-{
-    /**
-     * @throws ConversionException
-     * @param string $value
-     * @param AbstractPlatform $platform
-     * @return DateTime
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        $val = date_create($value);
-        if (!$val) {
-            throw ConversionException::conversionFailed($value, $this->getName());
-        }
-        return $val;
+class VarDateTimeType extends DateTimeType {
+  /**
+   * @throws ConversionException
+   * @param string           $value
+   * @param AbstractPlatform $platform
+   * @return DateTime
+   */
+  public function convertToPHPValue($value, AbstractPlatform $platform) {
+    if ($value === null) {
+      return null;
     }
+
+    $val = date_create($value);
+    if (!$val) {
+      throw ConversionException::conversionFailed($value, $this->getName());
+    }
+
+    return $val;
+  }
 }

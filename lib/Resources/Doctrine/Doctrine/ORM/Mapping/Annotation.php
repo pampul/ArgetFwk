@@ -19,6 +19,5 @@
 
 namespace Doctrine\ORM\Mapping;
 
-interface Annotation
-{
+interface Annotation {
 }

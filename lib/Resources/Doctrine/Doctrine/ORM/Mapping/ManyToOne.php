@@ -23,14 +23,13 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("PROPERTY")
  */
-final class ManyToOne implements Annotation
-{
-    /** @var string */
-    public $targetEntity;
-    /** @var array<string> */
-    public $cascade;
-    /** @var string */
-    public $fetch = 'LAZY';
-    /** @var string */
-    public $inversedBy;
+final class ManyToOne implements Annotation {
+  /** @var string */
+  public $targetEntity;
+  /** @var array<string> */
+  public $cascade;
+  /** @var string */
+  public $fetch = 'LAZY';
+  /** @var string */
+  public $inversedBy;
 }

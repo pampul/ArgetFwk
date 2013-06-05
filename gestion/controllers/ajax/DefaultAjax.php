@@ -16,18 +16,14 @@ class DefaultAjax extends AjaxManager {
 
     if (isset($_POST['login']) && isset($_POST['password'])) {
 
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-        array('email' => $_POST['login'])
-      );
+      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $_POST['login']));
 
       if ($objAdmin instanceof Admin) {
         $result = FwkSecurity::comparePassword($_POST['password'], $objAdmin->getPassword(), array('login' => $_POST['login'], 'dir' => '../'));
         if ($result === true)
-          echo 'User checked.';
-        else
+          echo 'User checked.'; else
           echo $result;
-      }
-      else
+      } else
         echo 'Incorrect User.';
     }
   }
@@ -39,18 +35,14 @@ class DefaultAjax extends AjaxManager {
 
     if (isset($_POST['login'])) {
 
-      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(
-        array('email' => $_POST['login'])
-      );
+      $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->findOneBy(array('email' => $_POST['login']));
 
       if ($objAdmin instanceof Admin) {
         $result = FwkSecurity::multiLoginProtect(array('login' => $_POST['login'], 'dir' => '../', 'seconds' => 300, 'try' => 2), '../logs/forget-pwd/');
         if ($result === true)
-          echo 'User checked.';
-        else
+          echo 'User checked.'; else
           echo $result;
-      }
-      else
+      } else
         echo 'Incorrect User.';
     }
   }
@@ -80,7 +72,7 @@ class DefaultAjax extends AjaxManager {
 
     // Si pas de tri défini, ce sera par ID DESC
     if ($sort == '' || $order == '') {
-      $sort = 'id';
+      $sort  = 'id';
       $order = 'desc';
     }
 
@@ -89,7 +81,7 @@ class DefaultAjax extends AjaxManager {
     // dans le cas où aucune demande de pagination existe
     if ($sendPagination == 0) {
       // on récupère les lignes de 0 à la valeur spécifiée dans le controller
-      $start = 0;
+      $start     = 0;
       $maxResult = $nbrSaved;
       // Autrement, on multiplie la valeur controller par la page demandée
     } else
@@ -97,13 +89,13 @@ class DefaultAjax extends AjaxManager {
 
     // On récupère les boutons spécifiés dans le controller (edit/delete/view etc..)
     $arrayActionButtonsCatched = explode('_#_', $actionButtons);
-    $arrayActionButtons = array();
+    $arrayActionButtons        = array();
     foreach ($arrayActionButtonsCatched as $oneButton) {
       $arrayOneButton = explode('##', $oneButton);
       if (isset($arrayOneButton[0]) && isset($arrayOneButton[1])) {
         $arrayValues = array();
         foreach (explode('___', $arrayOneButton[1]) as $oneAttr) {
-          $arrayValuesTemp = explode('=>', $oneAttr);
+          $arrayValuesTemp                  = explode('=>', $oneAttr);
           $arrayValues[$arrayValuesTemp[0]] = $arrayValuesTemp[1];
         }
         $arrayActionButtons[$arrayOneButton[0]] = $arrayValues;
@@ -118,7 +110,7 @@ class DefaultAjax extends AjaxManager {
       $actionSupTmp = array();
       $arrayActions = explode('__', $oneActionSup);
       foreach ($arrayActions as $oneAction) {
-        $arrayOneAction = explode('==', $oneAction);
+        $arrayOneAction                   = explode('==', $oneAction);
         $actionSupTmp[$arrayOneAction[0]] = $arrayOneAction[1];
       }
 
@@ -128,14 +120,12 @@ class DefaultAjax extends AjaxManager {
 
     // Création du query builder pour faire une recherche sur la classe spécifiée
     $qb = $this->em->createQueryBuilder();
-    $qb->select('c')
-      ->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
+    $qb->select('c')->from((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class), 'c');
 
 
     // On créé la session lié à la classe si cela n'est pas déjà fait
-    if(!isset($_SESSION['poney_search'][strtolower($class)]) || (int)$removeCriteria == 1)
+    if (!isset($_SESSION['poney_search'][strtolower($class)]) || (int)$removeCriteria == 1)
       $_SESSION['poney_search'][strtolower($class)] = array();
-
 
 
     /**
@@ -148,32 +138,26 @@ class DefaultAjax extends AjaxManager {
       array_pop($arrayParamIds);
 
       $where = '';
-      $i = 0;
+      $i     = 0;
       // On ajoute le c.id dans le cas où la ligne existe
       foreach ($arrayParamIds as $idItem) {
         $objItem = $this->em->getRepository((in_array($class, $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class))->find($idItem);
         if (is_object($objItem)) {
           $i++;
           if ($i === 1)
-            $where .= 'c.id = ' . $idItem;
-          else
+            $where .= 'c.id = ' . $idItem; else
             $where .= ' OR c.id = ' . $idItem;
         }
       }
 
       // Dans le cas où un join est nécessaire pour le tri
       if (strlen($data_property) > 0)
-        $qb->join('c.' . $sort, 'q')
-          ->add('where', $where)
-          ->orderBy('q.' . $data_property, strtoupper($order));
-      // Autrement on execute un where normal
+        $qb->join('c.' . $sort, 'q')->add('where', $where)->orderBy('q.' . $data_property, strtoupper($order)); // Autrement on execute un where normal
       else
-        $qb->add('where', $where)
-          ->orderBy('c.' . $sort, strtoupper($order));
+        $qb->add('where', $where)->orderBy('c.' . $sort, strtoupper($order));
 
 
-      $qb->setFirstResult($start)
-        ->setMaxResults($maxResult);
+      $qb->setFirstResult($start)->setMaxResults($maxResult);
 
       /**
        * Gestion du tri et de la recherche générale
@@ -182,57 +166,53 @@ class DefaultAjax extends AjaxManager {
 
       // On initialise la recherche et les actions sup à 0
       $_SESSION['poney_search'][strtolower($class)]['search_keyword'] = null;
-      $_SESSION['poney_search'][strtolower($class)]['action_sup'] = null;
+      $_SESSION['poney_search'][strtolower($class)]['action_sup']     = null;
 
       $where = '';
       // Les actions de tri supplémentaires sont compris dans la query
       if (sizeof($actionSups) > 0) {
         $_SESSION['poney_search'][strtolower($class)]['action_sup'] = $actionSups;
-        $i = 0;
+        $i                                                          = 0;
         foreach ($actionSups as $oneActionSup) {
           $i++;
           if ($i === 1)
-            $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
-          else
+            $where .= 'c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\''; else
             $where .= ' AND c.' . $oneActionSup['method'] . ' = \'' . $oneActionSup['value'] . '\'';
         }
       }
 
 
-
       // La recherche par mot clef est comprise dans la query
       if ($search != '') {
         $_SESSION['poney_search'][strtolower($class)]['search_keyword'] = $search;
-        $arrayMethods = explode('-', $methods);
-        $whereStart = $where;
-        $i = 0;
+        $arrayMethods                                                   = explode('-', $methods);
+        $whereStart                                                     = $where;
+        $i                                                              = 0;
         foreach ($arrayMethods as $oneMethod) {
           if (!empty($oneMethod) && $oneMethod != '') {
             $i++;
             if ($i === 1 && $where == '')
-              $where .= 'c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
-            elseif($i === 1 && $where != '')
-              $where .= ' AND (c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
-            else
+              $where .= 'c.' . $oneMethod . ' LIKE \'%' . $search . '%\''; elseif ($i === 1 && $where != '')
+              $where .= ' AND (c.' . $oneMethod . ' LIKE \'%' . $search . '%\''; else
               $where .= ' OR c.' . $oneMethod . ' LIKE \'%' . $search . '%\'';
           }
         }
-        if($i != 0 && $whereStart != '')
+        if ($i != 0 && $whereStart != '')
           $where .= ')';
       }
 
       // On applique les nouveaux paramètres de session
       $_SESSION['poney_search'][strtolower($class)]['where'] = $where;
-      $_SESSION['poney_search'][strtolower($class)]['join'] = array();
+      $_SESSION['poney_search'][strtolower($class)]['join']  = array();
       $_SESSION['poney_search'][strtolower($class)]['order'] = array();
 
       // Si un join est nécessaire dans le tri de la query
       if (strlen($data_property) > 0) {
 
         // On met les paramètres de session correspondant
-        $_SESSION['poney_search'][strtolower($class)]['order']['sort'] = $sort;
+        $_SESSION['poney_search'][strtolower($class)]['order']['sort']         = $sort;
         $_SESSION['poney_search'][strtolower($class)]['join']['data_property'] = $data_property;
-        $_SESSION['poney_search'][strtolower($class)]['order']['order'] = $order;
+        $_SESSION['poney_search'][strtolower($class)]['order']['order']        = $order;
 
         $qb->join('c.' . $sort, 'q');
 
@@ -250,17 +230,16 @@ class DefaultAjax extends AjaxManager {
         $qb->orderBy('c.' . $sort, strtoupper($order));
 
         // On met les paramètres de session correspondant
-        $_SESSION['poney_search'][strtolower($class)]['order']['sort'] = $sort;
+        $_SESSION['poney_search'][strtolower($class)]['order']['sort']  = $sort;
         $_SESSION['poney_search'][strtolower($class)]['order']['order'] = $order;
 
       }
 
       // On attribue les paramètres de session de pagination
       $_SESSION['poney_search'][strtolower($class)]['results']['first_result'] = 0;
-      $_SESSION['poney_search'][strtolower($class)]['results']['max_result'] = $trueMaxResult * ($pagination + 1);
+      $_SESSION['poney_search'][strtolower($class)]['results']['max_result']   = $trueMaxResult * ($pagination + 1);
 
-      $qb->setFirstResult($start)
-        ->setMaxResults($maxResult);
+      $qb->setFirstResult($start)->setMaxResults($maxResult);
     }
 
     // On récupère l'ensemble des résultats
@@ -271,8 +250,7 @@ class DefaultAjax extends AjaxManager {
 
       $coreFwkTable = new FwkTable($arrayBodyTable, $arrayActionButtons, $trueMaxResult, true, true);
       if ($sendPagination == 1)
-        $coreFwkTable->buildBody($colObject, true, $nbrExisting);
-      else
+        $coreFwkTable->buildBody($colObject, true, $nbrExisting); else
         $coreFwkTable->buildBody($colObject, false);
 
       header("Content-type: text/xml");
@@ -303,13 +281,13 @@ class DefaultAjax extends AjaxManager {
 
 
       // Le CSV est demandé
-    }else {
+    } else {
 
       // On génère un CSV grâce au colObject, et on retourne son URL.
       $srcFile = FwkTable::getCsvPath($class);
 
       // Construction de l'en-tête
-      $csvHeader = FwkTable::getCsvHead($arrayBodyTable);
+      $csvHeader  = FwkTable::getCsvHead($arrayBodyTable);
       $csvContent = FwkTable::getCsvBody($colObject, $arrayBodyTable);
 
       $csvFullContent = $csvHeader . $csvContent;
@@ -342,10 +320,9 @@ class DefaultAjax extends AjaxManager {
         $this->em->flush();
 
         echo 'done.';
-      }
-      else
+      } else
         echo 'error.';
-    }else {
+    } else {
       if ($newValue != 'password') {
         $objItem = $this->em->getRepository((in_array(ucfirst($class), $this->fwkClasses) ? 'Resources\\' : '') . 'Entities\\' . ucfirst($class))->find($idProduct);
         if (is_object($objItem)) {
@@ -354,11 +331,9 @@ class DefaultAjax extends AjaxManager {
           $this->em->flush();
 
           echo 'done.';
-        }
-        else
+        } else
           echo 'error.';
-      }
-      else
+      } else
         echo 'error.';
     }
   }
@@ -383,8 +358,7 @@ class DefaultAjax extends AjaxManager {
           }
         }
         echo 'done.';
-      }
-      else
+      } else
         echo 'error.';
     } else {
 
@@ -394,8 +368,7 @@ class DefaultAjax extends AjaxManager {
         $this->em->flush();
 
         echo 'done.';
-      }
-      else
+      } else
         echo 'error.';
     }
   }
@@ -437,10 +410,7 @@ class DefaultAjax extends AjaxManager {
       $this->em->flush();
     } else {
       $colPrivilege = $this->em->getRepository('Resources\Entities\Privilege')->findAll();
-      $this->renderView('views/admins-gestion.html.twig', array(
-        'objAdmin' => $objAdmin,
-        'colPrivilege' => $colPrivilege
-      ));
+      $this->renderView('views/admins-gestion.html.twig', array('objAdmin' => $objAdmin, 'colPrivilege' => $colPrivilege));
     }
   }
 
@@ -475,13 +445,11 @@ class DefaultAjax extends AjaxManager {
       }
 
       $objPrivilege->setNom($nom);
-      $objPrivilege->setLevel((int) $level);
+      $objPrivilege->setLevel((int)$level);
       $this->em->persist($objPrivilege);
       $this->em->flush();
     } else {
-      $this->renderView('views/privileges-gestion.html.twig', array(
-        'objUnivers' => $objPrivilege
-      ));
+      $this->renderView('views/privileges-gestion.html.twig', array('objUnivers' => $objPrivilege));
     }
   }
 
@@ -493,8 +461,7 @@ class DefaultAjax extends AjaxManager {
   protected function ticketAddController() {
 
     if (isset($_SESSION['admin']['id']))
-      $idUser = $_SESSION['admin']['id'];
-    else
+      $idUser = $_SESSION['admin']['id']; else
       $idUser = null;
 
     if (isset($_POST['titre'])) {
@@ -515,19 +482,19 @@ class DefaultAjax extends AjaxManager {
       $this->em->persist($objTicket);
       $this->em->flush();
 
-      if($objTicket->getAdmin()->getEmail() != ADMIN_EMAIL){
+      if ($objTicket->getAdmin()->getEmail() != ADMIN_EMAIL) {
         $html = "
-                        <h3>Nouveau ticket sur le site ".SITE_NOM."</h3>
+                        <h3>Nouveau ticket sur le site " . SITE_NOM . "</h3>
                         <br />\n
                         Un nouveau ticket a été créé sur ce site web.
                         <br/>\n
                         Vous pouvez y accéder directement via ce lien : <a href='" . SITE_URL . "dashboard/ticket-details/" . $objTicket->getId() . "' title='Accéder au ticket'>Accéder au ticket ici.</a>
                         <br/>\n<br/>\n<br/>\n
                         <strong style='text-decoration:underline;'>Contenu du ticket :</strong><br/>\n<br/>\n
-                        <strong>Sujet : </strong>".$objTicket->getTitre()."<br/>\n
-                        <strong>Type de ticket : </strong>".$objTicket->getTypeTicket()."<br/>\n
+                        <strong>Sujet : </strong>" . $objTicket->getTitre() . "<br/>\n
+                        <strong>Type de ticket : </strong>" . $objTicket->getTypeTicket() . "<br/>\n
                         <strong>Contenu : </strong><br/>\n
-                        ".nl2br($objTicket->getTexte())."
+                        " . nl2br($objTicket->getTexte()) . "
                         <br />\n<br />\n<br/>\n
                         -----------------------------
                         <br />\n
@@ -536,7 +503,7 @@ class DefaultAjax extends AjaxManager {
                         ";
 
         $message = Swift_Message::newInstance();
-        $mailer = Swift_MailTransport::newInstance();
+        $mailer  = Swift_MailTransport::newInstance();
         $message->setSubject('Nouveau ticket sur le site : ' . SITE_NOM);
         $message->setFrom(array('postmaster@' . strtolower(SITE_NOM) . '.com' => 'postmaster@' . strtolower(SITE_NOM)));
         $message->setTo(array(ADMIN_EMAIL => ADMIN_PRENOM . ' ' . ADMIN_NOM));
@@ -545,9 +512,7 @@ class DefaultAjax extends AjaxManager {
         $mailer->send($message);
       }
     } else {
-      $this->renderView('views/ticket-add.html.twig', array(
-        'idAdmin' => $idUser
-      ));
+      $this->renderView('views/ticket-add.html.twig', array('idAdmin' => $idUser));
     }
   }
 
@@ -611,25 +576,20 @@ class DefaultAjax extends AjaxManager {
 
   protected function refreshReponsesController() {
 
-    $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
+    $objAdmin  = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
     $objTicket = $this->em->getRepository('Resources\Entities\Ticket')->find($_POST['idTicket']);
 
     if ($objAdmin->getPrivilege()->getLevel() > 8 || $objTicket->getAdmin()->getId() === $objAdmin->getId()) {
 
       $colReponses = $this->em->getRepository('Resources\Entities\Reponse')->findBy(array('ticket' => $objTicket->getId()));
 
-      $this->renderView('views/ticket-reponse-listing.html.twig', array(
-        'objTicket' => $objTicket,
-        'objTicketOwner' => $objTicket->getAdmin(),
-        'colReponses' => $colReponses,
-        'objAdmin' => $objAdmin
-      ));
+      $this->renderView('views/ticket-reponse-listing.html.twig', array('objTicket' => $objTicket, 'objTicketOwner' => $objTicket->getAdmin(), 'colReponses' => $colReponses, 'objAdmin' => $objAdmin));
     }
   }
 
   protected function addAnswerController() {
 
-    $objAdmin = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
+    $objAdmin  = $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']);
     $objTicket = $this->em->getRepository('Resources\Entities\Ticket')->find($_POST['idTicket']);
 
     if ($objAdmin->getPrivilege()->getLevel() > 8 || $objTicket->getAdmin()->getId() === $objAdmin->getId()) {
@@ -657,12 +617,7 @@ class DefaultAjax extends AjaxManager {
 
       $colReponses = $this->em->getRepository('Resources\Entities\Reponse')->findBy(array('ticket' => $objTicket->getId()));
 
-      $this->renderView('views/ticket-reponse-listing.html.twig', array(
-        'objTicket' => $objTicket,
-        'objTicketOwner' => $objTicket->getAdmin(),
-        'colReponses' => $colReponses,
-        'objAdmin' => $objAdmin
-      ));
+      $this->renderView('views/ticket-reponse-listing.html.twig', array('objTicket' => $objTicket, 'objTicketOwner' => $objTicket->getAdmin(), 'colReponses' => $colReponses, 'objAdmin' => $objAdmin));
     }
   }
 
@@ -671,8 +626,7 @@ class DefaultAjax extends AjaxManager {
     $objTicket = $this->em->getRepository('Resources\Entities\Ticket')->find($_POST['idTicket']);
 
     if ($_POST['statut'] == 'ferme')
-      $statut = 'ouvert';
-    else
+      $statut = 'ouvert'; else
       $statut = 'ferme';
 
     $objTicket->setStatut($statut);
@@ -698,8 +652,7 @@ class DefaultAjax extends AjaxManager {
         $this->em->persist($objAdmin);
         $this->em->flush();
         echo '1';
-      }
-      else
+      } else
         echo $_POST['upfilepath'] . '/' . $arrayResult['success'];
     }
   }
@@ -721,8 +674,7 @@ class DefaultAjax extends AjaxManager {
         $this->em->persist($objAdmin);
         $this->em->flush();
         echo '1';
-      }
-      else
+      } else
         echo $_POST['upfilepath'] . '/' . $arrayResult['success'];
     }
   }
@@ -755,14 +707,12 @@ class DefaultAjax extends AjaxManager {
       $this->em->persist($objSeo);
       $this->em->flush();
     } else {
-      $this->renderView('views/seo-gestion.html.twig', array(
-        'objSeo' => $objSeo
-      ));
+      $this->renderView('views/seo-gestion.html.twig', array('objSeo' => $objSeo));
     }
   }
 
 
-  protected function makeUrlCleanerController(){
+  protected function makeUrlCleanerController() {
 
     extract($_POST);
 
@@ -794,9 +744,7 @@ class DefaultAjax extends AjaxManager {
       $this->em->persist($objCategory);
       $this->em->flush();
     } else {
-      $this->renderView('views/blog-categorie-gestion.html.twig', array(
-        'objCategory' => $objCategory
-      ));
+      $this->renderView('views/blog-categorie-gestion.html.twig', array('objCategory' => $objCategory));
     }
   }
 

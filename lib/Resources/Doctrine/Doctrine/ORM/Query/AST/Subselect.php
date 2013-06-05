@@ -32,23 +32,20 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Subselect extends Node
-{
-    public $simpleSelectClause;
-    public $subselectFromClause;
-    public $whereClause;
-    public $groupByClause;
-    public $havingClause;
-    public $orderByClause;
+class Subselect extends Node {
+  public $simpleSelectClause;
+  public $subselectFromClause;
+  public $whereClause;
+  public $groupByClause;
+  public $havingClause;
+  public $orderByClause;
 
-    public function __construct($simpleSelectClause, $subselectFromClause)
-    {
-        $this->simpleSelectClause = $simpleSelectClause;
-        $this->subselectFromClause = $subselectFromClause;
-    }
+  public function __construct($simpleSelectClause, $subselectFromClause) {
+    $this->simpleSelectClause  = $simpleSelectClause;
+    $this->subselectFromClause = $subselectFromClause;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkSubselect($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkSubselect($this);
+  }
 }

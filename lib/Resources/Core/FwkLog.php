@@ -9,12 +9,14 @@ class FwkLog extends FwkManager {
 
   /**
    * Le chemin du fichier de logs
+   *
    * @var string
    */
   private $_log_path = null;
 
   /**
    * Tableau des messages de logs à créer
+   *
    * @var array
    */
   private $_log = array();
@@ -36,8 +38,8 @@ class FwkLog extends FwkManager {
    *  Le chemin de l'emplacement où les fichiers de logs doivent être écrits
    */
   public function setLogPath($path) {
-    if(preg_match('#^log#', $path))
-      $path = __DIR__.'/../../../'.$path;
+    if (preg_match('#^log#', $path))
+      $path = __DIR__ . '/../../../' . $path;
     $this->_log_path = $path;
   }
 
@@ -94,11 +96,11 @@ class FwkLog extends FwkManager {
    *
    * @param string $message
    * Message d'erreur
-   * @param type $type
+   * @param type   $type
    * Type d'erreur (ex: E_NOTICE)
-   * @param type $writeToLog
+   * @param type   $writeToLog
    * Si true : on écrit dans les logs
-   * @param type $addbreak
+   * @param type   $addbreak
    * Si true : on saute une ligne après
    */
   public function pushToLog($message, $type = E_NOTICE, $writeToLog = false, $addbreak = true) {
@@ -106,8 +108,7 @@ class FwkLog extends FwkManager {
     array_push($this->_log, array('type' => $type, 'time' => time(), 'message' => $message));
 
     if (BACKOFFICE_ACTIVE === '')
-      $boFo = 'Front Office';
-    else
+      $boFo = 'Front Office'; else
       $boFo = 'Back Office';
 
     $userName = '-';
@@ -123,7 +124,7 @@ class FwkLog extends FwkManager {
   /**
    * Ecrit le message dans le fichier donné
    *
-   * @param string $message
+   * @param string  $message
    *  Le message à ajouter
    * @param boolean $addbreak
    *  Saute une ligne avant écriture
@@ -134,8 +135,10 @@ class FwkLog extends FwkManager {
 
     if (file_exists($this->_log_path) && !is_writable($this->_log_path)) {
       $this->pushToLog('Impossible d\'écrire dans le fichier de logs. Le fichier est illisible.');
+
       return false;
     }
+
     return file_put_contents($this->_log_path, $message . ($addbreak ? PHP_EOL : ''), FILE_APPEND);
   }
 
@@ -144,7 +147,7 @@ class FwkLog extends FwkManager {
    *
    * @param boolean $overwrite
    * Supprimer l'ancien fichier ou non
-   * @param type $mode
+   * @param type    $mode
    * 0777 de base
    * @return int
    * Si 1 : fichier créé
@@ -189,13 +192,13 @@ class FwkLog extends FwkManager {
    * Ajouter un message de log
    *
    * @param string $message
-   * @param string $directory - par défaut : ../logs/
+   * @param string $directory    - par défaut : ../logs/
    * @param string $subDirectory - Choix du dossier de destination
    */
   public static function add($message, $directory = '../logs/', $subDirectory = '') {
 
-    if($directory == '../logs/' || $directory == 'logs/')
-      $directory = __DIR__.'/../../../logs/';
+    if ($directory == '../logs/' || $directory == 'logs/')
+      $directory = __DIR__ . '/../../../logs/';
 
     /*
      * On vérifie la directory et on la créé si besoin
@@ -263,6 +266,7 @@ class FwkLog extends FwkManager {
     $arrayLines = file(PATH_TO_IMPORTANT_FILES . 'logs/' . $orderCrits['dirFile'] . '/' . $orderCrits['fileName'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
     $arrayLines = array_reverse($arrayLines);
+
     return $arrayLines;
   }
 
@@ -273,8 +277,8 @@ class FwkLog extends FwkManager {
    */
   public static function logRemovedEntity($entity) {
 
-    if(method_exists($entity, '__toString')) $name = ' - Infos supp. : ' . $entity;
-    else $name = '';
+    if (method_exists($entity, '__toString'))
+      $name = ' - Infos supp. : ' . $entity; else $name = '';
 
     $messageLog = ' Suppression de l\'entite "' . get_class($entity) . '" avec l\'id : ' . $entity->getId() . $name;
 

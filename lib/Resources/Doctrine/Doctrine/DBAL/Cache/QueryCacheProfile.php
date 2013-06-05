@@ -28,104 +28,97 @@ use Doctrine\Common\Cache\Cache;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class QueryCacheProfile
-{
-    /**
-     * @var Cache
-     */
-    private $resultCacheDriver;
-    /**
-     * @var int
-     */
-    private $lifetime = 0;
-    /**
-     * @var string
-     */
-    private $cacheKey;
+class QueryCacheProfile {
+  /**
+   * @var Cache
+   */
+  private $resultCacheDriver;
+  /**
+   * @var int
+   */
+  private $lifetime = 0;
+  /**
+   * @var string
+   */
+  private $cacheKey;
 
-    /**
-     * @param int $lifetime
-     * @param string $cacheKey
-     * @param Cache $resultCache
-     */
-    public function __construct($lifetime = 0, $cacheKey = null, Cache $resultCache = null)
-    {
-        $this->lifetime = $lifetime;
-        $this->cacheKey = $cacheKey;
-        $this->resultCacheDriver = $resultCache;
+  /**
+   * @param int    $lifetime
+   * @param string $cacheKey
+   * @param Cache  $resultCache
+   */
+  public function __construct($lifetime = 0, $cacheKey = null, Cache $resultCache = null) {
+    $this->lifetime          = $lifetime;
+    $this->cacheKey          = $cacheKey;
+    $this->resultCacheDriver = $resultCache;
+  }
+
+  /**
+   * @return Cache
+   */
+  public function getResultCacheDriver() {
+    return $this->resultCacheDriver;
+  }
+
+  /**
+   * @return int
+   */
+  public function getLifetime() {
+    return $this->lifetime;
+  }
+
+  /**
+   * @return string
+   */
+  public function getCacheKey() {
+    if ($this->cacheKey === null) {
+      throw CacheException::noCacheKey();
     }
 
-    /**
-     * @return Cache
-     */
-    public function getResultCacheDriver()
-    {
-        return $this->resultCacheDriver;
+    return $this->cacheKey;
+  }
+
+  /**
+   * Generate the real cache key from query, params and types.
+   *
+   * @param string $query
+   * @param array  $params
+   * @param array  $types
+   * @return array
+   */
+  public function generateCacheKeys($query, $params, $types) {
+    $realCacheKey = $query . "-" . serialize($params) . "-" . serialize($types);
+    // should the key be automatically generated using the inputs or is the cache key set?
+    if ($this->cacheKey === null) {
+      $cacheKey = sha1($realCacheKey);
+    } else {
+      $cacheKey = $this->cacheKey;
     }
 
-    /**
-     * @return int
-     */
-    public function getLifetime()
-    {
-        return $this->lifetime;
-    }
+    return array($cacheKey, $realCacheKey);
+  }
 
-    /**
-     * @return string
-     */
-    public function getCacheKey()
-    {
-        if ($this->cacheKey === null) {
-            throw CacheException::noCacheKey();
-        }
-        return $this->cacheKey;
-    }
+  /**
+   * @param Cache $cache
+   * @return QueryCacheProfile
+   */
+  public function setResultCacheDriver(Cache $cache) {
+    return new QueryCacheProfile($this->lifetime, $this->cacheKey, $cache);
+  }
 
-    /**
-     * Generate the real cache key from query, params and types.
-     *
-     * @param string $query
-     * @param array $params
-     * @param array $types
-     * @return array
-     */
-    public function generateCacheKeys($query, $params, $types)
-    {
-        $realCacheKey = $query . "-" . serialize($params) . "-" . serialize($types);
-        // should the key be automatically generated using the inputs or is the cache key set?
-        if ($this->cacheKey === null) {
-            $cacheKey = sha1($realCacheKey);
-        } else {
-            $cacheKey = $this->cacheKey;
-        }
-        return array($cacheKey, $realCacheKey);
-    }
+  /**
+   * @param string|null $cacheKey
+   * @return QueryCacheProfile
+   */
+  public function setCacheKey($cacheKey) {
+    return new QueryCacheProfile($this->lifetime, $cacheKey, $this->resultCacheDriver);
+  }
 
-    /**
-     * @param Cache $cache
-     * @return QueryCacheProfile
-     */
-    public function setResultCacheDriver(Cache $cache)
-    {
-        return new QueryCacheProfile($this->lifetime, $this->cacheKey, $cache);
-    }
-
-    /**
-     * @param string|null $cacheKey
-     * @return QueryCacheProfile
-     */
-    public function setCacheKey($cacheKey)
-    {
-        return new QueryCacheProfile($this->lifetime, $cacheKey, $this->resultCacheDriver);
-    }
-
-    /**
-     * @param  int $lifetime
-     * @return QueryCacheProfile
-     */
-    public function setLifetime($lifetime)
-    {
-        return new QueryCacheProfile($lifetime, $this->cacheKey, $this->resultCacheDriver);
-    }
+  /**
+   * @param  int $lifetime
+   * @return QueryCacheProfile
+   */
+  public function setLifetime($lifetime) {
+    return new QueryCacheProfile($lifetime, $this->cacheKey, $this->resultCacheDriver);
+  }
 }

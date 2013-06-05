@@ -23,6 +23,5 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("METHOD")
  */
-final class PreRemove implements Annotation
-{
+final class PreRemove implements Annotation {
 }

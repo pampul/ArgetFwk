@@ -15,12 +15,11 @@
  * @subpackage Mime
  * @author     Chris Corbyn
  */
-interface Swift_Mime_CharsetObserver
-{
-    /**
-     * Notify this observer that the entity's charset has changed.
-     *
-     * @param string $charset
-     */
-    public function charsetChanged($charset);
+interface Swift_Mime_CharsetObserver {
+  /**
+   * Notify this observer that the entity's charset has changed.
+   *
+   * @param string $charset
+   */
+  public function charsetChanged($charset);
 }

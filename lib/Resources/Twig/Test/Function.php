@@ -15,17 +15,14 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Test_Function implements Twig_TestInterface
-{
-    protected $function;
+class Twig_Test_Function implements Twig_TestInterface {
+  protected $function;
 
-    public function __construct($function)
-    {
-        $this->function = $function;
-    }
+  public function __construct($function) {
+    $this->function = $function;
+  }
 
-    public function compile()
-    {
-        return $this->function;
-    }
+  public function compile() {
+    return $this->function;
+  }
 }

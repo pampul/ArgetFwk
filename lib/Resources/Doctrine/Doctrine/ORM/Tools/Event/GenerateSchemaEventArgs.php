@@ -33,33 +33,31 @@ use Doctrine\ORM\EntityManager;
  * @version     $Revision$
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class GenerateSchemaEventArgs extends \Doctrine\Common\EventArgs
-{
-    private $_em = null;
-    private $_schema = null;
+class GenerateSchemaEventArgs extends \Doctrine\Common\EventArgs {
+  private $_em = null;
+  private $_schema = null;
 
-    /**
-     * @param ClassMetadata $classMetadata
-     * @param Schema $schema
-     * @param Table $classTable
-     */
-    public function __construct(EntityManager $em, Schema $schema)
-    {
-        $this->_em = $em;
-        $this->_schema = $schema;
-    }
+  /**
+   * @param ClassMetadata $classMetadata
+   * @param Schema        $schema
+   * @param Table         $classTable
+   */
+  public function __construct(EntityManager $em, Schema $schema) {
+    $this->_em     = $em;
+    $this->_schema = $schema;
+  }
 
-    /**
-     * @return EntityManager
-     */
-    public function getEntityManager() {
-        return $this->_em;
-    }
+  /**
+   * @return EntityManager
+   */
+  public function getEntityManager() {
+    return $this->_em;
+  }
 
-    /**
-     * @return Schema
-     */
-    public function getSchema() {
-        return $this->_schema;
-    }
+  /**
+   * @return Schema
+   */
+  public function getSchema() {
+    return $this->_schema;
+  }
 }

@@ -14,15 +14,13 @@
  * @package Swift
  * @author  Chris Corbyn
  */
-class Swift_RfcComplianceException extends Swift_SwiftException
-{
-    /**
-     * Create a new RfcComplianceException with $message.
-     *
-     * @param string $message
-     */
-    public function __construct($message)
-    {
-        parent::__construct($message);
-    }
+class Swift_RfcComplianceException extends Swift_SwiftException {
+  /**
+   * Create a new RfcComplianceException with $message.
+   *
+   * @param string $message
+   */
+  public function __construct($message) {
+    parent::__construct($message);
+  }
 }

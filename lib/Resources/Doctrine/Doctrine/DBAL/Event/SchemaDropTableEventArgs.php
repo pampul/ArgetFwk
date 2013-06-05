@@ -19,8 +19,7 @@
 
 namespace Doctrine\DBAL\Event;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform,
-    Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Platforms\AbstractPlatform, Doctrine\DBAL\Schema\Table;
 
 /**
  * Event Arguments used when the SQL query for dropping tables are generated inside Doctrine\DBAL\Platform\AbstractPlatform.
@@ -30,69 +29,63 @@ use Doctrine\DBAL\Platforms\AbstractPlatform,
  * @since       2.2
  * @author      Jan Sorgalla <jsorgalla@googlemail.com>
  */
-class SchemaDropTableEventArgs extends SchemaEventArgs
-{
-    /**
-     * @var string|\Doctrine\DBAL\Schema\Table
-     */
-    private $_table = null;
+class SchemaDropTableEventArgs extends SchemaEventArgs {
+  /**
+   * @var string|\Doctrine\DBAL\Schema\Table
+   */
+  private $_table = null;
 
-    /**
-     * @var \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    private $_platform = null;
+  /**
+   * @var \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  private $_platform = null;
 
-    /**
-     * @var string
-     */
-    private $_sql = null;
+  /**
+   * @var string
+   */
+  private $_sql = null;
 
-    /**
-     * @param string|\Doctrine\DBAL\Schema\Table $table
-     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     */
-    public function __construct($table, AbstractPlatform $platform)
-    {
-        if (!$table instanceof Table && !is_string($table)) {
-            throw new \InvalidArgumentException('SchemaCreateTableEventArgs expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
-        }
-
-        $this->_table    = $table;
-        $this->_platform = $platform;
+  /**
+   * @param string|\Doctrine\DBAL\Schema\Table        $table
+   * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
+   */
+  public function __construct($table, AbstractPlatform $platform) {
+    if (!$table instanceof Table && !is_string($table)) {
+      throw new \InvalidArgumentException('SchemaCreateTableEventArgs expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.');
     }
 
-    /**
-     * @return string|\Doctrine\DBAL\Schema\Table
-     */
-    public function getTable()
-    {
-        return $this->_table;
-    }
+    $this->_table    = $table;
+    $this->_platform = $platform;
+  }
 
-    /**
-     * @return \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
-    public function getPlatform()
-    {
-        return $this->_platform;
-    }
+  /**
+   * @return string|\Doctrine\DBAL\Schema\Table
+   */
+  public function getTable() {
+    return $this->_table;
+  }
 
-    /**
-     * @param string $sql
-     * @return \Doctrine\DBAL\Event\SchemaDropTableEventArgs
-     */
-    public function setSql($sql)
-    {
-        $this->_sql = $sql;
+  /**
+   * @return \Doctrine\DBAL\Platforms\AbstractPlatform
+   */
+  public function getPlatform() {
+    return $this->_platform;
+  }
 
-        return $this;
-    }
+  /**
+   * @param string $sql
+   * @return \Doctrine\DBAL\Event\SchemaDropTableEventArgs
+   */
+  public function setSql($sql) {
+    $this->_sql = $sql;
 
-    /**
-     * @return string
-     */
-    public function getSql()
-    {
-        return $this->_sql;
-    }
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getSql() {
+    return $this->_sql;
+  }
 }

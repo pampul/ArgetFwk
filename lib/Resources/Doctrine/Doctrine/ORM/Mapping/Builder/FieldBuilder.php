@@ -28,196 +28,190 @@ namespace Doctrine\ORM\Mapping\Builder;
  * @since       2.2
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class FieldBuilder
-{
-    /**
-     * @var ClassMetadataBuilder
-     */
-    private $builder;
-    /**
-     * @var array
-     */
-    private $mapping;
-    /**
-     * @var bool
-     */
-    private $version;
+class FieldBuilder {
+  /**
+   * @var ClassMetadataBuilder
+   */
+  private $builder;
+  /**
+   * @var array
+   */
+  private $mapping;
+  /**
+   * @var bool
+   */
+  private $version;
 
-    /**
-     * @var string
-     */
-    private $generatedValue;
+  /**
+   * @var string
+   */
+  private $generatedValue;
 
-    /**
-     * @var array
-     */
-    private $sequenceDef;
+  /**
+   * @var array
+   */
+  private $sequenceDef;
 
-    /**
-     *
-     * @param ClassMetadataBuilder $builder
-     * @param array $mapping
-     */
-    public function __construct(ClassMetadataBuilder $builder, array $mapping)
-    {
-        $this->builder = $builder;
-        $this->mapping = $mapping;
+  /**
+   *
+   * @param ClassMetadataBuilder $builder
+   * @param array                $mapping
+   */
+  public function __construct(ClassMetadataBuilder $builder, array $mapping) {
+    $this->builder = $builder;
+    $this->mapping = $mapping;
+  }
+
+  /**
+   * Set length.
+   *
+   * @param int $length
+   * @return FieldBuilder
+   */
+  public function length($length) {
+    $this->mapping['length'] = $length;
+
+    return $this;
+  }
+
+  /**
+   * Set nullable
+   *
+   * @param bool
+   * @return FieldBuilder
+   */
+  public function nullable($flag = true) {
+    $this->mapping['nullable'] = (bool)$flag;
+
+    return $this;
+  }
+
+  /**
+   * Set Unique
+   *
+   * @param bool
+   * @return FieldBuilder
+   */
+  public function unique($flag = true) {
+    $this->mapping['unique'] = (bool)$flag;
+
+    return $this;
+  }
+
+  /**
+   * Set column name
+   *
+   * @param string $name
+   * @return FieldBuilder
+   */
+  public function columnName($name) {
+    $this->mapping['columnName'] = $name;
+
+    return $this;
+  }
+
+  /**
+   * Set Precision
+   *
+   * @param  int $p
+   * @return FieldBuilder
+   */
+  public function precision($p) {
+    $this->mapping['precision'] = $p;
+
+    return $this;
+  }
+
+  /**
+   * Set scale.
+   *
+   * @param int $s
+   * @return FieldBuilder
+   */
+  public function scale($s) {
+    $this->mapping['scale'] = $s;
+
+    return $this;
+  }
+
+  /**
+   * Set field as primary key.
+   *
+   * @return FieldBuilder
+   */
+  public function isPrimaryKey() {
+    $this->mapping['id'] = true;
+
+    return $this;
+  }
+
+  /**
+   * @param  int $strategy
+   * @return FieldBuilder
+   */
+  public function generatedValue($strategy = 'AUTO') {
+    $this->generatedValue = $strategy;
+
+    return $this;
+  }
+
+  /**
+   * Set field versioned
+   *
+   * @return FieldBuilder
+   */
+  public function isVersionField() {
+    $this->version = true;
+
+    return $this;
+  }
+
+  /**
+   * Set Sequence Generator
+   *
+   * @param string $sequenceName
+   * @param int    $allocationSize
+   * @param int    $initialValue
+   * @return FieldBuilder
+   */
+  public function setSequenceGenerator($sequenceName, $allocationSize = 1, $initialValue = 1) {
+    $this->sequenceDef = array('sequenceName' => $sequenceName, 'allocationSize' => $allocationSize, 'initialValue' => $initialValue,);
+
+    return $this;
+  }
+
+  /**
+   * Set column definition.
+   *
+   * @param string $def
+   * @return FieldBuilder
+   */
+  public function columnDefinition($def) {
+    $this->mapping['columnDefinition'] = $def;
+
+    return $this;
+  }
+
+  /**
+   * Finalize this field and attach it to the ClassMetadata.
+   *
+   * Without this call a FieldBuilder has no effect on the ClassMetadata.
+   *
+   * @return ClassMetadataBuilder
+   */
+  public function build() {
+    $cm = $this->builder->getClassMetadata();
+    if ($this->generatedValue) {
+      $cm->setIdGeneratorType(constant('Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_' . $this->generatedValue));
+    }
+    if ($this->version) {
+      $cm->setVersionMapping($this->mapping);
+    }
+    $cm->mapField($this->mapping);
+    if ($this->sequenceDef) {
+      $cm->setSequenceGeneratorDefinition($this->sequenceDef);
     }
 
-    /**
-     * Set length.
-     *
-     * @param int $length
-     * @return FieldBuilder
-     */
-    public function length($length)
-    {
-        $this->mapping['length'] = $length;
-        return $this;
-    }
-
-    /**
-     * Set nullable
-     *
-     * @param bool
-     * @return FieldBuilder
-     */
-    public function nullable($flag = true)
-    {
-        $this->mapping['nullable'] = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Set Unique
-     *
-     * @param bool
-     * @return FieldBuilder
-     */
-    public function unique($flag = true)
-    {
-        $this->mapping['unique'] = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Set column name
-     *
-     * @param string $name
-     * @return FieldBuilder
-     */
-    public function columnName($name)
-    {
-        $this->mapping['columnName'] = $name;
-        return $this;
-    }
-
-    /**
-     * Set Precision
-     *
-     * @param  int $p
-     * @return FieldBuilder
-     */
-    public function precision($p)
-    {
-        $this->mapping['precision'] = $p;
-        return $this;
-    }
-
-    /**
-     * Set scale.
-     *
-     * @param int $s
-     * @return FieldBuilder
-     */
-    public function scale($s)
-    {
-        $this->mapping['scale'] = $s;
-        return $this;
-    }
-
-    /**
-     * Set field as primary key.
-     *
-     * @return FieldBuilder
-     */
-    public function isPrimaryKey()
-    {
-        $this->mapping['id'] = true;
-        return $this;
-    }
-
-    /**
-     * @param  int $strategy
-     * @return FieldBuilder
-     */
-    public function generatedValue($strategy = 'AUTO')
-    {
-        $this->generatedValue = $strategy;
-        return $this;
-    }
-
-    /**
-     * Set field versioned
-     *
-     * @return FieldBuilder
-     */
-    public function isVersionField()
-    {
-        $this->version = true;
-        return $this;
-    }
-
-    /**
-     * Set Sequence Generator
-     *
-     * @param string $sequenceName
-     * @param int $allocationSize
-     * @param int $initialValue
-     * @return FieldBuilder
-     */
-    public function setSequenceGenerator($sequenceName, $allocationSize = 1, $initialValue = 1)
-    {
-        $this->sequenceDef = array(
-            'sequenceName' => $sequenceName,
-            'allocationSize' => $allocationSize,
-            'initialValue' => $initialValue,
-        );
-        return $this;
-    }
-
-    /**
-     * Set column definition.
-     *
-     * @param string $def
-     * @return FieldBuilder
-     */
-    public function columnDefinition($def)
-    {
-        $this->mapping['columnDefinition'] = $def;
-        return $this;
-    }
-
-    /**
-     * Finalize this field and attach it to the ClassMetadata.
-     *
-     * Without this call a FieldBuilder has no effect on the ClassMetadata.
-     *
-     * @return ClassMetadataBuilder
-     */
-    public function build()
-    {
-        $cm = $this->builder->getClassMetadata();
-        if ($this->generatedValue) {
-            $cm->setIdGeneratorType(constant('Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_' . $this->generatedValue));
-        }
-        if ($this->version) {
-            $cm->setVersionMapping($this->mapping);
-        }
-        $cm->mapField($this->mapping);
-        if ($this->sequenceDef) {
-            $cm->setSequenceGeneratorDefinition($this->sequenceDef);
-        }
-        return $this->builder;
-    }
+    return $this->builder;
+  }
 }

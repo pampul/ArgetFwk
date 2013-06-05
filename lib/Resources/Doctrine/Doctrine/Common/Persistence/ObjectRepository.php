@@ -28,51 +28,50 @@ namespace Doctrine\Common\Persistence;
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  * @author  Jonathan Wage <jonwage@gmail.com>
  */
-interface ObjectRepository
-{
-    /**
-     * Finds an object by its primary key / identifier.
-     *
-     * @param $id The identifier.
-     * @return object The object.
-     */
-    function find($id);
+interface ObjectRepository {
+  /**
+   * Finds an object by its primary key / identifier.
+   *
+   * @param $id The identifier.
+   * @return object The object.
+   */
+  function find($id);
 
-    /**
-     * Finds all objects in the repository.
-     *
-     * @return mixed The objects.
-     */
-    function findAll();
+  /**
+   * Finds all objects in the repository.
+   *
+   * @return mixed The objects.
+   */
+  function findAll();
 
-    /**
-     * Finds objects by a set of criteria.
-     *
-     * Optionally sorting and limiting details can be passed. An implementation may throw
-     * an UnexpectedValueException if certain values of the sorting or limiting details are
-     * not supported.
-     *
-     * @throws UnexpectedValueException
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return mixed The objects.
-     */
-    function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+  /**
+   * Finds objects by a set of criteria.
+   *
+   * Optionally sorting and limiting details can be passed. An implementation may throw
+   * an UnexpectedValueException if certain values of the sorting or limiting details are
+   * not supported.
+   *
+   * @throws UnexpectedValueException
+   * @param array      $criteria
+   * @param array|null $orderBy
+   * @param int|null   $limit
+   * @param int|null   $offset
+   * @return mixed The objects.
+   */
+  function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
-    /**
-     * Finds a single object by a set of criteria.
-     *
-     * @param array $criteria
-     * @return object The object.
-     */
-    function findOneBy(array $criteria);
+  /**
+   * Finds a single object by a set of criteria.
+   *
+   * @param array $criteria
+   * @return object The object.
+   */
+  function findOneBy(array $criteria);
 
-    /**
-     * Returns the class name of the object managed by the repository
-     *
-     * @return string
-     */
-    function getClassName();
+  /**
+   * Returns the class name of the object managed by the repository
+   *
+   * @return string
+   */
+  function getClassName();
 }

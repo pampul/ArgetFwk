@@ -55,179 +55,168 @@ use Doctrine\Common\Collections\Collection;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-abstract class PersistentObject implements ObjectManagerAware
-{
-    /**
-     * @var ObjectManager
-     */
-    private static $objectManager;
+abstract class PersistentObject implements ObjectManagerAware {
+  /**
+   * @var ObjectManager
+   */
+  private static $objectManager;
 
-    /**
-     * @var ClassMetadata
-     */
-    private $cm;
+  /**
+   * @var ClassMetadata
+   */
+  private $cm;
 
-    /**
-     * Set the object manager responsible for all persistent object base classes.
-     *
-     * @param ObjectManager $objectManager
-     */
-    static public function setObjectManager(ObjectManager $objectManager = null)
-    {
-        self::$objectManager = $objectManager;
+  /**
+   * Set the object manager responsible for all persistent object base classes.
+   *
+   * @param ObjectManager $objectManager
+   */
+  static public function setObjectManager(ObjectManager $objectManager = null) {
+    self::$objectManager = $objectManager;
+  }
+
+  /**
+   * @return ObjectManager
+   */
+  static public function getObjectManager() {
+    return self::$objectManager;
+  }
+
+  /**
+   * Inject Doctrine Object Manager
+   *
+   * @param ObjectManager $objectManager
+   * @param ClassMetadata $classMetadata
+   */
+  public function injectObjectManager(ObjectManager $objectManager, ClassMetadata $classMetadata) {
+    if ($objectManager !== self::$objectManager) {
+      throw new \RuntimeException("Trying to use PersistentObject with different ObjectManager instances. " . "Was PersistentObject::setObjectManager() called?");
     }
 
-    /**
-     * @return ObjectManager
-     */
-    static public function getObjectManager()
-    {
-        return self::$objectManager;
+    $this->cm = $classMetadata;
+  }
+
+  /**
+   * Sets a persistent fields value.
+   *
+   * @throws InvalidArgumentException - When the wrong target object type is passed to an association
+   * @throws BadMethodCallException - When no persistent field exists by that name.
+   * @param string $field
+   * @param array  $args
+   * @return void
+   */
+  private function set($field, $args) {
+    $this->initializeDoctrine();
+
+    if ($this->cm->hasField($field) && !$this->cm->isIdentifier($field)) {
+      $this->$field = $args[0];
+    } else if ($this->cm->hasAssociation($field) && $this->cm->isSingleValuedAssociation($field)) {
+      $targetClass = $this->cm->getAssociationTargetClass($field);
+      if (!($args[0] instanceof $targetClass) && $args[0] !== null) {
+        throw new \InvalidArgumentException("Expected persistent object of type '" . $targetClass . "'");
+      }
+      $this->$field = $args[0];
+      $this->completeOwningSide($field, $targetClass, $args[0]);
+    } else {
+      throw new \BadMethodCallException("no field with name '" . $field . "' exists on '" . $this->cm->getName() . "'");
+    }
+  }
+
+  /**
+   * Get persistent field value.
+   *
+   * @throws BadMethodCallException - When no persistent field exists by that name.
+   * @param string $field
+   * @return mixed
+   */
+  private function get($field) {
+    $this->initializeDoctrine();
+
+    if ($this->cm->hasField($field) || $this->cm->hasAssociation($field)) {
+      return $this->$field;
+    } else {
+      throw new \BadMethodCallException("no field with name '" . $field . "' exists on '" . $this->cm->getName() . "'");
+    }
+  }
+
+  /**
+   * If this is an inverse side association complete the owning side.
+   *
+   * @param string        $field
+   * @param ClassMetadata $targetClass
+   * @param object        $targetObject
+   */
+  private function completeOwningSide($field, $targetClass, $targetObject) {
+    // add this object on the owning side aswell, for obvious infinite recursion
+    // reasons this is only done when called on the inverse side.
+    if ($this->cm->isAssociationInverseSide($field)) {
+      $mappedByField  = $this->cm->getAssociationMappedByTargetField($field);
+      $targetMetadata = self::$objectManager->getClassMetadata($targetClass);
+
+      $setter = ($targetMetadata->isCollectionValuedAssociation($mappedByField) ? "add" : "set") . $mappedByField;
+      $targetObject->$setter($this);
+    }
+  }
+
+  /**
+   * Add an object to a collection
+   *
+   * @param type  $field
+   * @param assoc $args
+   */
+  private function add($field, $args) {
+    $this->initializeDoctrine();
+
+    if ($this->cm->hasAssociation($field) && $this->cm->isCollectionValuedAssociation($field)) {
+      $targetClass = $this->cm->getAssociationTargetClass($field);
+      if (!($args[0] instanceof $targetClass)) {
+        throw new \InvalidArgumentException("Expected persistent object of type '" . $targetClass . "'");
+      }
+      if (!($this->$field instanceof Collection)) {
+        $this->$field = new ArrayCollection($this->$field ? : array());
+      }
+      $this->$field->add($args[0]);
+      $this->completeOwningSide($field, $targetClass, $args[0]);
+    } else {
+      throw new \BadMethodCallException("There is no method add" . $field . "() on " . $this->cm->getName());
+    }
+  }
+
+  /**
+   * Initialize Doctrine Metadata for this class.
+   *
+   * @return void
+   */
+  private function initializeDoctrine() {
+    if ($this->cm !== null) {
+      return;
     }
 
-    /**
-     * Inject Doctrine Object Manager
-     *
-     * @param ObjectManager $objectManager
-     * @param ClassMetadata $classMetadata
-     */
-    public function injectObjectManager(ObjectManager $objectManager, ClassMetadata $classMetadata)
-    {
-        if ($objectManager !== self::$objectManager) {
-            throw new \RuntimeException("Trying to use PersistentObject with different ObjectManager instances. " .
-                "Was PersistentObject::setObjectManager() called?");
-        }
-
-        $this->cm = $classMetadata;
+    if (!self::$objectManager) {
+      throw new \RuntimeException("No runtime object manager set. Call PersistentObject#setObjectManager().");
     }
 
-    /**
-     * Sets a persistent fields value.
-     *
-     * @throws InvalidArgumentException - When the wrong target object type is passed to an association
-     * @throws BadMethodCallException - When no persistent field exists by that name.
-     * @param string $field
-     * @param array $args
-     * @return void
-     */
-    private function set($field, $args)
-    {
-        $this->initializeDoctrine();
+    $this->cm = self::$objectManager->getClassMetadata(get_class($this));
+  }
 
-        if ($this->cm->hasField($field) && !$this->cm->isIdentifier($field)) {
-            $this->$field = $args[0];
-        } else if ($this->cm->hasAssociation($field) && $this->cm->isSingleValuedAssociation($field)) {
-            $targetClass = $this->cm->getAssociationTargetClass($field);
-            if (!($args[0] instanceof $targetClass) && $args[0] !== null) {
-                throw new \InvalidArgumentException("Expected persistent object of type '".$targetClass."'");
-            }
-            $this->$field = $args[0];
-            $this->completeOwningSide($field, $targetClass, $args[0]);
-        } else {
-            throw new \BadMethodCallException("no field with name '".$field."' exists on '".$this->cm->getName()."'");
-        }
+  /**
+   * Magic method that implements
+   *
+   * @param string $method
+   * @param array  $args
+   * @return mixed
+   */
+  public function __call($method, $args) {
+    $command = substr($method, 0, 3);
+    $field   = lcfirst(substr($method, 3));
+    if ($command == "set") {
+      $this->set($field, $args);
+    } else if ($command == "get") {
+      return $this->get($field);
+    } else if ($command == "add") {
+      $this->add($field, $args);
+    } else {
+      throw new \BadMethodCallException("There is no method " . $method . " on " . $this->cm->getName());
     }
-
-    /**
-     * Get persistent field value.
-     *
-     * @throws BadMethodCallException - When no persistent field exists by that name.
-     * @param string $field
-     * @return mixed
-     */
-    private function get($field)
-    {
-        $this->initializeDoctrine();
-
-        if ( $this->cm->hasField($field) || $this->cm->hasAssociation($field) ) {
-            return $this->$field;
-        } else {
-            throw new \BadMethodCallException("no field with name '".$field."' exists on '".$this->cm->getName()."'");
-        }
-    }
-
-    /**
-     * If this is an inverse side association complete the owning side.
-     *
-     * @param string $field
-     * @param ClassMetadata $targetClass
-     * @param object $targetObject
-     */
-    private function completeOwningSide($field, $targetClass, $targetObject)
-    {
-        // add this object on the owning side aswell, for obvious infinite recursion
-        // reasons this is only done when called on the inverse side.
-        if ($this->cm->isAssociationInverseSide($field)) {
-            $mappedByField = $this->cm->getAssociationMappedByTargetField($field);
-            $targetMetadata = self::$objectManager->getClassMetadata($targetClass);
-
-            $setter = ($targetMetadata->isCollectionValuedAssociation($mappedByField) ? "add" : "set").$mappedByField;
-            $targetObject->$setter($this);
-        }
-    }
-
-    /**
-     * Add an object to a collection
-     *
-     * @param type $field
-     * @param assoc $args
-     */
-    private function add($field, $args)
-    {
-        $this->initializeDoctrine();
-
-        if ($this->cm->hasAssociation($field) && $this->cm->isCollectionValuedAssociation($field)) {
-            $targetClass = $this->cm->getAssociationTargetClass($field);
-            if (!($args[0] instanceof $targetClass)) {
-                throw new \InvalidArgumentException("Expected persistent object of type '".$targetClass."'");
-            }
-            if (!($this->$field instanceof Collection)) {
-                $this->$field = new ArrayCollection($this->$field ?: array());
-            }
-            $this->$field->add($args[0]);
-            $this->completeOwningSide($field, $targetClass, $args[0]);
-        } else {
-            throw new \BadMethodCallException("There is no method add".$field."() on ".$this->cm->getName());
-        }
-    }
-
-    /**
-     * Initialize Doctrine Metadata for this class.
-     *
-     * @return void
-     */
-    private function initializeDoctrine()
-    {
-        if ($this->cm !== null) {
-            return;
-        }
-
-        if (!self::$objectManager) {
-            throw new \RuntimeException("No runtime object manager set. Call PersistentObject#setObjectManager().");
-        }
-
-        $this->cm = self::$objectManager->getClassMetadata(get_class($this));
-    }
-
-    /**
-     * Magic method that implements
-     *
-     * @param string $method
-     * @param array $args
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        $command = substr($method, 0, 3);
-        $field = lcfirst(substr($method, 3));
-        if ($command == "set") {
-            $this->set($field, $args);
-        } else if ($command == "get") {
-            return $this->get($field);
-        } else if ($command == "add") {
-            $this->add($field, $args);
-        } else {
-            throw new \BadMethodCallException("There is no method ".$method." on ".$this->cm->getName());
-        }
-    }
+  }
 }

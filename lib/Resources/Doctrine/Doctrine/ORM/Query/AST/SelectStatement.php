@@ -32,22 +32,20 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class SelectStatement extends Node
-{
-    public $selectClause;
-    public $fromClause;
-    public $whereClause;
-    public $groupByClause;
-    public $havingClause;
-    public $orderByClause;
+class SelectStatement extends Node {
+  public $selectClause;
+  public $fromClause;
+  public $whereClause;
+  public $groupByClause;
+  public $havingClause;
+  public $orderByClause;
 
-    public function __construct($selectClause, $fromClause) {
-        $this->selectClause = $selectClause;
-        $this->fromClause = $fromClause;
-    }
+  public function __construct($selectClause, $fromClause) {
+    $this->selectClause = $selectClause;
+    $this->fromClause   = $fromClause;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkSelectStatement($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkSelectStatement($this);
+  }
 }

@@ -32,56 +32,49 @@ use Doctrine\DBAL\Schema\Visitor\Visitor;
  * @version $Revision$
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class Sequence extends AbstractAsset
-{
-    /**
-     * @var int
-     */
-    protected $_allocationSize = 1;
+class Sequence extends AbstractAsset {
+  /**
+   * @var int
+   */
+  protected $_allocationSize = 1;
 
-    /**
-     * @var int
-     */
-    protected $_initialValue = 1;
+  /**
+   * @var int
+   */
+  protected $_initialValue = 1;
 
-    /**
-     *
-     * @param string $name
-     * @param int $allocationSize
-     * @param int $initialValue
-     */
-    public function __construct($name, $allocationSize=1, $initialValue=1)
-    {
-        $this->_setName($name);
-        $this->_allocationSize = (is_numeric($allocationSize))?$allocationSize:1;
-        $this->_initialValue = (is_numeric($initialValue))?$initialValue:1;
-    }
+  /**
+   *
+   * @param string $name
+   * @param int    $allocationSize
+   * @param int    $initialValue
+   */
+  public function __construct($name, $allocationSize = 1, $initialValue = 1) {
+    $this->_setName($name);
+    $this->_allocationSize = (is_numeric($allocationSize)) ? $allocationSize : 1;
+    $this->_initialValue   = (is_numeric($initialValue)) ? $initialValue : 1;
+  }
 
-    public function getAllocationSize()
-    {
-        return $this->_allocationSize;
-    }
+  public function getAllocationSize() {
+    return $this->_allocationSize;
+  }
 
-    public function getInitialValue()
-    {
-        return $this->_initialValue;
-    }
+  public function getInitialValue() {
+    return $this->_initialValue;
+  }
 
-    public function setAllocationSize($allocationSize)
-    {
-        $this->_allocationSize = (is_numeric($allocationSize))?$allocationSize:1;
-    }
+  public function setAllocationSize($allocationSize) {
+    $this->_allocationSize = (is_numeric($allocationSize)) ? $allocationSize : 1;
+  }
 
-    public function setInitialValue($initialValue)
-    {
-        $this->_initialValue = (is_numeric($initialValue))?$initialValue:1;
-    }
+  public function setInitialValue($initialValue) {
+    $this->_initialValue = (is_numeric($initialValue)) ? $initialValue : 1;
+  }
 
-    /**
-     * @param Visitor $visitor
-     */
-    public function visit(Visitor $visitor)
-    {
-        $visitor->acceptSequence($this);
-    }
+  /**
+   * @param Visitor $visitor
+   */
+  public function visit(Visitor $visitor) {
+    $visitor->acceptSequence($this);
+  }
 }

@@ -30,24 +30,21 @@ namespace Doctrine\DBAL\Schema;
  * @version     $Revision$
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-class View extends AbstractAsset
-{
-    /**
-     * @var string
-     */
-    private $_sql;
+class View extends AbstractAsset {
+  /**
+   * @var string
+   */
+  private $_sql;
 
-    public function __construct($name, $sql)
-    {
-        $this->_setName($name);
-        $this->_sql = $sql;
-    }
+  public function __construct($name, $sql) {
+    $this->_setName($name);
+    $this->_sql = $sql;
+  }
 
-    /**
-     * @return string
-     */
-    public function getSql()
-    {
-        return $this->_sql;
-    }
+  /**
+   * @return string
+   */
+  public function getSql() {
+    return $this->_sql;
+  }
 }

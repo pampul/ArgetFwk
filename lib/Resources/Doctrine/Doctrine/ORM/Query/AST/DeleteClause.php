@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class DeleteClause extends Node
-{
-    public $abstractSchemaName;
-    public $aliasIdentificationVariable;
+class DeleteClause extends Node {
+  public $abstractSchemaName;
+  public $aliasIdentificationVariable;
 
-    public function __construct($abstractSchemaName)
-    {
-        $this->abstractSchemaName = $abstractSchemaName;
-    }
+  public function __construct($abstractSchemaName) {
+    $this->abstractSchemaName = $abstractSchemaName;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkDeleteClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkDeleteClause($this);
+  }
 }
 

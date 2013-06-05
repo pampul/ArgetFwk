@@ -36,10 +36,8 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class DisconnectedClassMetadataFactory extends ClassMetadataFactory
-{
-    public function getReflectionService()
-    {
-        return new \Doctrine\Common\Persistence\Mapping\StaticReflectionService;
-    }
+class DisconnectedClassMetadataFactory extends ClassMetadataFactory {
+  public function getReflectionService() {
+    return new \Doctrine\Common\Persistence\Mapping\StaticReflectionService;
+  }
 }

@@ -32,17 +32,14 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class SimpleArithmeticExpression extends Node
-{
-    public $arithmeticTerms = array();
+class SimpleArithmeticExpression extends Node {
+  public $arithmeticTerms = array();
 
-    public function __construct(array $arithmeticTerms)
-    {
-        $this->arithmeticTerms = $arithmeticTerms;
-    }
+  public function __construct(array $arithmeticTerms) {
+    $this->arithmeticTerms = $arithmeticTerms;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkSimpleArithmeticExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkSimpleArithmeticExpression($this);
+  }
 }

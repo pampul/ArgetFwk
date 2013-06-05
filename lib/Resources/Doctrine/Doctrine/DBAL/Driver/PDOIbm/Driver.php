@@ -35,92 +35,82 @@ use Doctrine\DBAL\Connection;
  * @author      Jonathan Wage <jonwage@gmail.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-class Driver implements \Doctrine\DBAL\Driver
-{
-    /**
-     * Attempts to establish a connection with the underlying driver.
-     *
-     * @param array $params
-     * @param string $username
-     * @param string $password
-     * @param array $driverOptions
-     * @return Doctrine\DBAL\Driver\Connection
-     */
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
-    {
-        $conn = new \Doctrine\DBAL\Driver\PDOConnection(
-            $this->_constructPdoDsn($params),
-            $username,
-            $password,
-            $driverOptions
-        );
-        return $conn;
+class Driver implements \Doctrine\DBAL\Driver {
+  /**
+   * Attempts to establish a connection with the underlying driver.
+   *
+   * @param array  $params
+   * @param string $username
+   * @param string $password
+   * @param array  $driverOptions
+   * @return Doctrine\DBAL\Driver\Connection
+   */
+  public function connect(array $params, $username = null, $password = null, array $driverOptions = array()) {
+    $conn = new \Doctrine\DBAL\Driver\PDOConnection($this->_constructPdoDsn($params), $username, $password, $driverOptions);
+
+    return $conn;
+  }
+
+  /**
+   * Constructs the MySql PDO DSN.
+   *
+   * @return string  The DSN.
+   */
+  private function _constructPdoDsn(array $params) {
+    $dsn = 'ibm:';
+    if (isset($params['host'])) {
+      $dsn .= 'HOSTNAME=' . $params['host'] . ';';
+    }
+    if (isset($params['port'])) {
+      $dsn .= 'PORT=' . $params['port'] . ';';
+    }
+    $dsn .= 'PROTOCOL=TCPIP;';
+    if (isset($params['dbname'])) {
+      $dsn .= 'DATABASE=' . $params['dbname'] . ';';
     }
 
-    /**
-     * Constructs the MySql PDO DSN.
-     *
-     * @return string  The DSN.
-     */
-    private function _constructPdoDsn(array $params)
-    {
-        $dsn = 'ibm:';
-        if (isset($params['host'])) {
-            $dsn .= 'HOSTNAME=' . $params['host'] . ';';
-        }
-        if (isset($params['port'])) {
-            $dsn .= 'PORT=' . $params['port'] . ';';
-        }
-        $dsn .= 'PROTOCOL=TCPIP;';
-        if (isset($params['dbname'])) {
-            $dsn .= 'DATABASE=' . $params['dbname'] . ';';
-        }
+    return $dsn;
+  }
 
-        return $dsn;
-    }
+  /**
+   * Gets the DatabasePlatform instance that provides all the metadata about
+   * the platform this driver connects to.
+   *
+   * @return Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
+   */
+  public function getDatabasePlatform() {
+    return new \Doctrine\DBAL\Platforms\DB2Platform;
+  }
 
-    /**
-     * Gets the DatabasePlatform instance that provides all the metadata about
-     * the platform this driver connects to.
-     *
-     * @return Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
-     */
-    public function getDatabasePlatform()
-    {
-        return new \Doctrine\DBAL\Platforms\DB2Platform;
-    }
+  /**
+   * Gets the SchemaManager that can be used to inspect and change the underlying
+   * database schema of the platform this driver connects to.
+   *
+   * @param  Doctrine\DBAL\Connection $conn
+   * @return Doctrine\DBAL\SchemaManager
+   */
+  public function getSchemaManager(Connection $conn) {
+    return new \Doctrine\DBAL\Schema\DB2SchemaManager($conn);
+  }
 
-    /**
-     * Gets the SchemaManager that can be used to inspect and change the underlying
-     * database schema of the platform this driver connects to.
-     *
-     * @param  Doctrine\DBAL\Connection $conn
-     * @return Doctrine\DBAL\SchemaManager
-     */
-    public function getSchemaManager(Connection $conn)
-    {
-        return new \Doctrine\DBAL\Schema\DB2SchemaManager($conn);
-    }
+  /**
+   * Gets the name of the driver.
+   *
+   * @return string The name of the driver.
+   */
+  public function getName() {
+    return 'pdo_ibm';
+  }
 
-    /**
-     * Gets the name of the driver.
-     *
-     * @return string The name of the driver.
-     */
-    public function getName()
-    {
-        return 'pdo_ibm';
-    }
+  /**
+   * Get the name of the database connected to for this driver.
+   *
+   * @param  Doctrine\DBAL\Connection $conn
+   * @return string $database
+   */
+  public function getDatabase(\Doctrine\DBAL\Connection $conn) {
+    $params = $conn->getParams();
 
-    /**
-     * Get the name of the database connected to for this driver.
-     *
-     * @param  Doctrine\DBAL\Connection $conn
-     * @return string $database
-     */
-    public function getDatabase(\Doctrine\DBAL\Connection $conn)
-    {
-        $params = $conn->getParams();
-        return $params['dbname'];
-    }
+    return $params['dbname'];
+  }
 }

@@ -22,9 +22,7 @@
 
 namespace Doctrine\ORM\Tools\Export\Driver;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo,
-    Doctrine\ORM\Mapping\AssociationMapping,
-    Doctrine\ORM\Tools\EntityGenerator;
+use Doctrine\ORM\Mapping\ClassMetadataInfo, Doctrine\ORM\Mapping\AssociationMapping, Doctrine\ORM\Tools\EntityGenerator;
 
 /**
  * ClassMetadata exporter for PHP classes with annotations
@@ -35,38 +33,34 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo,
  * @version $Revision$
  * @author  Jonathan Wage <jonwage@gmail.com>
  */
-class AnnotationExporter extends AbstractExporter
-{
-    protected $_extension = '.php';
-    private $_entityGenerator;
+class AnnotationExporter extends AbstractExporter {
+  protected $_extension = '.php';
+  private $_entityGenerator;
 
-    /**
-     * Converts a single ClassMetadata instance to the exported format
-     * and returns it
-     *
-     * @param ClassMetadataInfo $metadata
-     * @return string $exported
-     */
-    public function exportClassMetadata(ClassMetadataInfo $metadata)
-    {
-        if ( ! $this->_entityGenerator) {
-            throw new \RuntimeException('For the AnnotationExporter you must set an EntityGenerator instance with the setEntityGenerator() method.');
-        }
-        $this->_entityGenerator->setGenerateAnnotations(true);
-        $this->_entityGenerator->setGenerateStubMethods(false);
-        $this->_entityGenerator->setRegenerateEntityIfExists(false);
-        $this->_entityGenerator->setUpdateEntityIfExists(false);
-
-        return $this->_entityGenerator->generateEntityClass($metadata);
+  /**
+   * Converts a single ClassMetadata instance to the exported format
+   * and returns it
+   *
+   * @param ClassMetadataInfo $metadata
+   * @return string $exported
+   */
+  public function exportClassMetadata(ClassMetadataInfo $metadata) {
+    if (!$this->_entityGenerator) {
+      throw new \RuntimeException('For the AnnotationExporter you must set an EntityGenerator instance with the setEntityGenerator() method.');
     }
+    $this->_entityGenerator->setGenerateAnnotations(true);
+    $this->_entityGenerator->setGenerateStubMethods(false);
+    $this->_entityGenerator->setRegenerateEntityIfExists(false);
+    $this->_entityGenerator->setUpdateEntityIfExists(false);
 
-    protected function _generateOutputPath(ClassMetadataInfo $metadata)
-    {
-        return $this->_outputDir . '/' . str_replace('\\', '/', $metadata->name) . $this->_extension;
-    }
+    return $this->_entityGenerator->generateEntityClass($metadata);
+  }
 
-    public function setEntityGenerator(EntityGenerator $entityGenerator)
-    {
-        $this->_entityGenerator = $entityGenerator;
-    }
+  protected function _generateOutputPath(ClassMetadataInfo $metadata) {
+    return $this->_outputDir . '/' . str_replace('\\', '/', $metadata->name) . $this->_extension;
+  }
+
+  public function setEntityGenerator(EntityGenerator $entityGenerator) {
+    $this->_entityGenerator = $entityGenerator;
+  }
 }

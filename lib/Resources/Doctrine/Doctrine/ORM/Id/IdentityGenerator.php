@@ -26,34 +26,30 @@ use Doctrine\ORM\EntityManager;
  * that automatically get a database-generated, auto-incremented identifier on INSERT.
  * This generator obtains the last insert id after such an insert.
  */
-class IdentityGenerator extends AbstractIdGenerator
-{
-    /** @var string The name of the sequence to pass to lastInsertId(), if any. */
-    private $_seqName;
+class IdentityGenerator extends AbstractIdGenerator {
+  /** @var string The name of the sequence to pass to lastInsertId(), if any. */
+  private $_seqName;
 
-    /**
-     * @param string $seqName The name of the sequence to pass to lastInsertId()
-     *                        to obtain the last generated identifier within the current
-     *                        database session/connection, if any.
-     */
-    public function __construct($seqName = null)
-    {
-        $this->_seqName = $seqName;
-    }
+  /**
+   * @param string $seqName The name of the sequence to pass to lastInsertId()
+   *                        to obtain the last generated identifier within the current
+   *                        database session/connection, if any.
+   */
+  public function __construct($seqName = null) {
+    $this->_seqName = $seqName;
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function generate(EntityManager $em, $entity)
-    {
-        return (int)$em->getConnection()->lastInsertId($this->_seqName);
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function generate(EntityManager $em, $entity) {
+    return (int)$em->getConnection()->lastInsertId($this->_seqName);
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isPostInsertGenerator()
-    {
-        return true;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function isPostInsertGenerator() {
+    return true;
+  }
 }

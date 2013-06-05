@@ -19,196 +19,178 @@
 
 namespace Doctrine\Common\Persistence\Mapping\Driver;
 
-use Doctrine\Common\Cache\ArrayCache,
-    Doctrine\Common\Annotations\AnnotationReader,
-    Doctrine\Common\Annotations\AnnotationRegistry,
-    Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Common\Cache\ArrayCache, Doctrine\Common\Annotations\AnnotationReader, Doctrine\Common\Annotations\AnnotationRegistry, Doctrine\Common\Persistence\Mapping\MappingException;
 
 /**
  * The AnnotationDriver reads the mapping metadata from docblock annotations.
  *
- * @since 2.2
+ * @since  2.2
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author Jonathan H. Wage <jonwage@gmail.com>
  * @author Roman Borschel <roman@code-factory.org>
  */
-abstract class AnnotationDriver implements MappingDriver
-{
-    /**
-     * The AnnotationReader.
-     *
-     * @var AnnotationReader
-     */
-    protected $reader;
+abstract class AnnotationDriver implements MappingDriver {
+  /**
+   * The AnnotationReader.
+   *
+   * @var AnnotationReader
+   */
+  protected $reader;
 
-    /**
-     * The paths where to look for mapping files.
-     *
-     * @var array
-     */
-    protected $paths = array();
+  /**
+   * The paths where to look for mapping files.
+   *
+   * @var array
+   */
+  protected $paths = array();
 
-    /**
-     * The file extension of mapping documents.
-     *
-     * @var string
-     */
-    protected $fileExtension = '.php';
+  /**
+   * The file extension of mapping documents.
+   *
+   * @var string
+   */
+  protected $fileExtension = '.php';
 
-    /**
-     * Cache for AnnotationDriver#getAllClassNames()
-     *
-     * @var array
-     */
-    protected $classNames;
+  /**
+   * Cache for AnnotationDriver#getAllClassNames()
+   *
+   * @var array
+   */
+  protected $classNames;
 
-    /**
-     * Name of the entity annotations as keys
-     *
-     * @var array
-     */
-    protected $entityAnnotationClasses = array();
+  /**
+   * Name of the entity annotations as keys
+   *
+   * @var array
+   */
+  protected $entityAnnotationClasses = array();
 
-    /**
-     * Initializes a new AnnotationDriver that uses the given AnnotationReader for reading
-     * docblock annotations.
-     *
-     * @param AnnotationReader $reader The AnnotationReader to use, duck-typed.
-     * @param string|array $paths One or multiple paths where mapping classes can be found.
-     */
-    public function __construct($reader, $paths = null)
-    {
-        $this->reader = $reader;
-        if ($paths) {
-            $this->addPaths((array) $paths);
-        }
+  /**
+   * Initializes a new AnnotationDriver that uses the given AnnotationReader for reading
+   * docblock annotations.
+   *
+   * @param AnnotationReader $reader The AnnotationReader to use, duck-typed.
+   * @param string|array     $paths  One or multiple paths where mapping classes can be found.
+   */
+  public function __construct($reader, $paths = null) {
+    $this->reader = $reader;
+    if ($paths) {
+      $this->addPaths((array)$paths);
+    }
+  }
+
+  /**
+   * Append lookup paths to metadata driver.
+   *
+   * @param array $paths
+   */
+  public function addPaths(array $paths) {
+    $this->paths = array_unique(array_merge($this->paths, $paths));
+  }
+
+  /**
+   * Retrieve the defined metadata lookup paths.
+   *
+   * @return array
+   */
+  public function getPaths() {
+    return $this->paths;
+  }
+
+  /**
+   * Retrieve the current annotation reader
+   *
+   * @return AnnotationReader
+   */
+  public function getReader() {
+    return $this->reader;
+  }
+
+  /**
+   * Get the file extension used to look for mapping files under
+   *
+   * @return void
+   */
+  public function getFileExtension() {
+    return $this->fileExtension;
+  }
+
+  /**
+   * Set the file extension used to look for mapping files under
+   *
+   * @param string $fileExtension The file extension to set
+   * @return void
+   */
+  public function setFileExtension($fileExtension) {
+    $this->fileExtension = $fileExtension;
+  }
+
+  /**
+   * Whether the class with the specified name is transient. Only non-transient
+   * classes, that is entities and mapped superclasses, should have their metadata loaded.
+   *
+   * A class is non-transient if it is annotated with an annotation
+   * from the {@see AnnotationDriver::entityAnnotationClasses}.
+   *
+   * @param string $className
+   * @return boolean
+   */
+  public function isTransient($className) {
+    $classAnnotations = $this->reader->getClassAnnotations(new \ReflectionClass($className));
+
+    foreach ($classAnnotations as $annot) {
+      if (isset($this->entityAnnotationClasses[get_class($annot)])) {
+        return false;
+      }
     }
 
-    /**
-     * Append lookup paths to metadata driver.
-     *
-     * @param array $paths
-     */
-    public function addPaths(array $paths)
-    {
-        $this->paths = array_unique(array_merge($this->paths, $paths));
+    return true;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getAllClassNames() {
+    if ($this->classNames !== null) {
+      return $this->classNames;
     }
 
-    /**
-     * Retrieve the defined metadata lookup paths.
-     *
-     * @return array
-     */
-    public function getPaths()
-    {
-        return $this->paths;
+    if (!$this->paths) {
+      throw MappingException::pathRequired();
     }
 
-    /**
-     * Retrieve the current annotation reader
-     *
-     * @return AnnotationReader
-     */
-    public function getReader()
-    {
-        return $this->reader;
+    $classes       = array();
+    $includedFiles = array();
+
+    foreach ($this->paths as $path) {
+      if (!is_dir($path)) {
+        throw MappingException::fileMappingDriversRequireConfiguredDirectoryPath($path);
+      }
+
+      $iterator = new \RegexIterator(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::LEAVES_ONLY), '/^.+' . str_replace('.', '\.', $this->fileExtension) . '$/i', \RecursiveRegexIterator::GET_MATCH);
+
+      foreach ($iterator as $file) {
+        $sourceFile = realpath($file[0]);
+
+        require_once $sourceFile;
+
+        $includedFiles[] = $sourceFile;
+      }
     }
 
-    /**
-     * Get the file extension used to look for mapping files under
-     *
-     * @return void
-     */
-    public function getFileExtension()
-    {
-        return $this->fileExtension;
+    $declared = get_declared_classes();
+
+    foreach ($declared as $className) {
+      $rc         = new \ReflectionClass($className);
+      $sourceFile = $rc->getFileName();
+      if (in_array($sourceFile, $includedFiles) && !$this->isTransient($className)) {
+        $classes[] = $className;
+      }
     }
 
-    /**
-     * Set the file extension used to look for mapping files under
-     *
-     * @param string $fileExtension The file extension to set
-     * @return void
-     */
-    public function setFileExtension($fileExtension)
-    {
-        $this->fileExtension = $fileExtension;
-    }
+    $this->classNames = $classes;
 
-    /**
-     * Whether the class with the specified name is transient. Only non-transient
-     * classes, that is entities and mapped superclasses, should have their metadata loaded.
-     *
-     * A class is non-transient if it is annotated with an annotation
-     * from the {@see AnnotationDriver::entityAnnotationClasses}.
-     *
-     * @param string $className
-     * @return boolean
-     */
-    public function isTransient($className)
-    {
-        $classAnnotations = $this->reader->getClassAnnotations(new \ReflectionClass($className));
-
-        foreach ($classAnnotations as $annot) {
-            if (isset($this->entityAnnotationClasses[get_class($annot)])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAllClassNames()
-    {
-        if ($this->classNames !== null) {
-            return $this->classNames;
-        }
-
-        if (!$this->paths) {
-            throw MappingException::pathRequired();
-        }
-
-        $classes = array();
-        $includedFiles = array();
-
-        foreach ($this->paths as $path) {
-            if ( ! is_dir($path)) {
-                throw MappingException::fileMappingDriversRequireConfiguredDirectoryPath($path);
-            }
-
-            $iterator = new \RegexIterator(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                ),
-                '/^.+' . str_replace('.', '\.', $this->fileExtension) . '$/i',
-                \RecursiveRegexIterator::GET_MATCH
-            );
-
-            foreach ($iterator as $file) {
-                $sourceFile = realpath($file[0]);
-
-                require_once $sourceFile;
-
-                $includedFiles[] = $sourceFile;
-            }
-        }
-
-        $declared = get_declared_classes();
-
-        foreach ($declared as $className) {
-            $rc = new \ReflectionClass($className);
-            $sourceFile = $rc->getFileName();
-            if (in_array($sourceFile, $includedFiles) && ! $this->isTransient($className)) {
-                $classes[] = $className;
-            }
-        }
-
-        $this->classNames = $classes;
-
-        return $classes;
-    }
+    return $classes;
+  }
 }

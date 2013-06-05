@@ -24,7 +24,7 @@ namespace Doctrine\ORM\Query\AST;
 /**
  * Description of BetweenExpression
  *
-  @license http://www.opensource.org/licenses/lgpl-license.php LGPL
+@license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
  * @version $Revision: 3938 $
@@ -32,23 +32,20 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class BetweenExpression extends Node
-{
-    public $expression;
-    public $leftBetweenExpression;
-    public $rightBetweenExpression;
-    public $not;
+class BetweenExpression extends Node {
+  public $expression;
+  public $leftBetweenExpression;
+  public $rightBetweenExpression;
+  public $not;
 
-    public function __construct($expr, $leftExpr, $rightExpr)
-    {
-        $this->expression = $expr;
-        $this->leftBetweenExpression = $leftExpr;
-        $this->rightBetweenExpression = $rightExpr;
-    }
+  public function __construct($expr, $leftExpr, $rightExpr) {
+    $this->expression             = $expr;
+    $this->leftBetweenExpression  = $leftExpr;
+    $this->rightBetweenExpression = $rightExpr;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkBetweenExpression($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkBetweenExpression($this);
+  }
 }
 

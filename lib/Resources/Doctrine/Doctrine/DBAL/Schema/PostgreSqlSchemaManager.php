@@ -29,331 +29,298 @@ namespace Doctrine\DBAL\Schema;
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  * @since       2.0
  */
-class PostgreSqlSchemaManager extends AbstractSchemaManager
-{
-    /**
-     * @var array
-     */
-    private $existingSchemaPaths;
+class PostgreSqlSchemaManager extends AbstractSchemaManager {
+  /**
+   * @var array
+   */
+  private $existingSchemaPaths;
 
-    /**
-     * Get all the existing schema names.
-     *
-     * @return array
-     */
-    public function getSchemaNames()
-    {
-        $rows = $this->_conn->fetchAll('SELECT schema_name FROM information_schema.schemata');
-        return array_map(function($v) { return $v['schema_name']; }, $rows);
+  /**
+   * Get all the existing schema names.
+   *
+   * @return array
+   */
+  public function getSchemaNames() {
+    $rows = $this->_conn->fetchAll('SELECT schema_name FROM information_schema.schemata');
+
+    return array_map(function ($v) { return $v['schema_name']; }, $rows);
+  }
+
+  /**
+   * Return an array of schema search paths
+   *
+   * This is a PostgreSQL only function.
+   *
+   * @return array
+   */
+  public function getSchemaSearchPaths() {
+    $params = $this->_conn->getParams();
+    $schema = explode(",", $this->_conn->fetchColumn('SHOW search_path'));
+    if (isset($params['user'])) {
+      $schema = str_replace('"$user"', $params['user'], $schema);
     }
 
-    /**
-     * Return an array of schema search paths
-     *
-     * This is a PostgreSQL only function.
-     *
-     * @return array
-     */
-    public function getSchemaSearchPaths()
-    {
-        $params = $this->_conn->getParams();
-        $schema = explode(",", $this->_conn->fetchColumn('SHOW search_path'));
-        if (isset($params['user'])) {
-            $schema = str_replace('"$user"', $params['user'], $schema);
-        }
-        return $schema;
+    return $schema;
+  }
+
+  /**
+   * Get names of all existing schemas in the current users search path.
+   *
+   * This is a PostgreSQL only function.
+   *
+   * @return array
+   */
+  public function getExistingSchemaSearchPaths() {
+    if ($this->existingSchemaPaths === null) {
+      $this->determineExistingSchemaSearchPaths();
     }
 
-    /**
-     * Get names of all existing schemas in the current users search path.
-     *
-     * This is a PostgreSQL only function.
-     *
-     * @return array
-     */
-    public function getExistingSchemaSearchPaths()
-    {
-        if ($this->existingSchemaPaths === null) {
-            $this->determineExistingSchemaSearchPaths();
-        }
-        return $this->existingSchemaPaths;
+    return $this->existingSchemaPaths;
+  }
+
+  /**
+   * Use this to set or reset the order of the existing schemas in the current search path of the user
+   *
+   * This is a PostgreSQL only function.
+   *
+   * @return type
+   */
+  public function determineExistingSchemaSearchPaths() {
+    $names = $this->getSchemaNames();
+    $paths = $this->getSchemaSearchPaths();
+
+    $this->existingSchemaPaths = array_filter($paths, function ($v) use ($names) {
+      return in_array($v, $names);
+    });
+  }
+
+  protected function _getPortableTableForeignKeyDefinition($tableForeignKey) {
+    $onUpdate = null;
+    $onDelete = null;
+
+    if (preg_match('(ON UPDATE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))', $tableForeignKey['condef'], $match)) {
+      $onUpdate = $match[1];
+    }
+    if (preg_match('(ON DELETE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))', $tableForeignKey['condef'], $match)) {
+      $onDelete = $match[1];
     }
 
-    /**
-     * Use this to set or reset the order of the existing schemas in the current search path of the user
-     *
-     * This is a PostgreSQL only function.
-     *
-     * @return type
-     */
-    public function determineExistingSchemaSearchPaths()
-    {
-        $names = $this->getSchemaNames();
-        $paths = $this->getSchemaSearchPaths();
-
-        $this->existingSchemaPaths = array_filter($paths, function ($v) use ($names) {
-            return in_array($v, $names);
-        });
+    if (preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', $tableForeignKey['condef'], $values)) {
+      // PostgreSQL returns identifiers that are keywords with quotes, we need them later, don't get
+      // the idea to trim them here.
+      $localColumns   = array_map('trim', explode(",", $values[1]));
+      $foreignColumns = array_map('trim', explode(",", $values[3]));
+      $foreignTable   = $values[2];
     }
 
-    protected function _getPortableTableForeignKeyDefinition($tableForeignKey)
-    {
-        $onUpdate = null;
-        $onDelete = null;
+    return new ForeignKeyConstraint($localColumns, $foreignTable, $foreignColumns, $tableForeignKey['conname'], array('onUpdate' => $onUpdate, 'onDelete' => $onDelete));
+  }
 
-        if (preg_match('(ON UPDATE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))', $tableForeignKey['condef'], $match)) {
-            $onUpdate = $match[1];
-        }
-        if (preg_match('(ON DELETE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))', $tableForeignKey['condef'], $match)) {
-            $onDelete = $match[1];
-        }
+  public function dropDatabase($database) {
+    $params           = $this->_conn->getParams();
+    $params["dbname"] = "postgres";
+    $tmpPlatform      = $this->_platform;
+    $tmpConn          = $this->_conn;
 
-        if (preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', $tableForeignKey['condef'], $values)) {
-            // PostgreSQL returns identifiers that are keywords with quotes, we need them later, don't get
-            // the idea to trim them here.
-            $localColumns = array_map('trim', explode(",", $values[1]));
-            $foreignColumns = array_map('trim', explode(",", $values[3]));
-            $foreignTable = $values[2];
-        }
+    $this->_conn     = \Doctrine\DBAL\DriverManager::getConnection($params);
+    $this->_platform = $this->_conn->getDatabasePlatform();
 
-        return new ForeignKeyConstraint(
-                $localColumns, $foreignTable, $foreignColumns, $tableForeignKey['conname'],
-                array('onUpdate' => $onUpdate, 'onDelete' => $onDelete)
-        );
+    parent::dropDatabase($database);
+
+    $this->_platform = $tmpPlatform;
+    $this->_conn     = $tmpConn;
+  }
+
+  public function createDatabase($database) {
+    $params           = $this->_conn->getParams();
+    $params["dbname"] = "postgres";
+    $tmpPlatform      = $this->_platform;
+    $tmpConn          = $this->_conn;
+
+    $this->_conn     = \Doctrine\DBAL\DriverManager::getConnection($params);
+    $this->_platform = $this->_conn->getDatabasePlatform();
+
+    parent::createDatabase($database);
+
+    $this->_platform = $tmpPlatform;
+    $this->_conn     = $tmpConn;
+  }
+
+  protected function _getPortableTriggerDefinition($trigger) {
+    return $trigger['trigger_name'];
+  }
+
+  protected function _getPortableViewDefinition($view) {
+    return new View($view['viewname'], $view['definition']);
+  }
+
+  protected function _getPortableUserDefinition($user) {
+    return array('user' => $user['usename'], 'password' => $user['passwd']);
+  }
+
+  protected function _getPortableTableDefinition($table) {
+    $schemas     = $this->getExistingSchemaSearchPaths();
+    $firstSchema = array_shift($schemas);
+
+    if ($table['schema_name'] == $firstSchema) {
+      return $table['table_name'];
+    } else {
+      return $table['schema_name'] . "." . $table['table_name'];
     }
+  }
 
-    public function dropDatabase($database)
-    {
-        $params = $this->_conn->getParams();
-        $params["dbname"] = "postgres";
-        $tmpPlatform = $this->_platform;
-        $tmpConn = $this->_conn;
-
-        $this->_conn = \Doctrine\DBAL\DriverManager::getConnection($params);
-        $this->_platform = $this->_conn->getDatabasePlatform();
-
-        parent::dropDatabase($database);
-
-        $this->_platform = $tmpPlatform;
-        $this->_conn = $tmpConn;
-    }
-
-    public function createDatabase($database)
-    {
-        $params = $this->_conn->getParams();
-        $params["dbname"] = "postgres";
-        $tmpPlatform = $this->_platform;
-        $tmpConn = $this->_conn;
-
-        $this->_conn = \Doctrine\DBAL\DriverManager::getConnection($params);
-        $this->_platform = $this->_conn->getDatabasePlatform();
-
-        parent::createDatabase($database);
-
-        $this->_platform = $tmpPlatform;
-        $this->_conn = $tmpConn;
-    }
-
-    protected function _getPortableTriggerDefinition($trigger)
-    {
-        return $trigger['trigger_name'];
-    }
-
-    protected function _getPortableViewDefinition($view)
-    {
-        return new View($view['viewname'], $view['definition']);
-    }
-
-    protected function _getPortableUserDefinition($user)
-    {
-        return array(
-            'user' => $user['usename'],
-            'password' => $user['passwd']
-        );
-    }
-
-    protected function _getPortableTableDefinition($table)
-    {
-        $schemas = $this->getExistingSchemaSearchPaths();
-        $firstSchema = array_shift($schemas);
-
-        if ($table['schema_name'] == $firstSchema) {
-            return $table['table_name'];
-        } else {
-            return $table['schema_name'] . "." . $table['table_name'];
-        }
-    }
-
-    /**
-     * @license New BSD License
-     * @link http://ezcomponents.org/docs/api/trunk/DatabaseSchema/ezcDbSchemaPgsqlReader.html
-     * @param  array $tableIndexes
-     * @param  string $tableName
-     * @return array
-     */
-    protected function _getPortableTableIndexesList($tableIndexes, $tableName=null)
-    {
-        $buffer = array();
-        foreach ($tableIndexes AS $row) {
-            $colNumbers = explode(' ', $row['indkey']);
-            $colNumbersSql = 'IN (' . join(' ,', $colNumbers) . ' )';
-            $columnNameSql = "SELECT attnum, attname FROM pg_attribute
+  /**
+   * @license New BSD License
+   * @link    http://ezcomponents.org/docs/api/trunk/DatabaseSchema/ezcDbSchemaPgsqlReader.html
+   * @param  array  $tableIndexes
+   * @param  string $tableName
+   * @return array
+   */
+  protected function _getPortableTableIndexesList($tableIndexes, $tableName = null) {
+    $buffer = array();
+    foreach ($tableIndexes AS $row) {
+      $colNumbers    = explode(' ', $row['indkey']);
+      $colNumbersSql = 'IN (' . join(' ,', $colNumbers) . ' )';
+      $columnNameSql = "SELECT attnum, attname FROM pg_attribute
                 WHERE attrelid={$row['indrelid']} AND attnum $colNumbersSql ORDER BY attnum ASC;";
 
-            $stmt = $this->_conn->executeQuery($columnNameSql);
-            $indexColumns = $stmt->fetchAll();
+      $stmt         = $this->_conn->executeQuery($columnNameSql);
+      $indexColumns = $stmt->fetchAll();
 
-            // required for getting the order of the columns right.
-            foreach ($colNumbers AS $colNum) {
-                foreach ($indexColumns as $colRow) {
-                    if ($colNum == $colRow['attnum']) {
-                        $buffer[] = array(
-                            'key_name' => $row['relname'],
-                            'column_name' => trim($colRow['attname']),
-                            'non_unique' => !$row['indisunique'],
-                            'primary' => $row['indisprimary']
-                        );
-                    }
-                }
-            }
+      // required for getting the order of the columns right.
+      foreach ($colNumbers AS $colNum) {
+        foreach ($indexColumns as $colRow) {
+          if ($colNum == $colRow['attnum']) {
+            $buffer[] = array('key_name' => $row['relname'], 'column_name' => trim($colRow['attname']), 'non_unique' => !$row['indisunique'], 'primary' => $row['indisprimary']);
+          }
         }
-        return parent::_getPortableTableIndexesList($buffer, $tableName);
+      }
     }
 
-    protected function _getPortableDatabaseDefinition($database)
-    {
-        return $database['datname'];
+    return parent::_getPortableTableIndexesList($buffer, $tableName);
+  }
+
+  protected function _getPortableDatabaseDefinition($database) {
+    return $database['datname'];
+  }
+
+  protected function _getPortableSequenceDefinition($sequence) {
+    if ($sequence['schemaname'] != 'public') {
+      $sequenceName = $sequence['schemaname'] . "." . $sequence['relname'];
+    } else {
+      $sequenceName = $sequence['relname'];
     }
 
-    protected function _getPortableSequenceDefinition($sequence)
-    {
-        if ($sequence['schemaname'] != 'public') {
-            $sequenceName = $sequence['schemaname'] . "." . $sequence['relname'];
-        } else {
-            $sequenceName = $sequence['relname'];
-        }
+    $data = $this->_conn->fetchAll('SELECT min_value, increment_by FROM ' . $sequenceName);
 
-        $data = $this->_conn->fetchAll('SELECT min_value, increment_by FROM ' . $sequenceName);
-        return new Sequence($sequenceName, $data[0]['increment_by'], $data[0]['min_value']);
+    return new Sequence($sequenceName, $data[0]['increment_by'], $data[0]['min_value']);
+  }
+
+  protected function _getPortableTableColumnDefinition($tableColumn) {
+    $tableColumn = array_change_key_case($tableColumn, CASE_LOWER);
+
+    if (strtolower($tableColumn['type']) === 'varchar') {
+      // get length from varchar definition
+      $length                = preg_replace('~.*\(([0-9]*)\).*~', '$1', $tableColumn['complete_type']);
+      $tableColumn['length'] = $length;
     }
 
-    protected function _getPortableTableColumnDefinition($tableColumn)
-    {
-        $tableColumn = array_change_key_case($tableColumn, CASE_LOWER);
+    $matches = array();
 
-        if (strtolower($tableColumn['type']) === 'varchar') {
-            // get length from varchar definition
-            $length = preg_replace('~.*\(([0-9]*)\).*~', '$1', $tableColumn['complete_type']);
-            $tableColumn['length'] = $length;
-        }
-
-        $matches = array();
-
-        $autoincrement = false;
-        if (preg_match("/^nextval\('(.*)'(::.*)?\)$/", $tableColumn['default'], $matches)) {
-            $tableColumn['sequence'] = $matches[1];
-            $tableColumn['default'] = null;
-            $autoincrement = true;
-        }
-
-        if (stripos($tableColumn['default'], 'NULL') === 0) {
-            $tableColumn['default'] = null;
-        }
-
-        $length = (isset($tableColumn['length'])) ? $tableColumn['length'] : null;
-        if ($length == '-1' && isset($tableColumn['atttypmod'])) {
-            $length = $tableColumn['atttypmod'] - 4;
-        }
-        if ((int) $length <= 0) {
-            $length = null;
-        }
-        $fixed = null;
-
-        if (!isset($tableColumn['name'])) {
-            $tableColumn['name'] = '';
-        }
-
-        $precision = null;
-        $scale = null;
-
-        $dbType = strtolower($tableColumn['type']);
-        if (strlen($tableColumn['domain_type']) && !$this->_platform->hasDoctrineTypeMappingFor($tableColumn['type'])) {
-            $dbType = strtolower($tableColumn['domain_type']);
-            $tableColumn['complete_type'] = $tableColumn['domain_complete_type'];
-        }
-
-        $type = $this->_platform->getDoctrineTypeMapping($dbType);
-        $type = $this->extractDoctrineTypeFromComment($tableColumn['comment'], $type);
-        $tableColumn['comment'] = $this->removeDoctrineTypeFromComment($tableColumn['comment'], $type);
-
-        switch ($dbType) {
-            case 'smallint':
-            case 'int2':
-                $length = null;
-                break;
-            case 'int':
-            case 'int4':
-            case 'integer':
-                $length = null;
-                break;
-            case 'bigint':
-            case 'int8':
-                $length = null;
-                break;
-            case 'bool':
-            case 'boolean':
-                $length = null;
-                break;
-            case 'text':
-                $fixed = false;
-                break;
-            case 'varchar':
-            case 'interval':
-            case '_varchar':
-                $fixed = false;
-                break;
-            case 'char':
-            case 'bpchar':
-                $fixed = true;
-                break;
-            case 'float':
-            case 'float4':
-            case 'float8':
-            case 'double':
-            case 'double precision':
-            case 'real':
-            case 'decimal':
-            case 'money':
-            case 'numeric':
-                if (preg_match('([A-Za-z]+\(([0-9]+)\,([0-9]+)\))', $tableColumn['complete_type'], $match)) {
-                    $precision = $match[1];
-                    $scale = $match[2];
-                    $length = null;
-                }
-                break;
-            case 'year':
-                $length = null;
-                break;
-        }
-
-        if ($tableColumn['default'] && preg_match("('([^']+)'::)", $tableColumn['default'], $match)) {
-            $tableColumn['default'] = $match[1];
-        }
-
-        $options = array(
-            'length'        => $length,
-            'notnull'       => (bool) $tableColumn['isnotnull'],
-            'default'       => $tableColumn['default'],
-            'primary'       => (bool) ($tableColumn['pri'] == 't'),
-            'precision'     => $precision,
-            'scale'         => $scale,
-            'fixed'         => $fixed,
-            'unsigned'      => false,
-            'autoincrement' => $autoincrement,
-            'comment'       => $tableColumn['comment'],
-        );
-
-        return new Column($tableColumn['field'], \Doctrine\DBAL\Types\Type::getType($type), $options);
+    $autoincrement = false;
+    if (preg_match("/^nextval\('(.*)'(::.*)?\)$/", $tableColumn['default'], $matches)) {
+      $tableColumn['sequence'] = $matches[1];
+      $tableColumn['default']  = null;
+      $autoincrement           = true;
     }
+
+    if (stripos($tableColumn['default'], 'NULL') === 0) {
+      $tableColumn['default'] = null;
+    }
+
+    $length = (isset($tableColumn['length'])) ? $tableColumn['length'] : null;
+    if ($length == '-1' && isset($tableColumn['atttypmod'])) {
+      $length = $tableColumn['atttypmod'] - 4;
+    }
+    if ((int)$length <= 0) {
+      $length = null;
+    }
+    $fixed = null;
+
+    if (!isset($tableColumn['name'])) {
+      $tableColumn['name'] = '';
+    }
+
+    $precision = null;
+    $scale     = null;
+
+    $dbType = strtolower($tableColumn['type']);
+    if (strlen($tableColumn['domain_type']) && !$this->_platform->hasDoctrineTypeMappingFor($tableColumn['type'])) {
+      $dbType                       = strtolower($tableColumn['domain_type']);
+      $tableColumn['complete_type'] = $tableColumn['domain_complete_type'];
+    }
+
+    $type                   = $this->_platform->getDoctrineTypeMapping($dbType);
+    $type                   = $this->extractDoctrineTypeFromComment($tableColumn['comment'], $type);
+    $tableColumn['comment'] = $this->removeDoctrineTypeFromComment($tableColumn['comment'], $type);
+
+    switch ($dbType) {
+      case 'smallint':
+      case 'int2':
+        $length = null;
+        break;
+      case 'int':
+      case 'int4':
+      case 'integer':
+        $length = null;
+        break;
+      case 'bigint':
+      case 'int8':
+        $length = null;
+        break;
+      case 'bool':
+      case 'boolean':
+        $length = null;
+        break;
+      case 'text':
+        $fixed = false;
+        break;
+      case 'varchar':
+      case 'interval':
+      case '_varchar':
+        $fixed = false;
+        break;
+      case 'char':
+      case 'bpchar':
+        $fixed = true;
+        break;
+      case 'float':
+      case 'float4':
+      case 'float8':
+      case 'double':
+      case 'double precision':
+      case 'real':
+      case 'decimal':
+      case 'money':
+      case 'numeric':
+        if (preg_match('([A-Za-z]+\(([0-9]+)\,([0-9]+)\))', $tableColumn['complete_type'], $match)) {
+          $precision = $match[1];
+          $scale     = $match[2];
+          $length    = null;
+        }
+        break;
+      case 'year':
+        $length = null;
+        break;
+    }
+
+    if ($tableColumn['default'] && preg_match("('([^']+)'::)", $tableColumn['default'], $match)) {
+      $tableColumn['default'] = $match[1];
+    }
+
+    $options = array('length' => $length, 'notnull' => (bool)$tableColumn['isnotnull'], 'default' => $tableColumn['default'], 'primary' => (bool)($tableColumn['pri'] == 't'), 'precision' => $precision, 'scale' => $scale, 'fixed' => $fixed, 'unsigned' => false, 'autoincrement' => $autoincrement, 'comment' => $tableColumn['comment'],);
+
+    return new Column($tableColumn['field'], \Doctrine\DBAL\Types\Type::getType($type), $options);
+  }
 
 }

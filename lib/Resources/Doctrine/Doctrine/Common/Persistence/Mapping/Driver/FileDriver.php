@@ -37,142 +37,132 @@ use Doctrine\Common\Persistence\Mapping\MappingException;
  * @author      Jonathan H. Wage <jonwage@gmail.com>
  * @author      Roman Borschel <roman@code-factory.org>
  */
-abstract class FileDriver implements MappingDriver
-{
-    /**
-     * @var FileLocator
-     */
-    protected $locator;
+abstract class FileDriver implements MappingDriver {
+  /**
+   * @var FileLocator
+   */
+  protected $locator;
 
-    /**
-     * @var array
-     */
-    protected $classCache;
+  /**
+   * @var array
+   */
+  protected $classCache;
 
-    /**
-     * @var string
-     */
-    protected $globalBasename;
+  /**
+   * @var string
+   */
+  protected $globalBasename;
 
-    /**
-     * Initializes a new FileDriver that looks in the given path(s) for mapping
-     * documents and operates in the specified operating mode.
-     *
-     * @param string|array|FileLocator $paths A FileLocator or one/multiple paths where mapping documents can be found.
-     * @param string $fileExtension
-     */
-    public function __construct($locator, $fileExtension = null)
-    {
-        if ($locator instanceof FileLocator) {
-            $this->locator = $locator;
-        } else {
-            $this->locator = new DefaultFileLocator((array)$locator, $fileExtension);
-        }
+  /**
+   * Initializes a new FileDriver that looks in the given path(s) for mapping
+   * documents and operates in the specified operating mode.
+   *
+   * @param string|array|FileLocator $paths A FileLocator or one/multiple paths where mapping documents can be found.
+   * @param string                   $fileExtension
+   */
+  public function __construct($locator, $fileExtension = null) {
+    if ($locator instanceof FileLocator) {
+      $this->locator = $locator;
+    } else {
+      $this->locator = new DefaultFileLocator((array)$locator, $fileExtension);
+    }
+  }
+
+  public function setGlobalBasename($file) {
+    $this->globalBasename = $file;
+  }
+
+  public function getGlobalBasename() {
+    return $this->globalBasename;
+  }
+
+  /**
+   * Get the element of schema meta data for the class from the mapping file.
+   * This will lazily load the mapping file if it is not loaded yet
+   *
+   * @return array $element  The element of schema meta data
+   */
+  public function getElement($className) {
+    if ($this->classCache === null) {
+      $this->initialize();
     }
 
-    public function setGlobalBasename($file)
-    {
-        $this->globalBasename = $file;
+    if (isset($this->classCache[$className])) {
+      return $this->classCache[$className];
     }
 
-    public function getGlobalBasename()
-    {
-        return $this->globalBasename;
+    $result = $this->loadMappingFile($this->locator->findMappingFile($className));
+
+    return $result[$className];
+  }
+
+  /**
+   * Whether the class with the specified name should have its metadata loaded.
+   * This is only the case if it is either mapped as an Entity or a
+   * MappedSuperclass.
+   *
+   * @param string $className
+   * @return boolean
+   */
+  public function isTransient($className) {
+    if ($this->classCache === null) {
+      $this->initialize();
     }
 
-    /**
-     * Get the element of schema meta data for the class from the mapping file.
-     * This will lazily load the mapping file if it is not loaded yet
-     *
-     * @return array $element  The element of schema meta data
-     */
-    public function getElement($className)
-    {
-        if ($this->classCache === null) {
-            $this->initialize();
-        }
-
-        if (isset($this->classCache[$className])) {
-            return $this->classCache[$className];
-        }
-
-        $result = $this->loadMappingFile($this->locator->findMappingFile($className));
-
-        return $result[$className];
+    if (isset($this->classCache[$className])) {
+      return false;
     }
 
-    /**
-     * Whether the class with the specified name should have its metadata loaded.
-     * This is only the case if it is either mapped as an Entity or a
-     * MappedSuperclass.
-     *
-     * @param string $className
-     * @return boolean
-     */
-    public function isTransient($className)
-    {
-        if ($this->classCache === null) {
-            $this->initialize();
-        }
+    return !$this->locator->fileExists($className);
+  }
 
-        if (isset($this->classCache[$className])) {
-            return false;
-        }
-
-        return !$this->locator->fileExists($className);
+  /**
+   * Gets the names of all mapped classes known to this driver.
+   *
+   * @return array The names of all mapped classes known to this driver.
+   */
+  public function getAllClassNames() {
+    if ($this->classCache === null) {
+      $this->initialize();
     }
 
-    /**
-     * Gets the names of all mapped classes known to this driver.
-     *
-     * @return array The names of all mapped classes known to this driver.
-     */
-    public function getAllClassNames()
-    {
-        if ($this->classCache === null) {
-            $this->initialize();
-        }
-
-        $classNames = (array)$this->locator->getAllClassNames($this->globalBasename);
-        if ($this->classCache) {
-            $classNames = array_merge(array_keys($this->classCache), $classNames);
-        }
-        return $classNames;
+    $classNames = (array)$this->locator->getAllClassNames($this->globalBasename);
+    if ($this->classCache) {
+      $classNames = array_merge(array_keys($this->classCache), $classNames);
     }
 
-    /**
-     * Loads a mapping file with the given name and returns a map
-     * from class/entity names to their corresponding file driver elements.
-     *
-     * @param string $file The mapping file to load.
-     * @return array
-     */
-    abstract protected function loadMappingFile($file);
+    return $classNames;
+  }
 
-    /**
-     * Initialize the class cache from all the global files.
-     *
-     * Using this feature adds a substantial performance hit to file drivers as
-     * more metadata has to be loaded into memory than might actually be
-     * necessary. This may not be relevant to scenarios where caching of
-     * metadata is in place, however hits very hard in scenarios where no
-     * caching is used.
-     *
-     * @return void
-     */
-    protected function initialize()
-    {
-        $this->classCache = array();
-        if (null !== $this->globalBasename) {
-            foreach ($this->locator->getPaths() as $path) {
-                $file = $path.'/'.$this->globalBasename.$this->locator->getFileExtension();
-                if (is_file($file)) {
-                    $this->classCache = array_merge(
-                        $this->classCache,
-                        $this->loadMappingFile($file)
-                    );
-                }
-            }
+  /**
+   * Loads a mapping file with the given name and returns a map
+   * from class/entity names to their corresponding file driver elements.
+   *
+   * @param string $file The mapping file to load.
+   * @return array
+   */
+  abstract protected function loadMappingFile($file);
+
+  /**
+   * Initialize the class cache from all the global files.
+   *
+   * Using this feature adds a substantial performance hit to file drivers as
+   * more metadata has to be loaded into memory than might actually be
+   * necessary. This may not be relevant to scenarios where caching of
+   * metadata is in place, however hits very hard in scenarios where no
+   * caching is used.
+   *
+   * @return void
+   */
+  protected function initialize() {
+    $this->classCache = array();
+    if (null !== $this->globalBasename) {
+      foreach ($this->locator->getPaths() as $path) {
+        $file = $path . '/' . $this->globalBasename . $this->locator->getFileExtension();
+        if (is_file($file)) {
+          $this->classCache = array_merge($this->classCache, $this->loadMappingFile($file));
         }
+      }
     }
+  }
 }

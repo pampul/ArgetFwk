@@ -23,8 +23,7 @@ namespace Doctrine\ORM\Mapping;
  * @Annotation
  * @Target("CLASS")
  */
-final class MappedSuperclass implements Annotation
-{
-    /** @var string */
-    public $repositoryClass;
+final class MappedSuperclass implements Annotation {
+  /** @var string */
+  public $repositoryClass;
 }

@@ -28,25 +28,20 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  *
  * @author robo
  */
-class SmallIntType extends Type
-{
-    public function getName()
-    {
-        return Type::SMALLINT;
-    }
+class SmallIntType extends Type {
+  public function getName() {
+    return Type::SMALLINT;
+  }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getSmallIntTypeDeclarationSQL($fieldDeclaration);
-    }
+  public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
+    return $platform->getSmallIntTypeDeclarationSQL($fieldDeclaration);
+  }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        return (null === $value) ? null : (int) $value;
-    }
+  public function convertToPHPValue($value, AbstractPlatform $platform) {
+    return (null === $value) ? null : (int)$value;
+  }
 
-    public function getBindingType()
-    {
-        return \PDO::PARAM_INT;
-    }
+  public function getBindingType() {
+    return \PDO::PARAM_INT;
+  }
 }

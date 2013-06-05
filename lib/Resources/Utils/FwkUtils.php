@@ -5,8 +5,7 @@
  *
  * @author f.mithieux
  */
-class FwkUtils
-{
+class FwkUtils {
 
   protected static $trustProxy = false;
   /**
@@ -23,8 +22,7 @@ class FwkUtils
    * @param boolean $Upper
    * @return String
    */
-  public static function getS($count, $Upper = false)
-  {
+  public static function getS($count, $Upper = false) {
     if ($Upper) {
       return ($count >= 2) ? 'S' : '';
     } else {
@@ -39,8 +37,7 @@ class FwkUtils
    * @param String $separateur
    * @return String
    */
-  public static function FormatTelephone($number, $separateur = ' ')
-  {
+  public static function FormatTelephone($number, $separateur = ' ') {
     if (isset($number)) {
       $number = str_replace(' ', '', $number);
       $number = str_replace('-', '', $number);
@@ -71,9 +68,9 @@ class FwkUtils
    * @param string $str
    * @return string
    */
-  public static function removeAccent($str)
-  {
+  public static function removeAccent($str) {
     $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+
     return preg_replace('/[^A-Za-z0-9_-\s]/', '', $str);
   }
 
@@ -84,8 +81,7 @@ class FwkUtils
    * @param string $charset
    * @return string
    */
-  public static function removeAccentsLonger($str, $charset = 'utf-8')
-  {
+  public static function removeAccentsLonger($str, $charset = 'utf-8') {
     $str = htmlentities($str, ENT_NOQUOTES, $charset);
 
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
@@ -102,8 +98,7 @@ class FwkUtils
    * @param string $charset
    * @return string
    */
-  public static function urlAlize($str, $charset = 'utf-8')
-  {
+  public static function urlAlize($str, $charset = 'utf-8') {
 
     $str = htmlentities($str, ENT_NOQUOTES, $charset);
 
@@ -123,8 +118,7 @@ class FwkUtils
    * @param string $charset
    * @return string
    */
-  public static function urlAlizeAllowSlash($str, $charset = 'utf-8')
-  {
+  public static function urlAlizeAllowSlash($str, $charset = 'utf-8') {
 
     $str = htmlentities($str, ENT_NOQUOTES, $charset);
 
@@ -145,8 +139,7 @@ class FwkUtils
    * @param boolean $notArray  - Pas de tableau associatif ?
    * @return array
    */
-  public static function getDirList($directory, $deep = false, $notArray = true)
-  {
+  public static function getDirList($directory, $deep = false, $notArray = true) {
     $results = array();
     $handler = dir($directory);
     while ($file = $handler->read()) {
@@ -165,6 +158,7 @@ class FwkUtils
       }
     }
     $handler->close();
+
     return $results;
   }
 
@@ -179,8 +173,7 @@ class FwkUtils
    * @param integer $nbrResults - Nombre de résultats à trouver // 0 si illimité
    * @return array
    */
-  public static function getDirListComplex($directory, $deep = false, $notArray = true, $pregFile = '', $nbrResults = 0)
-  {
+  public static function getDirListComplex($directory, $deep = false, $notArray = true, $pregFile = '', $nbrResults = 0) {
     $results = array();
     $handler = dir($directory);
     while ($file = $handler->read()) {
@@ -205,15 +198,16 @@ class FwkUtils
       }
     }
     $handler->close();
+
     return $results;
   }
 
   /**
    * retourne l'extention d'un fichier
    */
-  public static function getExtension($file)
-  {
+  public static function getExtension($file) {
     $tab = explode('.', $file);
+
     return array_pop($tab);
   }
 
@@ -223,11 +217,11 @@ class FwkUtils
    * @param string $file
    * @return string
    */
-  public static function getNameFile($file)
-  {
+  public static function getNameFile($file) {
     $tab = explode('.', $file);
     array_pop($tab);
     $str = implode('.', $tab);
+
     return $str;
   }
 
@@ -249,8 +243,7 @@ class FwkUtils
    * @param array $searchArray
    * @return boolean true if found, false if not found
    */
-  public static function multiDimensionalArrayKeyExists($key, $searchArray)
-  {
+  public static function multiDimensionalArrayKeyExists($key, $searchArray) {
     foreach ($searchArray as $curKey => $curValue) {
       if ($key === $curKey) {
         return true;
@@ -260,6 +253,7 @@ class FwkUtils
           return true;
       }
     }
+
     return false;
   }
 
@@ -281,8 +275,7 @@ class FwkUtils
    * @param array $searchArray
    * @return mixed FALSE if key not found, or value if found
    */
-  public static function multiDimensionalArrayGetValue($key, $searchArray)
-  {
+  public static function multiDimensionalArrayGetValue($key, $searchArray) {
     foreach ($searchArray as $curKey => $curValue) {
       if ($key === $curKey) {
         return $curValue;
@@ -306,8 +299,7 @@ class FwkUtils
    * @param String $tabOptions
    * @return String
    */
-  public static function CreatePath($strRootPath, $strSubPath, $tabOptions = '')
-  {
+  public static function CreatePath($strRootPath, $strSubPath, $tabOptions = '') {
     if (empty($strRootPath)) {
 
       $path = getenv('TEMP');
@@ -315,6 +307,7 @@ class FwkUtils
 
       if (!is_dir($strRootPath)) {
         echo 'Le répertoire ' . $strRootPath . ' n\'existe pas';
+
         return false;
       }
 
@@ -341,6 +334,7 @@ class FwkUtils
         $path = $strRootPath;
       }
     }
+
     return $path;
   }
 
@@ -355,8 +349,7 @@ class FwkUtils
    * @param unknown_type $strSubPath
    * @return none
    */
-  public static function Mkpath($strRootPath, $strSubPath)
-  {
+  public static function Mkpath($strRootPath, $strSubPath) {
     $strSubPath = preg_replace('/(\/){2,}|(\\\){1,}/', '/', $strSubPath);
     $tabDirs    = explode("/", $strSubPath);
     $strPath    = $strRootPath;
@@ -367,6 +360,7 @@ class FwkUtils
       if (!is_dir($strPath)) {
         if (!mkdir($strPath)) {
           echo 'Erreur à : ' . $strPath;
+
           return false;
         }
       }
@@ -383,18 +377,8 @@ class FwkUtils
    * @param String $genre
    * @return String
    */
-  public static function NumberToLetter($number, $genre = 'M')
-  {
-    $aLetter['M']    = array(1  => 'premier',
-                             2  => 'deuxième',
-                             3  => 'troisième',
-                             4  => 'quatrième',
-                             5  => 'cinquième',
-                             6  => 'sixième',
-                             7  => 'septième',
-                             8  => 'huitième',
-                             9  => 'neuivème',
-                             10 => 'dixième');
+  public static function NumberToLetter($number, $genre = 'M') {
+    $aLetter['M']    = array(1 => 'premier', 2 => 'deuxième', 3 => 'troisième', 4 => 'quatrième', 5 => 'cinquième', 6 => 'sixième', 7 => 'septième', 8 => 'huitième', 9 => 'neuivème', 10 => 'dixième');
     $aLetter['F']    = $aLetter['M'];
     $aLetter['F'][1] = 'première';
 
@@ -409,8 +393,7 @@ class FwkUtils
    * @param String $string
    * @return String
    */
-  public static function ParseStringToUrl($string)
-  {
+  public static function ParseStringToUrl($string) {
 
     $string = self::removeAccentsLonger($string);
     $string = preg_replace('/([^.A-Za-z0-9]+)/', '-', $string);
@@ -426,8 +409,7 @@ class FwkUtils
    * @param boolean $bUnsetExecutionTime - Annule le temps d'execution
    * @param int     $dureeHeure          - Si unset true : temps max à définir en heure
    */
-  public static function DebrideServeur($memory_limit, $bUnsetExecutionTime = true, $dureeHeure = 1)
-  {
+  public static function DebrideServeur($memory_limit, $bUnsetExecutionTime = true, $dureeHeure = 1) {
     if ($bUnsetExecutionTime) {
       $Met = 3600 * $dureeHeure;
       ini_set('max_execution_time', $Met);
@@ -445,9 +427,9 @@ class FwkUtils
    * @param String $string
    * @return String
    */
-  public static function Uncamelize($string)
-  {
+  public static function Uncamelize($string) {
     $string = preg_replace("/([A-Z])/", "_$1", $string);
+
     return sfInflector::humanize($string);
   }
 
@@ -458,12 +440,13 @@ class FwkUtils
    * @param string $string
    * @return string
    */
-  public static function Camelize($string)
-  {
+  public static function Camelize($string) {
     $string = self::removeAccent($string);
     $string = strtolower($string);
     $string = preg_replace('#[\s-]+#', '_', $string);
+
     return self::SfCamelize($string);
+
     return self::humanize($string);
   }
 
@@ -475,11 +458,9 @@ class FwkUtils
    *
    * @return string Camelized string.
    */
-  public static function SfCamelize($lower_case_and_underscored_word)
-  {
+  public static function SfCamelize($lower_case_and_underscored_word) {
     $tmp = $lower_case_and_underscored_word;
-    $tmp = self::pregtr($tmp, array('#/(.?)#e'    => "'::'.strtoupper('\\1')",
-                                    '/(^|_)(.)/e' => "strtoupper('\\2')"));
+    $tmp = self::pregtr($tmp, array('#/(.?)#e' => "'::'.strtoupper('\\1')", '/(^|_)(.)/e' => "strtoupper('\\2')"));
 
     return $tmp;
   }
@@ -492,22 +473,21 @@ class FwkUtils
    *
    * @return string Human-readable string.
    */
-  public static function humanize($lower_case_and_underscored_word)
-  {
+  public static function humanize($lower_case_and_underscored_word) {
     if (substr($lower_case_and_underscored_word, -3) === '_id')
       $lower_case_and_underscored_word = substr($lower_case_and_underscored_word, 0, -3);
+
     return ucfirst(str_replace('_', ' ', $lower_case_and_underscored_word));
   }
 
   /**
    * Returns subject replaced with regular expression matchs
    *
-   * @param mixed $search subject to search
+   * @param mixed $search       subject to search
    * @param array $replacePairs array of search => replace pairs
    * @return string
    */
-  public static function pregtr($search, $replacePairs)
-  {
+  public static function pregtr($search, $replacePairs) {
     return preg_replace(array_keys($replacePairs), array_values($replacePairs), $search);
   }
 
@@ -519,8 +499,7 @@ class FwkUtils
    * @param $bWithoutQuotes
    * @return string
    */
-  public static function tabToJson($tab, $bWithNumericalKeys = false, $bWithoutQuotes = false)
-  {
+  public static function tabToJson($tab, $bWithNumericalKeys = false, $bWithoutQuotes = false) {
     if ($bWithoutQuotes) {
 
       $str = '{';
@@ -540,6 +519,7 @@ class FwkUtils
 
       $str = trim($str, ',');
       $str .= '}';
+
       return $str;
     } else {
 
@@ -553,8 +533,7 @@ class FwkUtils
    * @param string $str
    * @return array
    */
-  public static function jsonToTab($str)
-  {
+  public static function jsonToTab($str) {
     $str = str_replace(array('[', ']'), array('{', '}'), trim($str));
 
     $start = strpos($str, '{');
@@ -632,8 +611,7 @@ class FwkUtils
    *           'v' => 5);
    * return array(1, 2, 3, 5);
    */
-  public static function flatten($array, $deep)
-  {
+  public static function flatten($array, $deep) {
 
     $deep--;
     $aTemp = array();
@@ -647,6 +625,7 @@ class FwkUtils
         $aTemp[] = $mixedItem;
       }
     }
+
     return $aTemp;
   }
 
@@ -656,11 +635,9 @@ class FwkUtils
    * @param string $v
    * @return bool
    */
-  public static function estVide($v)
-  {
+  public static function estVide($v) {
     if (is_null($v) || (is_string($v) && trim($v) == '') || (is_array($v) && !count($v)))
-      return true;
-    else
+      return true; else
       return false;
   }
 
@@ -672,8 +649,7 @@ class FwkUtils
    * @param boolean $createIfNotExists
    * @return string
    */
-  public static function getDir($directory, $subDirectory, $createIfNotExists = true)
-  {
+  public static function getDir($directory, $subDirectory, $createIfNotExists = true) {
 
     $completeDirectory = $directory . $subDirectory . DIRECTORY_SEPARATOR;
 
@@ -712,34 +688,31 @@ class FwkUtils
    *
    * @return string
    */
-  public static function getMemoryUsage()
-  {
+  public static function getMemoryUsage() {
 
     $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
 
     $size = memory_get_usage(true);
+
     return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
   }
 
   /**
    * Coupe du texte qui est trop long sans abimer la chaine
    */
-  public static function couperTexte($longueurMax, $texte)
-  {
+  public static function couperTexte($longueurMax, $texte) {
 
     $length = strlen(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)));
     $string = wordwrap(preg_replace("#[\n|\r|\n\r]+#", " ", strip_tags($texte)), $longueurMax);
     $string = substr($string, 0, strpos($string, "\n"));
 
-    $var    = " ...";
+    $var = " ...";
     if ($length > $longueurMax)
-      return $string . $var;
-    else
+      return $string . $var; else
       return $string;
   }
 
-  public static function checkFileName($path, $fileName, $ext)
-  {
+  public static function checkFileName($path, $fileName, $ext) {
 
     $completeFileName = $fileName;
     $i                = 0;
@@ -747,6 +720,7 @@ class FwkUtils
       $i++;
       $fileName = $completeFileName . '__' . $i;
     }
+
     return $fileName;
   }
 
@@ -756,8 +730,7 @@ class FwkUtils
    * @param string $texte
    * @return string
    */
-  public static function getPictureFromText($texte)
-  {
+  public static function getPictureFromText($texte) {
 
     $postHtml = str_get_html($texte);
 
@@ -770,8 +743,7 @@ class FwkUtils
     return null;
   }
 
-  public static function checkhttp($lien)
-  {
+  public static function checkhttp($lien) {
 
     if (!preg_match("#http://#", $lien)) {
       return "http://" . $lien;
@@ -789,12 +761,11 @@ class FwkUtils
    *
    * @api
    */
-  public static function getClientIp($proxy = false, $trustProxy = false)
-  {
-    if($trustProxy)
+  public static function getClientIp($proxy = false, $trustProxy = false) {
+    if ($trustProxy)
       self::trustProxyData();
     if ($proxy) {
-      if(isset($_SERVER['HTTP_CLIENT_IP'])) {
+      if (isset($_SERVER['HTTP_CLIENT_IP'])) {
         return $_SERVER['HTTP_CLIENT_IP'];
       } elseif (self::$trustProxy && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $clientIp = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
@@ -802,6 +773,7 @@ class FwkUtils
         return isset($clientIp[0]) ? trim($clientIp[0]) : '';
       }
     }
+
     return ($_SERVER['REMOTE_ADDR'] == '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR']);
   }
 
@@ -813,8 +785,7 @@ class FwkUtils
    *
    * @api
    */
-  static public function trustProxyData()
-  {
+  static public function trustProxyData() {
     self::$trustProxy = true;
   }
 
@@ -824,8 +795,7 @@ class FwkUtils
    * @param string $email
    * @return boolean
    */
-  public static function isValidEmail($email)
-  {
+  public static function isValidEmail($email) {
     return preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $email);
   }
 
@@ -835,8 +805,7 @@ class FwkUtils
    * @param int $tel
    * @return boolean
    */
-  public static function isValidTel($tel)
-  {
+  public static function isValidTel($tel) {
     return preg_match("#^0[0-9]{9,9}$#", $tel);
   }
 
@@ -846,8 +815,7 @@ class FwkUtils
    * @param string $name
    * @return boolean
    */
-  public static function isValidName($name)
-  {
+  public static function isValidName($name) {
     return preg_match("#^[-a-zA-Z0-9àâäçèéêëìíîïòóôùúûü ]{2,}$#", $name);
   }
 
@@ -855,12 +823,11 @@ class FwkUtils
    * Teste la validité d'une string
    *
    * @param string $str
-   * @param string    $min
-   * @param string    $max
+   * @param string $min
+   * @param string $max
    * @return boolean
    */
-  public static function isValidString($str, $min = '1', $max = '')
-  {
+  public static function isValidString($str, $min = '1', $max = '') {
     return preg_match('#^[-a-zA-Z0-9àâäçèéêëìíîïòóôùúûü_ \'\.!?:" ]{' . $min . ',' . $max . '}$#', $str);
   }
 
@@ -870,8 +837,7 @@ class FwkUtils
    * @param string $password
    * @return boolean
    */
-  public static function isValidPassword($password)
-  {
+  public static function isValidPassword($password) {
     return preg_match("#^[a-zA-Z0-9àâäçèéêëìíîïòóôùúûü&@-]{5,15}$#", $password);
   }
 

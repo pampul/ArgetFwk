@@ -35,183 +35,168 @@ use Doctrine\ORM\Tools\Export\ExportException;
  * @version $Revision$
  * @author  Jonathan Wage <jonwage@gmail.com>
  */
-abstract class AbstractExporter
-{
-    protected $_metadata = array();
-    protected $_outputDir;
-    protected $_extension;
-    protected $_overwriteExistingFiles = false;
+abstract class AbstractExporter {
+  protected $_metadata = array();
+  protected $_outputDir;
+  protected $_extension;
+  protected $_overwriteExistingFiles = false;
 
-    public function __construct($dir = null)
-    {
-        $this->_outputDir = $dir;
+  public function __construct($dir = null) {
+    $this->_outputDir = $dir;
+  }
+
+  public function setOverwriteExistingFiles($overwrite) {
+    $this->_overwriteExistingFiles = $overwrite;
+  }
+
+  /**
+   * Converts a single ClassMetadata instance to the exported format
+   * and returns it
+   *
+   * @param ClassMetadataInfo $metadata
+   * @return mixed $exported
+   */
+  abstract public function exportClassMetadata(ClassMetadataInfo $metadata);
+
+  /**
+   * Set the array of ClassMetadataInfo instances to export
+   *
+   * @param array $metadata
+   * @return void
+   */
+  public function setMetadata(array $metadata) {
+    $this->_metadata = $metadata;
+  }
+
+  /**
+   * Get the extension used to generated the path to a class
+   *
+   * @return string $extension
+   */
+  public function getExtension() {
+    return $this->_extension;
+  }
+
+  /**
+   * Set the directory to output the mapping files to
+   *
+   *     [php]
+   *     $exporter = new YamlExporter($metadata);
+   *     $exporter->setOutputDir(__DIR__ . '/yaml');
+   *     $exporter->export();
+   *
+   * @param string $dir
+   * @return void
+   */
+  public function setOutputDir($dir) {
+    $this->_outputDir = $dir;
+  }
+
+  /**
+   * Export each ClassMetadata instance to a single Doctrine Mapping file
+   * named after the entity
+   *
+   * @return void
+   */
+  public function export() {
+    if (!is_dir($this->_outputDir)) {
+      mkdir($this->_outputDir, 0777, true);
     }
 
-    public function setOverwriteExistingFiles($overwrite)
-    {
-        $this->_overwriteExistingFiles = $overwrite;
-    }
-
-    /**
-     * Converts a single ClassMetadata instance to the exported format
-     * and returns it
-     *
-     * @param ClassMetadataInfo $metadata
-     * @return mixed $exported
-     */
-    abstract public function exportClassMetadata(ClassMetadataInfo $metadata);
-
-    /**
-     * Set the array of ClassMetadataInfo instances to export
-     *
-     * @param array $metadata
-     * @return void
-     */
-    public function setMetadata(array $metadata)
-    {
-        $this->_metadata = $metadata;
-    }
-
-    /**
-     * Get the extension used to generated the path to a class
-     *
-     * @return string $extension
-     */
-    public function getExtension()
-    {
-        return $this->_extension;
-    }
-
-    /**
-     * Set the directory to output the mapping files to
-     *
-     *     [php]
-     *     $exporter = new YamlExporter($metadata);
-     *     $exporter->setOutputDir(__DIR__ . '/yaml');
-     *     $exporter->export();
-     *
-     * @param string $dir
-     * @return void
-     */
-    public function setOutputDir($dir)
-    {
-        $this->_outputDir = $dir;
-    }
-
-    /**
-     * Export each ClassMetadata instance to a single Doctrine Mapping file
-     * named after the entity
-     *
-     * @return void
-     */
-    public function export()
-    {
-        if ( ! is_dir($this->_outputDir)) {
-            mkdir($this->_outputDir, 0777, true);
+    foreach ($this->_metadata as $metadata) {
+      //In case output is returned, write it to a file, skip otherwise
+      if ($output = $this->exportClassMetadata($metadata)) {
+        $path = $this->_generateOutputPath($metadata);
+        $dir  = dirname($path);
+        if (!is_dir($dir)) {
+          mkdir($dir, 0777, true);
         }
-
-        foreach ($this->_metadata as $metadata) {
-            //In case output is returned, write it to a file, skip otherwise
-            if($output = $this->exportClassMetadata($metadata)){
-                $path = $this->_generateOutputPath($metadata);
-                $dir = dirname($path);
-                if ( ! is_dir($dir)) {
-                    mkdir($dir, 0777, true);
-                }
-                if (file_exists($path) && !$this->_overwriteExistingFiles) {
-                    throw ExportException::attemptOverwriteExistingFile($path);
-                }
-                file_put_contents($path, $output);
-            }
+        if (file_exists($path) && !$this->_overwriteExistingFiles) {
+          throw ExportException::attemptOverwriteExistingFile($path);
         }
+        file_put_contents($path, $output);
+      }
     }
+  }
 
-    /**
-     * Generate the path to write the class for the given ClassMetadataInfo instance
-     *
-     * @param ClassMetadataInfo $metadata
-     * @return string $path
-     */
-    protected function _generateOutputPath(ClassMetadataInfo $metadata)
-    {
-        return $this->_outputDir . '/' . str_replace('\\', '.', $metadata->name) . $this->_extension;
+  /**
+   * Generate the path to write the class for the given ClassMetadataInfo instance
+   *
+   * @param ClassMetadataInfo $metadata
+   * @return string $path
+   */
+  protected function _generateOutputPath(ClassMetadataInfo $metadata) {
+    return $this->_outputDir . '/' . str_replace('\\', '.', $metadata->name) . $this->_extension;
+  }
+
+  /**
+   * Set the directory to output the mapping files to
+   *
+   *     [php]
+   *     $exporter = new YamlExporter($metadata, __DIR__ . '/yaml');
+   *     $exporter->setExtension('.yml');
+   *     $exporter->export();
+   *
+   * @param string $extension
+   * @return void
+   */
+  public function setExtension($extension) {
+    $this->_extension = $extension;
+  }
+
+  protected function _getInheritanceTypeString($type) {
+    switch ($type) {
+      case ClassMetadataInfo::INHERITANCE_TYPE_NONE:
+        return 'NONE';
+        break;
+
+      case ClassMetadataInfo::INHERITANCE_TYPE_JOINED:
+        return 'JOINED';
+        break;
+
+      case ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE:
+        return 'SINGLE_TABLE';
+        break;
+
+      case ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS:
+        return 'PER_CLASS';
+        break;
     }
+  }
 
-    /**
-     * Set the directory to output the mapping files to
-     *
-     *     [php]
-     *     $exporter = new YamlExporter($metadata, __DIR__ . '/yaml');
-     *     $exporter->setExtension('.yml');
-     *     $exporter->export();
-     *
-     * @param string $extension
-     * @return void
-     */
-    public function setExtension($extension)
-    {
-        $this->_extension = $extension;
+  protected function _getChangeTrackingPolicyString($policy) {
+    switch ($policy) {
+      case ClassMetadataInfo::CHANGETRACKING_DEFERRED_IMPLICIT:
+        return 'DEFERRED_IMPLICIT';
+        break;
+
+      case ClassMetadataInfo::CHANGETRACKING_DEFERRED_EXPLICIT:
+        return 'DEFERRED_EXPLICIT';
+        break;
+
+      case ClassMetadataInfo::CHANGETRACKING_NOTIFY:
+        return 'NOTIFY';
+        break;
     }
+  }
 
-    protected function _getInheritanceTypeString($type)
-    {
-        switch ($type)
-        {
-            case ClassMetadataInfo::INHERITANCE_TYPE_NONE:
-                return 'NONE';
-            break;
+  protected function _getIdGeneratorTypeString($type) {
+    switch ($type) {
+      case ClassMetadataInfo::GENERATOR_TYPE_AUTO:
+        return 'AUTO';
+        break;
 
-            case ClassMetadataInfo::INHERITANCE_TYPE_JOINED:
-                return 'JOINED';
-            break;
+      case ClassMetadataInfo::GENERATOR_TYPE_SEQUENCE:
+        return 'SEQUENCE';
+        break;
 
-            case ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE:
-                return 'SINGLE_TABLE';
-            break;
+      case ClassMetadataInfo::GENERATOR_TYPE_TABLE:
+        return 'TABLE';
+        break;
 
-            case ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS:
-                return 'PER_CLASS';
-            break;
-        }
+      case ClassMetadataInfo::GENERATOR_TYPE_IDENTITY:
+        return 'IDENTITY';
+        break;
     }
-
-    protected function _getChangeTrackingPolicyString($policy)
-    {
-        switch ($policy)
-        {
-            case ClassMetadataInfo::CHANGETRACKING_DEFERRED_IMPLICIT:
-                return 'DEFERRED_IMPLICIT';
-            break;
-
-            case ClassMetadataInfo::CHANGETRACKING_DEFERRED_EXPLICIT:
-                return 'DEFERRED_EXPLICIT';
-            break;
-
-            case ClassMetadataInfo::CHANGETRACKING_NOTIFY:
-                return 'NOTIFY';
-            break;
-        }
-    }
-
-    protected function _getIdGeneratorTypeString($type)
-    {
-        switch ($type)
-        {
-            case ClassMetadataInfo::GENERATOR_TYPE_AUTO:
-                return 'AUTO';
-            break;
-
-            case ClassMetadataInfo::GENERATOR_TYPE_SEQUENCE:
-                return 'SEQUENCE';
-            break;
-
-            case ClassMetadataInfo::GENERATOR_TYPE_TABLE:
-                return 'TABLE';
-            break;
-
-            case ClassMetadataInfo::GENERATOR_TYPE_IDENTITY:
-                return 'IDENTITY';
-            break;
-        }
-    }
+  }
 }

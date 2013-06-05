@@ -26,15 +26,12 @@ use Doctrine\ORM\ORMException;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class ToolsException extends ORMException
-{
-    public static function schemaToolFailure($sql, \Exception $e)
-    {
-        return new self("Schema-Tool failed with Error '" . $e->getMessage() . "' while executing DDL: " . $sql, "0", $e);
-    }
+class ToolsException extends ORMException {
+  public static function schemaToolFailure($sql, \Exception $e) {
+    return new self("Schema-Tool failed with Error '" . $e->getMessage() . "' while executing DDL: " . $sql, "0", $e);
+  }
 
-    public static function couldNotMapDoctrine1Type($type)
-    {
-        return new self("Could not map doctrine 1 type '$type'!");
-    }
+  public static function couldNotMapDoctrine1Type($type) {
+    return new self("Could not map doctrine 1 type '$type'!");
+  }
 }

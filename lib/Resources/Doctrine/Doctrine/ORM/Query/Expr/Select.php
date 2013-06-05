@@ -32,11 +32,8 @@ namespace Doctrine\ORM\Query\Expr;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Select extends Base
-{
-    protected $_preSeparator = '';
-    protected $_postSeparator = '';
-    protected $_allowedClasses = array(
-        'Doctrine\ORM\Query\Expr\Func'
-    );
+class Select extends Base {
+  protected $_preSeparator = '';
+  protected $_postSeparator = '';
+  protected $_allowedClasses = array('Doctrine\ORM\Query\Expr\Func');
 }

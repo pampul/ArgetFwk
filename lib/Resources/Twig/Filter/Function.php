@@ -15,19 +15,16 @@
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
  */
-class Twig_Filter_Function extends Twig_Filter
-{
-    protected $function;
+class Twig_Filter_Function extends Twig_Filter {
+  protected $function;
 
-    public function __construct($function, array $options = array())
-    {
-        parent::__construct($options);
+  public function __construct($function, array $options = array()) {
+    parent::__construct($options);
 
-        $this->function = $function;
-    }
+    $this->function = $function;
+  }
 
-    public function compile()
-    {
-        return $this->function;
-    }
+  public function compile() {
+    return $this->function;
+  }
 }

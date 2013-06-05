@@ -22,8 +22,7 @@
 
 namespace Doctrine\ORM\Tools\Export;
 
-use Doctrine\ORM\Tools\Export\ExportException,
-    Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Export\ExportException, Doctrine\ORM\EntityManager;
 
 /**
  * Class used for converting your mapping information between the
@@ -35,42 +34,33 @@ use Doctrine\ORM\Tools\Export\ExportException,
  * @version $Revision$
  * @author  Jonathan Wage <jonwage@gmail.com>
  */
-class ClassMetadataExporter
-{
-    private static $_exporterDrivers = array(
-        'xml' => 'Doctrine\ORM\Tools\Export\Driver\XmlExporter',
-        'yaml' => 'Doctrine\ORM\Tools\Export\Driver\YamlExporter',
-        'yml' => 'Doctrine\ORM\Tools\Export\Driver\YamlExporter',
-        'php' => 'Doctrine\ORM\Tools\Export\Driver\PhpExporter',
-        'annotation' => 'Doctrine\ORM\Tools\Export\Driver\AnnotationExporter'
-    );
+class ClassMetadataExporter {
+  private static $_exporterDrivers = array('xml' => 'Doctrine\ORM\Tools\Export\Driver\XmlExporter', 'yaml' => 'Doctrine\ORM\Tools\Export\Driver\YamlExporter', 'yml' => 'Doctrine\ORM\Tools\Export\Driver\YamlExporter', 'php' => 'Doctrine\ORM\Tools\Export\Driver\PhpExporter', 'annotation' => 'Doctrine\ORM\Tools\Export\Driver\AnnotationExporter');
 
-    /**
-     * Register a new exporter driver class under a specified name
-     *
-     * @param string $name
-     * @param string $class
-     */
-    public static function registerExportDriver($name, $class)
-    {
-        self::$_exporterDrivers[$name] = $class;
+  /**
+   * Register a new exporter driver class under a specified name
+   *
+   * @param string $name
+   * @param string $class
+   */
+  public static function registerExportDriver($name, $class) {
+    self::$_exporterDrivers[$name] = $class;
+  }
+
+  /**
+   * Get a exporter driver instance
+   *
+   * @param string $type      The type to get (yml, xml, etc.)
+   * @param string $source    The directory where the exporter will export to
+   * @return AbstractExporter $exporter
+   */
+  public function getExporter($type, $dest = null) {
+    if (!isset(self::$_exporterDrivers[$type])) {
+      throw ExportException::invalidExporterDriverType($type);
     }
 
-    /**
-     * Get a exporter driver instance
-     *
-     * @param string $type   The type to get (yml, xml, etc.)
-     * @param string $source    The directory where the exporter will export to
-     * @return AbstractExporter $exporter
-     */
-    public function getExporter($type, $dest = null)
-    {
-        if ( ! isset(self::$_exporterDrivers[$type])) {
-            throw ExportException::invalidExporterDriverType($type);
-        }
+    $class = self::$_exporterDrivers[$type];
 
-        $class = self::$_exporterDrivers[$type];
-
-        return new $class($dest);
-    }
+    return new $class($dest);
+  }
 }

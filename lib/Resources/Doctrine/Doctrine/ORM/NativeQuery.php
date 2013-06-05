@@ -23,54 +23,48 @@ namespace Doctrine\ORM;
  * Represents a native SQL query.
  *
  * @author Roman Borschel <roman@code-factory.org>
- * @since 2.0
+ * @since  2.0
  */
-final class NativeQuery extends AbstractQuery
-{
-    private $_sql;
+final class NativeQuery extends AbstractQuery {
+  private $_sql;
 
-    /**
-     * Sets the SQL of the query.
-     *
-     * @param string $sql
-     * @return NativeQuery This query instance.
-     */
-    public function setSQL($sql)
-    {
-        $this->_sql = $sql;
+  /**
+   * Sets the SQL of the query.
+   *
+   * @param string $sql
+   * @return NativeQuery This query instance.
+   */
+  public function setSQL($sql) {
+    $this->_sql = $sql;
 
-        return $this;
+    return $this;
+  }
+
+  /**
+   * Gets the SQL query.
+   *
+   * @return mixed The built SQL query or an array of all SQL queries.
+   * @override
+   */
+  public function getSQL() {
+    return $this->_sql;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function _doExecute() {
+    $params = $this->_params;
+    $types  = $this->_paramTypes;
+
+    if ($params && is_int(key($params))) {
+      ksort($params);
+      ksort($types);
+
+      $params = array_values($params);
+      $types  = array_values($types);
     }
 
-    /**
-     * Gets the SQL query.
-     *
-     * @return mixed The built SQL query or an array of all SQL queries.
-     * @override
-     */
-    public function getSQL()
-    {
-        return $this->_sql;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _doExecute()
-    {
-        $params = $this->_params;
-        $types  = $this->_paramTypes;
-
-        if ($params && is_int(key($params))) {
-            ksort($params);
-            ksort($types);
-
-            $params = array_values($params);
-            $types  = array_values($types);
-        }
-
-        return $this->_em->getConnection()->executeQuery(
-            $this->_sql, $params, $types, $this->_queryCacheProfile
-        );
-    }
+    return $this->_em->getConnection()->executeQuery($this->_sql, $params, $types, $this->_queryCacheProfile);
+  }
 }

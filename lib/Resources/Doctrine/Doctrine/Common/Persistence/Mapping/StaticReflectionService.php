@@ -27,81 +27,76 @@ use ReflectionProperty;
  *
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  */
-class StaticReflectionService implements ReflectionService
-{
-    /**
-     * Return an array of the parent classes (not interfaces) for the given class.
-     *
-     * @param string $class
-     * @return array
-     */
-    public function getParentClasses($class)
-    {
-        return array();
+class StaticReflectionService implements ReflectionService {
+  /**
+   * Return an array of the parent classes (not interfaces) for the given class.
+   *
+   * @param string $class
+   * @return array
+   */
+  public function getParentClasses($class) {
+    return array();
+  }
+
+  /**
+   * Return the shortname of a class.
+   *
+   * @param string $className
+   * @return string
+   */
+  public function getClassShortName($className) {
+    if (strpos($className, '\\') !== false) {
+      $className = substr($className, strrpos($className, "\\") + 1);
     }
 
-    /**
-     * Return the shortname of a class.
-     *
-     * @param string $className
-     * @return string
-     */
-    public function getClassShortName($className)
-    {
-        if (strpos($className, '\\') !== false) {
-            $className = substr($className, strrpos($className, "\\")+1);
-        }
-        return $className;
+    return $className;
+  }
+
+  /**
+   * Return the namespace of a class.
+   *
+   * @param string $className
+   * @return string
+   */
+  public function getClassNamespace($className) {
+    $namespace = '';
+    if (strpos($className, '\\') !== false) {
+      $namespace = strrev(substr(strrev($className), strpos(strrev($className), '\\') + 1));
     }
 
-    /**
-     * Return the namespace of a class.
-     *
-     * @param string $className
-     * @return string
-     */
-    public function getClassNamespace($className)
-    {
-        $namespace = '';
-        if (strpos($className, '\\') !== false) {
-            $namespace = strrev(substr( strrev($className), strpos(strrev($className), '\\')+1 ));
-        }
-        return $namespace;
-    }
+    return $namespace;
+  }
 
-    /**
-     * Return a reflection class instance or null
-     *
-     * @param string $class
-     * @return ReflectionClass|null
-     */
-    public function getClass($class)
-    {
-        return null;
-    }
+  /**
+   * Return a reflection class instance or null
+   *
+   * @param string $class
+   * @return ReflectionClass|null
+   */
+  public function getClass($class) {
+    return null;
+  }
 
-    /**
-     * Return an accessible property (setAccessible(true)) or null.
-     *
-     * @param string $class
-     * @param string $property
-     * @return ReflectionProperty|null
-     */
-    public function getAccessibleProperty($class, $property)
-    {
-        return null;
-    }
+  /**
+   * Return an accessible property (setAccessible(true)) or null.
+   *
+   * @param string $class
+   * @param string $property
+   * @return ReflectionProperty|null
+   */
+  public function getAccessibleProperty($class, $property) {
+    return null;
+  }
 
-    /**
-     * Check if the class have a public method with the given name.
-     *
-     * @param mixed $class
-     * @param mixed $method
-     * @return bool
-     */
-    public function hasPublicMethod($class, $method)
-    {
-        return method_exists($class, $method) && is_callable(array($class, $method));
-    }
+  /**
+   * Check if the class have a public method with the given name.
+   *
+   * @param mixed $class
+   * @param mixed $method
+   * @return bool
+   */
+  public function hasPublicMethod($class, $method) {
+    return method_exists($class, $method) && is_callable(array($class, $method));
+  }
 }
 

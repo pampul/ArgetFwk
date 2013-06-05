@@ -24,12 +24,16 @@ namespace Doctrine\Common\Annotations;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface Reader
-{
-    function getClassAnnotations(\ReflectionClass $class);
-    function getClassAnnotation(\ReflectionClass $class, $annotationName);
-    function getMethodAnnotations(\ReflectionMethod $method);
-    function getMethodAnnotation(\ReflectionMethod $method, $annotationName);
-    function getPropertyAnnotations(\ReflectionProperty $property);
-    function getPropertyAnnotation(\ReflectionProperty $property, $annotationName);
+interface Reader {
+  function getClassAnnotations(\ReflectionClass $class);
+
+  function getClassAnnotation(\ReflectionClass $class, $annotationName);
+
+  function getMethodAnnotations(\ReflectionMethod $method);
+
+  function getMethodAnnotation(\ReflectionMethod $method, $annotationName);
+
+  function getPropertyAnnotations(\ReflectionProperty $property);
+
+  function getPropertyAnnotation(\ReflectionProperty $property, $annotationName);
 }

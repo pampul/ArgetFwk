@@ -32,27 +32,19 @@ use Doctrine\ORM\Query\QueryException;
  * @since   2.0
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
-class DateSubFunction extends DateAddFunction
-{
-    public $firstDateExpression = null;
-    public $intervalExpression = null;
-    public $unit = null;
+class DateSubFunction extends DateAddFunction {
+  public $firstDateExpression = null;
+  public $intervalExpression = null;
+  public $unit = null;
 
-    public function getSql(SqlWalker $sqlWalker)
-    {
-        $unit = strtolower($this->unit);
-        if ($unit == "day") {
-            return $sqlWalker->getConnection()->getDatabasePlatform()->getDateSubDaysExpression(
-                $this->firstDateExpression->dispatch($sqlWalker),
-                $this->intervalExpression->dispatch($sqlWalker)
-            );
-        } else if ($unit == "month") {
-            return $sqlWalker->getConnection()->getDatabasePlatform()->getDateSubMonthExpression(
-                $this->firstDateExpression->dispatch($sqlWalker),
-                $this->intervalExpression->dispatch($sqlWalker)
-            );
-        } else {
-            throw QueryException::semanticalError('DATE_SUB() only supports units of type day and month.');
-        }
+  public function getSql(SqlWalker $sqlWalker) {
+    $unit = strtolower($this->unit);
+    if ($unit == "day") {
+      return $sqlWalker->getConnection()->getDatabasePlatform()->getDateSubDaysExpression($this->firstDateExpression->dispatch($sqlWalker), $this->intervalExpression->dispatch($sqlWalker));
+    } else if ($unit == "month") {
+      return $sqlWalker->getConnection()->getDatabasePlatform()->getDateSubMonthExpression($this->firstDateExpression->dispatch($sqlWalker), $this->intervalExpression->dispatch($sqlWalker));
+    } else {
+      throw QueryException::semanticalError('DATE_SUB() only supports units of type day and month.');
     }
+  }
 }

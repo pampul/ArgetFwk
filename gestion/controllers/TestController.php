@@ -9,7 +9,7 @@ class TestController extends ControllerManager {
 
   protected function testPageController() {
 
-    if(isset($_POST['test'])){
+    if (isset($_POST['test'])) {
 
       $objFwkUploader = new FwkUpload(PATH_TO_BACKOFFICE_FILES . 'web/uploads/tests/');
       $objFwkUploader->setFileType('fichier');

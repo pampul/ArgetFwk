@@ -34,20 +34,26 @@
           <form action="{{ constant('SITE_CURRENT_URI') }}" method="POST">
 
             <input type="hidden" name="restoreContent" value="1">
-            <button type="button" class="btn btn-danger btn-small" id="validForm"><i class="icon-warning-sign"></i> Restaurer cette révision</button>
+            <button type="button" class="btn btn-danger btn-small" id="validForm"><i class="icon-warning-sign"></i>
+              Restaurer cette révision
+            </button>
 
           </form>
 
         </div>
 
-        <a class="hand" id="goBack" href="dashbord/blog-post-gestion/{{ objBlogPostRevision.blogPost.id }}"><i class="icon-arrow-left"></i> Page précédente</a>
+        <a class="hand" id="goBack" href="dashbord/blog-post-gestion/{{ objBlogPostRevision.blogPost.id }}"><i
+              class="icon-arrow-left"></i> Page précédente</a>
 
         <br/><br/>
 
-        <h4 class="fwk-title">Révision de "{{ objBlogPostRevision.blogPost.titre }}"<span style="color: black; font-size: 15px;"></span></h4>
+        <h4 class="fwk-title">Révision de "{{ objBlogPostRevision.blogPost.titre }}"<span
+              style="color: black; font-size: 15px;"></span></h4>
 
-        <strong style="width: 100px; display: inline-block;">Date : </strong>{{ objBlogPostRevision.dateAddLitteral }}<br/>
-        <strong style="width: 100px; display: inline-block;">Admin: </strong>{{ objBlogPostRevision.admin.prenom }} {{ objBlogPostRevision.admin.nom }}
+        <strong style="width: 100px; display: inline-block;">Date : </strong>{{ objBlogPostRevision.dateAddLitteral }}
+        <br/>
+        <strong
+            style="width: 100px; display: inline-block;">Admin: </strong>{{ objBlogPostRevision.admin.prenom }} {{ objBlogPostRevision.admin.nom }}
         <hr/>
 
         <h4>Contenu de la révision :</h4>
@@ -67,11 +73,11 @@
 {% block jsinclude %}
   <script>
 
-    $(function(){
+    $(function () {
 
-      $('#validForm').click(function(){
-        bootbox.confirm("Voulez-vous vraiment restaurer cette révision ?", function(result) {
-          if(result)
+      $('#validForm').click(function () {
+        bootbox.confirm("Voulez-vous vraiment restaurer cette révision ?", function (result) {
+          if (result)
             $('form').submit();
         });
       })

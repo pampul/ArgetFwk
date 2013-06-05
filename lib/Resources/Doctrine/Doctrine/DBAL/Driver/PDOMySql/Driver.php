@@ -26,77 +26,67 @@ use Doctrine\DBAL\Connection;
  *
  * @since 2.0
  */
-class Driver implements \Doctrine\DBAL\Driver
-{
-    /**
-     * Attempts to establish a connection with the underlying driver.
-     *
-     * @param array $params
-     * @param string $username
-     * @param string $password
-     * @param array $driverOptions
-     * @return Doctrine\DBAL\Driver\Connection
-     */
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
-    {
-        $conn = new \Doctrine\DBAL\Driver\PDOConnection(
-            $this->_constructPdoDsn($params),
-            $username,
-            $password,
-            $driverOptions
-        );
-        return $conn;
+class Driver implements \Doctrine\DBAL\Driver {
+  /**
+   * Attempts to establish a connection with the underlying driver.
+   *
+   * @param array  $params
+   * @param string $username
+   * @param string $password
+   * @param array  $driverOptions
+   * @return Doctrine\DBAL\Driver\Connection
+   */
+  public function connect(array $params, $username = null, $password = null, array $driverOptions = array()) {
+    $conn = new \Doctrine\DBAL\Driver\PDOConnection($this->_constructPdoDsn($params), $username, $password, $driverOptions);
+
+    return $conn;
+  }
+
+  /**
+   * Constructs the MySql PDO DSN.
+   *
+   * @return string  The DSN.
+   */
+  private function _constructPdoDsn(array $params) {
+    $dsn = 'mysql:';
+    if (isset($params['host']) && $params['host'] != '') {
+      $dsn .= 'host=' . $params['host'] . ';';
+    }
+    if (isset($params['port'])) {
+      $dsn .= 'port=' . $params['port'] . ';';
+    }
+    if (isset($params['dbname'])) {
+      $dsn .= 'dbname=' . $params['dbname'] . ';';
+    }
+    if (isset($params['unix_socket'])) {
+      $dsn .= 'unix_socket=' . $params['unix_socket'] . ';';
+    }
+    if (isset($params['charset'])) {
+      $dsn .= 'charset=' . $params['charset'] . ';';
     }
 
-    /**
-     * Constructs the MySql PDO DSN.
-     *
-     * @return string  The DSN.
-     */
-    private function _constructPdoDsn(array $params)
-    {
-        $dsn = 'mysql:';
-        if (isset($params['host']) && $params['host'] != '') {
-            $dsn .= 'host=' . $params['host'] . ';';
-        }
-        if (isset($params['port'])) {
-            $dsn .= 'port=' . $params['port'] . ';';
-        }
-        if (isset($params['dbname'])) {
-            $dsn .= 'dbname=' . $params['dbname'] . ';';
-        }
-        if (isset($params['unix_socket'])) {
-            $dsn .= 'unix_socket=' . $params['unix_socket'] . ';';
-        }
-        if (isset($params['charset'])) {
-            $dsn .= 'charset=' . $params['charset'] . ';';
-        }
+    return $dsn;
+  }
 
-        return $dsn;
+  public function getDatabasePlatform() {
+    return new \Doctrine\DBAL\Platforms\MySqlPlatform();
+  }
+
+  public function getSchemaManager(\Doctrine\DBAL\Connection $conn) {
+    return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn);
+  }
+
+  public function getName() {
+    return 'pdo_mysql';
+  }
+
+  public function getDatabase(\Doctrine\DBAL\Connection $conn) {
+    $params = $conn->getParams();
+
+    if (isset($params['dbname'])) {
+      return $params['dbname'];
     }
 
-    public function getDatabasePlatform()
-    {
-        return new \Doctrine\DBAL\Platforms\MySqlPlatform();
-    }
-
-    public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
-    {
-        return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn);
-    }
-
-    public function getName()
-    {
-        return 'pdo_mysql';
-    }
-
-    public function getDatabase(\Doctrine\DBAL\Connection $conn)
-    {
-        $params = $conn->getParams();
-
-        if (isset($params['dbname'])) {
-            return $params['dbname'];
-        }
-        return $conn->query('SELECT DATABASE()')->fetchColumn();
-    }
+    return $conn->query('SELECT DATABASE()')->fetchColumn();
+  }
 }

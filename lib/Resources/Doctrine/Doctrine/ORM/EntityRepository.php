@@ -35,231 +35,212 @@ use Doctrine\Common\Persistence\ObjectRepository;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class EntityRepository implements ObjectRepository
-{
-    /**
-     * @var string
-     */
-    protected $_entityName;
+class EntityRepository implements ObjectRepository {
+  /**
+   * @var string
+   */
+  protected $_entityName;
 
-    /**
-     * @var EntityManager
-     */
-    protected $_em;
+  /**
+   * @var EntityManager
+   */
+  protected $_em;
 
-    /**
-     * @var \Doctrine\ORM\Mapping\ClassMetadata
-     */
-    protected $_class;
+  /**
+   * @var \Doctrine\ORM\Mapping\ClassMetadata
+   */
+  protected $_class;
 
-    /**
-     * Initializes a new <tt>EntityRepository</tt>.
-     *
-     * @param EntityManager $em The EntityManager to use.
-     * @param ClassMetadata $classMetadata The class descriptor.
-     */
-    public function __construct($em, Mapping\ClassMetadata $class)
-    {
-        $this->_entityName = $class->name;
-        $this->_em = $em;
-        $this->_class = $class;
+  /**
+   * Initializes a new <tt>EntityRepository</tt>.
+   *
+   * @param EntityManager $em            The EntityManager to use.
+   * @param ClassMetadata $classMetadata The class descriptor.
+   */
+  public function __construct($em, Mapping\ClassMetadata $class) {
+    $this->_entityName = $class->name;
+    $this->_em         = $em;
+    $this->_class      = $class;
+  }
+
+  /**
+   * Create a new QueryBuilder instance that is prepopulated for this entity name
+   *
+   * @param string $alias
+   * @return QueryBuilder $qb
+   */
+  public function createQueryBuilder($alias) {
+    return $this->_em->createQueryBuilder()->select($alias)->from($this->_entityName, $alias);
+  }
+
+  /**
+   * Create a new Query instance based on a predefined metadata named query.
+   *
+   * @param string $queryName
+   * @return Query
+   */
+  public function createNamedQuery($queryName) {
+    return $this->_em->createQuery($this->_class->getNamedQuery($queryName));
+  }
+
+  /**
+   * Clears the repository, causing all managed entities to become detached.
+   */
+  public function clear() {
+    $this->_em->clear($this->_class->rootEntityName);
+  }
+
+  /**
+   * Finds an entity by its primary key / identifier.
+   *
+   * @param     $id The identifier.
+   * @param int $lockMode
+   * @param int $lockVersion
+   * @return object The entity.
+   */
+  public function find($id, $lockMode = LockMode::NONE, $lockVersion = null) {
+    if (!is_array($id)) {
+      $id = array($this->_class->identifier[0] => $id);
+    }
+    $sortedId = array();
+    foreach ($this->_class->identifier as $identifier) {
+      if (!isset($id[$identifier])) {
+        throw ORMException::missingIdentifierField($this->_class->name, $identifier);
+      }
+      $sortedId[$identifier] = $id[$identifier];
     }
 
-    /**
-     * Create a new QueryBuilder instance that is prepopulated for this entity name
-     *
-     * @param string $alias
-     * @return QueryBuilder $qb
-     */
-    public function createQueryBuilder($alias)
-    {
-        return $this->_em->createQueryBuilder()
-            ->select($alias)
-            ->from($this->_entityName, $alias);
+    // Check identity map first
+    if ($entity = $this->_em->getUnitOfWork()->tryGetById($sortedId, $this->_class->rootEntityName)) {
+      if (!($entity instanceof $this->_class->name)) {
+        return null;
+      }
+
+      if ($lockMode !== LockMode::NONE) {
+        $this->_em->lock($entity, $lockMode, $lockVersion);
+      }
+
+      return $entity; // Hit!
     }
 
-    /**
-     * Create a new Query instance based on a predefined metadata named query.
-     *
-     * @param string $queryName
-     * @return Query
-     */
-    public function createNamedQuery($queryName)
-    {
-        return $this->_em->createQuery($this->_class->getNamedQuery($queryName));
-    }
+    switch ($lockMode) {
+      case LockMode::NONE:
+        return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId);
 
-    /**
-     * Clears the repository, causing all managed entities to become detached.
-     */
-    public function clear()
-    {
-        $this->_em->clear($this->_class->rootEntityName);
-    }
-
-    /**
-     * Finds an entity by its primary key / identifier.
-     *
-     * @param $id The identifier.
-     * @param int $lockMode
-     * @param int $lockVersion
-     * @return object The entity.
-     */
-    public function find($id, $lockMode = LockMode::NONE, $lockVersion = null)
-    {
-        if ( ! is_array($id)) {
-            $id = array($this->_class->identifier[0] => $id);
-        }
-        $sortedId = array();
-        foreach ($this->_class->identifier as $identifier) {
-            if (!isset($id[$identifier])) {
-                throw ORMException::missingIdentifierField($this->_class->name, $identifier);
-            }
-            $sortedId[$identifier] = $id[$identifier];
-        }
-
-        // Check identity map first
-        if ($entity = $this->_em->getUnitOfWork()->tryGetById($sortedId, $this->_class->rootEntityName)) {
-            if ( ! ($entity instanceof $this->_class->name)) {
-                return null;
-            }
-
-            if ($lockMode !== LockMode::NONE) {
-                $this->_em->lock($entity, $lockMode, $lockVersion);
-            }
-
-            return $entity; // Hit!
-        }
-
-        switch ($lockMode) {
-            case LockMode::NONE:
-                return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId);
-
-            case LockMode::OPTIMISTIC:
-                if ( ! $this->_class->isVersioned) {
-                    throw OptimisticLockException::notVersioned($this->_entityName);
-                }
-
-                $entity = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId);
-
-                $this->_em->getUnitOfWork()->lock($entity, $lockMode, $lockVersion);
-
-                return $entity;
-
-            default:
-                if ( ! $this->_em->getConnection()->isTransactionActive()) {
-                    throw TransactionRequiredException::transactionRequired();
-                }
-
-                return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId, null, null, array(), $lockMode);
-        }
-    }
-
-    /**
-     * Finds all entities in the repository.
-     *
-     * @return array The entities.
-     */
-    public function findAll()
-    {
-        return $this->findBy(array());
-    }
-
-    /**
-     * Finds entities by a set of criteria.
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array The objects.
-     */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->loadAll($criteria, $orderBy, $limit, $offset);
-    }
-
-    /**
-     * Finds a single entity by a set of criteria.
-     *
-     * @param array $criteria
-     * @return object
-     */
-    public function findOneBy(array $criteria)
-    {
-        return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($criteria, null, null, array(), 0, 1);
-    }
-
-    /**
-     * Adds support for magic finders.
-     *
-     * @return array|object The found entity/entities.
-     * @throws BadMethodCallException  If the method called is an invalid find* method
-     *                                 or no find* method at all and therefore an invalid
-     *                                 method call.
-     */
-    public function __call($method, $arguments)
-    {
-        switch (true) {
-            case (substr($method, 0, 6) == 'findBy'):
-                $by = substr($method, 6, strlen($method));
-                $method = 'findBy';
-                break;
-
-            case (substr($method, 0, 9) == 'findOneBy'):
-                $by = substr($method, 9, strlen($method));
-                $method = 'findOneBy';
-                break;
-
-            default:
-                throw new \BadMethodCallException(
-                    "Undefined method '$method'. The method name must start with ".
-                    "either findBy or findOneBy!"
-                );
+      case LockMode::OPTIMISTIC:
+        if (!$this->_class->isVersioned) {
+          throw OptimisticLockException::notVersioned($this->_entityName);
         }
 
-        if (empty($arguments)) {
-            throw ORMException::findByRequiresParameter($method . $by);
+        $entity = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId);
+
+        $this->_em->getUnitOfWork()->lock($entity, $lockMode, $lockVersion);
+
+        return $entity;
+
+      default:
+        if (!$this->_em->getConnection()->isTransactionActive()) {
+          throw TransactionRequiredException::transactionRequired();
         }
 
-        $fieldName = lcfirst(\Doctrine\Common\Util\Inflector::classify($by));
+        return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($sortedId, null, null, array(), $lockMode);
+    }
+  }
 
-        if ($this->_class->hasField($fieldName) || $this->_class->hasAssociation($fieldName)) {
-            return $this->$method(array($fieldName => $arguments[0]));
-        }
+  /**
+   * Finds all entities in the repository.
+   *
+   * @return array The entities.
+   */
+  public function findAll() {
+    return $this->findBy(array());
+  }
 
-        throw ORMException::invalidFindByCall($this->_entityName, $fieldName, $method.$by);
+  /**
+   * Finds entities by a set of criteria.
+   *
+   * @param array      $criteria
+   * @param array|null $orderBy
+   * @param int|null   $limit
+   * @param int|null   $offset
+   * @return array The objects.
+   */
+  public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null) {
+    return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->loadAll($criteria, $orderBy, $limit, $offset);
+  }
+
+  /**
+   * Finds a single entity by a set of criteria.
+   *
+   * @param array $criteria
+   * @return object
+   */
+  public function findOneBy(array $criteria) {
+    return $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName)->load($criteria, null, null, array(), 0, 1);
+  }
+
+  /**
+   * Adds support for magic finders.
+   *
+   * @return array|object The found entity/entities.
+   * @throws BadMethodCallException  If the method called is an invalid find* method
+   *                                 or no find* method at all and therefore an invalid
+   *                                 method call.
+   */
+  public function __call($method, $arguments) {
+    switch (true) {
+      case (substr($method, 0, 6) == 'findBy'):
+        $by     = substr($method, 6, strlen($method));
+        $method = 'findBy';
+        break;
+
+      case (substr($method, 0, 9) == 'findOneBy'):
+        $by     = substr($method, 9, strlen($method));
+        $method = 'findOneBy';
+        break;
+
+      default:
+        throw new \BadMethodCallException("Undefined method '$method'. The method name must start with " . "either findBy or findOneBy!");
     }
 
-    /**
-     * @return string
-     */
-    protected function getEntityName()
-    {
-        return $this->_entityName;
+    if (empty($arguments)) {
+      throw ORMException::findByRequiresParameter($method . $by);
     }
 
-    /**
-     * @return string
-     */
-    public function getClassName()
-    {
-        return $this->getEntityName();
+    $fieldName = lcfirst(\Doctrine\Common\Util\Inflector::classify($by));
+
+    if ($this->_class->hasField($fieldName) || $this->_class->hasAssociation($fieldName)) {
+      return $this->$method(array($fieldName => $arguments[0]));
     }
 
-    /**
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->_em;
-    }
+    throw ORMException::invalidFindByCall($this->_entityName, $fieldName, $method . $by);
+  }
 
-    /**
-     * @return Mapping\ClassMetadata
-     */
-    protected function getClassMetadata()
-    {
-        return $this->_class;
-    }
+  /**
+   * @return string
+   */
+  protected function getEntityName() {
+    return $this->_entityName;
+  }
+
+  /**
+   * @return string
+   */
+  public function getClassName() {
+    return $this->getEntityName();
+  }
+
+  /**
+   * @return EntityManager
+   */
+  protected function getEntityManager() {
+    return $this->_em;
+  }
+
+  /**
+   * @return Mapping\ClassMetadata
+   */
+  protected function getClassMetadata() {
+    return $this->_class;
+  }
 }

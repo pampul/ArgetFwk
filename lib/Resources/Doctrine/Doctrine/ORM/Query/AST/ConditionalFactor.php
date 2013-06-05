@@ -32,18 +32,15 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ConditionalFactor extends Node
-{
-    public $not = false;
-    public $conditionalPrimary;
+class ConditionalFactor extends Node {
+  public $not = false;
+  public $conditionalPrimary;
 
-    public function __construct($conditionalPrimary)
-    {
-        $this->conditionalPrimary = $conditionalPrimary;
-    }
+  public function __construct($conditionalPrimary) {
+    $this->conditionalPrimary = $conditionalPrimary;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkConditionalFactor($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkConditionalFactor($this);
+  }
 }

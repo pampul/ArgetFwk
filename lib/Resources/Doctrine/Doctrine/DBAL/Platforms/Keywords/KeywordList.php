@@ -28,36 +28,33 @@ namespace Doctrine\DBAL\Platforms\Keywords;
  * @since       2.0
  * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
-abstract class KeywordList
-{
-    private $keywords = null;
+abstract class KeywordList {
+  private $keywords = null;
 
-    /**
-     * Check if the given word is a keyword of this dialect/vendor platform.
-     *
-     * @param  string $word
-     * @return bool
-     */
-    public function isKeyword($word)
-    {
-        if ($this->keywords === null) {
-            $this->initializeKeywords();
-        }
-
-        return isset($this->keywords[strtoupper($word)]);
+  /**
+   * Check if the given word is a keyword of this dialect/vendor platform.
+   *
+   * @param  string $word
+   * @return bool
+   */
+  public function isKeyword($word) {
+    if ($this->keywords === null) {
+      $this->initializeKeywords();
     }
 
-    protected function initializeKeywords()
-    {
-        $this->keywords = array_flip(array_map('strtoupper', $this->getKeywords()));
-    }
+    return isset($this->keywords[strtoupper($word)]);
+  }
 
-    abstract protected function getKeywords();
+  protected function initializeKeywords() {
+    $this->keywords = array_flip(array_map('strtoupper', $this->getKeywords()));
+  }
 
-    /**
-     * Name of this keyword list.
-     *
-     * @return string
-     */
-    abstract public function getName();
+  abstract protected function getKeywords();
+
+  /**
+   * Name of this keyword list.
+   *
+   * @return string
+   */
+  abstract public function getName();
 }

@@ -32,36 +32,31 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class ArithmeticFactor extends Node
-{
-    /**
-     * @var ArithmeticPrimary
-     */
-    public $arithmeticPrimary;
+class ArithmeticFactor extends Node {
+  /**
+   * @var ArithmeticPrimary
+   */
+  public $arithmeticPrimary;
 
-    /**
-     * @var null|boolean NULL represents no sign, TRUE means positive and FALSE means negative sign
-     */
-    public $sign;
+  /**
+   * @var null|boolean NULL represents no sign, TRUE means positive and FALSE means negative sign
+   */
+  public $sign;
 
-    public function __construct($arithmeticPrimary, $sign = null)
-    {
-        $this->arithmeticPrimary = $arithmeticPrimary;
-        $this->sign = $sign;
-    }
+  public function __construct($arithmeticPrimary, $sign = null) {
+    $this->arithmeticPrimary = $arithmeticPrimary;
+    $this->sign              = $sign;
+  }
 
-    public function isPositiveSigned()
-    {
-        return $this->sign === true;
-    }
+  public function isPositiveSigned() {
+    return $this->sign === true;
+  }
 
-    public function isNegativeSigned()
-    {
-        return $this->sign === false;
-    }
+  public function isNegativeSigned() {
+    return $this->sign === false;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkArithmeticFactor($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkArithmeticFactor($this);
+  }
 }

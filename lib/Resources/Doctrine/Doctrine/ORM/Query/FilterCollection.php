@@ -19,180 +19,170 @@
 
 namespace Doctrine\ORM\Query;
 
-use Doctrine\ORM\Configuration,
-    Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Configuration, Doctrine\ORM\EntityManager;
 
 /**
  * Collection class for all the query filters.
  *
  * @author Alexander <iam.asm89@gmail.com>
  */
-class FilterCollection
-{
-    /* Filter STATES */
-    /**
-     * A filter object is in CLEAN state when it has no changed parameters.
-     */
-    const FILTERS_STATE_CLEAN  = 1;
+class FilterCollection {
+  /* Filter STATES */
+  /**
+   * A filter object is in CLEAN state when it has no changed parameters.
+   */
+  const FILTERS_STATE_CLEAN = 1;
 
-    /**
-     * A filter object is in DIRTY state when it has changed parameters.
-     */
-    const FILTERS_STATE_DIRTY = 2;
+  /**
+   * A filter object is in DIRTY state when it has changed parameters.
+   */
+  const FILTERS_STATE_DIRTY = 2;
 
-    /**
-     * The used Configuration.
-     *
-     * @var Doctrine\ORM\Configuration
-     */
-    private $config;
+  /**
+   * The used Configuration.
+   *
+   * @var Doctrine\ORM\Configuration
+   */
+  private $config;
 
-    /**
-     * The EntityManager that "owns" this FilterCollection instance.
-     *
-     * @var Doctrine\ORM\EntityManager
-     */
-    private $em;
+  /**
+   * The EntityManager that "owns" this FilterCollection instance.
+   *
+   * @var Doctrine\ORM\EntityManager
+   */
+  private $em;
 
-    /**
-     * Instances of enabled filters.
-     *
-     * @var array
-     */
-    private $enabledFilters = array();
+  /**
+   * Instances of enabled filters.
+   *
+   * @var array
+   */
+  private $enabledFilters = array();
 
-    /**
-     * @var string The filter hash from the last time the query was parsed.
-     */
-    private $filterHash;
+  /**
+   * @var string The filter hash from the last time the query was parsed.
+   */
+  private $filterHash;
 
-    /**
-     * @var integer $state The current state of this filter
-     */
-    private $filtersState = self::FILTERS_STATE_CLEAN;
+  /**
+   * @var integer $state The current state of this filter
+   */
+  private $filtersState = self::FILTERS_STATE_CLEAN;
 
-    /**
-     * Constructor.
-     *
-     * @param EntityManager $em
-     */
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-        $this->config = $em->getConfiguration();
+  /**
+   * Constructor.
+   *
+   * @param EntityManager $em
+   */
+  public function __construct(EntityManager $em) {
+    $this->em     = $em;
+    $this->config = $em->getConfiguration();
+  }
+
+  /**
+   * Get all the enabled filters.
+   *
+   * @return array The enabled filters.
+   */
+  public function getEnabledFilters() {
+    return $this->enabledFilters;
+  }
+
+  /**
+   * Enables a filter from the collection.
+   *
+   * @param string $name Name of the filter.
+   *
+   * @throws \InvalidArgumentException If the filter does not exist.
+   *
+   * @return SQLFilter The enabled filter.
+   */
+  public function enable($name) {
+    if (null === $filterClass = $this->config->getFilterClassName($name)) {
+      throw new \InvalidArgumentException("Filter '" . $name . "' does not exist.");
     }
 
-    /**
-     * Get all the enabled filters.
-     *
-     * @return array The enabled filters.
-     */
-    public function getEnabledFilters()
-    {
-        return $this->enabledFilters;
+    if (!isset($this->enabledFilters[$name])) {
+      $this->enabledFilters[$name] = new $filterClass($this->em);
+
+      // Keep the enabled filters sorted for the hash
+      ksort($this->enabledFilters);
+
+      // Now the filter collection is dirty
+      $this->filtersState = self::FILTERS_STATE_DIRTY;
     }
 
-    /**
-     * Enables a filter from the collection.
-     *
-     * @param string $name Name of the filter.
-     *
-     * @throws \InvalidArgumentException If the filter does not exist.
-     *
-     * @return SQLFilter The enabled filter.
-     */
-    public function enable($name)
-    {
-        if (null === $filterClass = $this->config->getFilterClassName($name)) {
-            throw new \InvalidArgumentException("Filter '" . $name . "' does not exist.");
-        }
+    return $this->enabledFilters[$name];
+  }
 
-        if (!isset($this->enabledFilters[$name])) {
-            $this->enabledFilters[$name] = new $filterClass($this->em);
+  /**
+   * Disables a filter.
+   *
+   * @param string $name Name of the filter.
+   *
+   * @return SQLFilter The disabled filter.
+   *
+   * @throws \InvalidArgumentException If the filter does not exist.
+   */
+  public function disable($name) {
+    // Get the filter to return it
+    $filter = $this->getFilter($name);
 
-            // Keep the enabled filters sorted for the hash
-            ksort($this->enabledFilters);
+    unset($this->enabledFilters[$name]);
 
-            // Now the filter collection is dirty
-            $this->filtersState = self::FILTERS_STATE_DIRTY;
-        }
+    // Now the filter collection is dirty
+    $this->filtersState = self::FILTERS_STATE_DIRTY;
 
-        return $this->enabledFilters[$name];
+    return $filter;
+  }
+
+  /**
+   * Get an enabled filter from the collection.
+   *
+   * @param string $name Name of the filter.
+   *
+   * @return SQLFilter The filter.
+   *
+   * @throws \InvalidArgumentException If the filter is not enabled.
+   */
+  public function getFilter($name) {
+    if (!isset($this->enabledFilters[$name])) {
+      throw new \InvalidArgumentException("Filter '" . $name . "' is not enabled.");
     }
 
-    /**
-     * Disables a filter.
-     *
-     * @param string $name Name of the filter.
-     *
-     * @return SQLFilter The disabled filter.
-     *
-     * @throws \InvalidArgumentException If the filter does not exist.
-     */
-    public function disable($name)
-    {
-        // Get the filter to return it
-        $filter = $this->getFilter($name);
+    return $this->enabledFilters[$name];
+  }
 
-        unset($this->enabledFilters[$name]);
+  /**
+   * @return boolean True, if the filter collection is clean.
+   */
+  public function isClean() {
+    return self::FILTERS_STATE_CLEAN === $this->filtersState;
+  }
 
-        // Now the filter collection is dirty
-        $this->filtersState = self::FILTERS_STATE_DIRTY;
-
-        return $filter;
+  /**
+   * Generates a string of currently enabled filters to use for the cache id.
+   *
+   * @return string
+   */
+  public function getHash() {
+    // If there are only clean filters, the previous hash can be returned
+    if (self::FILTERS_STATE_CLEAN === $this->filtersState) {
+      return $this->filterHash;
     }
 
-    /**
-     * Get an enabled filter from the collection.
-     *
-     * @param string $name Name of the filter.
-     *
-     * @return SQLFilter The filter.
-     *
-     * @throws \InvalidArgumentException If the filter is not enabled.
-     */
-    public function getFilter($name)
-    {
-        if (!isset($this->enabledFilters[$name])) {
-            throw new \InvalidArgumentException("Filter '" . $name . "' is not enabled.");
-        }
-
-        return $this->enabledFilters[$name];
+    $filterHash = '';
+    foreach ($this->enabledFilters as $name => $filter) {
+      $filterHash .= $name . $filter;
     }
 
-    /**
-     * @return boolean True, if the filter collection is clean.
-     */
-    public function isClean()
-    {
-        return self::FILTERS_STATE_CLEAN === $this->filtersState;
-    }
+    return $filterHash;
+  }
 
-    /**
-     * Generates a string of currently enabled filters to use for the cache id.
-     *
-     * @return string
-     */
-    public function getHash()
-    {
-        // If there are only clean filters, the previous hash can be returned
-        if (self::FILTERS_STATE_CLEAN === $this->filtersState) {
-            return $this->filterHash;
-        }
-
-        $filterHash = '';
-        foreach ($this->enabledFilters as $name => $filter) {
-            $filterHash .= $name . $filter;
-        }
-
-        return $filterHash;
-    }
-
-    /**
-     * Set the filter state to dirty.
-     */
-    public function setFiltersStateDirty()
-    {
-        $this->filtersState = self::FILTERS_STATE_DIRTY;
-    }
+  /**
+   * Set the filter state to dirty.
+   */
+  public function setFiltersStateDirty() {
+    $this->filtersState = self::FILTERS_STATE_DIRTY;
+  }
 }

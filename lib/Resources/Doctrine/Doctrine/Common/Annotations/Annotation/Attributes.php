@@ -28,10 +28,9 @@ namespace Doctrine\Common\Annotations\Annotation;
  *
  * @Annotation
  */
-final class Attributes
-{
-    /**
-     * @var array<Doctrine\Common\Annotations\Annotation\Attribute>
-     */
-    public $value;
+final class Attributes {
+  /**
+   * @var array<Doctrine\Common\Annotations\Annotation\Attribute>
+   */
+  public $value;
 }

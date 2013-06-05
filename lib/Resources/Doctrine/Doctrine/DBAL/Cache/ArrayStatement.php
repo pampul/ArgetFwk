@@ -22,73 +22,68 @@ namespace Doctrine\DBAL\Cache;
 use Doctrine\DBAL\Driver\ResultStatement;
 use PDO;
 
-class ArrayStatement implements \IteratorAggregate, ResultStatement
-{
-    private $data;
-    private $columnCount = 0;
-    private $num = 0;
-    private $defaultFetchStyle = PDO::FETCH_BOTH;
+class ArrayStatement implements \IteratorAggregate, ResultStatement {
+  private $data;
+  private $columnCount = 0;
+  private $num = 0;
+  private $defaultFetchStyle = PDO::FETCH_BOTH;
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-        if (count($data)) {
-            $this->columnCount = count($data[0]);
-        }
+  public function __construct(array $data) {
+    $this->data = $data;
+    if (count($data)) {
+      $this->columnCount = count($data[0]);
+    }
+  }
+
+  public function closeCursor() {
+    unset ($this->data);
+  }
+
+  public function columnCount() {
+    return $this->columnCount;
+  }
+
+  public function setFetchMode($fetchStyle) {
+    $this->defaultFetchStyle = $fetchStyle;
+  }
+
+  public function getIterator() {
+    $data = $this->fetchAll($this->defaultFetchStyle);
+
+    return new \ArrayIterator($data);
+  }
+
+  public function fetch($fetchStyle = PDO::FETCH_BOTH) {
+    if (isset($this->data[$this->num])) {
+      $row = $this->data[$this->num++];
+      if ($fetchStyle === PDO::FETCH_ASSOC) {
+        return $row;
+      } else if ($fetchStyle === PDO::FETCH_NUM) {
+        return array_values($row);
+      } else if ($fetchStyle === PDO::FETCH_BOTH) {
+        return array_merge($row, array_values($row));
+      }
     }
 
-    public function closeCursor()
-    {
-        unset ($this->data);
+    return false;
+  }
+
+  public function fetchAll($fetchStyle = PDO::FETCH_BOTH) {
+    $rows = array();
+    while ($row = $this->fetch($fetchStyle)) {
+      $rows[] = $row;
     }
 
-    public function columnCount()
-    {
-        return $this->columnCount;
+    return $rows;
+  }
+
+  public function fetchColumn($columnIndex = 0) {
+    $row = $this->fetch(PDO::FETCH_NUM);
+    if (!isset($row[$columnIndex])) {
+      // TODO: verify this is correct behavior
+      return false;
     }
 
-    public function setFetchMode($fetchStyle)
-    {
-        $this->defaultFetchStyle = $fetchStyle;
-    }
-
-    public function getIterator()
-    {
-        $data = $this->fetchAll($this->defaultFetchStyle);
-        return new \ArrayIterator($data);
-    }
-
-    public function fetch($fetchStyle = PDO::FETCH_BOTH)
-    {
-        if (isset($this->data[$this->num])) {
-            $row = $this->data[$this->num++];
-            if ($fetchStyle === PDO::FETCH_ASSOC) {
-                return $row;
-            } else if ($fetchStyle === PDO::FETCH_NUM) {
-                return array_values($row);
-            } else if ($fetchStyle === PDO::FETCH_BOTH) {
-                return array_merge($row, array_values($row));
-            }
-        }
-        return false;
-    }
-
-    public function fetchAll($fetchStyle = PDO::FETCH_BOTH)
-    {
-        $rows = array();
-        while ($row = $this->fetch($fetchStyle)) {
-            $rows[] = $row;
-        }
-        return $rows;
-    }
-
-    public function fetchColumn($columnIndex = 0)
-    {
-        $row = $this->fetch(PDO::FETCH_NUM);
-        if (!isset($row[$columnIndex])) {
-            // TODO: verify this is correct behavior
-            return false;
-        }
-        return $row[$columnIndex];
-    }
+    return $row[$columnIndex];
+  }
 }

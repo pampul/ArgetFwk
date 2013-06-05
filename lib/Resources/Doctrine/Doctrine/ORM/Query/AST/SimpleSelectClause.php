@@ -32,19 +32,16 @@ namespace Doctrine\ORM\Query\AST;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class SimpleSelectClause extends Node
-{
-    public $isDistinct = false;
-    public $simpleSelectExpression;
+class SimpleSelectClause extends Node {
+  public $isDistinct = false;
+  public $simpleSelectExpression;
 
-    public function __construct($simpleSelectExpression, $isDistinct)
-    {
-        $this->simpleSelectExpression = $simpleSelectExpression;
-        $this->isDistinct = $isDistinct;
-    }
+  public function __construct($simpleSelectExpression, $isDistinct) {
+    $this->simpleSelectExpression = $simpleSelectExpression;
+    $this->isDistinct             = $isDistinct;
+  }
 
-    public function dispatch($sqlWalker)
-    {
-        return $sqlWalker->walkSimpleSelectClause($this);
-    }
+  public function dispatch($sqlWalker) {
+    return $sqlWalker->walkSimpleSelectClause($this);
+  }
 }

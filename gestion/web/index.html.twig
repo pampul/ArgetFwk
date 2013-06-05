@@ -6,27 +6,27 @@
   <!–[if lt IE 9]>
   <!--<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
   <![endif]–>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-  <base href="{% block baseurl %}{% endblock %}" />
+  <base href="{% block baseurl %}{% endblock %}"/>
   <title>{{ constant('SITE_NOM') }} | Gestion - {% block title %}En construction ...{% endblock %}</title>
-  <meta name="description" content="{% block description %} Description de le page {% endblock %}" />
+  <meta name="description" content="{% block description %} Description de le page {% endblock %}"/>
 
-  <meta name="google-site-verification" content="" />
-  <meta name="author" content="{{ constant('ADMIN_PRENOM') }} {{ constant('ADMIN_PRENOM') }}" />
+  <meta name="google-site-verification" content=""/>
+  <meta name="author" content="{{ constant('ADMIN_PRENOM') }} {{ constant('ADMIN_PRENOM') }}"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="shortcut icon" href="/favicon.ico"/>
 
-  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css" />
-  <link rel="stylesheet" href="web/lib/fontawesome/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="web/css/FwkStyle.css" type="text/css" />
-  <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css" />
-  <link rel="stylesheet" href="web/lib/redactor/css/redactor.css" />
-  <link rel="stylesheet" href="web/css/style.css" type="text/css" />
-  {%block stylesheets %}
+  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="web/lib/bootstrap/css/bootstrap-responsive.css"/>
+  <link rel="stylesheet" href="web/lib/fontawesome/css/font-awesome.min.css" type="text/css"/>
+  <link rel="stylesheet" href="web/css/FwkStyle.css" type="text/css"/>
+  <link rel="stylesheet" href="web/lib/css/uniform.default.css" type="text/css"/>
+  <link rel="stylesheet" href="web/lib/redactor/css/redactor.css"/>
+  <link rel="stylesheet" href="web/css/style.css" type="text/css"/>
+  {% block stylesheets %}
     <!-- Ajout des css supplementaires here -->
   {% endblock %}
 
@@ -52,7 +52,8 @@
 
 </section>
 
-<div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade">
+<div id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     class="modal hide fade">
 
   <div class="modal-header" id=confirmHeader>
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -78,7 +79,8 @@
   </div>
 </div>
 
-<div id="editBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="modal hide fade editBody">
+<div id="editBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     class="modal hide fade editBody">
   <div class="modal-header" id="editHeader">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Ajout/Edition</h3>
@@ -103,7 +105,7 @@
 <script src="web/lib/js/jquery.form.js"></script>
 <script src="web/lib/js/idleTimer.js"></script>
 <script>
-  $(function(){
+  $(function () {
     $().UItoTop({ easingType: 'easeOutQuart' });
   });
   {% if constant('REFRESH_AUTO_BO') %}
@@ -111,13 +113,13 @@
 
   var bootboxActiv = false;
 
-  $(document).bind("idle.idleTimer", function(){
+  $(document).bind("idle.idleTimer", function () {
 
-    if(!bootboxActiv){
+    if (!bootboxActiv) {
       bootboxActiv = true;
-      bootbox.confirm("Une inactivité dépassant les 10 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function(result) {
+      bootbox.confirm("Une inactivité dépassant les 10 minutes a été détectée. <br/>Il vous est recommandé de rafraîchir cette page. <br/><br/>Souhaitez-vous vraiment effectuer cette action ?", function (result) {
         bootboxActiv = false;
-        if(result)
+        if (result)
           location.reload(true);
       });
     }

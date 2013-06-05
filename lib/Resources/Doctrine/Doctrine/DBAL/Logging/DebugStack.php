@@ -33,35 +33,32 @@ namespace Doctrine\DBAL\Logging;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class DebugStack implements SQLLogger
-{
-    /** @var array $queries Executed SQL queries. */
-    public $queries = array();
+class DebugStack implements SQLLogger {
+  /** @var array $queries Executed SQL queries. */
+  public $queries = array();
 
-    /** @var boolean $enabled If Debug Stack is enabled (log queries) or not. */
-    public $enabled = true;
+  /** @var boolean $enabled If Debug Stack is enabled (log queries) or not. */
+  public $enabled = true;
 
-    public $start = null;
+  public $start = null;
 
-    public $currentQuery = 0;
+  public $currentQuery = 0;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function startQuery($sql, array $params = null, array $types = null)
-    {
-        if ($this->enabled) {
-            $this->start = microtime(true);
-            $this->queries[++$this->currentQuery] = array('sql' => $sql, 'params' => $params, 'types' => $types, 'executionMS' => 0);
-        }
+  /**
+   * {@inheritdoc}
+   */
+  public function startQuery($sql, array $params = null, array $types = null) {
+    if ($this->enabled) {
+      $this->start                          = microtime(true);
+      $this->queries[++$this->currentQuery] = array('sql' => $sql, 'params' => $params, 'types' => $types, 'executionMS' => 0);
     }
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function stopQuery()
-    {
-        $this->queries[$this->currentQuery]['executionMS'] = microtime(true) - $this->start;
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public function stopQuery() {
+    $this->queries[$this->currentQuery]['executionMS'] = microtime(true) - $this->start;
+  }
 }
 

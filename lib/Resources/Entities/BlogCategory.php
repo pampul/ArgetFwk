@@ -21,7 +21,6 @@ class BlogCategory {
   private $nom;
 
 
-
   public function getId() {
     return $this->id;
   }

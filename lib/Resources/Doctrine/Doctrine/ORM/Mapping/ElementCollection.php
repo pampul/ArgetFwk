@@ -24,8 +24,7 @@ namespace Doctrine\ORM\Mapping;
  * @Target("ALL")
  * @todo check available targets
  */
-final class ElementCollection implements Annotation
-{
-    /** @var string */
-    public $tableName;
+final class ElementCollection implements Annotation {
+  /** @var string */
+  public $tableName;
 }

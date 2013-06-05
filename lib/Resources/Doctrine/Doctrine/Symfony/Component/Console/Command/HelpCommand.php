@@ -23,25 +23,16 @@ use Symfony\Component\Console\Command\Command;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class HelpCommand extends Command
-{
-    private $command;
+class HelpCommand extends Command {
+  private $command;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this->ignoreValidationErrors = true;
+  /**
+   * {@inheritdoc}
+   */
+  protected function configure() {
+    $this->ignoreValidationErrors = true;
 
-        $this
-            ->setDefinition(array(
-                new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help'),
-                new InputOption('xml', null, InputOption::VALUE_NONE, 'To output help as XML'),
-            ))
-            ->setName('help')
-            ->setDescription('Displays help for a command')
-            ->setHelp(<<<EOF
+    $this->setDefinition(array(new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help'), new InputOption('xml', null, InputOption::VALUE_NONE, 'To output help as XML'),))->setName('help')->setDescription('Displays help for a command')->setHelp(<<<EOF
 The <info>help</info> command displays help for a given command:
 
   <info>./symfony help list</info>
@@ -49,33 +40,30 @@ The <info>help</info> command displays help for a given command:
 You can also output the help as XML by using the <comment>--xml</comment> option:
 
   <info>./symfony help --xml list</info>
-EOF
-            );
+EOF);
+  }
+
+  /**
+   * Sets the command
+   *
+   * @param Command $command The command to set
+   */
+  public function setCommand(Command $command) {
+    $this->command = $command;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    if (null === $this->command) {
+      $this->command = $this->getApplication()->get($input->getArgument('command_name'));
     }
 
-    /**
-     * Sets the command
-     *
-     * @param Command $command The command to set
-     */
-    public function setCommand(Command $command)
-    {
-        $this->command = $command;
+    if ($input->getOption('xml')) {
+      $output->writeln($this->command->asXml(), OutputInterface::OUTPUT_RAW);
+    } else {
+      $output->writeln($this->command->asText());
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        if (null === $this->command) {
-            $this->command = $this->getApplication()->get($input->getArgument('command_name'));
-        }
-
-        if ($input->getOption('xml')) {
-            $output->writeln($this->command->asXml(), OutputInterface::OUTPUT_RAW);
-        } else {
-            $output->writeln($this->command->asText());
-        }
-    }
+  }
 }
