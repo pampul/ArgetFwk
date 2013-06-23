@@ -21,7 +21,7 @@ class BlogPostRevision {
 
   /**
    * @ManyToOne(targetEntity="BlogPost")
-   * @JoinColumn(name="blog_post")
+   * @JoinColumn(name="blog_post", onDelete="CASCADE")
    */
   private $blogPost;
 

@@ -1,0 +1,94 @@
+11:15:45 | 5.5 mb | ::1 | Florian M. >> 
+    
+
+--------------------------------------------------
+              LANCEMENT DU CRON - ARCHIVAGE
+--------------------------------------------------
+
+
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Starting read dir ...
+ 
+----------------------------
+
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/cron/2013-05-03.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/cron/2013-06-14.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-02.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-08.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-12.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-13.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-14.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-15.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-07.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-08.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-11.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-14.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-15.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-07.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-08.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-11.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-12.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-13.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-14.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-03_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-08_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-11_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-12_florian.mithieux5@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-12_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-13_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-14_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-15_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-24_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-06-11_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> File : /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-06-14_florian.mithieux@gmail.com.log added.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> 
+
+------------------------------            
+
+ - 30 files founded.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> 
+            
+------------------------------
+
+ -- ARCHIVAGE DES FICHIERS --
+ 
+------------------------------
+
+
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/cron/2013-05-03.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/cron/_ARCHIVES/2013/05_Mai/2013-05-03.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Same month.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-02.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-02.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-08.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-08.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-12.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-12.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-13.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-13.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-14.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-14.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/2013-05-15.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/delete/_ARCHIVES/2013/05_Mai/2013-05-15.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-07.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/_ARCHIVES/2013/05_Mai/2013-05-07.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-08.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/_ARCHIVES/2013/05_Mai/2013-05-08.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-11.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/_ARCHIVES/2013/05_Mai/2013-05-11.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-14.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/_ARCHIVES/2013/05_Mai/2013-05-14.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/2013-05-15.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/ErrorDocument/_ARCHIVES/2013/05_Mai/2013-05-15.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-07.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-07.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-08.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-08.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-11.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-11.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-12.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-12.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-13.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-13.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/2013-05-14.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/errors/_ARCHIVES/2013/05_Mai/2013-05-14.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-03_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-03_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-08_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-08_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-11_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-11_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-12_florian.mithieux5@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-12_florian.mithieux5@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-12_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-12_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-13_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-13_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-14_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-14_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-15_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-15_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Copying /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/2013-05-24_florian.mithieux@gmail.com.log to /Applications/MAMP/htdocs/ArgetFwk/gestion/app/../../logs/login/_ARCHIVES/2013/05_Mai/2013-05-24_florian.mithieux@gmail.com.log
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Same month.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> Same month.
+11:15:45 | 5.5 mb | ::1 | Florian M. >> 
+    
+
+--------------------------------------------------
+           CRON TERMINE AVEC SUCCES
+--------------------------------------------------
+
+

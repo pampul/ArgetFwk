@@ -1,0 +1,1 @@
+07/05/2013 15:09 | 6.75 mb | Front Office | Florian M. >> UNKNOWN : FwkErrorHandler 0 - The filter "ucfirst" does not exist in "views/home.html.twig" at line 23 in file /Applications/MAMP/htdocs/ArgetFwk/lib/Resources/Twig/Node/Expression/Filter.php on line 29
