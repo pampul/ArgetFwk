@@ -54,30 +54,37 @@ class ControllerManager extends FwkManager {
 
     $methodCalled = lcfirst((string)FwkUtils::Camelize(GET_CONTENT) . 'Controller');
     if (method_exists($this, $methodCalled) && GET_PATTERN != 'blogchecker')
-      $this->$methodCalled(); else {
+      $this->$methodCalled();
+    else {
       $bool    = (GET_PATTERN == 'post-preview' && $this->em->getRepository('Resources\Entities\Admin')->find($_SESSION['admin']['id']) instanceof Resources\Entities\Admin);
       $objPost = $this->em->getRepository('Resources\Entities\BlogPost')->findOneBy(array('seoUrl' => $this->getCurrentSeoUrl($bool)));
       if ($objPost instanceof \Resources\Entities\BlogPost && $objPost->getStatut() != 'trash' && (($objPost->getStatut() == 'draft' && $bool) || $objPost->getStatut() == 'publish')) {
         $objBlogManager = new BlogManager();
         $objBlogManager->loadTemplate($objPost);
-      } else {
+      }
+      else {
         if (ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != ''))
-          throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled); elseif (!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')) {
+          throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
+        elseif (!ENV_DEV && (CONFIG_DEV_PHP || BACKOFFICE_ACTIVE != '')) {
           if (BACKOFFICE_ACTIVE != '') {
             throw new Exception('Exception : Le controller appelé : "' . get_class($this) . '" ne possède pas de méthode qui a pour nom ' . $methodCalled);
-          } else {
+          }
+          else {
             if (ERROR_LOGS_ENABLED)
               FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
             $this->error404Controller();
           }
-        } else {
-          if (file_exists(PATH_TO_IMPORTANT_FILES . 'gestion/web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
+        }
+        else {
+          if (file_exists(PATH_TO_IMPORTANT_FILES . 'web/views/' . GET_CONTENT . '.html.twig') && GET_PATTERN != 'blogchecker') {
             $this->renderView('views/' . GET_CONTENT . '.html.twig');
-          } else {
+          }
+          else {
             unset($objPost);
             if (ERROR_LOGS_ENABLED) {
               if (preg_match('#\.[a-zA-Z]+$#', SITE_CURRENT_URI))
-                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/'); else
+                FwkLog::add('Le fichier : ' . SITE_CURRENT_URI . ' n\'existe pas.', 'logs/', 'ErrorDocument/');
+              else
                 FwkLog::add('Erreur 404 sur la page : ' . GET_CONTENT . ' du controller ' . get_class($this), 'logs/', 'ErrorDocument/');
             }
             $this->error404Controller();
@@ -121,7 +128,8 @@ class ControllerManager extends FwkManager {
   private function getBaseParameters() {
 
     if (!isset($_SERVER["HTTP_REFERER"]))
-      $serverReferer = SITE_URL; else
+      $serverReferer = SITE_URL;
+    else
       $serverReferer = $_SERVER["HTTP_REFERER"];
 
     $seoTitle       = null;
@@ -162,7 +170,8 @@ class ControllerManager extends FwkManager {
     if (ENV_LOCALHOST) {
       array_shift($arrayParseUri);
       array_shift($arrayParseUri);
-    } else {
+    }
+    else {
       array_shift($arrayParseUri);
     }
     $currentUri = implode('/', $arrayParseUri);
@@ -203,7 +212,8 @@ class ControllerManager extends FwkManager {
   protected function error403Controller() {
 
     if (GET_CONTENT === 'error403')
-      $this->error500DisplayController(); else
+      $this->error500DisplayController();
+    else
       header('Location: ' . SITE_URL . 'url-error/error403');
   }
 
@@ -222,7 +232,8 @@ class ControllerManager extends FwkManager {
   protected function error404Controller() {
 
     if (GET_CONTENT === 'error404')
-      $this->error404DisplayController(); else
+      $this->error404DisplayController();
+    else
       header('Location: ' . SITE_URL . 'url-error/error404');
   }
 
@@ -241,7 +252,8 @@ class ControllerManager extends FwkManager {
   protected function error500Controller() {
 
     if (GET_CONTENT === 'error500')
-      $this->error500DisplayController(); else
+      $this->error500DisplayController();
+    else
       header('Location: ' . SITE_URL . 'url-error/error500');
   }
 
@@ -260,7 +272,8 @@ class ControllerManager extends FwkManager {
   protected function siteConstructionController() {
 
     if (GET_CONTENT === 'site-construction')
-      $this->siteConstructionDisplayController(); else
+      $this->siteConstructionDisplayController();
+    else
       header('Location: ' . SITE_URL_BASE . 'url-error/site-construction');
   }
 
@@ -294,7 +307,8 @@ class ControllerManager extends FwkManager {
               $this->siteConstructionController();
           }
         }
-      } else {
+      }
+      else {
         $objConfigNew = new Resources\Entities\Config();
         $objConfigNew->setName('SITE_CONSTRUCTION');
         $objConfigNew->setValue(0);
@@ -307,12 +321,14 @@ class ControllerManager extends FwkManager {
         $this->bigError = true;
         $this->error500Controller();
         die();
-      } elseif (ENV_DEV && !ENV_LOCALHOST && !PRE_PROD_ALLOW_HELP) {
+      }
+      elseif (ENV_DEV && !ENV_LOCALHOST && !PRE_PROD_ALLOW_HELP) {
         echo '
         <strong style="color: red;">DATABASE CONNECTION FAILED.</strong>
         ';
         die();
-      } else {
+      }
+      else {
         $db = true;
         if (preg_match('#Unknown database#', $e->getMessage()))
           $db = false;
