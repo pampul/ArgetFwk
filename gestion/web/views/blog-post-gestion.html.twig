@@ -302,18 +302,20 @@
   <script>
     $(function () {
       {% if admin.privilege.level > 5 %}
-      $('#titrePost').live('change', function () {
+      {% if objBlogPost.titre is not defined %}
+        $('#titrePost').live('change', function () {
 
-        var objAjax = new AjaxLib();
-        objAjax.setController('private');
-        objAjax.setMethod('makeUrlCleaner');
-        objAjax.setAsyncValue(false);
-        objAjax.setDataString('&str=' + $('#titrePost').val());
-        var returnValue = objAjax.execute();
+          var objAjax = new AjaxLib();
+          objAjax.setController('private');
+          objAjax.setMethod('makeUrlCleaner');
+          objAjax.setAsyncValue(false);
+          objAjax.setDataString('&str=' + $('#titrePost').val());
+          var returnValue = objAjax.execute();
 
-        $('#inputWithoutBootstrap').val(returnValue);
+          $('#inputWithoutBootstrap').val(returnValue);
 
-      });
+        });
+      {% endif %}
 
       $('#inputWithoutBootstrap').live('change', function () {
 

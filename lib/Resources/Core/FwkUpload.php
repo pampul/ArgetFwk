@@ -197,21 +197,27 @@ class FwkUpload extends FwkManager {
    */
   private function checkMimeType() {
 
-    $finfo = new finfo(FILEINFO_MIME);
+    if (class_exists("finfo")) {
 
-    if ($finfo)
-      $mime = $finfo->file($this->file['tmp_name']);
+      $finfo = new finfo(FILEINFO_MIME);
 
+      if ($finfo)
+        $mime = $finfo->file($this->file['tmp_name']);
+
+      else
+        $mime = $this->file['tmp_name'];
+
+      $mime = explode(" ", $mime);
+      $mime = $mime[0];
+
+      if (substr($mime, -1, 1) == ";")
+        $mime = trim(substr($mime, 0, -1));
+
+      return (in_array($mime, $this->mimeTypeBlackList) == false);
+
+    }
     else
-      $mime = $this->file['tmp_name'];
-
-    $mime = explode(" ", $mime);
-    $mime = $mime[0];
-
-    if (substr($mime, -1, 1) == ";")
-      $mime = trim(substr($mime, 0, -1));
-
-    return (in_array($mime, $this->mimeTypeBlackList) == false);
+      return true;
 
   }
 

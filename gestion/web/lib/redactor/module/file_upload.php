@@ -1,15 +1,21 @@
 <?php
 
 define('BACKOFFICE_ACTIVE', 'gestion/');
-define('PATH_TO_IMPORTANT_FILES', '../../');
+define('PATH_TO_IMPORTANT_FILES',  __DIR__ . '/../../../../../');
 define('PATH_TO_BACKOFFICE_FILES', '../');
 
-require_once __DIR__ . '/../../../../../app/config.php';
-require_once __DIR__ . '/../../../../../lib/Resources/Core/FwkManager.php';
-require_once __DIR__ . '/../../../../../lib/Resources/Core/FwkUpload.php';
+
+/**
+ * Appel de la classe HTTP
+ */
+require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/HttpCore.php';
+require_once PATH_TO_IMPORTANT_FILES . 'app/config.php';
+require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/FwkManager.php';
+require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Utils/FwkUtils.php';
+require_once PATH_TO_IMPORTANT_FILES . 'lib/Resources/Core/FwkUpload.php';
 
 
-$uploadManager = new FwkUpload(__DIR__ . '/../../../../web/uploads/files/');
+$uploadManager = new FwkUpload(PATH_TO_IMPORTANT_FILES . 'gestion/web/uploads/files/');
 $uploadManager->setFileType('file');
 $uploadManager->setMaxSize(10000000);
 $uploadManager->setValidFormats('pdf,doc,docx');
